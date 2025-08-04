@@ -1,0 +1,1 @@
+This folder will be used to generate a mock data and store for UI testing
