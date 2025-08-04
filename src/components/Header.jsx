@@ -1,6 +1,6 @@
 
 
-import useTheme from "../hooks/useTheme"
+// import useTheme from "../hooks/useTheme"
 
 function Header() {
 
@@ -8,7 +8,7 @@ function Header() {
 
   return (
     <div>
-      <h1>Header</h1>
+      <h1 className="text-2xl font-bold">Header</h1>
     </div>
   )
 }

@@ -1,3 +1,25 @@
 @import 'tailwindcss';
 
 @custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+
+    /* Light mode colors */
+
+    --color-primary: #CB3249;
+    --color-secondary: #253c29;
+    --color-background: #ffffff;
+    --color-text: #000000;
+    --color-card-bg: #fbfbfb;
+    --color-border: lightgray;
+    --color-input-bg: #fff;
+
+    /* Dark mode colors */
+    --color-primary-dark: #ff5e78;
+    --color-secondary-dark: #ffffff;
+    --color-background-dark: #121212;
+    --color-text-dark: #e0e0e0;
+    --color-card-bg-dark: #1e1e1e;
+    --color-border-dark: #333;
+    --color-input-bg-dark: #2a2a2a;
+}
