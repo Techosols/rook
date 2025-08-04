@@ -1,8 +1,14 @@
 import React from 'react'
 
+import ThemeProvider from './contexts/Theme/ThemeProvider'
+
 function Providers({ children }) {
   return (
-    <div> {children}</div>
+    <div>
+        <ThemeProvider>
+            {children}
+        </ThemeProvider>
+    </div>
   )
 }
 
