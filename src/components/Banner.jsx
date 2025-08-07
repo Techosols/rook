@@ -1,18 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import useTab from "../hooks/useTab";
 
 function Banner() {
-  const checkIcon = (
-    <svg
-      className="w-7 h-7 text-white"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.5"
-      viewBox="0 0 24 24"
-    >
-      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-    </svg>
-  );
+  const { setActiveTab } = useTab();
+
   const features = [
     {
       icon: (
@@ -162,16 +154,12 @@ function Banner() {
             $10 for the first month, $5/month afterward
           </p>
           <div className="flex flex-col sm:flex-row gap-4 mt-6 justify-center md:justify-center">
-            <Link to="">
-              <button className="py-3 px-8 bg-primary dark:bg-primary-dark rounded-full text-white w-full sm:w-auto cursor-pointer">
-                Join Us
-              </button>
-            </Link>
-            <Link to="">
-              <button className="py-3 px-8 bg-primary dark:bg-primary-dark rounded-full text-white w-full sm:w-auto cursor-pointer">
-                Sign In
-              </button>
-            </Link>
+            <button className="py-3 px-8 bg-primary dark:bg-primary-dark rounded-full text-white w-full sm:w-auto cursor-pointer" onClick={() => setActiveTab('join')}>
+              Join Us
+            </button>
+            <button className="py-3 px-8 bg-primary dark:bg-primary-dark rounded-full text-white w-full sm:w-auto cursor-pointer">
+              Sign In
+            </button>
           </div>
         </div>
       </div>
