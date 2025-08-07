@@ -163,12 +163,12 @@ function Banner() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 mt-6 justify-center md:justify-center">
             <Link to="">
-              <button className="py-3 px-8 bg-primary dark:bg-primary-dark rounded-full text-white w-full sm:w-auto">
+              <button className="py-3 px-8 bg-primary dark:bg-primary-dark rounded-full text-white w-full sm:w-auto cursor-pointer">
                 Join Us
               </button>
             </Link>
             <Link to="">
-              <button className="py-3 px-8 bg-primary dark:bg-primary-dark rounded-full text-white w-full sm:w-auto">
+              <button className="py-3 px-8 bg-primary dark:bg-primary-dark rounded-full text-white w-full sm:w-auto cursor-pointer">
                 Sign In
               </button>
             </Link>
