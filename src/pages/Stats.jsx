@@ -3,10 +3,11 @@ import { MapPin } from "lucide-react";
 
 function Stats() {
   return (
-    <div>
+   <section className=" bg-background dark:bg-background-dark text-text dark:text-text-dark">
+     <div>
       <div className="flex items-center justify-center gap-2 p-4 border-b">
         <div className="flex">
-          <MapPin className="text-black text-xl" />
+          <MapPin className="text-black text-xl dark:text-white" />
         </div>
         <input
           type="text"
@@ -18,6 +19,7 @@ function Stats() {
         </button>
       </div>
     </div>
+   </section>
   );
 }
 

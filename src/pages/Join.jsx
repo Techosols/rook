@@ -2,9 +2,9 @@ import React from "react";
 
 function Join() {
   return (
-    <div>
+    <div className="text-center p-6 bg-background dark:bg-background-dark text-text dark:text-text-dark">
       <h1>What is Lorem Ipsum?</h1>
-      <p>
+      <p className="py-4">
         Lorem Ipsum is simply dummy text of the printing and typesetting
         industry. Lorem Ipsum has been the industry's standard dummy text ever
         since the 1500s, when an unknown printer took a galley of type and
@@ -15,11 +15,11 @@ function Join() {
         with desktop publishing software like Aldus PageMaker including versions
         of Lorem Ipsum.
       </p>
-      <ul>
+      <ul className="py-4">
         <li>In the next steps, you will provide us with your legal name and date of birth, to be used to perform a safety screening on you.</li>
         <li>More reminders here.</li>
       </ul>
-      <button className="bg-primary dark:bg-primary-dark text-white px-6 py-2 rounded">
+      <button className="bg-primary dark:bg-primary-dark text-white px-6 py-2 rounded-full cursor-pointer">
         ACCEPT & CONTINUE
       </button>
     </div>

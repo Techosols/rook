@@ -3,7 +3,7 @@ import React from "react";
 function Filters() {
   return (
     <div>
-      <section className="px-2 py-8">
+      <section className="px-2 py-8  bg-background dark:bg-background-dark text-text dark:text-text-dark">
         <div className="flex justify-between items-center flex-col lg:flex-row gap-8 max-w-[1350px] mx-auto">
           <div>
             <h1 className="text-xl md:text-2xl lg:text-3xl font-normal font-nunito text-left">
