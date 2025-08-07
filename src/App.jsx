@@ -17,6 +17,7 @@ function App() {
             <Route index element={<Home />} />
             <Route path="contact" element={<ContactUs />} />
             <Route path="faq" element={<FAQ />} />
+            
           </Route>
         </Routes>
       </BrowserRouter>
