@@ -1,9 +1,13 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import useTab from "../hooks/useTab";
 
 function Banner() {
   const { setActiveTab } = useTab();
+  const [show, setShow] = useState(false);
+  useEffect(() => {
+    setShow(true);
+  }, []);
 
   const features = [
     {
@@ -139,7 +143,8 @@ function Banner() {
         </div>
 
         {/* RIGHT COLUMN - TEXT + BUTTONS */}
-        <div className="w-full max-w-xl text-center md:text-left">
+        <div className={`w-full max-w-xl text-center md:text-left transition-all duration-700 
+      ${show ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
           <h1 className="font-semibold text-3xl sm:text-4xl md:text-5xl leading-tight">
             {/* Mobile: Online Dating Like | you remember; Large: each line centered */}
             <span className="block text-center sm:hidden">
