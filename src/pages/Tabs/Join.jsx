@@ -1,27 +1,63 @@
-import React from "react";
+import { useEffect, useState } from "react";
+import api from "../../services/api";
+
+import Agreement from "../../components/join/Agreement";
+import SignupOption from "../../components/join/SignupOption";
 
 function Join() {
+  const [step, setStep] = useState(1);
+  const [allowSignup, setAllowSignup] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    setStep(step + 1);
+  };
+
+  useEffect(() => {
+    api.get("settings")
+      .then((res) => {
+        if (res.data.allowNewUserSignups === true) {
+          setAllowSignup(true);
+        }
+        setLoading(false);
+      })
+      .catch(() => {
+        setAllowSignup(false);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center h-40">
+        <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+        <p className="text-gray-700">Loading...</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="text-center p-6 bg-background dark:bg-background-dark text-text dark:text-text-dark">
-      <h1>What is Lorem Ipsum?</h1>
-      <p className="py-4">
-        Lorem Ipsum is simply dummy text of the printing and typesetting
-        industry. Lorem Ipsum has been the industry's standard dummy text ever
-        since the 1500s, when an unknown printer took a galley of type and
-        scrambled it to make a type specimen book. It has survived not only five
-        centuries, but also the leap into electronic typesetting, remaining
-        essentially unchanged. It was popularised in the 1960s with the release
-        of Letraset sheets containing Lorem Ipsum passages, and more recently
-        with desktop publishing software like Aldus PageMaker including versions
-        of Lorem Ipsum.
-      </p>
-      <ul className="py-4">
-        <li>In the next steps, you will provide us with your legal name and date of birth, to be used to perform a safety screening on you.</li>
-        <li>More reminders here.</li>
-      </ul>
-      <button className="bg-primary dark:bg-primary-dark text-white px-6 py-2 rounded-full cursor-pointer">
-        ACCEPT & CONTINUE
-      </button>
+    <>
+      {allowSignup ? (
+        <div>
+          {step === 1 ? <Agreement onClick={handleClick} /> : null}
+          {step === 2 ? <SignupOption /> : null}
+        </div>
+      ) : (
+        <div className="flex flex-col items-center justify-center h-40 bg-background dark:bg-background-dark text-text dark:text-text-dark">
+          <p className="text-gray-700">New user signups are disabled temporarily</p>
+        </div>
+      )}
+    </>
+  );
+}
+
+function NoStep() {
+  return (
+    <div className="flex flex-col items-center justify-center h-full">
+      <h1 className="text-2xl font-bold mb-4">No Step Available</h1>
+      <p className="text-gray-600">Please select a step to proceed.</p>
     </div>
   );
 }

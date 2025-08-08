@@ -2,7 +2,7 @@ import { useState } from "react";
 import TabContext from "./TabContext";
 
 const TabProvider = ({ children }) => {
-    const [activeTab, setActiveTab] = useState(null);
+    const [activeTab, setActiveTab] = useState('background');
 
     const tabs = ['background', 'pricing', 'filter', 'pictures', 'community', 'stats', 'join'];
 

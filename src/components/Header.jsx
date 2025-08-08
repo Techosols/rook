@@ -3,20 +3,23 @@
     { label: 'Features', href: '' },
     { label: 'F.A.Q', href: '' },
   ];
-import useTheme from "../hooks/useTheme"; // Assuming you have a custom hook for theme management
+import useTheme from "../hooks/useTheme"; 
 import { SunIcon, MoonIcon, AlignCenter, X as XIcon } from "lucide-react";
 import React, { useState } from 'react';
 function Navbar() {
 
   const [isopen, setisopen] = useState(false); 
-  const { theme, toggleTheme } = useTheme(); // Use when you need Dark/Light mode toggle functionality
+  const { theme, toggleTheme } = useTheme(); 
+
+  const LIGHT_IMAGE = '/Images/rook-logo-light.png'
+  const DARK_IMAGE = '/Images/rook-logo-dark.png'
 
   return (
-      <section className="header bg-background dark:bg-background-dark text-text dark:text-text-dark shadow-md">
+      <section className="header bg-background dark:bg-background-dark text-text dark:text-text-dark shadow-md sticky top-0 z-50">
         <nav className="flex items-center justify-between px-4 md:px-12 py-4">
             <div>
               <img
-                src="/public/Images/rook-logo-light.png"
+                src={theme === 'dark' ? DARK_IMAGE : LIGHT_IMAGE}
                 alt="Logo"
                 className="h-[40px]"
               />
