@@ -11,6 +11,7 @@ import Join from './Join';
 import Matches from './Matches';
 import MatchFilters from './MatchFilters';
 import You from './You';
+import Messages from './Messages';
 
 
 function TabController() {
@@ -30,6 +31,7 @@ function TabController() {
             {activeTab === 'matches' && <Matches />}
             {activeTab === 'you' && <You />}
             {activeTab === 'matchFilters' && <MatchFilters />}
+            {activeTab === 'messages' && <Messages />}
         </div>
     </div>
   )

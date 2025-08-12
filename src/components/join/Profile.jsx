@@ -42,7 +42,14 @@ function Profile() {
                   <div className='flex flex-col gap-2'>
                      <label htmlFor='zip' className='text-sm font-medium dark:text-white'>Your ZIP Code</label>
                      <div>
-                        <input type='text' className='mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none hover:ring hover:ring-primary focus:ring-2 focus:ring-primary dark:bg-background-dark dark:border-gray-600 dark:text-white' placeholder='US ZIP Codes only' />
+                        <input
+                           type='text'
+                           inputMode='numeric'
+                           pattern='[0-9]*'
+                           className='mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none hover:ring hover:ring-primary focus:ring-2 focus:ring-primary dark:bg-background-dark dark:border-gray-600 dark:text-white'
+                           placeholder='US ZIP Codes only'
+                           onInput={e => e.target.value = e.target.value.replace(/[^0-9]/g, '')}
+                        />
                      </div>
                   </div>
                   <div className='flex flex-col gap-2'>
