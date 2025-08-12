@@ -8,22 +8,27 @@ import Pictures from './Pictures';
 import Community from './Community';
 import Stats from './Stats';
 import Join from './Join';
+import MatchFilters from './MatchFilters';
+import You from './You';
+
 
 function TabController() {
   const { activeTab} = useTab();
 
-  console.log("Active Tab:", activeTab);
 
   return (
     <div>
-        <div className="tab-content">
+        <div className="">
             {activeTab === 'background' && <BackgroundChecks />}
             {activeTab === 'pricing' && <Pricing />}
-            {activeTab === 'filter' && <Filters />}
+            {activeTab === 'filters' && <Filters />}
             {activeTab === 'pictures' && <Pictures />}
             {activeTab === 'community' && <Community />}
             {activeTab === 'stats' && <Stats />}
             {activeTab === 'join' && <Join />}
+            {activeTab === 'matches' && <Matches />}
+            {activeTab === 'you' && <You />}
+            {activeTab === 'matchFilters' && <MatchFilters />}
         </div>
     </div>
   )

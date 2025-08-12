@@ -1,6 +1,7 @@
 import React from "react";
-
+import useTheme from "../../hooks/useTheme";
 function Pricing() {
+   const { theme } = useTheme();
   return (
     <section className="px-2 py-8  bg-background dark:bg-background-dark text-text dark:text-text-dark">
       <div className="flex justify-between items-center flex-col lg:flex-row gap-8 max-w-[1350px] mx-auto">
@@ -17,7 +18,7 @@ function Pricing() {
                   height="20"
                   viewBox="0 0 256 256"
                 >
-                  <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"></path>
+                  <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z " fill={theme === 'dark' ? 'white' : 'dark'}></path>
                 </svg>
               </p>
               <li className="py-2">
@@ -34,7 +35,7 @@ function Pricing() {
                   height="20"
                   viewBox="0 0 256 256"
                 >
-                  <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"></path>
+                  <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z " fill={theme === 'dark' ? 'white' : 'dark'}></path>
                 </svg>
               </p>
               <li className="py-2">
@@ -52,7 +53,7 @@ function Pricing() {
                   height="20"
                   viewBox="0 0 256 256"
                 >
-                  <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"></path>
+                  <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z " fill={theme === 'dark' ? 'white' : 'dark'}></path>
                 </svg>
               </p>
               <li className="py-2">
@@ -89,7 +90,7 @@ function Pricing() {
                   height="20"
                   viewBox="0 0 256 256"
                 >
-                  <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"></path>
+                  <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z " fill={theme === 'dark' ? 'white' : 'dark'}></path>
                 </svg>
               </p>
               <li className="py-2">
@@ -105,7 +106,7 @@ function Pricing() {
                   height="20"
                   viewBox="0 0 256 256"
                 >
-                  <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"></path>
+                  <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z " fill={theme === 'dark' ? 'white' : 'dark'}></path>
                 </svg>
               </p>
               <li className="py-2">

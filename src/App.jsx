@@ -7,8 +7,11 @@ import Layout from './pages/Layout'
 import Home from './pages/Home'
 import ContactUs from './pages/ContactUs'
 import FAQ from './pages/FAQ'
+import NotFound from './pages/NotFound'
 
 function App() {
+
+
   return (
     <Providers>
       <BrowserRouter>
@@ -17,8 +20,9 @@ function App() {
             <Route index element={<Home />} />
             <Route path="contact" element={<ContactUs />} />
             <Route path="faq" element={<FAQ />} />
-            
           </Route>
+
+          <Route path='*' element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </Providers>
