@@ -8,6 +8,7 @@ import Pictures from './Pictures';
 import Community from './Community';
 import Stats from './Stats';
 import Join from './Join';
+import Matches from './Matches';
 import MatchFilters from './MatchFilters';
 import You from './You';
 
