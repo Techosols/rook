@@ -3,26 +3,45 @@ import api from "../../services/api";
 
 import Agreement from "../../components/join/Agreement";
 import SignupOption from "../../components/join/SignupOption";
-import Profile from "../../components/join/Profile.jsx"
-import Payment from "../../components/join/Payment.jsx"
+import Profile from "../../components/join/Profile.jsx";
+import Payment from "../../components/join/Payment.jsx";
+
+
+import { useAuth0 } from "@auth0/auth0-react";
+import useTab from "../../hooks/useTab";
 
 function Join() {
   const [step, setStep] = useState(1);
   const [allowSignup, setAllowSignup] = useState(false);
   const [loading, setLoading] = useState(true);
+  const { loginWithPopup, isAuthenticated } = useAuth0();
+  const { activeTab } = useTab();
 
   const handleClick = (e) => {
     e.preventDefault();
     setStep(step + 1);
   };
 
+  const handleLogin = (e) => {
+    e.preventDefault();
+    localStorage.setItem("CallbackTab", activeTab);
+    localStorage.setItem("CallbackStep", step);
+    loginWithPopup();
+  };
 
   useEffect(() => {
-    api.get("settings")
-      .then((res) => {
-        console.log('response: ', res)
-        if (res.data.allowNewUserSignups === true) {
+    // Restore step from localStorage if present
+    const savedStep = localStorage.getItem("CallbackStep");
+    if (savedStep) {
+      setStep(Number(savedStep));
+      localStorage.removeItem("CallbackStep");
+    }
 
+    api
+      .get("settings")
+      .then((res) => {
+        console.log("response: ", res);
+        if (res.data.allowNewUserSignups === true) {
           setAllowSignup(true);
         }
         setLoading(false);
@@ -32,6 +51,13 @@ function Join() {
         setLoading(false);
       });
   }, []);
+
+  // Separate effect for handling Auth0 authentication
+  useEffect(() => {
+    if (isAuthenticated && step < 3) {
+      setStep(3);
+    }
+  }, [isAuthenticated, step]);
 
   if (loading) {
     return (
@@ -47,17 +73,18 @@ function Join() {
       {allowSignup ? (
         <div>
           {step === 1 ? <Agreement onClick={handleClick} /> : null}
-          {step === 2 ? <SignupOption onClick={handleClick} /> : null}
+          {step === 2 ? <SignupOption onClick={handleLogin} /> : null}
           {step === 3 ? <Profile /> : null}
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center h-40 bg-background dark:bg-background-dark text-text dark:text-text-dark">
-          <p className="text-gray-700">New user signups are disabled temporarily</p>
+          <p className="text-gray-700">
+            New user signups are disabled temporarily
+          </p>
         </div>
       )}
     </>
   );
 }
-
 
 export default Join;

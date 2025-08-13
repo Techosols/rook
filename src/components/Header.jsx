@@ -3,6 +3,7 @@ import useTheme from "../hooks/useTheme";
 import { SunIcon, MoonIcon, AlignCenter, X as XIcon } from "lucide-react";
 import React, { useState } from 'react';
 import { UserSquare } from "lucide-react";
+import { useAuth0 } from '@auth0/auth0-react';
 import useAuth from "../hooks/useAuth";
 
 
@@ -10,9 +11,10 @@ function Navbar() {
 
   const [isopen, setisopen] = useState(false);
   const { theme, toggleTheme } = useTheme();
-  const { isLoggedIn } = useAuth();
+  const { isAuthenticated, logout } = useAuth0();
+  const { isLoggedIn, setIsLoggedIn } = useAuth();
 
-  console.log('Header Initialized with: ', isLoggedIn)
+  console.log('Header Initialized with: ', isAuthenticated)
 
   const LIGHT_IMAGE = '/Images/rook-logo-light.png'
   const DARK_IMAGE = '/Images/rook-logo-dark.png'
@@ -27,6 +29,16 @@ function Navbar() {
     { id: 1, label: 'FAQ', href: '' },
     { id: 2, label: 'Contact Us', href: '' },
   ];
+
+  function handleLogout() {
+    logout({ returnTo: window.location.origin })
+    .then(() => {
+      setIsLoggedIn(false)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+  }
 
 
   return (
@@ -110,7 +122,7 @@ function Navbar() {
                       <a href={link.href} className="cursor-pointer text-lg">{link.label}</a>
                     </li>
                   ))}
-                  <li>
+                  <li onClick={handleLogout} className="cursor-pointer text-lg">
                     <a href="">
                       <UserSquare className="w-6 h-6 " />
                     </a>

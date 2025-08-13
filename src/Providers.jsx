@@ -1,22 +1,27 @@
-import React from 'react'
+import React from "react";
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Auth0Provider } from "@auth0/auth0-react";
 
-import AuthProvider from './contexts/Auth/AuthProvider'
-import ThemeProvider from './contexts/Theme/ThemeProvider'
-import TabProvider from './contexts/Tab/TabProvider'
+import ThemeProvider from "./contexts/Theme/ThemeProvider";
+import TabProvider from "./contexts/Tab/TabProvider";
+import AuthProvider from "./contexts/Auth/AuthProvider";
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient();
 const Providers = ({ children }) => (
   <QueryClientProvider client={queryClient}>
-    <AuthProvider>
+    <Auth0Provider
+      domain={import.meta.env.VITE_AUTH0_CLIENT_DOMAIN}
+      clientId={import.meta.env.VITE_AUTH0_CLIENT_ID}
+      redirectUri={window.location.origin}
+    >
       <ThemeProvider>
-        <TabProvider>
-          {children}
-        </TabProvider>
+        <AuthProvider>
+          <TabProvider>{children}</TabProvider>
+        </AuthProvider>
       </ThemeProvider>
-    </AuthProvider>
+    </Auth0Provider>
   </QueryClientProvider>
-)
+);
 
 export default Providers;
