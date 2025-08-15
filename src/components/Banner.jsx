@@ -7,7 +7,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 function Banner() {
   const { setActiveTab } = useTab();
   const { setIsLoggedIn } = useAuth();
-  const { loginWithPopup} = useAuth0();
+  const { loginWithPopup } = useAuth0();
   const [show, setShow] = useState(false);
   useEffect(() => {
     setShow(true);
@@ -16,11 +16,13 @@ function Banner() {
   function handleSignIn(e) {
     e.preventDefault();
 
-    loginWithPopup()
-    .then(() => {
+    loginWithPopup({
+      authorizationParams: {
+        prompt: 'login',
+      }
+    }).then(() => {
       setIsLoggedIn(true);
-    })
-
+    });
   }
 
   const features = [

@@ -30,11 +30,13 @@ function Profile() {
               <div className="flex flex-col md:flex-row items-center gap-2">
                 <input
                   type="text"
+                  required="true"
                   className="mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none hover:ring hover:ring-primary focus:ring-2 focus:ring-primary dark:bg-background-dark dark:border-gray-600 dark:text-white"
                   placeholder="First Name"
                 />
                 <input
                   type="text"
+                  required="true"
                   className="mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none hover:ring hover:ring-primary focus:ring-2 focus:ring-primary dark:bg-background-dark dark:border-gray-600 dark:text-white"
                   placeholder="Last Name"
                 />
@@ -50,6 +52,7 @@ function Profile() {
               <div className="relative">
                 <input
                   type="date"
+                  required="true"
                   className="mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none hover:ring hover:ring-primary focus:ring-2 focus:ring-primary dark:bg-background-dark dark:border-gray-600 dark:text-white dark:accent-white"
                 />
               </div>
@@ -86,6 +89,7 @@ function Profile() {
               <div>
                 <input
                   type="text"
+                  required="true"
                   inputMode="numeric"
                   pattern="[0-9]*"
                   className="mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none hover:ring hover:ring-primary focus:ring-2 focus:ring-primary dark:bg-background-dark dark:border-gray-600 dark:text-white"
@@ -106,7 +110,7 @@ function Profile() {
                     You are a:{" "}
                   </label>
                   <div className="flex items-center gap-2">
-                    <select className="mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none hover:ring hover:ring-primary focus:ring-2 focus:ring-primary dark:bg-background-dark dark:border-gray-600 dark:text-white dark:accent-white">
+                    <select required="true" className="mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none hover:ring hover:ring-primary focus:ring-2 focus:ring-primary dark:bg-background-dark dark:border-gray-600 dark:text-white dark:accent-white">
                       <option value="Man">Man</option>
                       <option value="Woman">Woman</option>
                     </select>
@@ -114,13 +118,13 @@ function Profile() {
                 </div>
                 <div>
                   <label
-                    htmlFor="dob"
+                    htmlFor="looking-for"
                     className="text-sm font-medium dark:text-white"
                   >
                     Looking for a:
                   </label>
                   <div className="flex items-center gap-2">
-                    <select className="mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none hover:ring hover:ring-primary focus:ring-2 focus:ring-primary dark:bg-background-dark dark:border-gray-600 dark:text-white dark:accent-white">
+                    <select required="true"  className="mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none hover:ring hover:ring-primary focus:ring-2 focus:ring-primary dark:bg-background-dark dark:border-gray-600 dark:text-white dark:accent-white">
                       <option value="Man">Man</option>
                       <option value="Woman">Woman</option>
                       <option value="Any">Any</option>

@@ -6,7 +6,6 @@ import SignupOption from "../../components/join/SignupOption";
 import Profile from "../../components/join/Profile.jsx";
 import Payment from "../../components/join/Payment.jsx";
 
-
 import { useAuth0 } from "@auth0/auth0-react";
 import useTab from "../../hooks/useTab";
 
@@ -26,7 +25,11 @@ function Join() {
     e.preventDefault();
     localStorage.setItem("CallbackTab", activeTab);
     localStorage.setItem("CallbackStep", step);
-    loginWithPopup();
+    loginWithPopup({
+      authorizationParams: {
+        screen_hint: 'signup'
+      }
+    });
   };
 
   useEffect(() => {
@@ -37,19 +40,26 @@ function Join() {
       localStorage.removeItem("CallbackStep");
     }
 
-    api
-      .get("settings")
-      .then((res) => {
-        console.log("response: ", res);
+    // Try to get settings, but don't block the UI if it fails
+    const fetchSettings = async () => {
+      try {
+        const res = await api.get("settings");
         if (res.data.allowNewUserSignups === true) {
           setAllowSignup(true);
         }
+      } catch (error) {
+        console.warn(
+          "Settings API not available, defaulting to allow signup:",
+          error.message
+        );
+        // Default to allowing signup if API is not available (for development)
+        setAllowSignup(true);
+      } finally {
         setLoading(false);
-      })
-      .catch(() => {
-        setAllowSignup(false);
-        setLoading(false);
-      });
+      }
+    };
+
+    fetchSettings();
   }, []);
 
   // Separate effect for handling Auth0 authentication
