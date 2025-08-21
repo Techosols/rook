@@ -1,5 +1,7 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import Providers from './Providers'
 
@@ -24,6 +26,7 @@ function App() {
 
           <Route path='*' element={<NotFound />} />
         </Routes>
+        <ToastContainer />
       </BrowserRouter>
     </Providers>
   )

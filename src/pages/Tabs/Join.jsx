@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../../services/api";
+import { toast } from "react-toastify";
 
 import Agreement from "../../components/join/Agreement";
 import SignupOption from "../../components/join/SignupOption";
@@ -13,7 +14,7 @@ function Join() {
   const [step, setStep] = useState(1);
   const [allowSignup, setAllowSignup] = useState(false);
   const [loading, setLoading] = useState(true);
-  const { loginWithPopup, isAuthenticated } = useAuth0();
+  const { loginWithPopup, isAuthenticated, getUser} = useAuth0();
   const { activeTab } = useTab();
 
   const handleClick = (e) => {
@@ -21,11 +22,11 @@ function Join() {
     setStep(step + 1);
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     localStorage.setItem("CallbackTab", activeTab);
     localStorage.setItem("CallbackStep", step);
-    loginWithPopup({
+    await loginWithPopup({
       authorizationParams: {
         screen_hint: 'signup'
       }
@@ -46,14 +47,14 @@ function Join() {
         const res = await api.get("settings");
         if (res.data.allowNewUserSignups === true) {
           setAllowSignup(true);
+        } else {
+          setAllowSignup(false);
         }
       } catch (error) {
         console.warn(
           "Settings API not available, defaulting to allow signup:",
           error.message
         );
-        // Default to allowing signup if API is not available (for development)
-        setAllowSignup(true);
       } finally {
         setLoading(false);
       }
