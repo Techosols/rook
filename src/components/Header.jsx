@@ -1,37 +1,43 @@
 import useTheme from "../hooks/useTheme";
 import { SunIcon, MoonIcon, AlignCenter, X as XIcon } from "lucide-react";
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { UserSquare } from "lucide-react";
 import { useAuth0 } from '@auth0/auth0-react';
+import useAuth from "../hooks/useAuth";
 
 
 function Navbar() {
-
   const [isopen, setisopen] = useState(false);
   const { theme, toggleTheme } = useTheme();
-  const { isAuthenticated, logout: auth0Logout } = useAuth0();
+  const { isAuthenticated, logout } = useAuth0();
+  const { isLoggedIn, setIsLoggedIn } = useAuth();
 
-  console.log('Header Initialized with: ', isAuthenticated)
+  // Debug: Log when Header receives isLoggedIn changes
+  console.log("🔴 Header - isLoggedIn:", isLoggedIn);
 
-  const LIGHT_IMAGE = '/Images/rook-logo-light.png'
-  const DARK_IMAGE = '/Images/rook-logo-dark.png'
+  const LIGHT_IMAGE = "/Images/rook-logo-light.png";
+  const DARK_IMAGE = "/Images/rook-logo-dark.png";
 
   const navLinks = [
-    { id: 1, label: 'Home', href: '' },
-    { id: 2, label: 'Features', href: '' },
-    { id: 3, label: 'F.A.Q', href: '' },
+    { id: 1, label: "Home", href: "" },
+    { id: 2, label: "Features", href: "" },
+    { id: 3, label: "F.A.Q", href: "" },
   ];
 
   const loggedNavLinks = [
-    { id: 1, label: 'FAQ', href: '' },
-    { id: 2, label: 'Contact Us', href: '' },
+    { id: 1, label: "FAQ", href: "" },
+    { id: 2, label: "Contact Us", href: "" },
   ];
 
   function handleLogout() {
-    console.log('Logging out...');
-    //auth0Logout({ logoutParams: { returnTo: window.location.origin } });
+    logout({ returnTo: window.location.origin })
+    .then(() => {
+      setIsLoggedIn(false)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
   }
-
 
   return (
     <section className="header bg-background dark:bg-background-dark text-text dark:text-text-dark shadow-md sticky top-0 z-50">
@@ -46,7 +52,7 @@ function Navbar() {
         <div>
           <ul className="hidden md:flex w-full gap-7 text-lg font-light">
             {
-              isAuthenticated ?
+              isLoggedIn ?
                 (
                   <div className="flex items-center gap-4">
                     {loggedNavLinks.map((link) => (
@@ -105,7 +111,7 @@ function Navbar() {
         </div>
         <ul className="flex flex-col items-center gap-5 text-lg font-light p-5 mt-32">
           {
-            isAuthenticated ?
+            isLoggedIn ?
               (
                 <div>
                   {console.log('User Logged In, Using Logged Nav Links: ', loggedNavLinks)}

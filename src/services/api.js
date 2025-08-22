@@ -2,7 +2,7 @@ import axios from "axios";
 
 const api = axios.create({
     baseURL: "/api/",
-    timeout: 10000,
+    timeout: 50000,
     headers: {
         "Content-Type": "application/json",
         "Accept": "application/json",
@@ -12,26 +12,28 @@ const api = axios.create({
 
 api.interceptors.request.use(
     (config) => {
-        
+        // Authorization header is set dynamically by AuthProvider
         return config;
     },
     (error) => {
-        
+        console.error("Request interceptor error:", error);
         return Promise.reject(error);
     }
 );
 
 api.interceptors.response.use(
     (response) => {
-        
-        console.log('API Response: ', response)
         return response;
-        
-    }
-    , (error) => {
-         
+    },
+    (error) => {
         if (error.response) {
             console.error("Response error:", error.response.data);
+            
+            // Handle authentication errors
+            if (error.response.status === 401) {
+                console.warn("Authentication token expired or invalid");
+                // The AuthProvider will handle token refresh
+            }
         } else if (error.request) {
             console.error("Request error:", error.request);
         } else {

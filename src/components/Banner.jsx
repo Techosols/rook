@@ -2,12 +2,10 @@ import React from "react";
 import { useEffect, useState } from "react";
 import useTab from "../hooks/useTab";
 import useAuth from "../hooks/useAuth";
-import { useAuth0 } from "@auth0/auth0-react";
 
 function Banner() {
   const { setActiveTab } = useTab();
-  const { setIsLoggedIn } = useAuth();
-  const { loginWithPopup} = useAuth0();
+  const { loginWithPopup } = useAuth();
   const [show, setShow] = useState(false);
   useEffect(() => {
     setShow(true);
@@ -16,11 +14,13 @@ function Banner() {
   function handleSignIn(e) {
     e.preventDefault();
 
-    loginWithPopup()
-    .then(() => {
-      setIsLoggedIn(true);
-    })
-
+    loginWithPopup({
+      authorizationParams: {
+        prompt: "login",
+      },
+    }).catch((error) => {
+      console.error("Login failed:", error);
+    });
   }
 
   const features = [
@@ -139,7 +139,7 @@ function Banner() {
   ];
   return (
     <section className="relative bg-[url(Images/bride-groom-their-wedding-ceremony.jpg)] bg-no-repeat bg-cover bg-[center_20%] bg-background dark:bg-background-dark text-text dark:text-text-dark px-4 py-10 ">
-        {/* Top white gradient overlay - theme aware */}
+      {/* Top white gradient overlay - theme aware */}
       <div className="absolute inset-0 w-full h-full bg-white/80 dark:bg-black/60 pointer-events-none z-0"></div>
       {/* Bottom white gradient overlay - theme aware */}
       <div className="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-white to-transparent dark:from-black dark:to-transparent pointer-events-none z-10"></div>
@@ -165,8 +165,10 @@ function Banner() {
         </div>
 
         {/* RIGHT COLUMN - TEXT + BUTTONS */}
-        <div className={`w-full max-w-xl text-center md:text-left transition-all duration-700 
-      ${show ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+        <div
+          className={`w-full max-w-xl text-center md:text-left transition-all duration-700 
+      ${show ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
+        >
           <h1 className="font-semibold text-3xl sm:text-4xl md:text-5xl leading-tight">
             {/* Mobile: Online Dating Like | you remember; Large: each line centered */}
             <span className="block text-center sm:hidden">
@@ -181,10 +183,16 @@ function Banner() {
             $10 for the first month, $5/month afterward
           </p>
           <div className="flex flex-col sm:flex-row gap-4 mt-6 justify-center md:justify-center">
-            <button className="py-3 px-8 bg-primary dark:bg-primary-dark rounded-full text-white w-full sm:w-auto cursor-pointer" onClick={() => setActiveTab('join')}>
+            <button
+              className="py-3 px-8 bg-primary dark:bg-primary-dark rounded-full text-white w-full sm:w-auto cursor-pointer"
+              onClick={() => setActiveTab("join")}
+            >
               Join Us
             </button>
-            <button className="py-3 px-8 bg-primary dark:bg-primary-dark rounded-full text-white w-full sm:w-auto cursor-pointer" onClick={(e) => handleSignIn(e)}>
+            <button
+              className="py-3 px-8 bg-primary dark:bg-primary-dark rounded-full text-white w-full sm:w-auto cursor-pointer"
+              onClick={(e) => handleSignIn(e)}
+            >
               Sign In
             </button>
           </div>
