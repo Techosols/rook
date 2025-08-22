@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import useAuth from "../../hooks/useAuth";
 import { getAgeDifference, formateDob } from "../../utils/functions";
 
 import { toast } from "react-toastify";
+import api from "../../services/api";
 
 function Profile() {
   const { isAuthenticated, user } = useAuth0();
-  const { createUserProfile, isLoading } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   console.log("User:", user);
@@ -58,15 +57,15 @@ function Profile() {
       !formData.lookingFor
     ) {
       console.error("Missing required fields:", formData);
-      toast.error("All fields are required.");
+      toast.error("Please fill required fields.");
       return;
     }
 
     setIsSubmitting(true);
 
     try {
-      // Use the AuthProvider's createUserProfile method
-      await createUserProfile({
+
+      await api.post("user", {
         firstName: formData.firstName,
         middleName: formData.middleName,
         lastName: formData.lastName,
@@ -78,10 +77,17 @@ function Profile() {
         gender: formData.gender,
         ageInYears: getAgeDifference(formData.dob),
         lookingFor: formData.lookingFor,
+      }).then((res) => {
+        if(res.status === 201) {
+          toast.success("Profile created successfully!");
+        }
+        console.log("Profile created successfully", res);
+        // The AuthProvider will handle setting isLoggedIn to true
+      }).catch((error) => {
+        console.error("Profile creation failed:", error);
+        // Error handling is done in the AuthProvider
       });
 
-      console.log("Profile created successfully");
-      // The AuthProvider will handle setting isLoggedIn to true
     } catch (error) {
       console.error("Profile creation failed:", error);
       // Error handling is done in the AuthProvider
@@ -277,7 +283,7 @@ function Profile() {
           <button
             className="py-3 px-8 bg-primary dark:bg-primary-dark rounded-full text-white sm:w-auto cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             onClick={handleContinue}
-            disabled={isSubmitting || isLoading}
+            disabled={isSubmitting}
           >
             {isSubmitting ? (
               <div className="flex items-center space-x-2">

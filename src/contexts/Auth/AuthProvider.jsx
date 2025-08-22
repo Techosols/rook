@@ -333,7 +333,7 @@ const AuthProvider = ({ children }) => {
         console.log("📈 Normalized status:", status);
 
         switch (status) {
-          case "active":
+          case "Active":
             console.log("🟢 User is active - should login instead");
             return {
               exists: true,
@@ -341,9 +341,9 @@ const AuthProvider = ({ children }) => {
               canLogin: true,
               status: "active",
               message:
-                "Email is already registered. Please try to sign in instead.",
+                "This email is already registered with a completed profile. Please use 'Sign In' to access your account.",
             };
-          case "suspended":
+          case "Suspended":
             console.log("🔴 User is suspended");
             return {
               exists: true,
@@ -450,7 +450,7 @@ const AuthProvider = ({ children }) => {
                 return;
               }
 
-              if (userStatus.status === "suspended") {
+              if (userStatus.status == "suspended") {
                 console.log(
                   "🚫 Main Auth: User account is suspended - blocking signin"
                 );
@@ -476,12 +476,12 @@ const AuthProvider = ({ children }) => {
                 return;
               }
 
-              if (userStatus.status === "active") {
+              if (userStatus.status == "active") {
                 console.log(
                   "✅ Main Auth: User is active - setting isLoggedIn to true immediately"
                 );
                 setIsLoggedIn(true);
-              } else if (userStatus.status !== "active") {
+              } else if (userStatus.status != "active") {
                 console.log("⚠️ Main Auth: User status unclear but proceeding");
                 toast.warning(
                   "Account status unclear. Please contact support if you experience issues."
@@ -769,7 +769,7 @@ const AuthProvider = ({ children }) => {
             return;
           }
 
-          if (userStatus.status === "active") {
+          if (userStatus.status == "active") {
             console.log("✅ Signin: User is active - proceeding with login");
             console.log(
               "✅ Signin: Setting isLoggedIn to true immediately for active user"
@@ -913,10 +913,10 @@ const AuthProvider = ({ children }) => {
 
         if (userStatus.exists) {
           console.log("❌ User already exists - cannot create profile");
-          if (userStatus.status === "suspended") {
+          if (userStatus.status === "Suspended") {
             toast.error("Account is suspended and cannot be accessed.");
             throw new Error("Account suspended");
-          } else if (userStatus.status === "active") {
+          } else if (userStatus.status === "Active") {
             toast.error(
               "An account with this email already exists. Please login instead."
             );
@@ -943,7 +943,7 @@ const AuthProvider = ({ children }) => {
 
       const response = await api.post("user", profileData, config);
       console.log("✅ Profile creation API response status:", response.status);
-      console.log("✅ Profile creation API response data:", response.data);
+      console.log("✅ Profile creation API response data:", response);
       console.log(
         "✅ Profile creation API response headers:",
         response.headers
