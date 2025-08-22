@@ -2,14 +2,15 @@ import useTheme from "../hooks/useTheme";
 import { SunIcon, MoonIcon, AlignCenter, X as XIcon } from "lucide-react";
 import React, { useState } from "react";
 import { UserSquare } from "lucide-react";
-import { useAuth0 } from "@auth0/auth0-react";
 import useAuth from "../hooks/useAuth";
 
 function Navbar() {
   const [isopen, setisopen] = useState(false);
   const { theme, toggleTheme } = useTheme();
-  const { logout } = useAuth0();
-  const { isLoggedIn, setIsLoggedIn } = useAuth();
+  const { isLoggedIn, logout, needsProfileCompletion } = useAuth();
+
+  // Debug: Log when Header receives isLoggedIn changes
+  console.log("🔴 Header - isLoggedIn:", isLoggedIn);
 
   const LIGHT_IMAGE = "/Images/rook-logo-light.png";
   const DARK_IMAGE = "/Images/rook-logo-dark.png";
@@ -26,29 +27,106 @@ function Navbar() {
   ];
 
   function handleLogout() {
-    logout({ returnTo: window.location.origin })
-      .then(() => {
-        setIsLoggedIn(false);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    logout().catch((error) => {
+      console.error("Logout failed:", error);
+    });
   }
 
   return (
-    <section className="header bg-background dark:bg-background-dark text-text dark:text-text-dark shadow-md sticky top-0 z-50">
-      <nav className="flex items-center justify-between px-4 md:px-12 py-4">
-        <div>
-          <img
-            src={theme === "dark" ? DARK_IMAGE : LIGHT_IMAGE}
-            alt="Logo"
-            className="h-[40px]"
-          />
-        </div>
-        <div>
-          <ul className="hidden md:flex w-full gap-7 text-lg font-light">
+    <>
+      <section className="header bg-background dark:bg-background-dark text-text dark:text-text-dark shadow-md sticky top-0 z-50">
+        {/* Profile completion notification bar */}
+        {needsProfileCompletion && (
+          <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-2 text-center text-sm">
+            <span className="font-medium">🎉 Authentication successful! </span>
+            <span>Complete your profile to unlock all features.</span>
+          </div>
+        )}
+
+        <nav className="flex items-center justify-between px-4 md:px-12 py-4">
+          <div>
+            <img
+              src={theme === "dark" ? DARK_IMAGE : LIGHT_IMAGE}
+              alt="Logo"
+              className="h-[40px]"
+            />
+          </div>
+          <div>
+            <ul className="hidden md:flex w-full gap-7 text-lg font-light">
+              {isLoggedIn ? (
+                <div className="flex items-center gap-4">
+                  {loggedNavLinks.map((link) => (
+                    <li key={link.id}>
+                      <a href={link.href} className="cursor-pointer text-lg">
+                        {link.label}
+                      </a>
+                    </li>
+                  ))}
+                  <li>
+                    <a href="">
+                      <UserSquare className="w-6 h-6 " />
+                    </a>
+                  </li>
+                </div>
+              ) : (
+                <div className="flex items-center gap-4">
+                  {navLinks.map((link) => (
+                    <li key={link.id}>
+                      <a href={link.href} className="cursor-pointer text-lg">
+                        {link.label}
+                      </a>
+                    </li>
+                  ))}
+                </div>
+              )}
+              <li>
+                <button
+                  onClick={toggleTheme}
+                  className="cursor-pointer mt-[-2px]"
+                >
+                  {theme === "dark" ? (
+                    <MoonIcon className="w-[25px] h-[25px] " />
+                  ) : (
+                    <SunIcon className="w-[25px] h-[25px]" />
+                  )}
+                </button>
+              </li>
+            </ul>
+          </div>
+          <div className="md:hidden">
+            <button onClick={() => setisopen(!isopen)}>
+              {isopen ? (
+                <XIcon className="w-6 h-6" />
+              ) : (
+                <AlignCenter className="w-6 h-6" />
+              )}
+            </button>
+          </div>
+        </nav>
+        <div
+          className={`fixed top-0 left-0 w-full h-full bg-white z-50 transition-transform duration-300 md:hidden ${
+            isopen ? "translate-x-0" : "translate-x-full"
+          }`}
+        >
+          <div className="flex items-center justify-between px-4 py-4 border-b border-gray-200">
+            <img
+              src={theme === "dark" ? DARK_IMAGE : LIGHT_IMAGE}
+              alt="Logo"
+              className="h-[40px]"
+            />
+            <div className="md:hidden">
+              <button onClick={() => setisopen(!isopen)}>
+                {isopen ? (
+                  <XIcon className="w-6 h-6" />
+                ) : (
+                  <AlignCenter className="w-6 h-6" />
+                )}
+              </button>
+            </div>
+          </div>
+          <ul className="flex flex-col items-center gap-5 text-lg font-light p-5 mt-32">
             {isLoggedIn ? (
-              <div className="flex items-center gap-4">
+              <div>
                 {loggedNavLinks.map((link) => (
                   <li key={link.id}>
                     <a href={link.href} className="cursor-pointer text-lg">
@@ -56,14 +134,14 @@ function Navbar() {
                     </a>
                   </li>
                 ))}
-                <li>
+                <li onClick={handleLogout} className="cursor-pointer text-lg">
                   <a href="">
                     <UserSquare className="w-6 h-6 " />
                   </a>
                 </li>
               </div>
             ) : (
-              <div className="flex items-center gap-4">
+              <div>
                 {navLinks.map((link) => (
                   <li key={link.id}>
                     <a href={link.href} className="cursor-pointer text-lg">
@@ -74,10 +152,7 @@ function Navbar() {
               </div>
             )}
             <li>
-              <button
-                onClick={toggleTheme}
-                className="cursor-pointer mt-[-2px]"
-              >
+              <button onClick={toggleTheme} className="cursor-pointer ">
                 {theme === "dark" ? (
                   <MoonIcon className="w-[25px] h-[25px] " />
                 ) : (
@@ -87,76 +162,8 @@ function Navbar() {
             </li>
           </ul>
         </div>
-        <div className="md:hidden">
-          <button onClick={() => setisopen(!isopen)}>
-            {isopen ? (
-              <XIcon className="w-6 h-6" />
-            ) : (
-              <AlignCenter className="w-6 h-6" />
-            )}
-          </button>
-        </div>
-      </nav>
-      <div
-        className={`fixed top-0 left-0 w-full h-full bg-white z-50 transition-transform duration-300 md:hidden ${
-          isopen ? "translate-x-0" : "translate-x-full"
-        }`}
-      >
-        <div className="flex items-center justify-between px-4 py-4 border-b border-gray-200">
-          <img
-            src={theme === "dark" ? DARK_IMAGE : LIGHT_IMAGE}
-            alt="Logo"
-            className="h-[40px]"
-          />
-          <div className="md:hidden">
-            <button onClick={() => setisopen(!isopen)}>
-              {isopen ? (
-                <XIcon className="w-6 h-6" />
-              ) : (
-                <AlignCenter className="w-6 h-6" />
-              )}
-            </button>
-          </div>
-        </div>
-        <ul className="flex flex-col items-center gap-5 text-lg font-light p-5 mt-32">
-          {isLoggedIn ? (
-            <div>
-              {loggedNavLinks.map((link) => (
-                <li key={link.id}>
-                  <a href={link.href} className="cursor-pointer text-lg">
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-              <li onClick={handleLogout} className="cursor-pointer text-lg">
-                <a href="">
-                  <UserSquare className="w-6 h-6 " />
-                </a>
-              </li>
-            </div>
-          ) : (
-            <div>
-              {navLinks.map((link) => (
-                <li key={link.id}>
-                  <a href={link.href} className="cursor-pointer text-lg">
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </div>
-          )}
-          <li>
-            <button onClick={toggleTheme} className="cursor-pointer ">
-              {theme === "dark" ? (
-                <MoonIcon className="w-[25px] h-[25px] " />
-              ) : (
-                <SunIcon className="w-[25px] h-[25px]" />
-              )}
-            </button>
-          </li>
-        </ul>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
 
