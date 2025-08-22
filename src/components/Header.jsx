@@ -1,18 +1,15 @@
-
 import useTheme from "../hooks/useTheme";
 import { SunIcon, MoonIcon, AlignCenter, X as XIcon } from "lucide-react";
 import React, { useState } from 'react';
 import { UserSquare } from "lucide-react";
 import { useAuth0 } from '@auth0/auth0-react';
-import useAuth from "../hooks/useAuth";
 
 
 function Navbar() {
 
   const [isopen, setisopen] = useState(false);
   const { theme, toggleTheme } = useTheme();
-  const { isAuthenticated, logout } = useAuth0();
-  const { isLoggedIn, setIsLoggedIn } = useAuth();
+  const { isAuthenticated, logout: auth0Logout } = useAuth0();
 
   console.log('Header Initialized with: ', isAuthenticated)
 
@@ -31,13 +28,8 @@ function Navbar() {
   ];
 
   function handleLogout() {
-    logout({ returnTo: window.location.origin })
-    .then(() => {
-      setIsLoggedIn(false)
-    })
-    .catch((error) => {
-      console.log(error)
-    })
+    console.log('Logging out...');
+    //auth0Logout({ logoutParams: { returnTo: window.location.origin } });
   }
 
 
@@ -54,7 +46,7 @@ function Navbar() {
         <div>
           <ul className="hidden md:flex w-full gap-7 text-lg font-light">
             {
-              isLoggedIn ?
+              isAuthenticated ?
                 (
                   <div className="flex items-center gap-4">
                     {loggedNavLinks.map((link) => (
@@ -113,7 +105,7 @@ function Navbar() {
         </div>
         <ul className="flex flex-col items-center gap-5 text-lg font-light p-5 mt-32">
           {
-            isLoggedIn ?
+            isAuthenticated ?
               (
                 <div>
                   {console.log('User Logged In, Using Logged Nav Links: ', loggedNavLinks)}

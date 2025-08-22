@@ -13,7 +13,7 @@ const Providers = ({ children }) => (
     <Auth0Provider
       domain={import.meta.env.VITE_AUTH0_CLIENT_DOMAIN}
       clientId={import.meta.env.VITE_AUTH0_CLIENT_ID}
-      redirectUri={window.location.origin}
+      authorizationParams={{ redirect_uri: window.location.origin }}
     >
       <ThemeProvider>
         <AuthProvider>
