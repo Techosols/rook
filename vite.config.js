@@ -12,7 +12,11 @@ export default defineConfig({
         secure: true,
         rewrite: (path) => path.replace(/^\/api/, '')
       }
-    }
+    },
+    headers: {
+      'Cross-Origin-Opener-Policy': 'same-origin',
+      'Cross-Origin-Embedder-Policy': 'require-corp',
+    },
   },
   plugins: [
     react(),

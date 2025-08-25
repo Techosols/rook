@@ -1,4 +1,4 @@
-import { Children, useEffect } from "react";
+import{ useEffect } from "react";
 import AuthContext from "./AuthContext";
 import { useAuth0 } from "@auth0/auth0-react";
 import api from "../../services/api";
@@ -12,7 +12,7 @@ const AuthProvider = ({ children }) => {
   // Basic logout function
   const handleLogout = () => logout({ returnTo: window.location.origin });
 
-  const verifyUserExistanceByEmail = async (email) => {
+  const verifyUserExistenceByEmail = async (email) => {
       await api.get(`user/${email}`)
       .then(response => {
           if (response) {
@@ -30,7 +30,7 @@ const AuthProvider = ({ children }) => {
     if (isAuthenticated) {
       // User is authenticated, you can perform actions here
       console.log('User is authenticated:', user);
-      verifyUserExistanceByEmail(user.email);
+      verifyUserExistenceByEmail(user.email);
     }
   }, [isAuthenticated, user])
 
