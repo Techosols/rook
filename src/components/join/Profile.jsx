@@ -5,7 +5,7 @@ import { getAgeDifference, formateDob } from "../../utils/functions";
 import { toast } from "react-toastify";
 import api from "../../services/api";
 
-function Profile() {
+function Profile({ onProfileSubmit }) {
   const { isAuthenticated, user } = useAuth0();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -64,7 +64,28 @@ function Profile() {
     setIsSubmitting(true);
 
     try {
+      // If onProfileSubmit is provided, use it (new flow)
+      if (onProfileSubmit) {
+        const profileData = {
+          firstName: formData.firstName,
+          middleName: formData.middleName,
+          lastName: formData.lastName,
+          emailAddress: formData.email,
+          phoneNumber: formData.phone,
+          dateOfBirth: formateDob(formData.dob),
+          preferredName: formData.preferredName,
+          postalCode: formData.zip,
+          gender: formData.gender,
+          ageInYears: getAgeDifference(formData.dob),
+          lookingFor: formData.lookingFor,
+          dob: formData.dob, // Keep original format for duplicate checking
+        };
+        
+        await onProfileSubmit(profileData);
+        return;
+      }
 
+      // Legacy flow - direct API call
       await api.post("user", {
         firstName: formData.firstName,
         middleName: formData.middleName,
