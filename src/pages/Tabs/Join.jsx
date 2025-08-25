@@ -12,14 +12,24 @@ function Join() {
 
   const [step, setStep] = useState(1);
   const { login } = useAuth();
-  const { loginWithRedirect, loginWithPopup } = useAuth0();
+  const { loginWithPopup, user } = useAuth0();
+
+  useEffect(() => {
+    if (user) {
+      // User is logged in, you can access user information here
+      console.log('User information:', user);
+    }
+  }, [user]);
 
   const handleNext = () => {
     setStep(prevStep => prevStep + 1);
   };
 
   const handleGoogleSignup = async () => {
-    loginWithPopup();
+    await loginWithPopup({
+      authorizationParams: { prompt: "login" }
+    });
+    alert('Google signup successful');
   };
 
   return (
