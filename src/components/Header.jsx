@@ -9,8 +9,8 @@ import useAuth from "../hooks/useAuth";
 function Navbar() {
   const [isopen, setisopen] = useState(false);
   const { theme, toggleTheme } = useTheme();
-  const { isAuthenticated, logout } = useAuth0();
-  const { isLoggedIn, setIsLoggedIn } = useAuth();
+  const { logout } = useAuth0();
+  const { isLoggedIn } = useAuth();
 
   // Debug: Log when Header receives isLoggedIn changes
   console.log("🔴 Header - isLoggedIn:", isLoggedIn);
@@ -105,7 +105,7 @@ function Navbar() {
             </button>
           </div>
         </div>
-  <ul className={`flex flex-col justify-center text-center items-center gap-5 text-lg font-light p-5 h-full transition-transform duration-300 md:hidden ${isopen ? 'translate-x-0 bg-white' : 'translate-x-full bg-transparent'}`}>
+  <ul className={`flex flex-col justify-center text-center items-center gap-5 text-lg font-light p-5 h-full bg-background dark:bg-background-dark text-text dark:text-text-dark shadow-md sticky top-0 z-50 transition-transform duration-300 md:hidden ${isopen ? 'translate-x-0 bg-white' : 'translate-x-full bg-transparent'}`}>
           {
             isLoggedIn ?
               (

@@ -1,14 +1,13 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import useTab from "../hooks/useTab";
-import { useAuth0 } from "@auth0/auth0-react";
 import userService from "../services/user";
 import useAuth from "../hooks/useAuth";
 
 function Banner() {
   const { setActiveTab } = useTab();
-  const { loginWithPopup } = useAuth();
-  const [show, setShow] = useState(false);
+  const { loginWithPopup, isAuthenticated, user } = useAuth();
+  const [atTop, setAtTop] = useState(true);
   useEffect(() => {
     let lastScroll = window.scrollY;
     const handleScroll = () => {
@@ -29,7 +28,6 @@ function Banner() {
     if (response.status === 204) {
       setActiveTab("join");
     } else if (response.status === 200) {
-      setIsLoggedIn(true);
       setActiveTab('matches')
     }
   }
@@ -171,15 +169,15 @@ function Banner() {
       <div className="absolute inset-0 w-full h-full bg-white/80 dark:bg-black/60 pointer-events-none z-0"></div>
       {/* Bottom white gradient overlay - theme aware */}
       <div className="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-white to-transparent dark:from-black dark:to-transparent pointer-events-none z-10"></div>
-      <div className="container mx-auto flex flex-col md:flex-row justify-between items-center gap-10 relative z-10">
+  <div className="container mx-auto flex flex-col lg:flex-row justify-between items-center gap-10 relative z-10">
         {/* LEFT COLUMN - LIST */}
-        <div className="container mx-auto w-full max-w-2xl">
+        <div className="container mx-auto w-full md:w-1/2.">
           <ul className="space-y-3">
             {features.map((feature, idx) => (
               <li
                 key={idx}
                 onClick={() => setActiveTab(feature.tab)}
-                className="transition-all duration-300 hover:-translate-y-2.5 shadow-lg bg-background dark:bg-background-dark text-text dark:text-text-dark px-4 py-3 rounded-full w-full md:w-[800px] cursor-pointer"
+                className="transition-all duration-300 hover:-translate-y-2.5 shadow-lg bg-background dark:bg-background-dark text-text dark:text-text-dark px-4 py-3 rounded-full w-full cursor-pointer"
               >
                 <span className="flex items-center gap-2">
                   <span className="bg-primary dark:bg-primary-dark text-white rounded-full flex items-center justify-center mr-2 w-7 h-7">
@@ -194,7 +192,7 @@ function Banner() {
 
         {/* RIGHT COLUMN - TEXT + BUTTONS */}
         <div
-          className={`w-full max-w-xl text-center md:text-left transition-all duration-700 sm:transition-all sm:duration-700
+          className={`w-full md:w-1/2 text-center md:text-left transition-all duration-700 sm:transition-all sm:duration-700
       ${atTop ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
         >
           <h1 className="font-semibold text-3xl sm:text-4xl md:text-5xl leading-tight">
