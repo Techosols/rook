@@ -9,12 +9,16 @@ import Payment from "../../components/join/Payment";
 
 function Join() {
   const [step, setStep] = useState(1);
-  const { loginWithPopup, user, isAuthenticated } = useAuth();
+  const { loginWithPopup, user, isAuthenticated, setNeedProfileCompletion, setUserExternalId } = useAuth();
 
   async function verifyUser() {
     const response = await userService.verifyUserExistenceByEmail(user.email);
     if (response.status === 204) {
-      handleNext();
+      setNeedProfileCompletion(true);
+      setStep(3);
+    } else if (response.status === 200) {
+      userService.checkUserStatus(response.data.status);
+      setUserExternalId(response.data.externalId);
     }
   }
 

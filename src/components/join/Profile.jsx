@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { getAgeDifference, formateDob } from "../../utils/functions";
+import useAuth from "../../hooks/useAuth";
+import userService from "../../services/user";
 
 import { toast } from "react-toastify";
-import api from "../../services/api";
 
-function Profile({ onProfileSubmit }) {
+function Profile({ onClick }) {
   const { isAuthenticated, user } = useAuth0();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { needProfileCompletion } = useAuth();
 
-  console.log("User:", user);
+  console.log(' User: ', user)
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -64,9 +66,8 @@ function Profile({ onProfileSubmit }) {
     setIsSubmitting(true);
 
     try {
-      // If onProfileSubmit is provided, use it (new flow)
-      if (onProfileSubmit) {
-        const profileData = {
+      // If createUser is provided, use it (new flow)
+          const profileData = {
           firstName: formData.firstName,
           middleName: formData.middleName,
           lastName: formData.lastName,
@@ -80,34 +81,29 @@ function Profile({ onProfileSubmit }) {
           lookingFor: formData.lookingFor,
           dob: formData.dob, // Keep original format for duplicate checking
         };
-        
-        await onProfileSubmit(profileData);
-        return;
-      }
 
-      // Legacy flow - direct API call
-      await api.post("user", {
-        firstName: formData.firstName,
-        middleName: formData.middleName,
-        lastName: formData.lastName,
-        emailAddress: formData.email,
-        phoneNumber: formData.phone,
-        dateOfBirth: formateDob(formData.dob),
-        preferredName: formData.preferredName,
-        postalCode: formData.zip,
-        gender: formData.gender,
-        ageInYears: getAgeDifference(formData.dob),
-        lookingFor: formData.lookingFor,
-      }).then((res) => {
-        if(res.status === 201) {
-          toast.success("Profile created successfully!");
-        }
-        console.log("Profile created successfully", res);
-        // The AuthProvider will handle setting isLoggedIn to true
-      }).catch((error) => {
-        console.error("Profile creation failed:", error);
-        // Error handling is done in the AuthProvider
-      });
+        await userService.verifyPII(profileData)
+        .then(async(res) => {
+          console.log("PII verified successfully", res);
+          if(res.status === 200){
+            await userService.registerNewUser(profileData)
+            .then((response) => {
+              console.log("Profile created successfully:", response);
+              if(response?.status === 201){
+                onClick(); // Proceed to next step
+              }
+            })
+            .catch((error) => {
+              console.error("Profile creation failed:", error);
+            });
+          }
+        })
+        .catch((error) => {
+          console.error("PII verification failed:", error);
+        });
+
+        return;
+
 
     } catch (error) {
       console.error("Profile creation failed:", error);
@@ -119,7 +115,8 @@ function Profile({ onProfileSubmit }) {
 
   return (
     <div className=" bg-background dark:bg-background-dark p-3 md:p-6">
-      <div className="container mx-auto max-w-[800px] flex flex-col gap-y-3 ">
+      {needProfileCompletion && (
+        <div className="container mx-auto max-w-[800px] flex flex-col gap-y-3 ">
         <div className="flex flex-col justify-center p-4 border border-gray-400 rounded-lg shadow-lg bg-background dark:bg-background-dark">
           <p className="text-lg text-gray-500 dark:text-white">
             We need these to do a safety screening on you.
@@ -317,6 +314,7 @@ function Profile({ onProfileSubmit }) {
           </button>
         </div>
       </div>
+      )}
     </div>
   );
 }

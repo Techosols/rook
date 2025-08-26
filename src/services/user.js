@@ -1,13 +1,41 @@
 import api from "./api";
 import { toast } from "react-toastify";
 
+
 const userService = {
-    async verifyPII(data) {
-        await api.post('user-pii-check', data)
-        .then(response => response.json())
-        .then(result => console.log('PII Result: ', result))
-        .catch(error => console.error('Error verifying PII:', error));
-    },
+  async verifyPII(data) {
+    try {
+      const response = await api.post('user-pii-check', data);
+      return response;
+    } catch (error) {
+
+      if(error.status === 409) {
+        toast.error("We found an account associated with this information. Please Sign In!");
+      }
+
+      if(error.status === 429) {
+        toast.error("Too many requests. Please try again later.");
+      }
+
+      if(error.status === 500) {
+        toast.error("Internal Server Error, Please try again later!");
+      }
+
+      // Show validation errors from API response
+      if (error.response && error.response.data && error.response.data.errors) {
+        const errors = error.response.data.errors;
+        Object.keys(errors).forEach(key => {
+          errors[key].forEach(msg => toast.error(msg));
+        });
+      } else if (error.message) {
+        toast.error(error.message);
+      } else {
+        toast.error('Error verifying PII');
+      }
+
+      throw error;
+    }
+  },
 
     async checkUserStatus(status) {
       switch(status) {
@@ -45,16 +73,23 @@ const userService = {
       }
   },
 
-    async verifyUserExistenceByEmail(email) {
+    async verifyUserExistenceByEmail(email, type = 'signup') {
         try {
             const response = await api.get(`user/${email}`);
             switch (response.status) {
                 case 200:
                     console.log('User exists:', response.data);
-                    toast.error('Email is already registered');
+                    if (type === 'signup') {
+                        toast.error('Email is already registered, Please Sign In');
+                    } else {
+                        toast.success('Login Successful');
+                    }
                     break;
                 case 204:
                     console.log('User does not exist', response);
+                    if(type === 'login') {
+                        toast.error('Account not found, Please Sign Up');
+                    }
                     break;
                 case 401:
                     console.log('User is not authorized');
@@ -73,12 +108,19 @@ const userService = {
     async registerNewUser(data){
         await api.post('user', data)
         .then(response => {
-            console.log('User registered successfully:', response.data);
+          if(response.status === 201) {
             toast.success('Registration successful');
+          }
         })
         .catch(error => {
             console.error('Error registering user:', error);
-            toast.error('Registration failed');
+            if(error.status == 500){
+                toast.error('Internal Server Error, Please try again later!');
+            } else if(error.status == 400) {
+                toast.error('Invalid Data');
+            } else if(error.status == 409) {
+                toast.error('It seems this information is already in use, please try to login.');
+            }
         });
     },
 
@@ -87,10 +129,12 @@ const userService = {
         .then(response => {
             console.log('User status updated successfully:', response.data);
             toast.success('User status updated successfully');
+            return response;
         })
         .catch(error => {
             console.error('Error updating user status:', error);
             toast.error('Failed to update user status');
+            return error;
         });
     }
 }
