@@ -9,7 +9,7 @@ import useAuth from "../hooks/useAuth";
 function Navbar() {
   const [isopen, setisopen] = useState(false);
   const { theme, toggleTheme } = useTheme();
-  const { logout } = useAuth0();
+  const { isAuthenticated, logout } = useAuth0();
   const { isLoggedIn, setIsLoggedIn } = useAuth();
 
   // Debug: Log when Header receives isLoggedIn changes
@@ -30,12 +30,8 @@ function Navbar() {
   ];
 
   function handleLogout() {
-    logout({ returnTo: window.location.origin })
-    .then(() => {
-      setIsLoggedIn(false)
-    })
-    .catch((error) => {
-      console.log(error)
+    logout({
+      logoutParams: { returnTo: window.location.origin, federated: true }
     })
   }
 

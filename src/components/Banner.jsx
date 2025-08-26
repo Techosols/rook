@@ -1,13 +1,14 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import useTab from "../hooks/useTab";
+import { useAuth0 } from "@auth0/auth0-react";
+import userService from "../services/user";
 import useAuth from "../hooks/useAuth";
 
 function Banner() {
   const { setActiveTab } = useTab();
   const { loginWithPopup } = useAuth();
-  const [atTop, setAtTop] = useState(() => window.scrollY < 20);
-
+  const [show, setShow] = useState(false);
   useEffect(() => {
     let lastScroll = window.scrollY;
     const handleScroll = () => {
@@ -23,16 +24,31 @@ function Banner() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  function handleSignIn(e) {
+  async function loginUser() {
+    const response = await userService.verifyUserExistenceByEmail(user.email, 'login');
+    if (response.status === 204) {
+      setActiveTab("join");
+    } else if (response.status === 200) {
+      setIsLoggedIn(true);
+      setActiveTab('matches')
+    }
+  }
+
+  async function handleSignIn(e) {
     e.preventDefault();
 
-    loginWithPopup({
-      authorizationParams: {
-        prompt: "login",
-      },
-    }).catch((error) => {
+    try {
+      await loginWithPopup({
+        authorizationParams: {
+          prompt: "login",
+        },
+      });
+      if(isAuthenticated) {
+        loginUser();
+      }
+    } catch (error) {
       console.error("Login failed:", error);
-    });
+    }
   }
 
   const features = [
