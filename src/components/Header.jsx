@@ -11,12 +11,6 @@ function Navbar() {
   const { theme, toggleTheme } = useTheme();
   const { logout } = useAuth0();
   const { isLoggedIn } = useAuth();
-<<<<<<< HEAD
-
-  // Debug: Log when Header receives isLoggedIn changes
-  console.log("🔴 Header - isLoggedIn:", isLoggedIn);
-=======
->>>>>>> 2ad1d7362ff759a9a777c834b3ca527edc96430e
 
   const LIGHT_IMAGE = "/Images/rook-logo-light.png";
   const DARK_IMAGE = "/Images/rook-logo-dark.png";

@@ -4,6 +4,7 @@ import useTab from "../hooks/useTab";
 import userService from "../services/user";
 import useAuth from "../hooks/useAuth";
 import { Loader } from "lucide-react";
+import { useAuth0 } from "@auth0/auth0-react";
 
 function Banner() {
   const { setActiveTab } = useTab();
