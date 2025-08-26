@@ -49,9 +49,11 @@ const userService = {
           toast.error("You cannot signup again!")
           break;
         case 'Closed':
+          toast.error("You cannot signup again!")
           // Handle closed status
           break;
         case 'Archived':
+          toast.error("You cannot signup again!")
           // Handle archived status
           break;
         case 'Paused by User':
@@ -68,7 +70,7 @@ const userService = {
           toast.error("You cannot signup again!")
           break;
         default:
-          console.log('Invalid Account Status')
+          toast.error('Invalid Account Status')
           break;
       }
   },
@@ -127,12 +129,10 @@ const userService = {
     async updateUserStatus(externalId){
         await api.patch(`user/${externalId}/active`)
         .then(response => {
-            console.log('User status updated successfully:', response.data);
             toast.success('User status updated successfully');
             return response;
         })
         .catch(error => {
-            console.error('Error updating user status:', error);
             toast.error('Failed to update user status');
             return error;
         });
