@@ -9,7 +9,7 @@ import useAuth from "../hooks/useAuth";
 function Navbar() {
   const [isopen, setisopen] = useState(false);
   const { theme, toggleTheme } = useTheme();
-  const { isAuthenticated, logout } = useAuth0();
+  const { logout } = useAuth0();
   const { isLoggedIn, setIsLoggedIn } = useAuth();
 
   // Debug: Log when Header receives isLoggedIn changes
@@ -96,7 +96,7 @@ function Navbar() {
           </button>
         </div>
       </nav>
-      <div className={`fixed top-0 left-0 w-full h-full bg-white z-50 transition-transform duration-300 md:hidden ${isopen ? 'translate-x-0' : 'translate-x-full'}`}>
+      <div className={`fixed top-0 left-0 w-full h-full z-50 md:hidden ${isopen ? '' : 'pointer-events-none'}`}>
         <div className="flex items-center justify-between px-4 py-4 border-b border-gray-200">
           <img
             src={theme === 'dark' ? DARK_IMAGE : LIGHT_IMAGE}
@@ -109,7 +109,7 @@ function Navbar() {
             </button>
           </div>
         </div>
-        <ul className="flex flex-col items-center gap-5 text-lg font-light p-5 mt-32">
+  <ul className={`flex flex-col justify-center text-center items-center gap-5 text-lg font-light p-5 h-full transition-transform duration-300 md:hidden ${isopen ? 'translate-x-0 bg-white' : 'translate-x-full bg-transparent'}`}>
           {
             isLoggedIn ?
               (

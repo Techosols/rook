@@ -6,9 +6,21 @@ import useAuth from "../hooks/useAuth";
 function Banner() {
   const { setActiveTab } = useTab();
   const { loginWithPopup } = useAuth();
-  const [show, setShow] = useState(false);
+  const [atTop, setAtTop] = useState(() => window.scrollY < 20);
+
   useEffect(() => {
-    setShow(true);
+    let lastScroll = window.scrollY;
+    const handleScroll = () => {
+      const current = window.scrollY;
+      if (current < 20 || current < lastScroll) {
+        setAtTop(true); // show on scroll up or at top
+      } else {
+        setAtTop(false); // hide on scroll down
+      }
+      lastScroll = current;
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   function handleSignIn(e) {
@@ -166,8 +178,8 @@ function Banner() {
 
         {/* RIGHT COLUMN - TEXT + BUTTONS */}
         <div
-          className={`w-full max-w-xl text-center md:text-left transition-all duration-700 
-      ${show ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
+          className={`w-full max-w-xl text-center md:text-left transition-all duration-700 sm:transition-all sm:duration-700
+      ${atTop ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
         >
           <h1 className="font-semibold text-3xl sm:text-4xl md:text-5xl leading-tight">
             {/* Mobile: Online Dating Like | you remember; Large: each line centered */}
@@ -179,18 +191,23 @@ function Banner() {
             <span className="hidden sm:block text-center">Like you</span>
             <span className="hidden sm:block text-center">remember</span>
           </h1>
-          <p className="mt-5 text-base sm:text-lg font-normal text-center">
-            $10 for the first month, $5/month afterward
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 mt-6 justify-center md:justify-center">
+          <div className="mt-5 text-base sm:text-lg font-normal text-center flex flex-wrap items-center justify-center">
+            <span>
+              $10 for the first month, $5 
+            </span>
+            <span>
+              <span className="">/month afterward</span>
+            </span>
+          </div>
+          <div className="flex flex-row flex-wrap gap-4 mt-6 justify-center items-center ">
             <button
-              className="py-3 px-8 bg-primary dark:bg-primary-dark rounded-full text-white w-full sm:w-auto cursor-pointer"
+              className="py-3 px-8 bg-primary dark:bg-primary-dark rounded-full text-white w-auto cursor-pointer"
               onClick={() => setActiveTab("join")}
             >
               Join Us
             </button>
             <button
-              className="py-3 px-8 bg-primary dark:bg-primary-dark rounded-full text-white w-full sm:w-auto cursor-pointer"
+              className="py-3 px-8 bg-primary dark:bg-primary-dark rounded-full text-white w-auto cursor-pointer"
               onClick={(e) => handleSignIn(e)}
             >
               Sign In

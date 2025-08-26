@@ -6,7 +6,9 @@ function Footer() {
       <h1 className="text-center text-lg bg-background dark:bg-background-dark dark:text-white">
         © 2024 Hive Software LLC. All rights reserved
       </h1>
+      
     </div>
+    
   );
 }
 
