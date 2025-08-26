@@ -24,13 +24,6 @@ function ButtonGroup() {
     }
   });
 
-  // Debug logging
-  console.log("🟡 Tab component - isLoggedIn:", isLoggedIn);
-  console.log("🟡 Tab component - activeTab:", activeTab);
-  console.log(
-    "🟡 Tab component - visibleTabs:",
-    visibleTabs.map((t) => t.value)
-  );
 
   return (
     <div className="mx-auto p-4 bg-background dark:bg-background-dark text-text dark:text-text-dark">

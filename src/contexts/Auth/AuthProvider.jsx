@@ -11,9 +11,6 @@ const AuthProvider = ({ children }) => {
   const [ needProfileCompletion, setNeedProfileCompletion ] = useState(false);
   const [ needPayment, setNeedPayment ] = useState(false);
 
-
-  console.log("🔵 AuthProvider - is LoggedIn: ", isLoggedIn);
-
   // Login with redirect
   const login = () => loginWithRedirect();
   // Login with popup
