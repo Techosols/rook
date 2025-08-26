@@ -1,45 +1,49 @@
-import { useState, useEffect } from 'react'
-import api from '../../services/api'
-import useAuth from '../../hooks/useAuth'
-import { useAuth0 } from '@auth0/auth0-react'
+import { useState } from "react";
+import userService from "../../services/user";
+import useAuth from "../../hooks/useAuth";
 
-import Agreement from '../../components/join/Agreement'
-import Profile from '../../components/join/Profile'
-import SignupOption from '../../components/join/SignupOption'
-import Payment from '../../components/join/Payment'
+import Agreement from "../../components/join/Agreement";
+import Profile from "../../components/join/Profile";
+import SignupOption from "../../components/join/SignupOption";
+import Payment from "../../components/join/Payment";
 
 function Join() {
-
   const [step, setStep] = useState(1);
-  const { login } = useAuth();
-  const { loginWithPopup, user } = useAuth0();
+  const { loginWithPopup, user, isAuthenticated } = useAuth();
 
-  useEffect(() => {
-    if (user) {
-      // User is logged in, you can access user information here
-      console.log('User information:', user);
+  async function verifyUser() {
+    const response = await userService.verifyUserExistenceByEmail(user.email);
+    if (response.status === 204) {
+      handleNext();
     }
-  }, [user]);
+  }
 
   const handleNext = () => {
-    setStep(prevStep => prevStep + 1);
+    setStep((prevStep) => prevStep + 1);
   };
 
   const handleGoogleSignup = async () => {
-    await loginWithPopup({
-      authorizationParams: { prompt: "login" }
-    });
-    alert('Google signup successful');
+    try {
+      await loginWithPopup({
+        authorizationParams: { prompt: "login" },
+      });
+      if (isAuthenticated) {
+        await verifyUser();
+      }
+      // No need to alert response; Auth0 updates user state automatically
+    } catch (error) {
+      alert("Login failed: " + (error?.message || error));
+    }
   };
 
   return (
     <>
       {step === 1 && <Agreement onClick={handleNext} />}
       {step === 2 && <SignupOption onClick={handleGoogleSignup} />}
-      {step === 3 && <ProfileInfo onClick={handleNext} />}
+      {step === 3 && <Profile onClick={handleNext} />}
       {step === 4 && <Payment onClick={handleNext} />}
     </>
-  )
+  );
 }
 
-export default Join
+export default Join;
