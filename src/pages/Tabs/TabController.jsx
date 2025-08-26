@@ -16,9 +16,6 @@ import Messages from "./Messages";
 function TabController() {
   const { activeTab } = useTab();
 
-  // Debug logging
-  console.log("🟠 TabController - activeTab:", activeTab);
-
   return (
     <div>
       <div className="">
@@ -28,12 +25,7 @@ function TabController() {
         {activeTab === "pictures" && <Pictures />}
         {activeTab === "community" && <Community />}
         {activeTab === "stats" && <Stats />}
-        {activeTab === "join" && (
-          <>
-            {console.log("🟢 Rendering Join component")}
-            <Join />
-          </>
-        )}
+        {activeTab === "join" && <Join />}
         {activeTab === "matches" && <Matches />}
         {activeTab === "you" && <You />}
         {activeTab === "matchFilters" && <MatchFilters />}

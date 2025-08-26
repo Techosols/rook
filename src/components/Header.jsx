@@ -9,11 +9,8 @@ import useAuth from "../hooks/useAuth";
 function Navbar() {
   const [isopen, setisopen] = useState(false);
   const { theme, toggleTheme } = useTheme();
-  const { isAuthenticated, logout } = useAuth0();
-  const { isLoggedIn, setIsLoggedIn } = useAuth();
-
-  // Debug: Log when Header receives isLoggedIn changes
-  console.log("🔴 Header - isLoggedIn:", isLoggedIn);
+  const { logout } = useAuth0();
+  const { isLoggedIn } = useAuth();
 
   const LIGHT_IMAGE = "/Images/rook-logo-light.png";
   const DARK_IMAGE = "/Images/rook-logo-dark.png";
@@ -105,12 +102,11 @@ function Navbar() {
             </button>
           </div>
         </div>
-  <ul className={`flex flex-col justify-center text-center items-center gap-5 text-lg font-light p-5 h-full transition-transform duration-300 md:hidden ${isopen ? 'translate-x-0 bg-white' : 'translate-x-full bg-transparent'}`}>
+        <ul className={`flex flex-col justify-center text-center items-center gap-5 text-lg font-light p-5 h-full transition-transform duration-300 md:hidden ${isopen ? 'translate-x-0 bg-white' : 'translate-x-full bg-transparent'}`}>
           {
             isLoggedIn ?
               (
                 <div>
-                  {console.log('User Logged In, Using Logged Nav Links: ', loggedNavLinks)}
                   {loggedNavLinks.map((link) => (
                     <li key={link.id}>
                       <a href={link.href} className="cursor-pointer text-lg">{link.label}</a>
@@ -124,7 +120,6 @@ function Navbar() {
                 </div>
               ) : (
                 <div>
-                  {console.log('User Not Logged In, using Normal Nav Links: ', navLinks )}
                   {navLinks.map((link) => (
                     <li key={link.id}>
                       <a href={link.href} className="cursor-pointer text-lg">{link.label}</a>

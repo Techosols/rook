@@ -16,7 +16,6 @@ api.interceptors.request.use(
         return config;
     },
     (error) => {
-        console.error("Request interceptor error:", error);
         return Promise.reject(error);
     }
 );
@@ -27,17 +26,11 @@ api.interceptors.response.use(
     },
     (error) => {
         if (error.response) {
-            console.error("Response error:", error.response.data);
-            
             // Handle authentication errors
             if (error.response.status === 401) {
                 console.warn("Authentication token expired or invalid");
                 // The AuthProvider will handle token refresh
             }
-        } else if (error.request) {
-            console.error("Request error:", error.request);
-        } else {
-            console.error("Error:", error.message);
         }
         return Promise.reject(error);
     }

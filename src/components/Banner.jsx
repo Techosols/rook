@@ -7,8 +7,10 @@ import useAuth from "../hooks/useAuth";
 
 function Banner() {
   const { setActiveTab } = useTab();
-  const { loginWithPopup } = useAuth();
-  const [show, setShow] = useState(false);
+  const { loginWithPopup, user, isAuthenticated } = useAuth0();
+  const { setIsLoggedIn } = useAuth();
+
+  const [atTop, setAtTop] = useState(true);
   useEffect(() => {
     let lastScroll = window.scrollY;
     const handleScroll = () => {
@@ -171,7 +173,7 @@ function Banner() {
       <div className="absolute inset-0 w-full h-full bg-white/80 dark:bg-black/60 pointer-events-none z-0"></div>
       {/* Bottom white gradient overlay - theme aware */}
       <div className="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-white to-transparent dark:from-black dark:to-transparent pointer-events-none z-10"></div>
-      <div className="container mx-auto flex flex-col md:flex-row justify-between items-center gap-10 relative z-10">
+      <div className="container mx-auto flex flex-col md:flex-row justify-between items-center gap-3 lg:gap-10 relative z-10">
         {/* LEFT COLUMN - LIST */}
         <div className="container mx-auto w-full max-w-2xl">
           <ul className="space-y-3">

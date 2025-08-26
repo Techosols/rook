@@ -80,15 +80,9 @@ const TabProvider = ({ children }) => {
     }
   }, [tabs]);
 
-  // Debug wrapper for setActiveTab
-  const setActiveTabWithDebug = (newTab) => {
-    console.log(`🔄 Tab change requested: ${activeTab} → ${newTab}`);
-    setActiveTab(newTab);
-  };
-
   return (
     <TabContext.Provider
-      value={{ activeTab, setActiveTab: setActiveTabWithDebug, tabs }}
+      value={{ activeTab, setActiveTab, tabs }}
     >
       {children}
     </TabContext.Provider>

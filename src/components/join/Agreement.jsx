@@ -26,7 +26,7 @@ function Agreement({ onClick }) {
   return (
     <>
       {loading && (
-        <Loader containerHeight={46} />
+        <Loader containerHeight={"h-46"} />
       )}
       {!loading && (
         <div className="bg-background dark:bg-background-dark dark:text-white">
