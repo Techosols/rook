@@ -82,7 +82,7 @@ const userService = {
                 case 200:
                     console.log('User exists:', response.data);
                     if (type === 'signup') {
-                        toast.error('Email is already registered, Please Sign In');
+                        toast.error('Email is already registered, Please Sign In to your account');
                     } else {
                         toast.success('Login Successful');
                     }
@@ -116,12 +116,14 @@ const userService = {
         })
         .catch(error => {
             console.error('Error registering user:', error);
-            if(error.status == 500){
-                toast.error('Internal Server Error, Please try again later!');
+            if (error.code === 'ECONNABORTED' || error.message?.toLowerCase().includes('timeout')) {
+          toast.error('Request timed out. Please try again.');
+            } else if(error.status == 500){
+          toast.error('Internal Server Error, Please try again later!');
             } else if(error.status == 400) {
-                toast.error('Invalid Data');
+          toast.error('Invalid Data');
             } else if(error.status == 409) {
-                toast.error('It seems this information is already in use, please try to login.');
+          toast.error('It seems this information is already in use, please try to login.');
             }
         });
     },
