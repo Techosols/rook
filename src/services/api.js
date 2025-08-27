@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-    baseURL: "/api/",
+    baseURL: (import.meta.env.PROD || import.meta.env.VITE_USE_PRODUCTION_API === 'true' ? import.meta.env.VITE_SERVER_API_URL : '/api/'),
     timeout: 50000,
     headers: {
         "Content-Type": "application/json",
@@ -13,6 +13,7 @@ const api = axios.create({
 api.interceptors.request.use(
     (config) => {
         // Authorization header is set dynamically by AuthProvider
+        console.log('API Request:', config);
         return config;
     },
     (error) => {
@@ -22,6 +23,7 @@ api.interceptors.request.use(
 
 api.interceptors.response.use(
     (response) => {
+        console.log('API Response:', response);
         return response;
     },
     (error) => {

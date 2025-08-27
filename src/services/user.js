@@ -18,7 +18,7 @@ const userService = {
       }
 
       if(error.status === 500) {
-        toast.error("Internal Server Error, Please try again later!");
+        toast.error("It looks like your email is already in use. Please try to login!");
       }
 
       // Show validation errors from API response
@@ -108,24 +108,25 @@ const userService = {
     },
 
     async registerNewUser(data){
-        await api.post('user', data)
-        .then(response => {
-          if(response.status === 201) {
-            toast.success('Registration successful');
-          }
-        })
-        .catch(error => {
-            console.error('Error registering user:', error);
-            if (error.code === 'ECONNABORTED' || error.message?.toLowerCase().includes('timeout')) {
-          toast.error('Request timed out. Please try again.');
-            } else if(error.status == 500){
-          toast.error('Internal Server Error, Please try again later!');
-            } else if(error.status == 400) {
-          toast.error('Invalid Data');
-            } else if(error.status == 409) {
-          toast.error('It seems this information is already in use, please try to login.');
+        const response = await api.post('user', data)
+          .then(response => {
+            if(response.status === 201) {
+              toast.success('Registration successful');
             }
-        });
+          })
+          .catch(error => {
+              console.error('Error registering user:', error);
+              if (error.code === 'ECONNABORTED' || error.message?.toLowerCase().includes('timeout')) {
+            toast.error('Request timed out. Please try again.');
+              } else if(error.status == 500){
+            toast.error('You already have a Rook account associated with email.');
+              } else if(error.status == 400) {
+            toast.error('Invalid Data');
+              } else if(error.status == 409) {
+            toast.error('It seems this information is already in use, please try to login.');
+              }
+          });
+        return response;
     },
 
     async updateUserStatus(externalId){

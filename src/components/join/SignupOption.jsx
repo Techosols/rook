@@ -1,11 +1,24 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import GoogleIcon from "@mui/icons-material/Google";
 import { useAuth0 } from '@auth0/auth0-react';
 
 function SignupOption({ onClick }) {
   const { isLoading } = useAuth0();
+
+  useEffect(() => {
+    // Clear any existing session data when component mounts
+    const clearSessionData = async () => {
+      // Clear localStorage
+      localStorage.clear();
+      
+      // Clear sessionStorage
+      sessionStorage.clear();
+    };
+
+    clearSessionData();
+  }, []); // Include dependencies
   return (
-    <div className="bg-background dark:bg-background-dark p-3 md:p-8 min-h-screen">
+    <div className="bg-background dark:bg-background-dark p-3 md:p-8 min-h-46">
       <div className="container mx-auto max-w-md flex flex-col gap-y-8">
         <div className="text-center mb-4">
           <h2 className="text-2xl font-bold text-primary dark:text-primary-dark mb-4">Welcome to Rook</h2>
