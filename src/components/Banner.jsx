@@ -45,6 +45,8 @@ function Banner() {
   async function handleSignIn(e) {
     e.preventDefault();
 
+    console.log('User is trying to log in with email:', user.email);
+
     try {
       await loginWithPopup({
         authorizationParams: {

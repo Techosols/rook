@@ -10,6 +10,7 @@ const AuthProvider = ({ children }) => {
   const [ userExternalId, setUserExternalId ] = useState(null);
   const [ needProfileCompletion, setNeedProfileCompletion ] = useState(false);
   const [ needPayment, setNeedPayment ] = useState(false);
+  const [ profileEmail, setProfileEmail ] = useState(null);
 
   // Login with redirect
   const login = () => loginWithRedirect();
@@ -34,7 +35,9 @@ const AuthProvider = ({ children }) => {
       userExternalId,
       setUserExternalId,
       isLoggedIn,
-      setIsLoggedIn
+      setIsLoggedIn,
+      profileEmail,
+      setProfileEmail
     }}>
       {children}
     </AuthContext.Provider>

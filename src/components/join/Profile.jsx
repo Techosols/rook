@@ -119,6 +119,7 @@ function Profile({ onClick }) {
         <div className="container mx-auto max-w-2xl flex flex-col gap-y-8">
           <div className="text-center mb-4">
             <h2 className="text-2xl font-bold text-primary dark:text-primary-dark mb-1">Complete Your Profile</h2>
+            <p className="text-center text-gray-600 dark:text-gray-400">{"("} {user.email} {")"}</p>
             <p className="text-base text-gray-500 dark:text-gray-300">We need these details to do a safety screening on you.</p>
           </div>
           <div className="bg-white dark:bg-background-dark border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg p-6 md:p-10">
