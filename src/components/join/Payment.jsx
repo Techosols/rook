@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import userService from '../../services/user';
 import useAuth from '../../hooks/useAuth';
 import { toast } from 'react-toastify';
+import useTab from '../../hooks/useTab';
 
 function Payment() {
   const [isProcessing, setIsProcessing] = useState(false);
@@ -10,6 +11,8 @@ function Payment() {
     expiry: '',
     cvv: '',
   });
+
+  const { setActiveTab } = useTab();
 
   const { userExternalId, setIsLoggedIn } = useAuth();
 
@@ -24,10 +27,13 @@ function Payment() {
   const handlePayment = async (e) => {
     e.preventDefault();
 
+    /*
     if (!paymentData.cardNumber || !paymentData.expiry || !paymentData.cvv) {
-      alert('Please fill in all payment fields');
+      toast.error('Please fill in all payment fields');
       return;
     }
+
+    */
 
     setIsProcessing(true);
 
@@ -39,11 +45,14 @@ function Payment() {
         toast.success('Payment successful! Your account is now active.');
         setIsProcessing(false);
         setIsLoggedIn(true);
+        setActiveTab('matches');
       } else {
         // Payment failed
       }
         */
       setIsLoggedIn(true);
+      setIsProcessing(false);
+      setActiveTab('matches');
     } catch (error) {
       if(error.status === 500){
         toast.error('Internal Server Error, Please try again later!');
@@ -147,6 +156,9 @@ function Payment() {
                 <span>CONFIRM & CONTINUE</span>
               )}
             </button>
+            <p className='text-center text-gray-600 dark:text-gray-400 mt-4'>
+             You may skip this step for now. The current implementation does not support payment processing. Just click "Confirm & Continue" to proceed.
+            </p>
           </div>
         </form>
       </div>

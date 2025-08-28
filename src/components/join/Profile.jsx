@@ -88,7 +88,7 @@ function Profile({ onClick }) {
           if(res.status === 200){
             await userService.registerNewUser(profileData)
             .then((response) => {
-              console.log("Profile created successfully:", response);
+              console.log("PROFILE.JSX : Profile created successfully:", response);
               if(response?.status === 201){
                 onClick(); // Proceed to next step
               }

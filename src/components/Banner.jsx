@@ -19,9 +19,9 @@ function Banner() {
     const handleScroll = () => {
       const current = window.scrollY;
       if (current < 20 || current < lastScroll) {
-        setAtTop(true); // show on scroll up or at top
+        setAtTop(true);
       } else {
-        setAtTop(false); // hide on scroll down
+        setAtTop(false);
       }
       lastScroll = current;
     };
@@ -51,7 +51,7 @@ function Banner() {
           prompt: "login",
         },
       });
-      if(isAuthenticated) {
+      if (isAuthenticated) {
         loginUser();
       }
     } catch (error) {
@@ -175,11 +175,9 @@ function Banner() {
   ];
   return (
     <section className="relative bg-[url(Images/bride-groom-their-wedding-ceremony.jpg)] bg-no-repeat bg-cover bg-[center_20%] bg-background dark:bg-background-dark text-text dark:text-text-dark px-4 py-10 ">
-      {/* Top white gradient overlay - theme aware */}
       <div className="absolute inset-0 w-full h-full bg-white/80 dark:bg-black/60 pointer-events-none z-0"></div>
-      {/* Bottom white gradient overlay - theme aware */}
       <div className="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-white to-transparent dark:from-black dark:to-transparent pointer-events-none z-10"></div>
-      <div className="container mx-auto flex flex-col md:flex-row justify-between items-center gap-10 relative z-10">
+      <div className="container mx-auto flex flex-col md:flex-row justify-between items-center gap-10 relative z-10 max-w-[1240px] ps-2">
         {/* LEFT COLUMN - LIST */}
         <div className="container mx-auto w-full md:w-1/2.">
           <ul className="space-y-3">
@@ -187,7 +185,7 @@ function Banner() {
               <li
                 key={idx}
                 onClick={() => setActiveTab(feature.tab)}
-                className="transition-all duration-300 hover:-translate-y-2.5 shadow-lg bg-background dark:bg-background-dark text-text dark:text-text-dark px-4 py-3 rounded-full w-full cursor-pointer"
+                className="transition-all duration-300 hover:-translate-y-2.5 shadow-lg bg-background dark:bg-background-dark text-text dark:text-text-dark p-1 rounded-full w-full cursor-pointer"
               >
                 <span className="flex items-center gap-2">
                   <span className="bg-primary dark:bg-primary-dark text-white rounded-full flex items-center justify-center mr-2 w-7 h-7">
@@ -200,30 +198,28 @@ function Banner() {
           </ul>
         </div>
 
-        {/* RIGHT COLUMN - TEXT + BUTTONS */}
         <div
           className={`w-full md:w-1/2 text-center md:text-left transition-all duration-700 sm:transition-all sm:duration-700
-      ${atTop ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
+          ${atTop ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
         >
           <h1 className="font-semibold text-3xl sm:text-4xl md:text-5xl leading-tight">
-            {/* Mobile: Online Dating Like | you remember; Large: each line centered */}
             <span className="block text-center sm:hidden">
               Online Dating Like
             </span>
             <span className="block text-center sm:hidden">you remember</span>
             <span className="hidden sm:block text-center">Online Dating</span>
-            <span className="hidden sm:block text-center">Like you</span>
-            <span className="hidden sm:block text-center">remember</span>
+            <span className="hidden sm:block text-center">Like You</span>
+            <span className="hidden sm:block text-center">Remember</span>
           </h1>
-          <div className="mt-5 text-base sm:text-lg font-normal text-center flex flex-wrap items-center justify-center">
+          <div className="mt-2 text-base sm:text-lg font-normal text-center flex flex-wrap items-center justify-center">
             <span>
-              $10 for the first month, $5 
+              $10 for the first month, $5
             </span>
             <span>
               <span className="">/month afterward</span>
             </span>
           </div>
-          <div className="flex flex-row flex-wrap gap-4 mt-6 justify-center items-center ">
+          <div className="flex flex-row flex-wrap gap-4 mt-3 justify-center items-center ">
             <button
               className="py-3 px-8 bg-primary dark:bg-primary-dark rounded-full text-white w-auto cursor-pointer"
               onClick={() => setActiveTab("join")}

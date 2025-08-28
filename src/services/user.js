@@ -9,15 +9,15 @@ const userService = {
       return response;
     } catch (error) {
 
-      if(error.status === 409) {
+      if(error.response?.status === 409) {
         toast.error("We found an account associated with this information. Please Sign In!");
       }
 
-      if(error.status === 429) {
+      if(error.response?.status === 429) {
         toast.error("Too many requests. Please try again later.");
       }
 
-      if(error.status === 500) {
+      if(error.response?.status === 500) {
         toast.error("It looks like your email is already in use. Please try to login!");
       }
 
@@ -108,25 +108,25 @@ const userService = {
     },
 
     async registerNewUser(data){
-        const response = await api.post('user', data)
-          .then(response => {
+        try {
+            const response = await api.post('user', data);
             if(response.status === 201) {
-              toast.success('Registration successful');
+                toast.success('Registration successful');
             }
-          })
-          .catch(error => {
-              console.error('Error registering user:', error);
-              if (error.code === 'ECONNABORTED' || error.message?.toLowerCase().includes('timeout')) {
-            toast.error('Request timed out. Please try again.');
-              } else if(error.status == 500){
-            toast.error('You already have a Rook account associated with email.');
-              } else if(error.status == 400) {
+            return response;
+        } catch (error) {
+            console.error('Error registering user:', error);
+            if (error.code === 'ECONNABORTED' || error.message?.toLowerCase().includes('timeout')) {
+                toast.error('Request timed out. Please try again.');
+              } else if(error.response?.status == 500){
+                toast.error('An account is already associated with this email.');
+              } else if(error.response?.status == 400) {
             toast.error('Invalid Data');
-              } else if(error.status == 409) {
+              } else if(error.response?.status == 409) {
             toast.error('It seems this information is already in use, please try to login.');
               }
-          });
-        return response;
+            throw error;
+        }
     },
 
     async updateUserStatus(externalId){

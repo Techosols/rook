@@ -43,17 +43,13 @@ function Agreement({ onClick }) {
                     <h3 className="text-lg font-semibold text-gray-700 dark:text-white mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">Service Agreement</h3>
                     <div className="prose dark:prose-invert max-w-none">
                       <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                        Lorem Ipsum is simply dummy text of the printing and typesetting
-                        industry. Lorem Ipsum has been the industry's standard dummy text ever
-                        since the 1500s, when an unknown printer took a galley of type and
-                        scrambled it to make a type specimen book. It has survived not only five
-                        centuries, but also the leap into electronic typesetting, remaining
-                        essentially unchanged.
+                        Welcome! This is a placeholder for our upcoming service agreement. The final terms will be published here soon.
+                      </p>
+                      <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                        By proceeding, you acknowledge that you have read and understood the preliminary information provided. Our agreement will outline your rights, responsibilities, and the ways we protect your data.
                       </p>
                       <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-                        It was popularised in the 1960s with the release of Letraset sheets 
-                        containing Lorem Ipsum passages, and more recently with desktop publishing 
-                        software like Aldus PageMaker including versions of Lorem Ipsum.
+                        Please check back for the finalized content. In the meantime, feel free to reach out to our support team if you have any questions.
                       </p>
                     </div>
                   </div>
