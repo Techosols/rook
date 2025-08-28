@@ -53,6 +53,7 @@ function Profile({ onClick }) {
     if (
       !formData.firstName ||
       !formData.lastName ||
+      !formData.phone ||
       !formData.dob ||
       !formData.zip ||
       !formData.gender ||
@@ -66,43 +67,41 @@ function Profile({ onClick }) {
     setIsSubmitting(true);
 
     try {
-      // If createUser is provided, use it (new flow)
-          const profileData = {
-          firstName: formData.firstName,
-          middleName: formData.middleName,
-          lastName: formData.lastName,
-          emailAddress: formData.email,
-          phoneNumber: formData.phone,
-          dateOfBirth: formateDob(formData.dob),
-          preferredName: formData.preferredName,
-          postalCode: formData.zip,
-          gender: formData.gender,
-          ageInYears: getAgeDifference(formData.dob),
-          lookingFor: formData.lookingFor,
-          dob: formData.dob, // Keep original format for duplicate checking
-        };
+      const profileData = {
+        firstName: formData.firstName,
+        middleName: formData.middleName,
+        lastName: formData.lastName,
+        emailAddress: formData.email,
+        phoneNumber: formData.phone,
+        dateOfBirth: formateDob(formData.dob),
+        preferredName: formData.preferredName,
+        postalCode: formData.zip,
+        gender: formData.gender,
+        ageInYears: getAgeDifference(formData.dob),
+        lookingFor: formData.lookingFor,
+        dob: formData.dob,
+      };
 
-        await userService.verifyPII(profileData)
-        .then(async(res) => {
+      await userService.verifyPII(profileData)
+        .then(async (res) => {
           console.log("PII verified successfully", res);
-          if(res.status === 200){
+          if (res.status === 200) {
             await userService.registerNewUser(profileData)
-            .then((response) => {
-              console.log("PROFILE.JSX : Profile created successfully:", response);
-              if(response?.status === 201){
-                onClick(); // Proceed to next step
-              }
-            })
-            .catch((error) => {
-              console.error("Profile creation failed:", error);
-            });
+              .then((response) => {
+                if (response?.status === 201) {
+                  onClick(); // Proceed to next step
+                }
+              })
+              .catch((error) => {
+                console.error("Profile creation failed:", error);
+              });
           }
         })
         .catch((error) => {
           console.error("PII verification failed:", error);
         });
 
-        return;
+      return;
 
 
     } catch (error) {
@@ -163,7 +162,7 @@ function Profile({ onClick }) {
                   />
                 </div>
                 <div className="flex flex-col">
-                  <label htmlFor="dob" className="text-sm font-medium dark:text-white mb-1">Date of Birth</label>
+                  <label htmlFor="dob" className="text-sm font-medium dark:text-white mb-1">Date of Birth <span className="text-gray-500 dark:text-gray-400">MM-DD-YYYY</span></label>
                   <input
                     type="date"
                     name="dob"
@@ -200,7 +199,7 @@ function Profile({ onClick }) {
                 </div>
               </div>
             </div>
-            
+
             {/* Preferences Section */}
             <div className="mb-8">
               <h3 className="text-lg font-semibold text-gray-700 dark:text-white mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">Preferences</h3>
@@ -217,7 +216,7 @@ function Profile({ onClick }) {
                   />
                 </div>
                 <div className="flex flex-col">
-                  <label htmlFor="gender" className="text-sm font-medium dark:text-white mb-1">You are a:</label>
+                  <label htmlFor="gender" className="text-sm font-medium dark:text-white mb-1">You are a: <span className="text-gray-500 dark:text-gray-400">gender</span></label>
                   <select
                     name="gender"
                     required
@@ -269,7 +268,7 @@ function Profile({ onClick }) {
           </div>
         </div>
       )}
-        </div>
+    </div>
   );
 }
 
