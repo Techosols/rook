@@ -31,7 +31,7 @@ function Banner() {
 
   async function loginUser() {
     setLoading(true);
-    const response = await userService.verifyUserExistenceByEmail(user.email, 'login');
+    const response = await userService.verifyUserExistenceByEmail(user?.email, 'login');
     if (response.status === 204) {
       setActiveTab("join");
       setLoading(false);

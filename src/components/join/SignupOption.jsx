@@ -2,8 +2,9 @@
 import GoogleIcon from "@mui/icons-material/Google";
 import { useAuth0 } from '@auth0/auth0-react';
 
-function SignupOption({ onClick }) {
+function SignupOption({ onClick, loading }) {
   const { isLoading } = useAuth0();
+  const isLoadingState = isLoading || loading;
 
   return (
     <div className="bg-background dark:bg-background-dark p-3 md:p-8 min-h-46">
@@ -25,15 +26,15 @@ function SignupOption({ onClick }) {
                     : "bg-primary dark:bg-primary-dark cursor-pointer hover:bg-primary-hover dark:hover:bg-primary-dark-hover hover:shadow-lg"
                 }`}
                 onClick={onClick}
-                disabled={isLoading}
+                disabled={isLoadingState}
               >
-                {isLoading ? (
+                {isLoadingState ? (
                   <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                 ) : (
                   <GoogleIcon className="text-xl" />
                 )}
                 <span className="font-medium">
-                  {isLoading ? "Signing in..." : "Sign up with Google"}
+                  {isLoadingState ? "Signing in..." : "Sign up with Google"}
                 </span>
               </button>
             </div>
