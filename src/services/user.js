@@ -50,15 +50,12 @@ const userService = {
           break;
         case 'Closed':
           toast.error("You cannot signup again!")
-          // Handle closed status
           break;
         case 'Archived':
           toast.error("You cannot signup again!")
-          // Handle archived status
           break;
         case 'Paused by User':
           toast.warning("Your account is Paused")
-          // Handle Paused By User
           break;
         case 'Paused for Payment Failure':
           toast.warning("Your must complete your payment details first!")
@@ -80,7 +77,6 @@ const userService = {
             const response = await api.get(`user/${email}`);
             switch (response.status) {
                 case 200:
-                    console.log('User exists:', response.data);
                     if (type === 'signup') {
                         toast.error('Email is already registered, Please Sign In to your account');
                     } else {
@@ -88,21 +84,17 @@ const userService = {
                     }
                     break;
                 case 204:
-                    console.log('User does not exist', response);
                     if(type === 'login') {
                         toast.error('Account not found, Please Sign Up');
                     }
                     break;
                 case 401:
-                    console.log('User is not authorized');
                     toast.error('You are not authorized to access this resource');
                     break;
-                default:
-                    console.log('Unexpected response:', response);
             }
             return response;
         } catch (error) {
-            console.error('Error verifying user:', error);
+            console.error('ERR_USER_VERFICATION:', error);
             throw error;
         }
     },

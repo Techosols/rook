@@ -49,7 +49,6 @@ function Profile({ onClick }) {
       return;
     }
 
-    // Validate required fields
     if (
       !formData.firstName ||
       !formData.lastName ||
@@ -84,29 +83,27 @@ function Profile({ onClick }) {
 
       await userService.verifyPII(profileData)
         .then(async (res) => {
-          console.log("PII verified successfully", res);
           if (res.status === 200) {
             await userService.registerNewUser(profileData)
               .then((response) => {
                 if (response?.status === 201) {
-                  onClick(); // Proceed to next step
+                  onClick(); 
                 }
               })
               .catch((error) => {
-                console.error("Profile creation failed:", error);
+                console.error("ERR_PROFILE_CREATION:", error);
               });
           }
         })
         .catch((error) => {
-          console.error("PII verification failed:", error);
+          console.error("ERR_PII_CHECK:", error);
         });
 
       return;
 
 
     } catch (error) {
-      console.error("Profile creation failed:", error);
-      // Error handling is done in the AuthProvider
+      console.error("ERR_PROFILE_CREATION", error);
     } finally {
       setIsSubmitting(false);
     }

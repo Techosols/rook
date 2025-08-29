@@ -12,8 +12,6 @@ const api = axios.create({
 
 api.interceptors.request.use(
     (config) => {
-        // Authorization header is set dynamically by AuthProvider
-        console.log('API Request:', config);
         return config;
     },
     (error) => {
@@ -23,15 +21,12 @@ api.interceptors.request.use(
 
 api.interceptors.response.use(
     (response) => {
-        console.log('API Response:', response);
         return response;
     },
     (error) => {
         if (error.response) {
-            // Handle authentication errors
             if (error.response.status === 401) {
                 console.warn("Authentication token expired or invalid");
-                // The AuthProvider will handle token refresh
             }
         }
         return Promise.reject(error);

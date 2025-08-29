@@ -8,7 +8,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 function Banner() {
   const { setActiveTab } = useTab();
-  const { loginWithPopup, user, isAuthenticated } = useAuth0();
+  const { loginWithPopup, user, isAuthenticated, error } = useAuth0();
   const { setIsLoggedIn } = useAuth();
 
   const [loading, setLoading] = useState(false);
@@ -51,11 +51,15 @@ function Banner() {
           prompt: "login",
         },
       });
+      if(error) {
+        console.error('ERR_AUTH: ', error)
+        return;
+      }
       if (isAuthenticated) {
         loginUser();
       }
     } catch (error) {
-      console.error("Login failed:", error);
+      console.error("ERR_AUTH", error);
     }
   }
 

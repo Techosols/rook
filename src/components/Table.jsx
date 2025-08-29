@@ -1,5 +1,3 @@
-import React from 'react'
-
 function Table({col1, col2, data}) {
   return (
     <div className=''>

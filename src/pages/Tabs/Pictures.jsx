@@ -1,4 +1,4 @@
-import React from "react";
+
 import useTheme from "../../hooks/useTheme";
 function Pictures() {
    const { theme } = useTheme();

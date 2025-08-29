@@ -13,8 +13,8 @@ function Agreement({ onClick }) {
       try {
         const response = await api.get('settings');
         setAllowSignup(response.data.allowNewUserSignups)
-      } catch (error) {
-        console.error('Error fetching agreement data:', error);
+      } catch (err) {
+        console.error('ERR_SETTING_ENDPOINT', err)
       } finally {
         setLoading(false);
       }
@@ -38,7 +38,6 @@ function Agreement({ onClick }) {
                   <p className="text-base text-gray-500 dark:text-gray-300">Please review and accept our terms to continue.</p>
                 </div>
                 <div className="bg-white dark:bg-background-dark border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg p-6 md:p-10">
-                  {/* Agreement Content Section */}
                   <div className="mb-8">
                     <h3 className="text-lg font-semibold text-gray-700 dark:text-white mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">Service Agreement</h3>
                     <div className="prose dark:prose-invert max-w-none">
@@ -53,8 +52,7 @@ function Agreement({ onClick }) {
                       </p>
                     </div>
                   </div>
-
-                  {/* Important Notes Section */}
+                  
                   <div className="mb-8">
                     <h3 className="text-lg font-semibold text-gray-700 dark:text-white mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">Important Notes</h3>
                     <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">

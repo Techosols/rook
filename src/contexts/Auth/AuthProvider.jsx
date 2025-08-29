@@ -1,10 +1,11 @@
 import AuthContext from "./AuthContext";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import useTab from "../../hooks/useTab";
 
 const AuthProvider = ({ children }) => {
 
-  const { user, isAuthenticated, loginWithRedirect, loginWithPopup, logout } = useAuth0();
+  const { user, isAuthenticated, loginWithRedirect, loginWithPopup, error } = useAuth0();
 
   const [ isLoggedIn, setIsLoggedIn ] = useState(false);
   const [ userExternalId, setUserExternalId ] = useState(null);
@@ -12,13 +13,26 @@ const AuthProvider = ({ children }) => {
   const [ needPayment, setNeedPayment ] = useState(false);
   const [ profileEmail, setProfileEmail ] = useState(null);
 
-  // Login with redirect
-  const login = () => loginWithRedirect();
-  // Login with popup
-  const loginPopup = (options) => loginWithPopup(options);
-  // Logout
-  const handleLogout = () => logout({ returnTo: window.location.origin });
+  const { setActiveTab }= useTab()
 
+  const login = () => loginWithRedirect();
+  const loginPopup = (options) => loginWithPopup(options);
+  
+  useEffect(() => {
+   const savedState = localStorage.getItem('RKU'); // RKU => Rook User
+
+   if(savedState) {
+    setIsLoggedIn(true)
+    setActiveTab('matches')
+   }
+  }, [])
+
+
+  useEffect(() => {
+    if(isLoggedIn) {
+      localStorage.setItem('RKU', true) // RKU => Rook User
+    }
+  }, [isLoggedIn])
 
 
   return (
@@ -27,7 +41,6 @@ const AuthProvider = ({ children }) => {
       isAuthenticated,
       login,
       loginWithPopup: loginPopup,
-      logout: handleLogout,
       needPayment,
       setNeedPayment,
       needProfileCompletion,
@@ -37,7 +50,8 @@ const AuthProvider = ({ children }) => {
       isLoggedIn,
       setIsLoggedIn,
       profileEmail,
-      setProfileEmail
+      setProfileEmail,
+      error
     }}>
       {children}
     </AuthContext.Provider>

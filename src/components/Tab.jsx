@@ -8,10 +8,8 @@ function ButtonGroup() {
   // Filter tabs based on authentication state
   const visibleTabs = tabs.filter((tab) => {
     if (isLoggedIn) {
-      // For logged in users, show main app tabs
       return ["matches", "you", "matchFilters", "messages"].includes(tab.value);
     } else {
-      // For non-logged in users (including those needing profile completion)
       return [
         "background",
         "pricing",

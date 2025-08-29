@@ -10,7 +10,7 @@ import Payment from "../../components/join/Payment";
 function Join() {
   const [ loading, setLoading ] = useState(false);
   const [step, setStep] = useState(1);
-  const { loginWithPopup, user, isAuthenticated, setNeedProfileCompletion, setUserExternalId } = useAuth();
+  const { loginWithPopup, user, isAuthenticated, setNeedProfileCompletion, setUserExternalId, error } = useAuth();
 
   async function verifyUser() {
     setLoading(true);
@@ -34,12 +34,14 @@ function Join() {
       await loginWithPopup({
         authorizationParams: { prompt: "login" },
       });
+      if (error) {
+        return;
+      }
       if (isAuthenticated) {
         await verifyUser();
       }
-      // No need to alert response; Auth0 updates user state automatically
     } catch (error) {
-      alert("Login failed: " + (error?.message || error));
+      console.error('ERR_AUTH:', error)
     }
   };
 
