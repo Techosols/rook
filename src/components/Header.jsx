@@ -2,18 +2,15 @@ import useTheme from "../hooks/useTheme";
 import { SunIcon, MoonIcon, AlignCenter, X as XIcon } from "lucide-react";
 import React, { useState } from "react";
 import { UserSquare } from "lucide-react";
-import { useAuth0 } from '@auth0/auth0-react';
 import useAuth from "../hooks/useAuth";
+import { useAuth0 } from "@auth0/auth0-react";
 
 
 function Navbar() {
   const [isopen, setisopen] = useState(false);
   const { theme, toggleTheme } = useTheme();
-  const { isAuthenticated, logout } = useAuth0();
   const { isLoggedIn, setIsLoggedIn } = useAuth();
-
-  // Debug: Log when Header receives isLoggedIn changes
-  console.log("🔴 Header - isLoggedIn:", isLoggedIn);
+  const { logout } = useAuth0;
 
   const LIGHT_IMAGE = "/Images/rook-logo-light.png";
   const DARK_IMAGE = "/Images/rook-logo-dark.png";
@@ -29,14 +26,12 @@ function Navbar() {
     { id: 2, label: "Contact Us", href: "" },
   ];
 
-  function handleLogout() {
-    logout({ returnTo: window.location.origin })
-    .then(() => {
-      setIsLoggedIn(false)
-    })
-    .catch((error) => {
-      console.log(error)
-    })
+  function handleLogout () {
+    setIsLoggedIn(false)
+    localStorage.removeItem('RKU')
+    localStorage.setItem("activeTab", 'background')
+    logout({ logoutParams: { returnTo: window.location.origin } });
+    
   }
 
   return (
@@ -60,7 +55,7 @@ function Navbar() {
                         <a href={link.href} className="cursor-pointer text-lg">{link.label}</a>
                       </li>
                     ))}
-                    <li>
+                    <li onClick={handleLogout}>
                       <a href="">
                         <UserSquare className="w-6 h-6 " />
                       </a>
@@ -96,7 +91,7 @@ function Navbar() {
           </button>
         </div>
       </nav>
-      <div className={`fixed top-0 left-0 w-full h-full bg-white z-50 transition-transform duration-300 md:hidden ${isopen ? 'translate-x-0' : 'translate-x-full'}`}>
+      <div className={`fixed top-0 left-0 w-full h-full z-50 md:hidden ${isopen ? '' : 'pointer-events-none'}`}>
         <div className="flex items-center justify-between px-4 py-4 border-b border-gray-200">
           <img
             src={theme === 'dark' ? DARK_IMAGE : LIGHT_IMAGE}
@@ -109,12 +104,11 @@ function Navbar() {
             </button>
           </div>
         </div>
-        <ul className="flex flex-col items-center gap-5 text-lg font-light p-5 mt-32">
+        <ul className={`flex flex-col justify-center text-center items-center gap-5 text-lg font-light p-5 h-full transition-transform duration-300 md:hidden ${isopen ? 'translate-x-0 bg-white' : 'translate-x-full bg-transparent'}`}>
           {
             isLoggedIn ?
               (
                 <div>
-                  {console.log('User Logged In, Using Logged Nav Links: ', loggedNavLinks)}
                   {loggedNavLinks.map((link) => (
                     <li key={link.id}>
                       <a href={link.href} className="cursor-pointer text-lg">{link.label}</a>
@@ -128,7 +122,6 @@ function Navbar() {
                 </div>
               ) : (
                 <div>
-                  {console.log('User Not Logged In, using Normal Nav Links: ', navLinks )}
                   {navLinks.map((link) => (
                     <li key={link.id}>
                       <a href={link.href} className="cursor-pointer text-lg">{link.label}</a>

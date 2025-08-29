@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-    baseURL: "/api/",
+    baseURL: (import.meta.env.PROD || import.meta.env.VITE_USE_PRODUCTION_API === 'true' ? import.meta.env.VITE_SERVER_API_URL : '/api/'),
     timeout: 50000,
     headers: {
         "Content-Type": "application/json",
@@ -12,11 +12,9 @@ const api = axios.create({
 
 api.interceptors.request.use(
     (config) => {
-        // Authorization header is set dynamically by AuthProvider
         return config;
     },
     (error) => {
-        console.error("Request interceptor error:", error);
         return Promise.reject(error);
     }
 );
@@ -27,17 +25,9 @@ api.interceptors.response.use(
     },
     (error) => {
         if (error.response) {
-            console.error("Response error:", error.response.data);
-            
-            // Handle authentication errors
             if (error.response.status === 401) {
                 console.warn("Authentication token expired or invalid");
-                // The AuthProvider will handle token refresh
             }
-        } else if (error.request) {
-            console.error("Request error:", error.request);
-        } else {
-            console.error("Error:", error.message);
         }
         return Promise.reject(error);
     }

@@ -1,12 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import TabContext from "./TabContext";
-import { useMemo } from "react";
 
 const TabProvider = ({ children }) => {
   const [activeTab, setActiveTab] = useState("");
-
-  // Remove useAuth dependency to fix circular dependency
-  // Tab visibility will be handled by the components themselves
 
   const tabs = useMemo(
     () => [
@@ -70,25 +66,25 @@ const TabProvider = ({ children }) => {
   );
 
   useEffect(() => {
-    // Restore activeTab from localStorage if present
-    const savedTab = localStorage.getItem("CallbackTab");
+    const savedTab = localStorage.getItem("activeTab");
     if (savedTab && tabs.some((tab) => tab.value === savedTab)) {
       setActiveTab(savedTab);
-      localStorage.removeItem("CallbackTab");
     } else if (tabs.length > 0) {
       setActiveTab(tabs[0].value);
     }
   }, [tabs]);
 
-  // Debug wrapper for setActiveTab
-  const setActiveTabWithDebug = (newTab) => {
-    console.log(`🔄 Tab change requested: ${activeTab} → ${newTab}`);
-    setActiveTab(newTab);
-  };
+  useEffect(() => {
+    if (activeTab) {
+      localStorage.setItem("activeTab", activeTab);
+    }
+  }, [activeTab]);
+
+
 
   return (
     <TabContext.Provider
-      value={{ activeTab, setActiveTab: setActiveTabWithDebug, tabs }}
+      value={{ activeTab, setActiveTab, tabs }}
     >
       {children}
     </TabContext.Provider>

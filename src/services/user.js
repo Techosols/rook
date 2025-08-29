@@ -1,0 +1,137 @@
+import api from "./api";
+import { toast } from "react-toastify";
+
+
+const userService = {
+  async verifyPII(data) {
+    try {
+      const response = await api.post('user-pii-check', data);
+      return response;
+    } catch (error) {
+
+      if(error.response?.status === 409) {
+        toast.error("We found an account associated with this information. Please Sign In!");
+      }
+
+      if(error.response?.status === 429) {
+        toast.error("Too many requests. Please try again later.");
+      }
+
+      if(error.response?.status === 500) {
+        toast.error("It looks like your email is already in use. Please try to login!");
+      }
+
+      // Show validation errors from API response
+      if (error.response && error.response.data && error.response.data.errors) {
+        const errors = error.response.data.errors;
+        Object.keys(errors).forEach(key => {
+          errors[key].forEach(msg => toast.error(msg));
+        });
+      } else if (error.message) {
+        toast.error(error.message);
+      } else {
+        toast.error('Error verifying PII');
+      }
+
+      throw error;
+    }
+  },
+
+    async checkUserStatus(status) {
+      switch(status) {
+        case 'Active':
+          toast.error("You cannot signup again!")
+          break;
+        case 'Inactive':
+          // Handle inactive status
+          break;
+        case 'New':
+          toast.error("You cannot signup again!")
+          break;
+        case 'Closed':
+          toast.error("You cannot signup again!")
+          break;
+        case 'Archived':
+          toast.error("You cannot signup again!")
+          break;
+        case 'Paused by User':
+          toast.warning("Your account is Paused")
+          break;
+        case 'Paused for Payment Failure':
+          toast.warning("Your must complete your payment details first!")
+          break;
+        case 'Banned':
+          toast.error("You cannot signup again!")
+          break;
+        case 'Paused by System':
+          toast.error("You cannot signup again!")
+          break;
+        default:
+          toast.error('Invalid Account Status')
+          break;
+      }
+  },
+
+    async verifyUserExistenceByEmail(email, type = 'signup') {
+        try {
+            const response = await api.get(`user/${email}`);
+            switch (response.status) {
+                case 200:
+                    if (type === 'signup') {
+                        toast.error('Email is already registered, Please Sign In to your account');
+                    } else {
+                        toast.success('Login Successful');
+                    }
+                    break;
+                case 204:
+                    if(type === 'login') {
+                        toast.error('Account not found, Please Sign Up');
+                    }
+                    break;
+                case 401:
+                    toast.error('You are not authorized to access this resource');
+                    break;
+            }
+            return response;
+        } catch (error) {
+            console.error('ERR_USER_VERFICATION:', error);
+            throw error;
+        }
+    },
+
+    async registerNewUser(data){
+        try {
+            const response = await api.post('user', data);
+            if(response.status === 201) {
+                toast.success('Registration successful');
+            }
+            return response;
+        } catch (error) {
+            console.error('Error registering user:', error);
+            if (error.code === 'ECONNABORTED' || error.message?.toLowerCase().includes('timeout')) {
+                toast.error('Request timed out. Please try again.');
+              } else if(error.response?.status == 500){
+                toast.error('An account is already associated with this email.');
+              } else if(error.response?.status == 400) {
+            toast.error('Invalid Data');
+              } else if(error.response?.status == 409) {
+            toast.error('It seems this information is already in use, please try to login.');
+              }
+            throw error;
+        }
+    },
+
+    async updateUserStatus(externalId){
+        await api.patch(`user/${externalId}/active`)
+        .then(response => {
+            toast.success('User status updated successfully');
+            return response;
+        })
+        .catch(error => {
+            toast.error('Failed to update user status');
+            return error;
+        });
+    }
+}
+
+export default userService;

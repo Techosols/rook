@@ -1,4 +1,3 @@
-import React from 'react'
 
 function ProfilePercentageBanner() {
     return (
@@ -8,7 +7,7 @@ function ProfilePercentageBanner() {
             {/* Bottom white gradient overlay - theme aware */}
             <div className="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-white to-transparent dark:from-black dark:to-transparent pointer-events-none z-10"></div>
             <div className="container mx-auto flex md:justify-end justify-center items-center gap-10 relative z-10">
-                <div className='w-32 h-32 rounded-full bg-primary dark:bg-primary-dark flex items-center justify-center border-2 border-black text-white'>
+                <div className='w-32 h-32 rounded-full bg-primary dark:bg-primary-dark flex items-center justify-center border-2 border-black dark:border-white text-white'>
                     <p className='text-5xl'>{75}% </p>
                 </div>
             </div>

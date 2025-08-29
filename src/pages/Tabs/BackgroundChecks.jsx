@@ -1,11 +1,10 @@
-import React from "react";
 import useTheme from "../../hooks/useTheme";
 
 function BackgroundChecks() {
   const { theme } = useTheme();
 
   return (
-    <section className="px-2 py-8  bg-background dark:bg-background-dark text-text dark:text-text-dark">
+    <section className="px-6 py-8 bg-background dark:bg-background-dark text-text dark:text-text-dark">
       <div className="flex justify-between items-center flex-col lg:flex-row gap-8 max-w-[1350px] mx-auto">
         <div>
           <h1 className="text-xl md:text-2xl lg:text-3xl font-normal font-nunito text-left">

@@ -1,64 +1,89 @@
+# Rook
+
+Clone the repository:
+
+```bash
+git clone https://github.com/Techosols/rook.git
+
+src/
+├── components/          # Reusable UI components
+│   ├── join/            # Join flow specific components
+│   ├── Banner.jsx       # Landing page banner
+│   ├── Header.jsx       # Navigation header
+│   ├── Tab.jsx          # Tab navigation component
+│   └── ...
+├── contexts/            # React Context providers
+│   ├── Auth/            # Authentication context
+│   ├── Tab/             # Tab navigation context
+│   └── Theme/           # Theme context
+├── hooks/               # Custom React hooks
+├── pages/               # Page components
+│   └── Tabs/            # Tab content components
+├── services/            # API services
+└── utils/               # Utility functions
+
+
+
 # Rook - Dating & Matching Platform
 
-A modern React-based dating and matching platform built with Vite, featuring tab-based navigation, secure authentication, and comprehensive user onboarding.
+A modern, full-featured dating and matching platform built with React, Vite, and Auth0. Rook offers a secure, multi-step onboarding process, dynamic tab-based navigation, and a beautiful, responsive UI.
+
+---
 
 ## ✨ Features
 
 ### 🔐 Authentication System
-- **Google OAuth Integration** via Auth0
-- **Two-Stage Authentication Flow**:
-  - Stage 1: Google sign-in authentication
-  - Stage 2: Profile completion for full registration
-- **Callback URL Handling** with tab/step restoration after authentication
+- **Google OAuth via Auth0**: Secure, industry-standard authentication.
+- **Two-Stage Registration**: 
+  1. Google sign-in
+  2. Profile completion for full access
+- **Callback URL Handling**: Seamless step/tab restoration after authentication.
 
 ### 📱 Tab-Based Navigation
-- **Dynamic Tab System** with different tabs for authenticated vs. non-authenticated users
-- **Non-Authenticated Tabs**: Background Checks, Pricing, Filters, Pictures, Community, Stats, Join
-- **Authenticated Tabs**: Matches, You, Filters, Messages
-- **State Persistence** across authentication flows
+- **Dynamic Tabs**: Different tabs for authenticated and non-authenticated users.
+- **State Persistence**: Remembers your last active tab and onboarding step.
 
 ### 👤 User Onboarding
 - **Multi-Step Join Process**:
   1. Terms & Agreement
   2. Signup Options (Google OAuth)
-  3. Profile Information Collection
+  3. Profile Information
   4. Payment Processing
-- **Profile Form** with legal name, date of birth, preferences, and matching criteria
+- **Profile Form**: Collects legal name, date of birth, preferences, and matching criteria.
 
 ### 🎨 UI/UX
-- **Dark/Light Theme Support** with system preference detection
-- **Responsive Design** with mobile-first approach using TailwindCSS
-- **Material-UI Components** for enhanced user experience
-- **Custom Branding** with Rook logo and theme colors
+- **Dark/Light Theme**: System preference detection.
+- **Responsive Design**: Mobile-first with TailwindCSS.
+- **Material-UI Components**: Enhanced user experience.
+- **Custom Branding**: Rook logo and theme colors.
+
+---
 
 ## 🛠️ Tech Stack
 
-### Frontend
-- **React 19** - Modern React with latest features
-- **Vite** - Fast build tool and development server
-- **TailwindCSS 4** - Utility-first CSS framework
-- **Material-UI (MUI)** - React component library
-- **Lucide React** - Beautiful icon library
+- **React 19**: Modern React features.
+- **Vite**: Fast build tool and dev server.
+- **TailwindCSS 4**: Utility-first CSS.
+- **Material-UI (MUI)**: Component library.
+- **Lucide React**: Icon library.
+- **Auth0**: Secure authentication.
+- **React Context**: State management.
+- **React Query**: Server state management.
+- **Axios**: API client.
+- **React Router DOM**: Routing.
+- **ESLint**: Linting and formatting.
 
-### Authentication & State Management
-- **Auth0** - Secure authentication service
-- **React Context** - Custom auth state management
-- **React Query (TanStack Query)** - Server state management
-- **Local Storage** - Client-side state persistence
-
-### Development Tools
-- **ESLint** - Code linting and formatting
-- **Axios** - HTTP client for API calls
-- **React Router DOM** - Client-side routing
+---
 
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Node.js 18+ 
+- Node.js 18+
 - npm or yarn
-- Auth0 account for authentication
+- Auth0 account
 
 ### Environment Variables
+
 Create a `.env` file in the root directory:
 
 ```bash
@@ -73,107 +98,82 @@ VITE_AUTH0_CLIENT_SECRET=your_auth0_client_secret
 ### Installation
 
 ```bash
-# Clone the repository
 git clone https://github.com/Techosols/rook.git
 cd rook
-
-# Install dependencies
 npm install
-
-# Start development server
 npm run dev
 ```
 
-### Available Scripts
+### Scripts
 
-```bash
-npm run dev      # Start development server
-npm run build    # Build for production
-npm run preview  # Preview production build
-npm run lint     # Run ESLint
-```
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build
+- `npm run lint` - Run ESLint
+
+---
 
 ## 🏗️ Architecture
 
 ### Project Structure
+
 ```
 src/
-├── components/          # Reusable UI components
-│   ├── join/           # Join flow specific components
-│   ├── Banner.jsx      # Landing page banner
-│   ├── Header.jsx      # Navigation header
-│   ├── Tab.jsx         # Tab navigation component
-│   └── ...
-├── contexts/           # React Context providers
-│   ├── Auth/          # Authentication context
-│   ├── Tab/           # Tab navigation context
-│   └── Theme/         # Theme context
-├── hooks/             # Custom React hooks
-├── pages/             # Page components
-│   └── Tabs/          # Tab content components
-├── services/          # API services
-└── utils/             # Utility functions
+├── components/    # Reusable UI components (join flow, banner, header, tab, etc.)
+├── contexts/      # React Context providers (Auth, Tab, Theme)
+├── hooks/         # Custom React hooks
+├── pages/         # Page components (Tabs, Home, etc.)
+├── services/      # API services (user, api)
+└── utils/         # Utility functions
 ```
 
 ### Authentication Flow
 
-1. **Initial State**: User sees non-authenticated tabs
-2. **Google Sign-in**: User clicks "Sign up with Google" → redirects to Auth0
-3. **Auth0 Callback**: Returns to app with authentication token
-4. **Profile Step**: User automatically moved to profile completion
-5. **Registration Complete**: After profile submission, user is fully authenticated
-6. **Authenticated UI**: User sees authenticated tabs and features
+1. User sees non-authenticated tabs.
+2. Clicks "Sign up with Google" → Auth0.
+3. Auth0 callback returns with token.
+4. User completes profile.
+5. Registration complete → authenticated tabs/features.
 
 ### State Management
 
-- **Auth0 State**: Handles OAuth authentication with Google
-- **Custom Auth Context**: Tracks full registration completion
-- **Tab Context**: Manages active tab and available tabs
-- **Theme Context**: Handles dark/light mode preferences
+- **Auth0**: OAuth authentication.
+- **Auth Context**: Tracks registration and profile completion.
+- **Tab Context**: Manages active/available tabs.
+- **Theme Context**: Dark/light mode.
+
+---
 
 ## 🔧 Configuration
 
 ### Auth0 Setup
-1. Create Auth0 application
+
+1. Create Auth0 application.
 2. Configure callback URLs:
-   - Development: `http://localhost:5173`
-   - Production: `https://yourdomain.com`
-3. Enable Google social connection
-4. Configure environment variables
+   - Dev: `http://localhost:5173`
+   - Prod: `https://yourdomain.com`
+3. Enable Google social connection.
+4. Set environment variables.
 
 ### API Integration
-- Base URL configured via `VITE_SERVER_BASE_URL`
-- API key authentication via `VITE_SERVER_API_KEY`
-- Axios interceptors for request/response handling
-- Graceful fallback for offline development
+
+- Base URL: `VITE_SERVER_BASE_URL`
+- API Key: `VITE_SERVER_API_KEY`
+- Axios interceptors for request/response.
+- Handles authentication, errors, and offline fallback.
+
+---
 
 ## 🚢 Deployment
 
-### Build for Production
 ```bash
 npm run build
 ```
 
-### Environment Considerations
-- Ensure all environment variables are set in production
-- Configure Auth0 callback URLs for production domain
-- Set up proper CORS policies for API endpoints
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🆘 Support
-
-For support, email support@rook.love or join our community discussions.
+- Set all environment variables in production.
+- Configure Auth0 callback URLs for your domain.
+- Set up CORS for API endpoints.
 
 ---
+
 

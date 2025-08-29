@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { getAgeDifference, formateDob } from "../../utils/functions";
+import useAuth from "../../hooks/useAuth";
+import userService from "../../services/user";
 
 import { toast } from "react-toastify";
-import api from "../../services/api";
 
-function Profile() {
+function Profile({ onClick }) {
   const { isAuthenticated, user } = useAuth0();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { needProfileCompletion } = useAuth();
 
-  console.log("User:", user);
+  console.log(' User: ', user)
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -47,10 +49,10 @@ function Profile() {
       return;
     }
 
-    // Validate required fields
     if (
       !formData.firstName ||
       !formData.lastName ||
+      !formData.phone ||
       !formData.dob ||
       !formData.zip ||
       !formData.gender ||
@@ -64,8 +66,7 @@ function Profile() {
     setIsSubmitting(true);
 
     try {
-
-      await api.post("user", {
+      const profileData = {
         firstName: formData.firstName,
         middleName: formData.middleName,
         lastName: formData.lastName,
@@ -77,225 +78,193 @@ function Profile() {
         gender: formData.gender,
         ageInYears: getAgeDifference(formData.dob),
         lookingFor: formData.lookingFor,
-      }).then((res) => {
-        if(res.status === 201) {
-          toast.success("Profile created successfully!");
-        }
-        console.log("Profile created successfully", res);
-        // The AuthProvider will handle setting isLoggedIn to true
-      }).catch((error) => {
-        console.error("Profile creation failed:", error);
-        // Error handling is done in the AuthProvider
-      });
+        dob: formData.dob,
+      };
+
+      await userService.verifyPII(profileData)
+        .then(async (res) => {
+          if (res.status === 200) {
+            await userService.registerNewUser(profileData)
+              .then((response) => {
+                if (response?.status === 201) {
+                  onClick(); 
+                }
+              })
+              .catch((error) => {
+                console.error("ERR_PROFILE_CREATION:", error);
+              });
+          }
+        })
+        .catch((error) => {
+          console.error("ERR_PII_CHECK:", error);
+        });
+
+      return;
+
 
     } catch (error) {
-      console.error("Profile creation failed:", error);
-      // Error handling is done in the AuthProvider
+      console.error("ERR_PROFILE_CREATION", error);
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div className=" bg-background dark:bg-background-dark p-3 md:p-6">
-      <div className="container mx-auto max-w-[800px] flex flex-col gap-y-3 ">
-        <div className="flex flex-col justify-center p-4 border border-gray-400 rounded-lg shadow-lg bg-background dark:bg-background-dark">
-          <p className="text-lg text-gray-500 dark:text-white">
-            We need these to do a safety screening on you.
-          </p>
-          <form className="flex flex-col gap-4 mt-4">
-            <div className="flex flex-col">
-              <label
-                htmlFor="name"
-                className="text-sm font-medium dark:text-white"
-              >
-                Legal Name
-              </label>
-              <div className="flex flex-col md:flex-row items-center gap-2">
-                <input
-                  type="text"
-                  name="firstName"
-                  required="true"
-                  value={formData.firstName}
-                  onChange={(e) => handleInputChange(e)}
-                  className="mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none hover:ring hover:ring-primary focus:ring-2 focus:ring-primary dark:bg-background-dark dark:border-gray-600 dark:text-white"
-                  placeholder="First Name"
-                />
-                <input
-                  type="text"
-                  name="middleName"
-                  required="true"
-                  value={formData.middleName}
-                  onChange={(e) => handleInputChange(e)}
-                  className="mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none hover:ring hover:ring-primary focus:ring-2 focus:ring-primary dark:bg-background-dark dark:border-gray-600 dark:text-white"
-                  placeholder="Middle Name"
-                />
-                <input
-                  type="text"
-                  required="true"
-                  name="lastName"
-                  value={formData.lastName}
-                  onChange={(e) => handleInputChange(e)}
-                  className="mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none hover:ring hover:ring-primary focus:ring-2 focus:ring-primary dark:bg-background-dark dark:border-gray-600 dark:text-white"
-                  placeholder="Last Name"
-                />
-              </div>
-            </div>
-            <div className="flex flex-col md:flex-row items-center gap-2">
-              <div className="flex flex-col gap-2">
-                <label
-                  htmlFor="dob"
-                  className="text-sm font-medium dark:text-white"
-                >
-                  Date of Birth
-                </label>
-                <div className="relative">
+    <div className="bg-background dark:bg-background-dark p-3 md:p-8 min-h-screen">
+      {needProfileCompletion && (
+        <div className="container mx-auto max-w-2xl flex flex-col gap-y-8">
+          <div className="text-center mb-4">
+            <h2 className="text-2xl font-bold text-primary dark:text-primary-dark mb-1">Complete Your Profile</h2>
+            <p className="text-center text-gray-600 dark:text-gray-400">{"("} {user.email} {")"}</p>
+            <p className="text-base text-gray-500 dark:text-gray-300">We need these details to do a safety screening on you.</p>
+          </div>
+          <div className="bg-white dark:bg-background-dark border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg p-6 md:p-10">
+            {/* Personal Info Section */}
+            <div className="mb-8">
+              <h3 className="text-lg font-semibold text-gray-700 dark:text-white mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">Personal Information</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="flex flex-col">
+                  <label htmlFor="firstName" className="text-sm font-medium dark:text-white mb-1">First Name</label>
+                  <input
+                    type="text"
+                    name="firstName"
+                    required
+                    value={formData.firstName}
+                    onChange={handleInputChange}
+                    className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:bg-background-dark dark:border-gray-600 dark:text-white"
+                    placeholder="First Name"
+                  />
+                </div>
+                <div className="flex flex-col">
+                  <label htmlFor="middleName" className="text-sm font-medium dark:text-white mb-1">Middle Name</label>
+                  <input
+                    type="text"
+                    name="middleName"
+                    value={formData.middleName}
+                    onChange={handleInputChange}
+                    className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:bg-background-dark dark:border-gray-600 dark:text-white"
+                    placeholder="Middle Name"
+                  />
+                </div>
+                <div className="flex flex-col">
+                  <label htmlFor="lastName" className="text-sm font-medium dark:text-white mb-1">Last Name</label>
+                  <input
+                    type="text"
+                    name="lastName"
+                    required
+                    value={formData.lastName}
+                    onChange={handleInputChange}
+                    className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:bg-background-dark dark:border-gray-600 dark:text-white"
+                    placeholder="Last Name"
+                  />
+                </div>
+                <div className="flex flex-col">
+                  <label htmlFor="dob" className="text-sm font-medium dark:text-white mb-1">Date of Birth <span className="text-gray-500 dark:text-gray-400">MM-DD-YYYY</span></label>
                   <input
                     type="date"
                     name="dob"
-                    lang="en-CA"
                     value={formData.dob}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none hover:ring hover:ring-primary focus:ring-2 focus:ring-primary dark:bg-background-dark dark:border-gray-600 dark:text-white dark:accent-white"
+                    className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:bg-background-dark dark:border-gray-600 dark:text-white"
                   />
                 </div>
-              </div>
-              <div className="flex flex-col gap-2">
-                <label
-                  htmlFor="phone"
-                  className="text-sm font-medium dark:text-white"
-                >
-                  Phone Number
-                </label>
-                <div className="relative">
+                <div className="flex flex-col">
+                  <label htmlFor="phone" className="text-sm font-medium dark:text-white mb-1">Phone Number</label>
                   <input
                     type="text"
                     name="phone"
-                    lang="en-CA"
-                    required="true"
                     value={formData.phone}
                     placeholder="US Phone Number"
-                    pattern="^\(\d{3}\) \d{3}-\d{4}$"
                     onChange={handleInputChange}
-                    onInput={(e) =>
-                      (e.target.value = e.target.value.replace(/[^0-9]/g, ""))
-                    }
-                    className="mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none hover:ring hover:ring-primary focus:ring-2 focus:ring-primary dark:bg-background-dark dark:border-gray-600 dark:text-white dark:accent-white"
+                    onInput={(e) => (e.target.value = e.target.value.replace(/[^0-9]/g, ""))}
+                    className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:bg-background-dark dark:border-gray-600 dark:text-white"
+                  />
+                </div>
+                <div className="flex flex-col">
+                  <label htmlFor="zip" className="text-sm font-medium dark:text-white mb-1">ZIP Code</label>
+                  <input
+                    type="text"
+                    name="zip"
+                    required
+                    value={formData.zip}
+                    onChange={handleInputChange}
+                    inputMode="numeric"
+                    className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:bg-background-dark dark:border-gray-600 dark:text-white"
+                    placeholder="US ZIP Codes only"
+                    onInput={(e) => (e.target.value = e.target.value.replace(/[^0-9]/g, ""))}
                   />
                 </div>
               </div>
             </div>
-          </form>
-        </div>
-        <div className="flex flex-col justify-center p-4 border border-gray-400 rounded-lg shadow-lg bg-background dark:bg-background-dark gap-3 md:gap-6">
-          <p className="text-lg text-gray-500 dark:text-white">
-            Tell us about you & what you are looking for
-          </p>
-          <form className="flex flex-col gap-4 mt-4">
-            <div className="flex flex-col gap-2">
-              <label
-                htmlFor="pname"
-                className="text-sm font-medium dark:text-white"
-              >
-                Preferred Name
-              </label>
-              <div>
-                <input
-                  type="text"
-                  name="preferredName"
-                  value={formData.preferredName}
-                  onChange={(e) => handleInputChange(e)}
-                  className="mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none hover:ring hover:ring-primary focus:ring-2 focus:ring-primary dark:bg-background-dark dark:border-gray-600 dark:text-white"
-                  placeholder="You want to be called..."
-                />
-              </div>
-            </div>
-            <div className="flex flex-col gap-2">
-              <label
-                htmlFor="zip"
-                className="text-sm font-medium dark:text-white"
-              >
-                Your ZIP Code
-              </label>
-              <div>
-                <input
-                  type="text"
-                  required="true"
-                  name="zip"
-                  value={formData.zip}
-                  onChange={(e) => handleInputChange(e)}
-                  inputMode="numeric"
-                  pattern="[0-9]*"
-                  className="mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none hover:ring hover:ring-primary focus:ring-2 focus:ring-primary dark:bg-background-dark dark:border-gray-600 dark:text-white"
-                  placeholder="US ZIP Codes only"
-                  onInput={(e) =>
-                    (e.target.value = e.target.value.replace(/[^0-9]/g, ""))
-                  }
-                />
-              </div>
-            </div>
-            <div className="flex flex-col gap-2">
-              <div className="flex gap-2">
-                <div>
-                  <label className="text-sm font-medium dark:text-white">
-                    You are a:{" "}
-                  </label>
-                  <div className="flex items-center gap-2">
-                    <select
-                      required="true"
-                      name="gender"
-                      value={formData.gender}
-                      onChange={(e) => handleInputChange(e)}
-                      className="mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none hover:ring hover:ring-primary focus:ring-2 focus:ring-primary dark:bg-background-dark dark:border-gray-600 dark:text-white dark:accent-white"
-                    >
-                      <option value="Man">Man</option>
-                      <option value="Woman">Woman</option>
-                    </select>
-                  </div>
+
+            {/* Preferences Section */}
+            <div className="mb-8">
+              <h3 className="text-lg font-semibold text-gray-700 dark:text-white mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">Preferences</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="flex flex-col">
+                  <label htmlFor="preferredName" className="text-sm font-medium dark:text-white mb-1">Preferred Name</label>
+                  <input
+                    type="text"
+                    name="preferredName"
+                    value={formData.preferredName}
+                    onChange={handleInputChange}
+                    className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:bg-background-dark dark:border-gray-600 dark:text-white"
+                    placeholder="You want to be called..."
+                  />
                 </div>
-                <div>
-                  <label
-                    htmlFor="looking-for"
-                    className="text-sm font-medium dark:text-white"
+                <div className="flex flex-col">
+                  <label htmlFor="gender" className="text-sm font-medium dark:text-white mb-1">You are a: <span className="text-gray-500 dark:text-gray-400">gender</span></label>
+                  <select
+                    name="gender"
+                    required
+                    value={formData.gender}
+                    onChange={handleInputChange}
+                    className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:bg-background-dark dark:border-gray-600 dark:text-white"
                   >
-                    Looking for a:
-                  </label>
-                  <div className="flex items-center gap-2">
-                    <select
-                      required="true"
-                      name="lookingFor"
-                      value={formData.lookingFor}
-                      onChange={(e) => handleInputChange(e)}
-                      className="mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none hover:ring hover:ring-primary focus:ring-2 focus:ring-primary dark:bg-background-dark dark:border-gray-600 dark:text-white dark:accent-white"
-                    >
-                      <option value="Man">Man</option>
-                      <option value="Woman">Woman</option>
-                      <option value="Any">Any</option>
-                    </select>
-                  </div>
+                    <option value="">Select</option>
+                    <option value="Man">Man</option>
+                    <option value="Woman">Woman</option>
+                  </select>
+                </div>
+                <div className="flex flex-col">
+                  <label htmlFor="lookingFor" className="text-sm font-medium dark:text-white mb-1">Looking for a:</label>
+                  <select
+                    name="lookingFor"
+                    required
+                    value={formData.lookingFor}
+                    onChange={handleInputChange}
+                    className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:bg-background-dark dark:border-gray-600 dark:text-white"
+                  >
+                    <option value="">Select</option>
+                    <option value="Man">Man</option>
+                    <option value="Woman">Woman</option>
+                    <option value="Any">Any</option>
+                  </select>
                 </div>
               </div>
             </div>
-          </form>
-          <p className=" text-sm text-gray-500 dark:text-white">
-            In the next step you will enter your debit/credit info.
-          </p>
-          <button
-            className="py-3 px-8 bg-primary dark:bg-primary-dark rounded-full text-white sm:w-auto cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-            onClick={handleContinue}
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? (
-              <div className="flex items-center space-x-2">
-                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                <span>Creating Profile...</span>
-              </div>
-            ) : (
-              <span>Continue</span>
-            )}
-          </button>
+
+            <div className="flex flex-col items-center">
+              <p className="text-sm text-gray-500 dark:text-gray-300 mb-4">In the next step you will enter your debit/credit info.</p>
+              <button
+                type="button"
+                className="py-3 px-8 bg-primary dark:bg-primary-dark rounded-full text-white cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
+                onClick={handleContinue}
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? (
+                  <div className="flex items-center space-x-2">
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    <span>Creating Profile...</span>
+                  </div>
+                ) : (
+                  <span>Continue</span>
+                )}
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

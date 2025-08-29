@@ -1,7 +1,6 @@
 # Dependencies
 node_modules
-.pnp
-.pnp.js
+
 
 # Production build
 dist
@@ -19,10 +18,6 @@ build
 logs
 *.log
 npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
 
 # Runtime data
 pids
@@ -30,9 +25,6 @@ pids
 *.seed
 *.pid.lock
 
-# Coverage directory used by tools like istanbul
-coverage
-nyc_output
 
 # ESLint cache
 .eslintcache
@@ -46,13 +38,6 @@ nyc_output
 # Optional eslint cache
 .eslintcache
 
-# Yarn Integrity file
-.yarn-integrity
-
-# Package manager lockfiles (uncomment if you want to ignore them)
-# package-lock.json
-# yarn.lock
-# pnpm-lock.yaml
 
 # IDE and Editor files
 .vscode/*
@@ -60,62 +45,13 @@ nyc_output
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
-.idea
-*.swp
-*.swo
-*~
 
-# OS generated files
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-*.tmp
-*.temp
 
-# Windows specific
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
 
-# Temporary folders
-tmp/
-temp/
-
-# Cache directories
-.cache
-.parcel-cache
-.next
-.nuxt
-.vuepress/dist
-
-# Storybook build outputs
-.out
-.storybook-out
 
 # Local development
 *.local
 
-# TypeScript cache
-*.tsbuildinfo
 
 # Vite cache
 .vite
-
-# TailwindCSS
-# Uncomment if you have a generated tailwind.config.js that shouldn't be tracked
-# tailwind.config.js
-
-# Auth0 local configuration (if any)
-auth_config.json
-
-# Miscellaneous
-.sass-cache/
-connect.lock
-typings/
-.nyc_output
