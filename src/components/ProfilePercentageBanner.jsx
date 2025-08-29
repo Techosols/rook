@@ -1,7 +1,7 @@
 
 function ProfilePercentageBanner() {
     return (
-        <section className="relative bg-[url(/Images/bride-groom-their-wedding-ceremony.jpg)] bg-no-repeat bg-cover bg-[center_20%] bg-background dark:bg-background-dark text-text dark:text-text-dark px-4 py-10 ">
+        <section className="relative bg-[url('../Images/bride-groom-their-wedding-ceremony.jpg')] bg-no-repeat bg-cover bg-[center_20%] bg-background dark:bg-background-dark text-text dark:text-text-dark px-4 py-10 ">
             {/* Top white gradient overlay - theme aware */}
             <div className="absolute inset-0 w-full h-full bg-white/80 dark:bg-black/60 pointer-events-none z-0"></div>
             {/* Bottom white gradient overlay - theme aware */}
