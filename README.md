@@ -1,21 +1,28 @@
-git clone <https://github.com/Techosols/rook.git>
+# Rook
+
+Clone the repository:
+
+```bash
+git clone https://github.com/Techosols/rook.git
+
 src/
 ├── components/          # Reusable UI components
-│   ├── join/           # Join flow specific components
-│   ├── Banner.jsx      # Landing page banner
-│   ├── Header.jsx      # Navigation header
-│   ├── Tab.jsx         # Tab navigation component
+│   ├── join/            # Join flow specific components
+│   ├── Banner.jsx       # Landing page banner
+│   ├── Header.jsx       # Navigation header
+│   ├── Tab.jsx          # Tab navigation component
 │   └── ...
-├── contexts/           # React Context providers
-│   ├── Auth/          # Authentication context
-│   ├── Tab/           # Tab navigation context
-│   └── Theme/         # Theme context
-├── hooks/             # Custom React hooks
-├── pages/             # Page components
-│   └── Tabs/          # Tab content components
-├── services/          # API services
-└── utils/             # Utility functions
-```
+├── contexts/            # React Context providers
+│   ├── Auth/            # Authentication context
+│   ├── Tab/             # Tab navigation context
+│   └── Theme/           # Theme context
+├── hooks/               # Custom React hooks
+├── pages/               # Page components
+│   └── Tabs/            # Tab content components
+├── services/            # API services
+└── utils/               # Utility functions
+
+
 
 # Rook - Dating & Matching Platform
 
