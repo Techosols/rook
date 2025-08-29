@@ -178,7 +178,7 @@ function Banner() {
     },
   ];
   return (
-    <section className="relative bg-[url(Images/bride-groom-their-wedding-ceremony.jpg)] bg-no-repeat bg-cover bg-[center_20%] bg-background dark:bg-background-dark text-text dark:text-text-dark px-4 py-10 ">
+    <section className="relative bg-[url('../Images/bride-groom-their-wedding-ceremony.jpg')] bg-no-repeat bg-cover bg-[center_20%] bg-background dark:bg-background-dark text-text dark:text-text-dark px-4 py-10 ">
       <div className="absolute inset-0 w-full h-full bg-white/80 dark:bg-black/60 pointer-events-none z-0"></div>
       <div className="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-white to-transparent dark:from-black dark:to-transparent pointer-events-none z-10"></div>
       <div className="container mx-auto flex flex-col md:flex-row justify-between items-center gap-10 relative z-10 max-w-[1240px] ps-2">
