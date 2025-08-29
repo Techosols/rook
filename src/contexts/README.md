@@ -1,4 +1,4 @@
-
+ 
 # Contexts
 
 This folder contains all React Context providers for global state management in the Rook platform. Each context encapsulates a specific domain of application state and exposes it via a custom provider and hook.

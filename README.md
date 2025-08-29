@@ -1,4 +1,4 @@
-git clone https://github.com/Techosols/rook.git
+git clone <https://github.com/Techosols/rook.git>
 src/
 ├── components/          # Reusable UI components
 │   ├── join/           # Join flow specific components
