@@ -1,0 +1,14 @@
+{
+  "routes": [
+    {
+      "route": "/settings",
+      "methods": [
+        "get"
+      ],
+      "statusCode": 200,
+      "allowedRoles": [
+        "anonymous"
+      ]
+    }
+  ]
+}
