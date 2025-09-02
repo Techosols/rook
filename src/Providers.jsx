@@ -16,6 +16,8 @@ const Providers = ({ children }) => (
       authorizationParams={{
         redirect_uri: window.location.origin
       }}
+      useRefreshTokens={false}
+      cacheLocation="memory"
     >
       <ThemeProvider>
         <TabProvider>

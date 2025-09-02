@@ -25,6 +25,7 @@ const AuthProvider = ({ children }) => {
     setIsLoggedIn(true)
     setActiveTab('matches')
    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
 
@@ -33,6 +34,7 @@ const AuthProvider = ({ children }) => {
       localStorage.setItem('RKU', true) // RKU => Rook User
     }
   }, [isLoggedIn])
+
 
 
   return (

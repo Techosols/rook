@@ -38,7 +38,7 @@ function Payment() {
     setIsProcessing(true);
 
     try {
-      /*
+      
       const response = await userService.updateUserStatus(userExternalId);
       if (response.status === 200) {
         // Payment successful
@@ -46,13 +46,7 @@ function Payment() {
         setIsProcessing(false);
         setIsLoggedIn(true);
         setActiveTab('matches');
-      } else {
-        // Payment failed
       }
-        */
-      setIsLoggedIn(true);
-      setIsProcessing(false);
-      setActiveTab('matches');
     } catch (error) {
       if(error.status === 500){
         toast.error('Internal Server Error, Please try again later!');

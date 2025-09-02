@@ -10,7 +10,7 @@ function Navbar() {
   const [isopen, setisopen] = useState(false);
   const { theme, toggleTheme } = useTheme();
   const { isLoggedIn, setIsLoggedIn } = useAuth();
-  const { logout } = useAuth0;
+  const { logout } = useAuth0();
 
   const LIGHT_IMAGE = "/Images/rook-logo-light.png";
   const DARK_IMAGE = "/Images/rook-logo-dark.png";
@@ -26,12 +26,18 @@ function Navbar() {
     { id: 2, label: "Contact Us", href: "" },
   ];
 
-  function handleLogout () {
+  function handleLogout() {
     setIsLoggedIn(false)
     localStorage.removeItem('RKU')
     localStorage.setItem("activeTab", 'background')
-    logout({ logoutParams: { returnTo: window.location.origin } });
-    
+    logout({
+      logoutParams: {
+        returnTo: window.location.origin,
+        client_id: import.meta.env.VITE_AUTH0_CLIENT_ID,
+        federated: true
+      }
+    });
+
   }
 
   return (

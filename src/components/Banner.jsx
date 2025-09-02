@@ -5,15 +5,21 @@ import userService from "../services/user";
 import useAuth from "../hooks/useAuth";
 import { Loader } from "lucide-react";
 import { useAuth0 } from "@auth0/auth0-react";
+import { toast } from "react-toastify";
+import api from "../services/api";
 
 function Banner() {
   const { setActiveTab } = useTab();
   const { loginWithPopup, user, isAuthenticated, error } = useAuth0();
   const { setIsLoggedIn } = useAuth();
+  const [allowLogin, setAllowLogin] = useState(null);
+  const [allowLoginMessage, setAllowLoginMessage] = useState(null);
+
 
   const [loading, setLoading] = useState(false);
 
   const [atTop, setAtTop] = useState(true);
+
   useEffect(() => {
     let lastScroll = window.scrollY;
     const handleScroll = () => {
@@ -28,6 +34,22 @@ function Banner() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await api.get('v2/settings');
+        setAllowLogin(response.data.allowUserLogins)
+        setAllowLoginMessage(response.data.disallowUserLoginsMessage)
+      } catch (err) {
+        console.error('ERR_SETTING_ENDPOINT', err)
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [])
 
   async function loginUser() {
     setLoading(true);
@@ -45,23 +67,33 @@ function Banner() {
   async function handleSignIn(e) {
     e.preventDefault();
 
-    try {
-      await loginWithPopup({
-        authorizationParams: {
-          prompt: "login",
-        },
-      });
-      if(error) {
-        console.error('ERR_AUTH: ', error)
-        return;
+    if (allowLogin) {
+      try {
+        await loginWithPopup({
+          authorizationParams: {
+            prompt: "login",
+          },
+        });
+      } catch (error) {
+        console.error("ERR_AUTH", error);
       }
-      if (isAuthenticated) {
-        loginUser();
-      }
-    } catch (error) {
-      console.error("ERR_AUTH", error);
+    } else {
+      toast.error(allowLoginMessage)
     }
+
+
   }
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error)
+    }
+
+    if (isAuthenticated) {
+      loginUser()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [error, isAuthenticated])
 
   const features = [
     {
