@@ -10,7 +10,7 @@ import Payment from "../../components/join/Payment";
 function Join() {
   const [ loading, setLoading ] = useState(false);
   const [step, setStep] = useState(1);
-  const { loginWithPopup, user, isAuthenticated, setNeedProfileCompletion, setUserExternalId, error } = useAuth();
+  const { loginWithPopup, user, isAuthenticated, setNeedProfileCompletion, setUserExternalId, error, authFlow, setAuthFlow } = useAuth();
 
   async function verifyUser() {
     setLoading(true);
@@ -34,6 +34,7 @@ function Join() {
       await loginWithPopup({
         authorizationParams: { prompt: "login" },
       });
+      setAuthFlow('signup')
     } catch (error) {
       console.error('ERR_AUTH:', error)
     }
@@ -44,11 +45,11 @@ function Join() {
       return;
     } 
 
-    if(isAuthenticated){
+    if(isAuthenticated && authFlow === 'signup'){
       verifyUser()
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error, isAuthenticated])
+  }, [error, isAuthenticated, authFlow])
 
   return (
     <>

@@ -11,7 +11,7 @@ import api from "../services/api";
 function Banner() {
   const { setActiveTab } = useTab();
   const { loginWithPopup, user, isAuthenticated, error } = useAuth0();
-  const { setIsLoggedIn } = useAuth();
+  const { setIsLoggedIn, authFlow, setAuthFlow } = useAuth();
   const [allowLogin, setAllowLogin] = useState(null);
   const [allowLoginMessage, setAllowLoginMessage] = useState(null);
 
@@ -74,6 +74,8 @@ function Banner() {
             prompt: "login",
           },
         });
+
+        setAuthFlow('login')
       } catch (error) {
         console.error("ERR_AUTH", error);
       }
@@ -89,11 +91,11 @@ function Banner() {
       toast.error(error)
     }
 
-    if (isAuthenticated) {
-      loginUser()
+    if(isAuthenticated && authFlow == 'login'){
+      loginUser();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error, isAuthenticated])
+  }, [error, isAuthenticated, authFlow])
 
   const features = [
     {

@@ -12,6 +12,7 @@ const AuthProvider = ({ children }) => {
   const [ needProfileCompletion, setNeedProfileCompletion ] = useState(false);
   const [ needPayment, setNeedPayment ] = useState(false);
   const [ profileEmail, setProfileEmail ] = useState(null);
+  const [ authFlow, setAuthFlow ] = useState(null)
 
   const { setActiveTab }= useTab()
 
@@ -53,7 +54,8 @@ const AuthProvider = ({ children }) => {
       setIsLoggedIn,
       profileEmail,
       setProfileEmail,
-      error
+      error,
+      authFlow, setAuthFlow
     }}>
       {children}
     </AuthContext.Provider>
