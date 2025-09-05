@@ -172,7 +172,7 @@ npm run build
 
 - Set all environment variables in production.
 - Configure Auth0 callback URLs for your domain.
-- Set up CORS for API endpoints.
+- Set up CORS for API endpoints
 
 ---
 
