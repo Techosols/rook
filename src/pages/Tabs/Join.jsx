@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import userService from "../../services/user";
 import useAuth from "../../hooks/useAuth";
 
@@ -10,7 +10,7 @@ import Payment from "../../components/join/Payment";
 function Join() {
   const [ loading, setLoading ] = useState(false);
   const [step, setStep] = useState(1);
-  const { loginWithPopup, user, isAuthenticated, setNeedProfileCompletion, setUserExternalId, error } = useAuth();
+  const { loginWithPopup, user, isAuthenticated, setNeedProfileCompletion, setUserExternalId, error, authFlow, setAuthFlow } = useAuth();
 
   async function verifyUser() {
     setLoading(true);
@@ -34,16 +34,22 @@ function Join() {
       await loginWithPopup({
         authorizationParams: { prompt: "login" },
       });
-      if (error) {
-        return;
-      }
-      if (isAuthenticated) {
-        await verifyUser();
-      }
+      setAuthFlow('signup')
     } catch (error) {
       console.error('ERR_AUTH:', error)
     }
   };
+
+  useEffect(() => {
+    if(error) {
+      return;
+    } 
+
+    if(isAuthenticated && authFlow === 'signup'){
+      verifyUser()
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [error, isAuthenticated, authFlow])
 
   return (
     <>

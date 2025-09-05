@@ -1,1 +1,0 @@
-This folder will contain all utility function for this project scope

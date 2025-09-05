@@ -11,7 +11,7 @@ function Agreement({ onClick }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get('settings');
+        const response = await api.get('v2/settings');
         setAllowSignup(response.data.allowNewUserSignups)
       } catch (err) {
         console.error('ERR_SETTING_ENDPOINT', err)

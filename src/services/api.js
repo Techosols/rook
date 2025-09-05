@@ -1,5 +1,7 @@
 import axios from "axios";
 
+const token = localStorage.getItem('RKT');
+
 const api = axios.create({
     baseURL: (import.meta.env.PROD || import.meta.env.VITE_USE_PRODUCTION_API === 'true' ? import.meta.env.VITE_SERVER_BASE_URL : '/api/'),
     timeout: 50000,
@@ -10,8 +12,17 @@ const api = axios.create({
     },
 })
 
+
 api.interceptors.request.use(
-    (config) => {
+    async (config) => {
+        // Check if the endpoint is public
+        const isPublic = config.url.startsWith('v2');
+        if (!isPublic) {
+            console.log('Accessing Private Endpoint')
+            if (token) {
+                config.headers['Authorization'] = `Bearer ${token}`;
+            }
+        }
         return config;
     },
     (error) => {

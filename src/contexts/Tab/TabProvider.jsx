@@ -53,13 +53,13 @@ const TabProvider = ({ children }) => {
       },
       {
         id: 10,
-        label: "Messages",
-        value: "messages",
+        label: "Filters",
+        value: "matchFilters",
       },
       {
         id: 11,
-        label: "Match Filters",
-        value: "matchFilters",
+        label: "Messages",
+        value: "messages",
       },
     ],
     []

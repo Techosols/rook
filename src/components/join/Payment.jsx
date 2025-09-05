@@ -3,6 +3,7 @@ import userService from '../../services/user';
 import useAuth from '../../hooks/useAuth';
 import { toast } from 'react-toastify';
 import useTab from '../../hooks/useTab';
+import api from '../../services/api';
 
 function Payment() {
   const [isProcessing, setIsProcessing] = useState(false);
@@ -38,6 +39,7 @@ function Payment() {
     setIsProcessing(true);
 
     try {
+      
       /*
       const response = await userService.updateUserStatus(userExternalId);
       if (response.status === 200) {
@@ -46,12 +48,9 @@ function Payment() {
         setIsProcessing(false);
         setIsLoggedIn(true);
         setActiveTab('matches');
-      } else {
-        // Payment failed
-      }
-        */
-      setIsLoggedIn(true);
+      } */
       setIsProcessing(false);
+      setIsLoggedIn(true);
       setActiveTab('matches');
     } catch (error) {
       if(error.status === 500){

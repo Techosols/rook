@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 const userService = {
   async verifyPII(data) {
     try {
-      const response = await api.post('user-pii-check', data);
+      const response = await api.post('v2/user-pii-check', data);
       return response;
     } catch (error) {
 
@@ -74,7 +74,7 @@ const userService = {
 
     async verifyUserExistenceByEmail(email, type = 'signup') {
         try {
-            const response = await api.get(`user/${email}`);
+            const response = await api.get(`v2/user/${email}`);
             switch (response.status) {
                 case 200:
                     if (type === 'signup') {
@@ -101,7 +101,7 @@ const userService = {
 
     async registerNewUser(data){
         try {
-            const response = await api.post('user', data);
+            const response = await api.post('v2/user', data);
             if(response.status === 201) {
                 toast.success('Registration successful');
             }
@@ -122,7 +122,7 @@ const userService = {
     },
 
     async updateUserStatus(externalId){
-        await api.patch(`user/${externalId}/active`)
+        await api.patch(`v2/user/${externalId}/active`)
         .then(response => {
             toast.success('User status updated successfully');
             return response;
