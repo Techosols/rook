@@ -1,6 +1,7 @@
 
 
 function Button({
+    text,
     children,
     type = 'button',
     onClick,
@@ -22,7 +23,7 @@ function Button({
             className={`py-1 px-8 lg:py-4 lg:px-12 border border-primary dark:border-primary-dark rounded-full cursor-pointer transition-all duration-300 ${activeClass} ${className}`}
             {...props}
         >
-            {children}
+            { text || children}
         </button>
     );
 }
