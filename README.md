@@ -2,7 +2,7 @@
 
 Clone the repository:
 
-```bash
+````bash
 git clone https://github.com/Techosols/rook.git
 
 src/
@@ -34,7 +34,7 @@ A modern, full-featured dating and matching platform built with React, Vite, and
 
 ### 🔐 Authentication System
 - **Google OAuth via Auth0**: Secure, industry-standard authentication.
-- **Two-Stage Registration**: 
+- **Two-Stage Registration**:
   1. Google sign-in
   2. Profile completion for full access
 - **Callback URL Handling**: Seamless step/tab restoration after authentication.
@@ -93,7 +93,7 @@ VITE_SERVER_API_KEY=your_api_key_here
 VITE_AUTH0_CLIENT_DOMAIN=your_auth0_domain
 VITE_AUTH0_CLIENT_ID=your_auth0_client_id
 VITE_AUTH0_CLIENT_SECRET=your_auth0_client_secret
-```
+````
 
 ### Installation
 
@@ -172,8 +172,6 @@ npm run build
 
 - Set all environment variables in production.
 - Configure Auth0 callback URLs for your domain.
-- Set up CORS for API endpoints.
+- Set up CORS for API endpoints
 
 ---
-
-
