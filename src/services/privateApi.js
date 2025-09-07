@@ -1,18 +1,18 @@
 import axios from "axios";
 
+const token = localStorage.getItem('RKT');
 
-const api = axios.create({
-    baseURL: (import.meta.env.PROD || import.meta.env.VITE_USE_PRODUCTION_API === 'true' ? import.meta.env.VITE_SERVER_API_URL : '/api/'),
+const privateApi = axios.create({
+    baseURL: (import.meta.env.PROD || import.meta.env.VITE_USE_PRODUCTION_API === 'true' ? import.meta.env.VITE_SERVER_PRIVATE_API_URL : '/authApi/'),
     timeout: 50000,
     headers: {
         "Content-Type": "application/json",
         "Accept": "application/json",
-        "x-api-key": import.meta.env.VITE_SERVER_API_KEY
+        "Authorization": `Bearer ${token}`
     },
 })
 
-
-api.interceptors.request.use(
+privateApi.interceptors.request.use(
     async (config) => {
         return config;
     },
@@ -21,7 +21,7 @@ api.interceptors.request.use(
     }
 );
 
-api.interceptors.response.use(
+privateApi.interceptors.response.use(
     (response) => {
         return response;
     },
@@ -30,9 +30,9 @@ api.interceptors.response.use(
             if (error.response.status === 401) {
                 console.warn("Authentication token expired or invalid");
             }
-        }
+        }   
         return Promise.reject(error);
     }
-);
+)
 
-export default api;
+export default privateApi;

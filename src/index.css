@@ -33,4 +33,6 @@
 
 body {
     font-family: var(--font-family);
+    --webkit-scrollbar-thumb: var(--color-primary);
+    scrollbar-color: var(--color-primary) transparent;
 }

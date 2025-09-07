@@ -20,7 +20,7 @@ function Button({
             type={type}
             onClick={onClick}
             disabled={disabled}
-            className={`py-1 px-8 lg:py-4 lg:px-12 border border-primary dark:border-primary-dark rounded-full cursor-pointer transition-all duration-300 ${activeClass} ${className}`}
+            className={`py-1 px-4 md:px-8 lg:py-4 lg:px-12 border border-primary dark:border-primary-dark rounded-full cursor-pointer transition-all duration-300 ${activeClass} ${className}`}
             {...props}
         >
             { text || children}

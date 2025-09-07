@@ -8,7 +8,7 @@ function Radio({ name, value, checked, onChange, label, className = '', ...props
         value={value}
         checked={checked}
         onChange={onChange}
-        className="form-radio text-primary focus:ring-primary border-gray-300 dark:bg-background-dark dark:border-gray-600"
+        className="form-radio accent-primary text-primary focus:ring-primary border-gray-300 dark:bg-background-dark dark:border-gray-600"
         {...props}
       />
       <span className="text-text dark:text-text-dark">{label}</span>

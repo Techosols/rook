@@ -22,6 +22,7 @@ function Join() {
     } else if (response.status === 200) {
       userService.checkUserStatus(response.data.status);
       setUserExternalId(response.data.externalId);
+      setLoading(false);
     }
   }
 

@@ -11,6 +11,12 @@ export default defineConfig({
         changeOrigin: true,
         secure: true,
         rewrite: (path) => path.replace(/^\/api/, '')
+      },
+      '/authApi' : {
+        target : 'https://user-info-service.rook.love/',
+        changeOrigin: true,
+        secure: true,
+        rewrite: (path) => path.replace(/^\/authApi/, '')
       }
     },
   },
