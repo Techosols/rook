@@ -41,6 +41,7 @@ function Navbar() {
           />
         </div>
         <div>
+          {/* Desktop Menu */}
           <ul className="hidden md:flex w-full gap-7 text-lg font-light">
             {
               isLoggedIn ?
@@ -99,17 +100,17 @@ function Navbar() {
             </button>
           </div>
         </div>
-        <ul className={`flex flex-col justify-center text-center items-center gap-5 text-lg font-light p-5 h-full transition-transform duration-300 md:hidden ${isopen ? 'translate-x-0 bg-white' : 'translate-x-full bg-transparent'}`}>
+        {/* Mobile Menu */}
+        <ul className={`flex flex-col justify-center items-center gap-5 text-lg font-light p-5 h-full transition-transform duration-300 md:hidden  bg-background dark:bg-background-dark ${isopen ? 'translate-x-0' : 'translate-x-full bg-transparent'}`}>
           {
-            isLoggedIn ?
-              (
-                <div>
-                  {loggedNavLinks.map((link) => (
-                    <li key={link.id}>
-                      <a href={link.href} className="cursor-pointer text-lg">{link.label}</a>
+            isLoggedIn ? (
+              <div className="flex flex-col justify-center items-center">
+                {loggedNavLinks.map((link) => (
+                  <li key={link.id}>
+                    <a href={link.href} className="cursor-pointer text-lg">{link.label}</a>
                     </li>
                   ))}
-                  <li onClick={() => openModel({ for: 'profile', heading: 'Your Profile' })} className="cursor-pointer text-lg">
+                  <li onClick={() => openModel({ for: 'profile', heading: 'Your Profile' })} className="cursor-pointer text-lg text-center">
                     <UserSquare className="w-6 h-6 " />
                   </li>
                 </div>
@@ -126,7 +127,7 @@ function Navbar() {
           <li>
             <button
               onClick={toggleTheme}
-              className="cursor-pointer "
+              className="cursor-pointer flex justify-center items-center"
             >
               {theme === "dark" ? (
                 <MoonIcon className="w-[25px] h-[25px] " />

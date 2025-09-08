@@ -17,7 +17,7 @@ function Model() {
                 <InfoIcon className="h-7 w-7" />
               </span>
             </div>
-            <h2 className="text-xl font-bold text-center mb-1">{model?.heading || "Information"}</h2>
+            <h2 className="text-xl font-bold text-center mb-1 dark:text-white">{model?.heading || "Information"}</h2>
             {model?.description && (
               <p className="text-gray-600 dark:text-gray-300 text-center mb-2">{model.description}</p>
             )}
