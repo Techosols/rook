@@ -1,0 +1,40 @@
+import { X, InfoIcon, Info } from "lucide-react";
+import useModel from "../hooks/useModel";
+
+import ProfilePercentageModel from "./models/ProfilePercentageModel";
+
+function Model() {
+  const { model, closeModel } = useModel();
+
+  return (
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+      <div className="bg-white dark:bg-background-dark rounded-2xl shadow-2xl p-6 w-[90vw] max-w-md relative animate-fade-in">
+        <div className="flex">
+          <div className="flex items-center gap-2 w-full">
+            <div className="mb-2">
+              <span className="inline-flex items-center justify-center bg-primary/10 text-primary rounded-full p-2">
+                <InfoIcon className="h-7 w-7" />
+              </span>
+            </div>
+            <h2 className="text-xl font-bold text-center mb-1">{model?.heading || "Information"}</h2>
+            {model?.description && (
+              <p className="text-gray-600 dark:text-gray-300 text-center mb-2">{model.description}</p>
+            )}
+          </div>
+          <button
+            onClick={closeModel}
+            className="absolute top-3 right-3 text-gray-400 hover:text-primary transition-colors p-1 rounded-full focus:outline-none focus:ring-2 focus:ring-primary"
+            aria-label="Close modal"
+          >
+            <X className="w-6 h-6" />
+          </button>
+        </div>
+        <div className="mt-4">
+          {model?.for == 'profilePercentage' && <ProfilePercentageModel />}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default Model;

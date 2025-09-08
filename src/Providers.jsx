@@ -6,6 +6,7 @@ import { Auth0Provider } from "@auth0/auth0-react";
 import ThemeProvider from "./contexts/Theme/ThemeProvider";
 import TabProvider from "./contexts/Tab/TabProvider";
 import AuthProvider from "./contexts/Auth/AuthProvider";
+import ModelProvider from "./contexts/Model/ModelProvider";
 
 const queryClient = new QueryClient();
 const Providers = ({ children }) => (
@@ -21,7 +22,9 @@ const Providers = ({ children }) => (
     >
       <ThemeProvider>
         <TabProvider>
-          <AuthProvider>{children}</AuthProvider>
+          <AuthProvider>
+            <ModelProvider>{children}</ModelProvider>
+          </AuthProvider>
         </TabProvider>
       </ThemeProvider>
     </Auth0Provider>
