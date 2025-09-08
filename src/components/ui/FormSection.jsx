@@ -7,7 +7,7 @@ function FormSection({children, onSave, loading, title}) {
         <h2 className='text-2xl font-semibold dark:text-white'>{title}</h2>
         <hr className='border-gray-300 dark:border-gray-600' />
         {children}
-        <Button onClick={onSave} text={"Save"} loading={loading} />
+        <Button onClick={onSave} text={"Save"} loading={loading} active={true} />
     </div>
   )
 }
