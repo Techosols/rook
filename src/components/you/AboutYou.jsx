@@ -18,9 +18,9 @@ function AboutYou() {
         <div className='flex flex-col md:flex-row items-center space-x-2'>
           <Button text={"Save"} active={content.length > 0} disabled={content.length === 0} className={"mt-2"} />
           <div className="flex items-center mt-2">
-            <SmileIcon className="ml-2 text-gray-500" size={30}/>
-            <FrownIcon className="ml-2 text-gray-500" size={30} />
-            <AnnoyedIcon className="ml-2 text-gray-500" size={30} />
+            <SmileIcon className="ml-2 text-gray-500 hover:text-red-500 hover:cursor-pointer" size={30}/>
+            <FrownIcon className="ml-2 text-gray-500 hover:text-red-500 hover:cursor-pointer" size={30} />
+            <AnnoyedIcon className="ml-2 text-gray-500 hover:text-red-500 hover:cursor-pointer" size={30} />
           </div>
           <p className="mt-2 text-gray-500">Positive/Neutral/Negative/Mixed</p>
         </div>

@@ -3,14 +3,16 @@ import { SunIcon, MoonIcon, AlignCenter, X as XIcon } from "lucide-react";
 import React, { useState } from "react";
 import { UserSquare } from "lucide-react";
 import useAuth from "../hooks/useAuth";
-import { useAuth0 } from "@auth0/auth0-react";
+
+import useModel from "../hooks/useModel";
 
 
 function Navbar() {
   const [isopen, setisopen] = useState(false);
   const { theme, toggleTheme } = useTheme();
-  const { isLoggedIn, setIsLoggedIn } = useAuth();
-  const { logout } = useAuth0();
+  const { isLoggedIn } = useAuth();
+
+  const { openModel } = useModel();
 
   const LIGHT_IMAGE = "/Images/rook-logo-light.png";
   const DARK_IMAGE = "/Images/rook-logo-dark.png";
@@ -26,19 +28,7 @@ function Navbar() {
     { id: 2, label: "Contact Us", href: "" },
   ];
 
-  function handleLogout() {
-    setIsLoggedIn(false)
-    localStorage.removeItem('RKU')
-    localStorage.setItem("activeTab", 'background')
-    logout({
-      logoutParams: {
-        returnTo: window.location.origin,
-        client_id: import.meta.env.VITE_AUTH0_CLIENT_ID,
-        federated: true
-      }
-    });
 
-  }
 
   return (
     <section className="header bg-background dark:bg-background-dark text-text dark:text-text-dark shadow-md sticky top-0 z-50">
@@ -61,10 +51,9 @@ function Navbar() {
                         <a href={link.href} className="cursor-pointer text-lg">{link.label}</a>
                       </li>
                     ))}
-                    <li onClick={handleLogout}>
-                      <a href="">
-                        <UserSquare className="w-6 h-6 " />
-                      </a>
+                    <li onClick={() => openModel({ for: 'profile', heading: 'Your Profile' })} className="cursor-pointer text-lg">
+
+                      <UserSquare className="w-6 h-6 " />
                     </li>
                   </div>
                 ) : (
@@ -120,10 +109,8 @@ function Navbar() {
                       <a href={link.href} className="cursor-pointer text-lg">{link.label}</a>
                     </li>
                   ))}
-                  <li onClick={handleLogout} className="cursor-pointer text-lg">
-                    <a href="">
-                      <UserSquare className="w-6 h-6 " />
-                    </a>
+                  <li onClick={() => openModel({ for: 'profile', heading: 'Your Profile' })} className="cursor-pointer text-lg">
+                    <UserSquare className="w-6 h-6 " />
                   </li>
                 </div>
               ) : (

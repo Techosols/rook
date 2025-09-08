@@ -23,7 +23,9 @@ const Providers = ({ children }) => (
       <ThemeProvider>
         <TabProvider>
           <AuthProvider>
-            <ModelProvider>{children}</ModelProvider>
+            <ModelProvider>
+              {children}
+            </ModelProvider>
           </AuthProvider>
         </TabProvider>
       </ThemeProvider>

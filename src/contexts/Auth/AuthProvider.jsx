@@ -67,14 +67,15 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     if (isLoggedIn) {
       localStorage.setItem("RKU", true); // RKU => Rook User
-      //getToken()
+      getToken()
+      //getAccessToken();
     }
   }, [isLoggedIn]);
 
   useEffect(() => {
     if (isAuthenticated) {
-      //getToken()
-      getAccessToken();
+      getToken()
+      //getAccessToken();
     }
   }, [isAuthenticated]);
 

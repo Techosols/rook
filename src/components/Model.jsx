@@ -2,12 +2,13 @@ import { X, InfoIcon, Info } from "lucide-react";
 import useModel from "../hooks/useModel";
 
 import ProfilePercentageModel from "./models/ProfilePercentageModel";
+import ProfileModel from "./models/ProfileModel";
 
 function Model() {
   const { model, closeModel } = useModel();
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center z-50">
       <div className="bg-white dark:bg-background-dark rounded-2xl shadow-2xl p-6 w-[90vw] max-w-md relative animate-fade-in">
         <div className="flex">
           <div className="flex items-center gap-2 w-full">
@@ -31,6 +32,7 @@ function Model() {
         </div>
         <div className="mt-4">
           {model?.for == 'profilePercentage' && <ProfilePercentageModel />}
+          {model?.for == 'profile' && <ProfileModel />}
         </div>
       </div>
     </div>
