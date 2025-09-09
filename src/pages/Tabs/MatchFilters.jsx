@@ -37,7 +37,7 @@ function MatchFilters() {
 
   return (
     <section>
-      <div className='bg-background dark:bg-background-dark dark:text-white h-[700px]'>
+      <div className='bg-background dark:bg-background-dark dark:text-white'>
       <div className='container mx-auto max-w-[1200px] p-4 '>
         <AuthenticatedTabLayout
           tabs={tabs}
