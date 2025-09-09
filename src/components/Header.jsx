@@ -101,7 +101,7 @@ function Navbar() {
           </div>
         </div>
         {/* Mobile Menu */}
-        <ul className={`flex flex-col justify-center items-center gap-5 text-lg font-light p-5 h-full transition-transform duration-300 md:hidden  bg-background dark:bg-background-dark ${isopen ? 'translate-x-0' : 'translate-x-full bg-transparent'}`}>
+        <ul className={`flex flex-col justify-center items-center gap-5 text-lg font-light p-5 h-full transition-transform duration-300 md:hidden  bg-background dark:bg-background-dark ${isopen ? 'translate-x-0 opacity-100' : 'translate-x-full bg-transparent'}`}>
           {
             isLoggedIn ? (
               <div className="flex flex-col justify-center items-center">

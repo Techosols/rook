@@ -22,8 +22,6 @@ const AuthProvider = ({ children }) => {
   const [authFlow, setAuthFlow] = useState(null);
   const [token, setToken] = useState(null);
 
-  console.log("Auth0 Token :", token);
-
   const { setActiveTab } = useTab();
 
   const login = () => loginWithRedirect();

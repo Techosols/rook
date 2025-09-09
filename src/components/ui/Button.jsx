@@ -1,5 +1,3 @@
-
-
 function Button({
     children,
     type = 'button',
@@ -30,12 +28,25 @@ function Button({
         ? 'bg-primary dark:bg-primary-dark text-white'
         : 'bg-background dark:bg-background-dark text-secondary dark:text-text-dark hover:bg-primary hover:dark:bg-primary-dark hover:text-white active:bg-primary active:dark:bg-primary-dark';
 
+    const disabledClass = disabled
+        ? 'opacity-50 cursor-not-allowed'
+        : 'cursor-pointer';
+
+    const handleClick = (e) => {
+        if (disabled) {
+            e.preventDefault();
+            e.stopPropagation();
+            return;
+        }
+        if (onClick) onClick(e);
+    };
+
     return (
         <button
             type={type}
-            onClick={onClick}
+            onClick={handleClick}
             disabled={disabled}
-            className={`${sizeClass} border border-primary dark:border-primary-dark rounded-full cursor-pointer transition-all duration-300 ${activeClass} ${className}`}
+            className={`${sizeClass} border border-primary dark:border-primary-dark rounded-full transition-all duration-300 ${disabledClass} ${activeClass} ${className}`}
             {...props}
         >
             {text || children}
