@@ -6,6 +6,8 @@ import { Auth0Provider } from "@auth0/auth0-react";
 import ThemeProvider from "./contexts/Theme/ThemeProvider";
 import TabProvider from "./contexts/Tab/TabProvider";
 import AuthProvider from "./contexts/Auth/AuthProvider";
+import OptionProvider from "./contexts/Options/OptionProvider";
+import ProfileProvider from "./contexts/Profile/ProfileProvider";
 import ModelProvider from "./contexts/Model/ModelProvider";
 
 const queryClient = new QueryClient();
@@ -23,9 +25,13 @@ const Providers = ({ children }) => (
       <ThemeProvider>
         <TabProvider>
           <AuthProvider>
-            <ModelProvider>
-              {children}
-            </ModelProvider>
+            <OptionProvider>
+              <ProfileProvider>
+                <ModelProvider>
+                  {children}
+                </ModelProvider>
+              </ProfileProvider>
+            </OptionProvider>
           </AuthProvider>
         </TabProvider>
       </ThemeProvider>

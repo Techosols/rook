@@ -1,14 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import Button from "../ui/Button";
 import FormSection from "../ui/FormSection";
 import AiEnhance from "./sections/AiEnhance";
 import { SmileIcon, AnnoyedIcon, FrownIcon, LucideBadgeInfo } from "lucide-react";
+import useProfile from "../../hooks/useProfile";
 
 
 function AboutYou() {
 
   const [content, setContent] = useState("");
+  const { profile, isProfileLoading } = useProfile();
+
+  useEffect(() => {
+    if (!isProfileLoading) {
+      setContent(profile.aboutMe || "");
+    }
+  }, [profile]);
 
   return (
     <div className='p-1 flex flex-col gap-1 md:gap-4'>

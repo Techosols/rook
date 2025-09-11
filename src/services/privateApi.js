@@ -2,7 +2,7 @@ import axios from "axios";
 
 const token = localStorage.getItem('RKT');
 
-const privateApi = axios.create({
+const PrivateApi = axios.create({
     baseURL: (import.meta.env.PROD || import.meta.env.VITE_USE_PRODUCTION_API === 'true' ? import.meta.env.VITE_SERVER_PRIVATE_API_URL : '/authApi/'),
     timeout: 50000,
     headers: {
@@ -12,7 +12,7 @@ const privateApi = axios.create({
     },
 })
 
-privateApi.interceptors.request.use(
+PrivateApi.interceptors.request.use(
     async (config) => {
         return config;
     },
@@ -21,7 +21,7 @@ privateApi.interceptors.request.use(
     }
 );
 
-privateApi.interceptors.response.use(
+PrivateApi.interceptors.response.use(
     (response) => {
         return response;
     },
@@ -35,4 +35,4 @@ privateApi.interceptors.response.use(
     }
 )
 
-export default privateApi;
+export default PrivateApi;

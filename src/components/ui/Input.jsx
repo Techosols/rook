@@ -4,6 +4,7 @@ function Input({
   className = '',
   placeholder = '',
   error,
+  value,
   ...props
 }) {
 
@@ -18,6 +19,7 @@ function Input({
   return (
     <div>
       <input
+        value={value || ""}
         type={type}
         className={`appearance-none p-2 border  rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:bg-background-dark dark:border-gray-600 dark:text-white disabled:bg-gray-200 disabled:cursor-not-allowed dark:disabled:bg-gray-800 dark:disabled:text-gray-200 ${error ? 'border-red-500' : 'border-gray-300'} ${className}`}
         onBlur={validateFields}
