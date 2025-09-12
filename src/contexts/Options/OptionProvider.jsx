@@ -24,6 +24,7 @@ const OptionProvider = ({ children }) => {
     const [physicalActivityFrequencies, setPhysicalActivityFrequencies] = useState();
     const [physicalActivityIntensities, setPhysicalActivityIntensities] = useState();
     const [physicalActivityTypes, setPhysicalActivityTypes] = useState();
+    const [physicalActivityLengths, setPhysicalActivityLengths] = useState();
     const [politicalAffiliations, setPoliticalAffiliations] = useState();
     const [relationshipStatuses, setRelationshipStatuses] = useState();
     const [relationshipTypes, setRelationshipTypes] = useState();
@@ -39,6 +40,8 @@ const OptionProvider = ({ children }) => {
     const [miscPhysicalActivityTypes, setMiscPhysicalActivityTypes] = useState();
     const [miscRelationshipTypes, setMiscRelationshipTypes] = useState();
     const [sportsInterests, setSportsInterests] = useState();
+
+    console.log('Physical Activity Lengths: ', physicalActivityLengths)
 
     /*
     console.log('Fetched Options: ', {
@@ -97,6 +100,7 @@ const OptionProvider = ({ children }) => {
         loadFromStorage('physicalActivityFrequencies', setPhysicalActivityFrequencies);
         loadFromStorage('physicalActivityIntensities', setPhysicalActivityIntensities);
         loadFromStorage('physicalActivityTypes', setPhysicalActivityTypes);
+        loadFromStorage('physicalActivityLengths', setPhysicalActivityLengths);
         loadFromStorage('politicalAffiliations', setPoliticalAffiliations);
         loadFromStorage('relationshipStatuses', setRelationshipStatuses);
         loadFromStorage('relationshipTypes', setRelationshipTypes);
@@ -125,6 +129,7 @@ const OptionProvider = ({ children }) => {
                     physicalActivityFrequencyRes,
                     physicalActivityIntensityRes,
                     physicalActivityTypeRes,
+                    physicalActivityLengthRes,
                     politicalAffiliationRes,
                     relationshipStatusRes,
                     relationshipTypeRes,
@@ -158,6 +163,7 @@ const OptionProvider = ({ children }) => {
                     PrivateApi.get(`${API_PREFIX}/physicalactivityfrequencies`),
                     PrivateApi.get(`${API_PREFIX}/physicalactivityintensities`),
                     PrivateApi.get(`${API_PREFIX}/physicalactivitytypes`),
+                    PrivateApi.get(`${API_PREFIX}/physicalactivitylengths`),
                     PrivateApi.get(`${API_PREFIX}/politicalaffiliations`),
                     PrivateApi.get(`${API_PREFIX}/relationshipstatuses`),
                     PrivateApi.get(`${API_PREFIX}/relationshiptypes`),
@@ -204,6 +210,7 @@ const OptionProvider = ({ children }) => {
                 updateIfChanged('politicalAffiliations', politicalAffiliationRes.data, setPoliticalAffiliations);
                 updateIfChanged('relationshipStatuses', relationshipStatusRes.data, setRelationshipStatuses);
                 updateIfChanged('relationshipTypes', relationshipTypeRes.data, setRelationshipTypes);
+                updateIfChanged('physicalActivityLengths', physicalActivityLengthRes.data, setPhysicalActivityLengths);
                 updateIfChanged('religions', religionRes.data, setReligions);
                 updateIfChanged('sports', sportRes.data, setSports);
                 updateIfChanged('starSigns', starSignRes.data, setStarSigns);
@@ -241,6 +248,7 @@ const OptionProvider = ({ children }) => {
         physicalActivityFrequencies,
         physicalActivityIntensities,
         physicalActivityTypes,
+        physicalActivityLengths,
         politicalAffiliations,
         relationshipStatuses,
         relationshipTypes,

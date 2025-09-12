@@ -26,6 +26,7 @@ function YourInfo() {
         physicalActivityFrequencies, 
         physicalActivityIntensities, 
         physicalActivityTypes, 
+        physicalActivityLengths,
         politicalAffiliations,
         occupationProfiles,
         alcoholConsumptionFrequencies,
@@ -61,7 +62,7 @@ function YourInfo() {
     const [exerciseIntensity, setExerciseIntensity] = useState("");
     const [exerciseDuration, setExerciseDuration] = useState("");
     const [exerciseLength, setExerciseLength] = useState("");
-    const [exerciseType, setExerciseType] = useState(""); 
+    const [exerciseType, setExerciseType] = useState([]);
     const [smoke, setSmoke] = useState(false);
     const [recDrug, setRecDrug] = useState(false);
     const [disability, setDisability] = useState(false);
@@ -71,15 +72,6 @@ function YourInfo() {
     const [starSign, setStarSign] = useState("");
     const [includeInRandomMatches, setIncludeInRandomMatches] = useState(true);
 
-
-    // Handles
-    function handleExerciseTypeChange(typeName) {
-        setExerciseType((prev) =>
-            prev.map((item) =>
-                item.name === typeName ? { ...item, checked: !item.checked } : item
-            )
-        );
-    }
 
     useEffect(() => {
         if (!isProfileLoading) {
@@ -158,7 +150,7 @@ function YourInfo() {
                         <Input placeholder="Weight" type="number" value={weight} onChange={(e) => setWeight(e.target.value)} />
                     </div>
                     <div className="flex flex-col gap-2">
-                        <label className="font-medium dark:text-white" htmlFor="bodyType">Relationship Types | <span className="text-gray-500">{relationshipType}</span></label>
+                        <label className="font-medium dark:text-white" htmlFor="bodyType">Relationship Types</label>
                         <div className="flex flex-col gap-1 h-30 overflow-y-auto border border-gray-300 dark:border-gray-600 p-2 rounded">
                             {Object.values(relationshipTypes).map((type, idx) => (
                                 <Checkbox key={idx} label={type} onChange={() => {
@@ -251,27 +243,34 @@ function YourInfo() {
                 <p className="text-gray-400 text-sm flex gap-2 items-center"><span><BadgeInfo /></span> We use this data to compute a "physical activity index" for you that other users can filter by</p>
                 <div className="flex flex-col gap-2 md:gap-4">
                     <div className="grid grid-cols-1 md:grid-cols-[1fr_3fr] gap-1 md:gap-2 items-center">
-                        <label className="font-medium dark:text-white" htmlFor="exerciseFrequency">Frequency | {exerciseFrequency}</label>
+                        <label className="font-medium dark:text-white" htmlFor="exerciseFrequency">Frequency</label>
                         <Select options={physicalActivityFrequencies} value={exerciseFrequency} onChange={(e) => setExerciseFrequency(e.target.value)} placeholder="Select Frequency" />
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-[1fr_3fr] gap-1 md:gap-2 items-center">
-                        <label className="font-medium dark:text-white" htmlFor="exerciseIntensity">Intensity | {exerciseIntensity}</label>
+                        <label className="font-medium dark:text-white" htmlFor="exerciseIntensity">Intensity</label>
                         <Select options={physicalActivityIntensities} value={exerciseIntensity} onChange={(e) => setExerciseIntensity(e.target.value)} placeholder="Select Intensity" />
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-[1fr_3fr] gap-1 md:gap-2 items-center">
-                        <label className="font-medium dark:text-white" htmlFor="exerciseDuration">Duration | {exerciseDuration}</label>
+                        <label className="font-medium dark:text-white" htmlFor="exerciseDuration">Duration</label>
                         <Select options={physicalActivityDurations} value={exerciseDuration} onChange={(e) => setExerciseDuration(e.target.value)} placeholder="Select Duration" />
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-[1fr_3fr] gap-1 md:gap-2 items-center">
-                        <label className="font-medium dark:text-white" htmlFor="exerciseLength">Length | {exerciseLength}</label>
-                        <Select options={["Short", "Medium", "Long"]} value={exerciseLength} onChange={(e) => setExerciseLength(e.target.value)} placeholder="Select Length" />
+                        <label className="font-medium dark:text-white" htmlFor="exerciseLength">Length</label>
+                        <Select options={physicalActivityLengths} value={exerciseLength} onChange={(e) => setExerciseLength(e.target.value)} placeholder="Select Length" />
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-[1fr_3fr] gap-1 md:gap-2 items-start h-20">
                         <label className="font-medium dark:text-white" htmlFor="exerciseType">Type</label>
-                        <div className=" flex flex-col border border-gray-300 dark:border-gray-600 p-2 rounded mb-1">
-                            {exerciseType.length === 0 && <p className="text-sm text-gray-500 mb-1">Select all that apply</p>}
+                        <div className="flex flex-col h-32 overflow-y-scroll border border-gray-300 dark:border-gray-600 p-2 rounded mb-1">
                             {Object.values(physicalActivityTypes).map((type, idx) => (
-                                <Checkbox key={idx} label={type} checked={exerciseType.includes(type)} onChange={() => handleExerciseTypeChange(type)} />
+                                <Checkbox
+                                    key={idx}
+                                    label={type}
+                                    checked={exerciseType.includes(type)}
+                                    onChange={() => {
+                                        setExerciseType((prev) => prev.includes(type) ? prev.filter((item) => item !== type) : [...prev, type]
+                                        );
+                                    }}
+                                />
                             ))}
                         </div>
                     </div>
