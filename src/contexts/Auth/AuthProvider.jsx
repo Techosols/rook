@@ -23,7 +23,6 @@ const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
 
   const { setActiveTab } = useTab();
-  console.log("AuthProvider Token:", token);
 
   const login = () => loginWithRedirect();
   const loginPopup = (options) => loginWithPopup(options);
