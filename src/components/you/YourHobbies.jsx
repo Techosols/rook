@@ -1,11 +1,15 @@
 import { LucideBadgeInfo } from "lucide-react"
 import { useState } from "react"
+import useOption from "../../hooks/useOption"
 
 import FormSection from "../ui/FormSection"
 import Input from "../ui/Input"
 import Checkbox from "../ui/Checkbox"
 
 function YourHobbies() {
+
+  const { miscHobbies, miscMusicalInstruments, miscMusicGenres, petTypes, sportsInterests } = useOption();
+
 
     const hobbiesData = [
       {

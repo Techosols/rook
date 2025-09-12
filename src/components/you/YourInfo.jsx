@@ -37,7 +37,7 @@ function YourInfo() {
 
 
     // States
-    const [preferredName, setPreferredName] = useState();
+    const [preferredName, setPreferredName] = useState("");
     const [age, setAge] = useState("");
     const [zipCode, setZipCode] = useState("");
     const [heightFeet, setHeightFeet] = useState("");
@@ -75,38 +75,38 @@ function YourInfo() {
 
     useEffect(() => {
         if (!isProfileLoading) {
-            setPreferredName(profile.preferredName || "");
-            setHeightFeet(profile.heightFeet || "");
-            setHeightInches(profile.heightInInches || "0");
-            setWeight(profile.weight || "");
-            setMoniker(profile.moniker || "");
-            setAge(profile.ageInYears || "");
-            setZipCode(profile.postalCode || "");
-            setGender(profile.gender || "");
-            setRelationshipStatus(profile.relationshipStatus || "");
-            setEthnicity(profile.ethnicity || "");
-            setReligion(profile.religion || "");
-            setEducationLevel(profile.educationLevel || "");
-            setOccupation(profile.occupation || "");
-            setPoliticalAffiliation(profile.politicalAffiliation || "");
-            setSexualOrientation(profile.sexualOrientation || "");
-            setAsexual(profile.asexual || false);
-            setHasKids(profile.hasKidsNow || false);
-            setWantsKids(profile.wantOwnKids || false);
-            setHasPets(profile.hasPetsNow || false);
-            setWantsPets(profile.wantsPets || true);
-            setExerciseFrequency(profile.exerciseFrequency || "");
-            setExerciseIntensity(profile.exerciseIntensity || "");
-            setExerciseDuration(profile.exerciseDuration || "");
-            setExerciseLength(profile.exerciseLength || "");
-            setSmoke(profile.smoke || false);
-            setRecDrug(profile.recDrug || false);
-            setDisability(profile.disability || false);
-            setStdSti(profile.hasSexuallyTransmittedInfection || false);
-            setDrinks(profile.drinks || "");
-            setLoveLanguage(profile.loveLanguage || "");
-            setStarSign(profile.starSign || "");
-            setIncludeInRandomMatches(profile.includeInRandomMatches || true);
+            setPreferredName(profile?.preferredName || "");
+            setHeightFeet(profile?.heightFeet || "");
+            setHeightInches(profile?.heightInInches || "0");
+            setWeight(profile?.weight || "");
+            setMoniker(profile?.moniker || "");
+            setAge(profile?.ageInYears || "");
+            setZipCode(profile?.postalCode || "");
+            setGender(profile?.gender || "");
+            setRelationshipStatus(profile?.relationshipStatus || "");
+            setEthnicity(profile?.ethnicity || "");
+            setReligion(profile?.religion || "");
+            setEducationLevel(profile?.educationLevel || "");
+            setOccupation(profile?.occupation || "");
+            setPoliticalAffiliation(profile?.politicalAffiliation || "");
+            setSexualOrientation(profile?.orientation || "");
+            setAsexual(profile?.asexual || false);
+            setHasKids(profile?.hasKidsNow || false);
+            setWantsKids(profile?.wantOwnKids || false);
+            setHasPets(profile?.hasPetsNow || false);
+            setWantsPets(profile?.wantsPets || true);
+            setExerciseFrequency(profile?.exerciseFrequency || "");
+            setExerciseIntensity(profile?.exerciseIntensity || "");
+            setExerciseDuration(profile?.exerciseDuration || "");
+            setExerciseLength(profile?.exerciseLength || "");
+            setSmoke(profile?.isSmoker || false);
+            setRecDrug(profile?.isRecreationalDrugUser || false);
+            setDisability(profile?.hasDisability || false);
+            setStdSti(profile?.hasSexuallyTransmittedInfection || false);
+            setDrinks(profile?.alcoholConsumptionFrequency || "");
+            setLoveLanguage(profile?.loveLanguage || "");
+            setStarSign(profile?.starSign || "");
+            setIncludeInRandomMatches(profile?.includeInRandomMatches || true);
         }
     }, [profile]);
 
