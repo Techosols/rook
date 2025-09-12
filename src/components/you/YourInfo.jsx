@@ -61,12 +61,7 @@ function YourInfo() {
     const [exerciseIntensity, setExerciseIntensity] = useState("");
     const [exerciseDuration, setExerciseDuration] = useState("");
     const [exerciseLength, setExerciseLength] = useState("");
-    const [exerciseType, setExerciseType] = useState([
-        { id: 1, name: "Cardio", checked: false },
-        { id: 2, name: "Strength", checked: false },
-        { id: 3, name: "Flexibility", checked: false },
-        { id: 4, name: "Balance", checked: false }
-    ]); // Example options
+    const [exerciseType, setExerciseType] = useState(""); 
     const [smoke, setSmoke] = useState(false);
     const [recDrug, setRecDrug] = useState(false);
     const [disability, setDisability] = useState(false);
@@ -123,6 +118,7 @@ function YourInfo() {
         }
     }, [profile]);
 
+
     return (
         <div className="p-1 flex flex-col gap-1 md:gap-4">
             <p className="text-sm text-gray-600">
@@ -162,14 +158,12 @@ function YourInfo() {
                         <Input placeholder="Weight" type="number" value={weight} onChange={(e) => setWeight(e.target.value)} />
                     </div>
                     <div className="flex flex-col gap-2">
-                        <label className="font-medium dark:text-white" htmlFor="bodyType">Relationship Types</label>
+                        <label className="font-medium dark:text-white" htmlFor="bodyType">Relationship Types | <span className="text-gray-500">{relationshipType}</span></label>
                         <div className="flex flex-col gap-1 h-30 overflow-y-auto border border-gray-300 dark:border-gray-600 p-2 rounded">
                             {Object.values(relationshipTypes).map((type, idx) => (
                                 <Checkbox key={idx} label={type} onChange={() => {
                                     setRelationshipType((prev) =>
-                                        prev.map((item) =>
-                                            item.id === type.id ? { ...item, checked: !item.checked } : item
-                                        )
+                                        prev.includes(type) ? prev.filter((item) => item !== type) : [...prev, type]
                                     );
                                 }} />
                             ))}
@@ -276,8 +270,8 @@ function YourInfo() {
                         <label className="font-medium dark:text-white" htmlFor="exerciseType">Type</label>
                         <div className=" flex flex-col border border-gray-300 dark:border-gray-600 p-2 rounded mb-1">
                             {exerciseType.length === 0 && <p className="text-sm text-gray-500 mb-1">Select all that apply</p>}
-                            {exerciseType.map((type) => (
-                                <Checkbox key={type.id} label={type.name} checked={type.checked} onChange={() => handleExerciseTypeChange(type.name)} />
+                            {Object.values(physicalActivityTypes).map((type, idx) => (
+                                <Checkbox key={idx} label={type} checked={exerciseType.includes(type)} onChange={() => handleExerciseTypeChange(type)} />
                             ))}
                         </div>
                     </div>
