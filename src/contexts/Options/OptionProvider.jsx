@@ -1,8 +1,11 @@
 import OptionContext from "./OptionContext";
 import { useState, useEffect } from "react";
 import PrivateApi from "../../services/privateApi";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const OptionProvider = ({ children }) => {
+
+    const { isAuthenticated } = useAuth0();
 
     const API_PREFIX = "V1/options"
     const MISC_API_PREFIX = "V1/misc"
@@ -40,8 +43,6 @@ const OptionProvider = ({ children }) => {
     const [miscPhysicalActivityTypes, setMiscPhysicalActivityTypes] = useState();
     const [miscRelationshipTypes, setMiscRelationshipTypes] = useState();
     const [sportsInterests, setSportsInterests] = useState();
-
-    console.log('Physical Activity Lengths: ', physicalActivityLengths)
 
     /*
     console.log('Fetched Options: ', {
@@ -108,8 +109,18 @@ const OptionProvider = ({ children }) => {
         loadFromStorage('sports', setSports);
         loadFromStorage('starSigns', setStarSigns);
         loadFromStorage('suggestionCategories', setSuggestionCategories);
+        loadFromStorage('convoStarters', setConvoStarters);
+        loadFromStorage('miscHobbies', setMiscHobbies);
+        loadFromStorage('miscMusicalInstruments', setMiscMusicalInstruments);
+        loadFromStorage('miscMusicGenres', setMiscMusicGenres);
+        loadFromStorage('petTypes', setPetTypes);
+        loadFromStorage('miscPhysicalActivityTypes', setMiscPhysicalActivityTypes);
+        loadFromStorage('miscRelationshipTypes', setMiscRelationshipTypes);
+        loadFromStorage('sportsInterests', setSportsInterests);
 
         async function fetchOptions() {
+            if (!isAuthenticated) return;
+
             try {
                 const [
                     alcoholRes,
@@ -228,7 +239,7 @@ const OptionProvider = ({ children }) => {
             }
         }
         fetchOptions();
-    }, []);
+    }, [isAuthenticated]);
 
     const values = {
         alcoholConsumptionFrequencies,

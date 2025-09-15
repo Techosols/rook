@@ -5,6 +5,7 @@ import Button from "../../ui/Button";
 
 function AiEnhance() {
     const [enhancedText, setEnhancedText] = useState("");
+    const [text, setText] = useState("");
     const [showAlert, setShowAlert] = useState(true);
 
     const handleEnhance = () => {
@@ -32,12 +33,12 @@ function AiEnhance() {
                 <hr className='border-gray-300 dark:border-gray-600' />
                 <p className="text-gray-500 text-sm">Get AI help writing parts of your profile essay. Just paste text you want "enhanced" by AI in the box below, and click "Enhance".</p>
                 <p className="text-gray-500 text-sm">This is a paid feature and you will be charged, based on the total number of characters you input, and the number of characters output by the AI Assistant. We show you a running total of charges you incur, below the input text box. Charges you incur will be added to your monthly bill.</p>
-                <textarea rows="3" className="border border-gray-300 dark:border-gray-500 p-2 rounded-lg w-full focus:outline-primary placeholder:text-gray-400"></textarea>
+                <textarea rows="3" className="border border-gray-300 dark:border-gray-500 p-2 rounded-lg w-full focus:outline-primary placeholder:text-gray-400" value={text} onChange={(e) => setText(e.target.value)}></textarea>
                 <div className="flex items-center justify-between" >
                     <Button text={"Enhance"} active={true} onClick={handleEnhance} />
                     <p className="text-gray-500">Characters: 1,100 || Charge: $0.10</p>
                 </div>
-                <textarea rows="3" className="border border-gray-300 dark:border-gray-500 p-2 rounded-lg w-full focus:outline-primary placeholder:text-gray-400" placeholder="AI Assistant will output text here.">{enhancedText}</textarea>
+                <textarea rows="3" className="border border-gray-300 dark:border-gray-500 p-2 rounded-lg w-full focus:outline-primary placeholder:text-gray-400" placeholder="AI Assistant will output text here." value={enhancedText} onChange={(e) => setEnhancedText(e.target.value)}></textarea>
             </div>
 
 

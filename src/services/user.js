@@ -1,5 +1,6 @@
 import api from "./api";
 import { toast } from "react-toastify";
+import PrivateApi from "./privateApi";
 
 
 const userService = {
@@ -131,6 +132,28 @@ const userService = {
             toast.error('Failed to update user status');
             return error;
         });
+    },
+
+    async updateUserProfile(data){
+        try {
+            const response = await PrivateApi.patch(`v1/profile`, data);
+            if(response.status === 200) {
+                toast.success('Your changes have been saved successfully!');
+            }
+        } catch (error) {
+            if(error.code === 'ECONNABORTED' || error.message?.toLowerCase().includes('timeout')) {
+                toast.error('Request timed out. Please try again.');
+            } else if(error.response?.status === 400) {
+                toast.error('Invalid Data. Please check your input and try again.');
+            } else if(error.response?.status === 401) {
+                toast.error('You are not authorized to perform this action. Please log in and try again.');
+            } else if(error.response?.status === 403) {
+                toast.error('You do not have permission to update this profile.');
+            } else if(error.response?.status === 500) {
+                toast.error('Your changes could not be saved. Please try again later.');
+            }
+            console.error('Error updating user profile:', error);
+        }
     }
 }
 

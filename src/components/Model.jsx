@@ -8,8 +8,11 @@ function Model() {
   const { model, closeModel } = useModel();
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center z-50">
-      <div className="bg-white dark:bg-background-dark rounded-2xl shadow-2xl p-6 w-[90vw] max-w-md relative animate-fade-in">
+  <div className="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center z-50">
+      <div
+        className="bg-white dark:bg-background-dark rounded-2xl shadow-2xl p-4 sm:p-6 w-full max-w-md mx-auto my-8 relative animate-fade-in max-h-[calc(100vh-2rem)] overflow-y-auto"
+        style={{ maxHeight: 'calc(100vh - 2rem)' }}
+      >
         <div className="flex">
           <div className="flex items-center gap-2 w-full">
             <div className="mb-2">

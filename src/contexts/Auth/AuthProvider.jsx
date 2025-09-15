@@ -51,29 +51,16 @@ const AuthProvider = ({ children }) => {
     localStorage.setItem("RKT", authToken); // RKT => Rook Token
   };
 
-  const getAccessToken = async () => {
-    const accessToken = await getAccessTokenSilently({
-      authorizationParams: {
-        audience: "https://user-info-service.rook.love", // API Identifier
-        scope: "read:settings", // or whatever scopes backend expects
-      },
-    });
-    setToken(accessToken);
-    localStorage.setItem("RKT", accessToken); // RKT => Rook Token
-  };
-
   useEffect(() => {
     if (isLoggedIn) {
       localStorage.setItem("RKU", true); // RKU => Rook User
       getToken()
-      //getAccessToken();
     }
   }, [isLoggedIn]);
 
   useEffect(() => {
     if (isAuthenticated) {
       getToken()
-      //getAccessToken();
     }
   }, [isAuthenticated]);
 

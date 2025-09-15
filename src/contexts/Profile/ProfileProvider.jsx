@@ -8,6 +8,8 @@ function ProfileProvider({ children }) {
     const [isProfileUpdating, setIsProfileUpdating] = useState(false);
     const [profileError, setProfileError] = useState(null);
 
+    console.log('Profile: ', profile);
+
     /*
     console.log("Profile State:", {
         profile,

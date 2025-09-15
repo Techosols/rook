@@ -18,14 +18,14 @@ function Navbar() {
   const DARK_IMAGE = "/Images/rook-logo-dark.png";
 
   const navLinks = [
-    { id: 1, label: "Home", href: "" },
-    { id: 2, label: "Features", href: "" },
-    { id: 3, label: "F.A.Q", href: "" },
+    { id: 1, label: "Home", href: "/" },
+    { id: 2, label: "Features", href: "/features" },
+    { id: 3, label: "F.A.Q", href: "/faq" },
   ];
 
   const loggedNavLinks = [
-    { id: 1, label: "FAQ", href: "" },
-    { id: 2, label: "Contact Us", href: "" },
+    { id: 1, label: "FAQ", href: "/faq" },
+    { id: 2, label: "Contact Us", href: "/contact" },
   ];
 
 
