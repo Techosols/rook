@@ -24,7 +24,7 @@ const AuthProvider = ({ children }) => {
 
   const { setActiveTab } = useTab();
 
-  console.log("ExternalId", userExternalId);
+  console.log("Token: ", token);
 
   const login = () => loginWithRedirect();
   const loginPopup = (options) => loginWithPopup(options);

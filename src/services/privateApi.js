@@ -30,7 +30,7 @@ PrivateApi.interceptors.response.use(
             if (error.response.status === 401) {
                 console.warn("Authentication token expired or invalid");
                 localStorage.removeItem('RKT');
-                window.location.reload();
+                //window.location.reload();
             }
         }   
         return Promise.reject(error);

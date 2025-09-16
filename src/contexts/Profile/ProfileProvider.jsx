@@ -11,8 +11,6 @@ function ProfileProvider({ children }) {
     const [profileError, setProfileError] = useState(null);
     const [physicalActivity, setPhysicalActivty] = useState([]);
 
-    console.log('Physical Activity:', physicalActivity);
-
     /*
     console.log("Profile State:", {
         profile,
