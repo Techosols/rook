@@ -24,7 +24,10 @@ const AuthProvider = ({ children }) => {
 
   const { setActiveTab } = useTab();
 
-  console.log("Token: ", token);
+
+  useEffect(() => {
+    console.log("Token: ", token);
+  }, [token]);
 
   const login = () => loginWithRedirect();
   const loginPopup = (options) => loginWithPopup(options);
@@ -40,17 +43,18 @@ const AuthProvider = ({ children }) => {
 
     if (savedToken) {
       setToken(savedToken);
-    } else {
-      getToken();
     }
+    // Do NOT call getToken here; only call when isAuthenticated is true
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getToken = async () => {
     const claim = await getIdTokenClaims();
     const authToken = claim?.__raw;
-    setToken(authToken);
-    localStorage.setItem("RKT", authToken); // RKT => Rook Token
+    if (authToken) {
+      setToken(authToken);
+      localStorage.setItem("RKT", authToken); // RKT => Rook Token
+    }
   };
 
   const getUserExternalId = async () => {
@@ -66,14 +70,13 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     if (isLoggedIn) {
       localStorage.setItem("RKU", true); // RKU => Rook User
-      getToken()
       getUserExternalId();
     }
   }, [isLoggedIn, user]);
 
   useEffect(() => {
     if (isAuthenticated) {
-      getToken()
+      getToken();
     }
   }, [isAuthenticated]);
 
