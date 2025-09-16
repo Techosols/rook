@@ -11,7 +11,6 @@ const AuthProvider = ({ children }) => {
     loginWithPopup,
     error,
     getIdTokenClaims,
-    getAccessTokenSilently,
   } = useAuth0();
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -50,6 +49,7 @@ const AuthProvider = ({ children }) => {
     setToken(authToken);
     localStorage.setItem("RKT", authToken); // RKT => Rook Token
   };
+
 
   useEffect(() => {
     if (isLoggedIn) {
