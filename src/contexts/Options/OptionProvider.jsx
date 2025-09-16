@@ -2,10 +2,12 @@ import OptionContext from "./OptionContext";
 import { useState, useEffect } from "react";
 import PrivateApi from "../../services/privateApi";
 import { useAuth0 } from "@auth0/auth0-react";
+import useAuth from "../../hooks/useAuth";
 
 const OptionProvider = ({ children }) => {
 
     const { isAuthenticated } = useAuth0();
+    const { token } = useAuth();
 
     const API_PREFIX = "V1/options"
     const MISC_API_PREFIX = "V1/misc"
@@ -119,7 +121,7 @@ const OptionProvider = ({ children }) => {
         loadFromStorage('sportsInterests', setSportsInterests);
 
         async function fetchOptions() {
-            if (!isAuthenticated) return;
+            if (!token) return;
 
             try {
                 const [
