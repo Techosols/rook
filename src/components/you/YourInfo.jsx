@@ -611,7 +611,7 @@ function YourInfo() {
               Type
             </label>
             <div className="flex flex-col h-32 overflow-y-scroll border border-gray-300 dark:border-gray-600 p-2 rounded mb-1">
-              {Object.values(physicalActivityTypes).map((type, idx) => (
+              {physicalActivityTypes && Object.values(physicalActivityTypes).map((type, idx) => (
                 <Checkbox
                   key={idx}
                   label={type}
