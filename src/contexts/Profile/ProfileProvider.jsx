@@ -1,14 +1,14 @@
 import ProfileContext from "./ProfileContext";
 import { useState, useEffect } from "react";
 import PrivateApi from "../../services/privateApi";
+import useAuth from "../../hooks/useAuth";
 
 function ProfileProvider({ children }) {
+    const { token } = useAuth();
     const [profile, setProfile] = useState(null);
     const [isProfileLoading, setIsProfileLoading] = useState(false);
     const [isProfileUpdating, setIsProfileUpdating] = useState(false);
     const [profileError, setProfileError] = useState(null);
-
-    console.log('Profile: ', profile);
 
     /*
     console.log("Profile State:", {
@@ -34,6 +34,9 @@ function ProfileProvider({ children }) {
     }
 
     useEffect(() => {
+        if (!token) {
+            return;
+        }
         const fetchProfile = async () => {
             try {
                 setIsProfileLoading(true);
@@ -47,7 +50,7 @@ function ProfileProvider({ children }) {
         };
 
         fetchProfile();
-    }, []);
+    }, [token]);
 
 
     return (
