@@ -2,6 +2,10 @@ import axios from "axios";
 
 const token = localStorage.getItem('RKT');
 
+if(!token) {
+    console.warn("No auth token found for PrivateApi");
+}
+
 const PrivateApi = axios.create({
     baseURL: (import.meta.env.PROD || import.meta.env.VITE_USE_PRODUCTION_API === 'true' ? import.meta.env.VITE_SERVER_PRIVATE_API_URL : '/authApi/'),
     timeout: 50000,
@@ -29,8 +33,8 @@ PrivateApi.interceptors.response.use(
         if (error.response) {
             if (error.response.status === 401) {
                 console.warn("Authentication token expired or invalid");
-                localStorage.removeItem('RKT');
-                //window.location.reload();
+                //localStorage.removeItem('RKT');
+                window.location.reload();
             }
         }   
         return Promise.reject(error);

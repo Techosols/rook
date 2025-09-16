@@ -50,9 +50,11 @@ const AuthProvider = ({ children }) => {
 
   const getToken = async () => {
     const claim = await getIdTokenClaims();
-    const authToken = claim?.__raw;
+    const authToken = claim.__raw;
+    console.log("Auth Token: ", authToken);
     if (authToken) {
       setToken(authToken);
+      console.log("Setting token in localStorage: ", authToken);
       localStorage.setItem("RKT", authToken); // RKT => Rook Token
     }
   };

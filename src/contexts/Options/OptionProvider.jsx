@@ -78,48 +78,6 @@ const OptionProvider = ({ children }) => {
 
 
     useEffect(() => {
-        // Helper to load from localStorage
-        function loadFromStorage(key, setter) {
-            const saved = localStorage.getItem(key);
-            if (saved) setter(JSON.parse(saved));
-        }
-
-
-        // Load all from localStorage first for fast UI
-        loadFromStorage('alcoholConsumptionFrequencies', setAlcoholConsumptionFrequencies);
-        loadFromStorage('complaintCategories', setComplaintCategories);
-        loadFromStorage('complaintStatuses', setComplaintStatuses);
-        loadFromStorage('educationLevels', setEducationLevels);
-        loadFromStorage('ethnicities', setEthnicities);
-        loadFromStorage('genders', setGenders);
-        loadFromStorage('hobbies', setHobbies);
-        loadFromStorage('loveLanguages', setLoveLanguages);
-        loadFromStorage('musicalInstruments', setMusicalInstruments);
-        loadFromStorage('musicGenres', setMusicGenres);
-        loadFromStorage('occupationProfiles', setOccupationProfiles);
-        loadFromStorage('orientations', setOrientations);
-        loadFromStorage('pets', setPets);
-        loadFromStorage('physicalActivityDurations', setPhysicalActivityDurations);
-        loadFromStorage('physicalActivityFrequencies', setPhysicalActivityFrequencies);
-        loadFromStorage('physicalActivityIntensities', setPhysicalActivityIntensities);
-        loadFromStorage('physicalActivityTypes', setPhysicalActivityTypes);
-        loadFromStorage('physicalActivityLengths', setPhysicalActivityLengths);
-        loadFromStorage('politicalAffiliations', setPoliticalAffiliations);
-        loadFromStorage('relationshipStatuses', setRelationshipStatuses);
-        loadFromStorage('relationshipTypes', setRelationshipTypes);
-        loadFromStorage('religions', setReligions);
-        loadFromStorage('sports', setSports);
-        loadFromStorage('starSigns', setStarSigns);
-        loadFromStorage('suggestionCategories', setSuggestionCategories);
-        loadFromStorage('convoStarters', setConvoStarters);
-        loadFromStorage('miscHobbies', setMiscHobbies);
-        loadFromStorage('miscMusicalInstruments', setMiscMusicalInstruments);
-        loadFromStorage('miscMusicGenres', setMiscMusicGenres);
-        loadFromStorage('petTypes', setPetTypes);
-        loadFromStorage('miscPhysicalActivityTypes', setMiscPhysicalActivityTypes);
-        loadFromStorage('miscRelationshipTypes', setMiscRelationshipTypes);
-        loadFromStorage('sportsInterests', setSportsInterests);
-
         async function fetchOptions() {
             if (!token) return;
 
@@ -194,54 +152,45 @@ const OptionProvider = ({ children }) => {
                     PrivateApi.get(`${MISC_API_PREFIX}/sportsinterests`)
                 ]);
 
-                // Helper to update state and localStorage if changed
-                function updateIfChanged(key, data, setter) {
-                    const saved = localStorage.getItem(key);
-                    if (!saved || JSON.stringify(data) !== saved) {
-                        setter(data);
-                        localStorage.setItem(key, JSON.stringify(data));
-                    }
-                }
-
-                updateIfChanged('alcoholConsumptionFrequencies', alcoholRes.data, setAlcoholConsumptionFrequencies);
-                updateIfChanged('complaintCategories', complaintCatRes.data, setComplaintCategories);
-                updateIfChanged('complaintStatuses', complaintStatusRes.data, setComplaintStatuses);
-                updateIfChanged('educationLevels', educationLevelRes.data, setEducationLevels);
-                updateIfChanged('ethnicities', ethnicityRes.data, setEthnicities);
-                updateIfChanged('genders', genderRes.data, setGenders);
-                updateIfChanged('hobbies', hobbyRes.data, setHobbies);
-                updateIfChanged('loveLanguages', loveLanguageRes.data, setLoveLanguages);
-                updateIfChanged('musicalInstruments', musicalInstrumentRes.data, setMusicalInstruments);
-                updateIfChanged('musicGenres', musicGenreRes.data, setMusicGenres);
-                updateIfChanged('occupationProfiles', occupationProfileRes.data, setOccupationProfiles);
-                updateIfChanged('orientations', orientationRes.data, setOrientations);
-                updateIfChanged('pets', petRes.data, setPets);
-                updateIfChanged('physicalActivityDurations', physicalActivityDurationRes.data, setPhysicalActivityDurations);
-                updateIfChanged('physicalActivityFrequencies', physicalActivityFrequencyRes.data, setPhysicalActivityFrequencies);
-                updateIfChanged('physicalActivityIntensities', physicalActivityIntensityRes.data, setPhysicalActivityIntensities);
-                updateIfChanged('physicalActivityTypes', physicalActivityTypeRes.data, setPhysicalActivityTypes);
-                updateIfChanged('politicalAffiliations', politicalAffiliationRes.data, setPoliticalAffiliations);
-                updateIfChanged('relationshipStatuses', relationshipStatusRes.data, setRelationshipStatuses);
-                updateIfChanged('relationshipTypes', relationshipTypeRes.data, setRelationshipTypes);
-                updateIfChanged('physicalActivityLengths', physicalActivityLengthRes.data, setPhysicalActivityLengths);
-                updateIfChanged('religions', religionRes.data, setReligions);
-                updateIfChanged('sports', sportRes.data, setSports);
-                updateIfChanged('starSigns', starSignRes.data, setStarSigns);
-                updateIfChanged('suggestionCategories', suggestionCategoryRes.data, setSuggestionCategories);
-                updateIfChanged('convoStarters', convoStartersRes.data, setConvoStarters);
-                updateIfChanged('miscHobbies', miscHobbiesRes.data, setMiscHobbies);
-                updateIfChanged('miscMusicalInstruments', miscMusicalInstrumentsRes.data, setMiscMusicalInstruments);
-                updateIfChanged('miscMusicGenres', miscMusicGenresRes.data, setMiscMusicGenres);
-                updateIfChanged('petTypes', petTypesRes.data, setPetTypes);
-                updateIfChanged('miscPhysicalActivityTypes', miscPhysicalActivityTypesRes.data, setMiscPhysicalActivityTypes);
-                updateIfChanged('miscRelationshipTypes', miscRelationshipTypesRes.data, setMiscRelationshipTypes);
-                updateIfChanged('sportsInterests', sportsInterestsRes.data, setSportsInterests);
+                setAlcoholConsumptionFrequencies(alcoholRes.data);
+                setComplaintCategories(complaintCatRes.data);
+                setComplaintStatuses(complaintStatusRes.data);
+                setEducationLevels(educationLevelRes.data);
+                setEthnicities(ethnicityRes.data);
+                setGenders(genderRes.data);
+                setHobbies(hobbyRes.data);
+                setLoveLanguages(loveLanguageRes.data);
+                setMusicalInstruments(musicalInstrumentRes.data);
+                setMusicGenres(musicGenreRes.data);
+                setOccupationProfiles(occupationProfileRes.data);
+                setOrientations(orientationRes.data);
+                setPets(petRes.data);
+                setPhysicalActivityDurations(physicalActivityDurationRes.data);
+                setPhysicalActivityFrequencies(physicalActivityFrequencyRes.data);
+                setPhysicalActivityIntensities(physicalActivityIntensityRes.data);
+                setPhysicalActivityTypes(physicalActivityTypeRes.data);
+                setPoliticalAffiliations(politicalAffiliationRes.data);
+                setRelationshipStatuses(relationshipStatusRes.data);
+                setRelationshipTypes(relationshipTypeRes.data);
+                setPhysicalActivityLengths(physicalActivityLengthRes.data);
+                setReligions(religionRes.data);
+                setSports(sportRes.data);
+                setStarSigns(starSignRes.data);
+                setSuggestionCategories(suggestionCategoryRes.data);
+                setConvoStarters(convoStartersRes.data);
+                setMiscHobbies(miscHobbiesRes.data);
+                setMiscMusicalInstruments(miscMusicalInstrumentsRes.data);
+                setMiscMusicGenres(miscMusicGenresRes.data);
+                setPetTypes(petTypesRes.data);
+                setMiscPhysicalActivityTypes(miscPhysicalActivityTypesRes.data);
+                setMiscRelationshipTypes(miscRelationshipTypesRes.data);
+                setSportsInterests(sportsInterestsRes.data);
             } catch (error) {
                 console.error("Error fetching options:", error);
             }
         }
         fetchOptions();
-    }, [isAuthenticated]);
+    }, [isAuthenticated, token]);
 
     const values = {
         alcoholConsumptionFrequencies,
