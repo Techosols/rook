@@ -9,6 +9,9 @@ function ProfileProvider({ children }) {
     const [isProfileLoading, setIsProfileLoading] = useState(false);
     const [isProfileUpdating, setIsProfileUpdating] = useState(false);
     const [profileError, setProfileError] = useState(null);
+    const [physicalActivity, setPhysicalActivty] = useState([]);
+
+    console.log('Physical Activity:', physicalActivity);
 
     /*
     console.log("Profile State:", {
@@ -34,22 +37,26 @@ function ProfileProvider({ children }) {
     }
 
     useEffect(() => {
-        if (!token) {
-            return;
-        }
-        const fetchProfile = async () => {
+        if (!token) return;
+
+        const fetchAll = async () => {
             try {
                 setIsProfileLoading(true);
-                const response = await PrivateApi.get("V1/profile");
-                setProfile(response.data);
+                const [profileRes, activityRes] = await Promise.all([
+                    PrivateApi.get("V1/profile"),
+                    PrivateApi.get("V1/physical-activity")
+                ]);
+                setProfile(profileRes.data);
+                setPhysicalActivty(activityRes.data);
             } catch (error) {
-                console.error("Error fetching profile:", error);
+                console.error("Error fetching profile or activity:", error);
+                setProfileError(error);
             } finally {
                 setIsProfileLoading(false);
             }
         };
 
-        fetchProfile();
+        fetchAll();
     }, [token]);
 
 
@@ -64,7 +71,9 @@ function ProfileProvider({ children }) {
             setIsProfileUpdating,
             setProfileError,
             setProfileField,
-            updateProfile
+            updateProfile,
+            physicalActivity,
+        
         }}>
             {children}
         </ProfileContext.Provider>

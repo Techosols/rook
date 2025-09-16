@@ -5,9 +5,6 @@ import useModel from '../../hooks/useModel';
 
 import { LogOutIcon } from 'lucide-react';
 
-console.log('User: ', )
-
-
 function ProfileModel() {
     const { setIsLoggedIn } = useAuth();
     const { logout, user } = useAuth0();

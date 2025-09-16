@@ -2,6 +2,7 @@ import AuthContext from "./AuthContext";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
 import useTab from "../../hooks/useTab";
+import api from "../../services/api";
 
 const AuthProvider = ({ children }) => {
   const {
@@ -22,6 +23,8 @@ const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
 
   const { setActiveTab } = useTab();
+
+  console.log("ExternalId", userExternalId);
 
   const login = () => loginWithRedirect();
   const loginPopup = (options) => loginWithPopup(options);
@@ -50,13 +53,23 @@ const AuthProvider = ({ children }) => {
     localStorage.setItem("RKT", authToken); // RKT => Rook Token
   };
 
+  const getUserExternalId = async () => {
+    try {
+      const response = await api.get(`v2/user/${user?.email}`);
+      setUserExternalId(response.data.externalId);
+    } catch (error) {
+      console.error('Error fetching user external ID:', error);
+    }
+  };
+
 
   useEffect(() => {
     if (isLoggedIn) {
       localStorage.setItem("RKU", true); // RKU => Rook User
       getToken()
+      getUserExternalId();
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, user]);
 
   useEffect(() => {
     if (isAuthenticated) {

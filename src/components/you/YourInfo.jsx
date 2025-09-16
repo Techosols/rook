@@ -11,8 +11,10 @@ import useOption from "../../hooks/useOption";
 import { useEffect, useState } from "react";
 import userService from "../../services/user";
 
+import useAuth from "../../hooks/useAuth";
+
 function YourInfo() {
-  const { profile, isProfileLoading } = useProfile();
+  const { profile, isProfileLoading, physicalActivity } = useProfile();
   const {
     educationLevels,
     genders,
@@ -32,6 +34,7 @@ function YourInfo() {
     alcoholConsumptionFrequencies,
     starSigns,
   } = useOption();
+  const { userExternalId } = useAuth();
 
   // States
   const [preferredName, setPreferredName] = useState("");
@@ -128,13 +131,12 @@ function YourInfo() {
   async function updatePhysicalActivitySection() {
     try {
       setLoading(true);
-      await userService.updateUserProfile({
-        exerciseFrequency: exerciseFrequency,
-        exerciseIntensity: exerciseIntensity,
-        exerciseDuration: exerciseDuration,
-        exerciseLength: exerciseLength,
-        exerciseType: exerciseType,
-      });
+      await userService.updateUserPhysicalActivity(userExternalId, {
+        frequency: exerciseFrequency,
+        length: exerciseLength,
+        duration: exerciseDuration,
+        intensity: exerciseIntensity,
+      })
     } catch (error) {
       console.error("Error updating profile:", error);
     } finally {
@@ -203,10 +205,10 @@ function YourInfo() {
       setWantsKids(profile?.wantOwnKids || false);
       setHasPets(profile?.hasPetsNow || false);
       setWantsPets(profile?.wantsPets || true);
-      setExerciseFrequency(profile?.exerciseFrequency || "");
-      setExerciseIntensity(profile?.exerciseIntensity || "");
-      setExerciseDuration(profile?.exerciseDuration || "");
-      setExerciseLength(profile?.exerciseLength || "");
+      setExerciseFrequency(physicalActivity?.frequency || "");
+      setExerciseIntensity(physicalActivity?.intensity || "");
+      setExerciseDuration(physicalActivity?.duration || "");
+      setExerciseLength(physicalActivity?.length || "");
       setSmoke(profile?.isSmoker || false);
       setRecDrug(profile?.isRecreationalDrugUser || false);
       setDisability(profile?.hasDisability || false);
@@ -536,7 +538,7 @@ function YourInfo() {
           </div>
         </div>
       </FormSection>
-      <FormSection title="Physical Activity">
+      <FormSection title="Physical Activity" onSave={() => updatePhysicalActivitySection()} loading={loading}>
         <p className="text-gray-400 text-sm flex gap-2 items-center">
           <span>
             <BadgeInfo />
