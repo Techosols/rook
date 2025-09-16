@@ -72,12 +72,18 @@ function YourInfo() {
   const [starSign, setStarSign] = useState("");
   const [includeInRandomMatches, setIncludeInRandomMatches] = useState(false);
 
-  // Loading State
-  const [loading, setLoading] = useState(false);
+  // Loading States
+  const [youSectionLoading, setYouSectionLoading] = useState(false);
+  const [aboutYouSectionLoading, setAboutYouSectionLoading] = useState(false);
+  const [kidsPetsSectionLoading, setKidsPetsSectionLoading] = useState(false);
+  const [physicalActivitySectionLoading, setPhysicalActivitySectionLoading] = useState(false);
+  const [healthHabitsSectionLoading, setHealthHabitsSectionLoading] = useState(false);
+  const [miscSectionLoading, setMiscSectionLoading] = useState(false);
+
 
   async function updateYouSection() {
     try {
-      setLoading(true);
+      setYouSectionLoading(true);
       await userService.updateUserProfile({
         preferredName: preferredName,
         heightInInches:
@@ -87,13 +93,13 @@ function YourInfo() {
     } catch (error) {
       console.error("Error updating profile:", error);
     } finally {
-      setLoading(false);
+      setYouSectionLoading(false);
     }
   }
 
   async function updateAboutYouSection() {
     try {
-      setLoading(true);
+      setAboutYouSectionLoading(true);
       await userService.updateUserProfile({
         gender: gender,
         relationshipStatus: relationshipStatus,
@@ -108,13 +114,13 @@ function YourInfo() {
     } catch (error) {
       console.error("Error updating profile:", error);
     } finally {
-      setLoading(false);
+      setAboutYouSectionLoading(false);
     }
   }
 
   async function updateKidsPetsSection() {
     try {
-      setLoading(true);
+      setKidsPetsSectionLoading(true);
       await userService.updateUserProfile({
         hasKidsNow: hasKids,
         wantOwnKids: wantsKids,
@@ -124,29 +130,30 @@ function YourInfo() {
     } catch (error) {
       console.error("Error updating profile:", error);
     } finally {
-      setLoading(false);
+      setKidsPetsSectionLoading(false);
     }
   }
 
   async function updatePhysicalActivitySection() {
     try {
-      setLoading(true);
+      setPhysicalActivitySectionLoading(true);
       await userService.updateUserPhysicalActivity(userExternalId, {
         frequency: exerciseFrequency,
         length: exerciseLength,
         duration: exerciseDuration,
         intensity: exerciseIntensity,
+        activityTypes: exerciseType,
       })
     } catch (error) {
       console.error("Error updating profile:", error);
     } finally {
-      setLoading(false);
+      setPhysicalActivitySectionLoading(false);
     }
   }
 
   async function updateHealthHabitsSection() {
     try {
-      setLoading(true);
+      setHealthHabitsSectionLoading(true);
       await userService.updateUserProfile({
         isSmoker: smoke,
         isRecreationalDrugUser: recDrug,
@@ -157,13 +164,13 @@ function YourInfo() {
     } catch (error) {
       console.error("Error updating profile:", error);
     } finally {
-      setLoading(false);
+      setHealthHabitsSectionLoading(false);
     }
   }
 
   async function updateMiscSection() {
     try {
-      setLoading(true);
+      setMiscSectionLoading(true);
       await userService.updateUserProfile({
         loveLanguage: loveLanguage,
         starSign: starSign,
@@ -172,7 +179,7 @@ function YourInfo() {
     } catch (error) {
       console.error("Error updating profile:", error);
     } finally {
-      setLoading(false);
+      setMiscSectionLoading(false);
     }
   }
 
@@ -209,6 +216,7 @@ function YourInfo() {
       setExerciseIntensity(physicalActivity?.intensity || "");
       setExerciseDuration(physicalActivity?.duration || "");
       setExerciseLength(physicalActivity?.length || "");
+      setExerciseType(physicalActivity?.activityTypes || []);
       setSmoke(profile?.isSmoker || false);
       setRecDrug(profile?.isRecreationalDrugUser || false);
       setDisability(profile?.hasDisability || false);
@@ -229,11 +237,7 @@ function YourInfo() {
         In this page, you provide info about yourself that can be used by others
         in filters, to include/exclude you in their matches.
       </p>
-      <FormSection
-        title="You"
-        onSave={() => updateYouSection()}
-        loading={loading}
-      >
+      <FormSection title="You" onSave={() => updateYouSection()} loading={youSectionLoading}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex flex-col gap-2">
             <label className="font-medium dark:text-white" htmlFor="firstName">
@@ -327,11 +331,7 @@ function YourInfo() {
           </div>
         </div>
       </FormSection>
-      <FormSection
-        title="About You"
-        onSave={() => updateAboutYouSection()}
-        loading={loading}
-      >
+      <FormSection title="About You" onSave={() => updateAboutYouSection()} loading={aboutYouSectionLoading}>
         <div className="flex flex-col gap-2 md:gap-4">
           <div className="grid grid-cols-1 md:grid-cols-[1fr_4fr] gap-1 md:gap-2 items-center">
             <label className="font-medium dark:text-white" htmlFor="Gender">
@@ -454,11 +454,7 @@ function YourInfo() {
           </div>
         </div>
       </FormSection>
-      <FormSection
-        title="Kids/Pets"
-        onSave={() => updateKidsPetsSection()}
-        loading={loading}
-      >
+      <FormSection title="Kids/Pets" onSave={() => updateKidsPetsSection() } loading={kidsPetsSectionLoading}>
         <div className="flex flex-col gap-2 md:gap-4">
           <div className="grid grid-cols-1 md:grid-cols-[1fr_3fr] gap-1 md:gap-2 items-center">
             <label className="font-medium dark:text-white" htmlFor="Kids">
@@ -538,7 +534,7 @@ function YourInfo() {
           </div>
         </div>
       </FormSection>
-      <FormSection title="Physical Activity" onSave={() => updatePhysicalActivitySection()} loading={loading}>
+      <FormSection title="Physical Activity" onSave={() => updatePhysicalActivitySection()} loading={physicalActivitySectionLoading}>
         <p className="text-gray-400 text-sm flex gap-2 items-center">
           <span>
             <BadgeInfo />
@@ -629,7 +625,7 @@ function YourInfo() {
           </div>
         </div>
       </FormSection>
-      <FormSection title="Health/Habits" onSave={() => updateHealthHabitsSection()} loading={loading}>
+      <FormSection title="Health/Habits" onSave={() => updateHealthHabitsSection()} loading={healthHabitsSectionLoading}>
         <div className="flex flex-col gap-2 md:gap-4">
           <div className="grid grid-cols-1 md:grid-cols-[1fr_3fr] gap-1 md:gap-2 items-center">
             <label className="font-medium dark:text-white" htmlFor="smoke">
@@ -722,11 +718,7 @@ function YourInfo() {
           </div>
         </div>
       </FormSection>
-      <FormSection
-        title="Misc"
-        onSave={() => updateMiscSection()}
-        loading={loading}
-      >
+      <FormSection title="Misc" onSave={() => updateMiscSection()} loading={miscSectionLoading}>
         <div className="flex flex-col gap-2 md:gap-4">
           <div className="grid grid-cols-1 md:grid-cols-[1fr_3fr] gap-1 md:gap-2 items-center">
             <label className="font-medium dark:text-white" htmlFor="loveLang">

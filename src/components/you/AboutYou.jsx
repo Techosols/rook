@@ -77,7 +77,7 @@ function AboutYou() {
           <textarea
             rows={3}
             className="border border-gray-300 dark:border-gray-500 p-2 rounded-lg w-full focus:outline-primary placeholder:text-gray-400"
-            placeholder={Array.isArray(convoStarters) ? convoStarters.join("\n") : Object.values(convoStarters).join("\n")}
+            placeholder={convoStarters && Array.isArray(convoStarters) ? convoStarters.join("\n") : convoStarters && Object.values(convoStarters).join("\n")}
           ></textarea>
         </div>
       </FormSection>
