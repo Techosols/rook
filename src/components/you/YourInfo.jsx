@@ -310,7 +310,7 @@ function YourInfo() {
               Relationship Types | {relationshipType}
             </label>
             <div className="flex flex-col gap-1 h-30 overflow-y-auto border border-gray-300 dark:border-gray-600 p-2 rounded">
-              {Object.values(relationshipTypes).map((type, idx) => (
+              { relationshipTypes && Object.values(relationshipTypes).map((type, idx) => (
                 <Checkbox
                   key={idx}
                   label={type}
