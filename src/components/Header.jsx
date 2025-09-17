@@ -52,7 +52,7 @@ function Navbar() {
                         <a href={link.href} className="cursor-pointer text-lg">{link.label}</a>
                       </li>
                     ))}
-                    <li onClick={() => openModel({ for: 'profile', heading: 'Your Profile' })} className="cursor-pointer text-lg">
+                    <li onClick={() => openModel({ for: 'profile', heading: 'Your Profile', dissmissible: true })} className="cursor-pointer text-lg">
 
                       <UserSquare className="w-6 h-6 " />
                     </li>
