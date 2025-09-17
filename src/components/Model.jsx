@@ -3,6 +3,8 @@ import useModel from "../hooks/useModel";
 
 import ProfilePercentageModel from "./models/ProfilePercentageModel";
 import ProfileModel from "./models/ProfileModel";
+import NoInternet from "./models/NoInternet";
+import InvalidToken from "./models/InvalidToken";
 
 function Model() {
   const { model, closeModel } = useModel();
@@ -25,17 +27,20 @@ function Model() {
               <p className="text-gray-600 dark:text-gray-300 text-center mb-2">{model.description}</p>
             )}
           </div>
-          <button
+
+          {model?.dissmissible && <button
             onClick={closeModel}
             className="absolute top-3 right-3 text-gray-400 hover:text-primary transition-colors p-1 rounded-full focus:outline-none focus:ring-2 focus:ring-primary"
             aria-label="Close modal"
           >
             <X className="w-6 h-6" />
-          </button>
+          </button>}
         </div>
         <div className="mt-4">
           {model?.for == 'profilePercentage' && <ProfilePercentageModel />}
           {model?.for == 'profile' && <ProfileModel />}
+          {model?.for == 'noInternet' && <NoInternet />}
+          {model?.for == 'invalidToken' && <InvalidToken />}
         </div>
       </div>
     </div>

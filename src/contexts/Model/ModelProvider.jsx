@@ -13,6 +13,11 @@ function ModelProvider({ children }) {
     setModel(data);
   };
 
+  // Expose openModel globally for use in non-component files (e.g., privateApi.js)
+  if (typeof window !== 'undefined') {
+    window.openGlobalModel = openModel;
+  }
+
 
   return (
     <ModelContext.Provider value={{ model, setModel, closeModel, openModel }}>
