@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router'
 import { ToastContainer } from 'react-toastify'
 import Model from './components/Model'
@@ -12,35 +11,15 @@ import ContactUs from './pages/ContactUs'
 import FAQ from './pages/FAQ'
 import NotFound from './pages/NotFound'
 
+import BrowserEvents from './externals/BrowserEvents'
+
 import useModel from './hooks/useModel'
 
 function App() {
 
-  const { model, openModel, closeModel } = useModel();
+  const { model } = useModel();
 
-  // Handle No Internet Connection globally
-  useEffect(() => {
-    function handleOffline() {
-      if (!window?.navigator?.onLine) {
-        openModel({ for: 'noInternet', heading: 'No Internet', dissmissible: false });
-      }
-    }
 
-    function handleOnline() {
-      // If you want to close the modal when internet returns, add your close logic here
-      // closeModel(); // If you have a closeModel function
-      closeModel();
-      window.location.reload();
-    }
-
-    window.addEventListener('offline', handleOffline);
-    window.addEventListener('online', handleOnline);
-
-    return () => {
-      window.removeEventListener('offline', handleOffline);
-      window.removeEventListener('online', handleOnline);
-    };
-  }, [openModel]);
 
   return (
     <BrowserRouter>
@@ -54,6 +33,7 @@ function App() {
         <Route path='*' element={<NotFound />} />
       </Routes>
       <ToastContainer />
+      <BrowserEvents />
       {model && <Model />}
     </BrowserRouter>
   )

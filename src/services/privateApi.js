@@ -1,46 +1,44 @@
 import axios from "axios";
 
-const PrivateApi = axios.create({
-    baseURL: (import.meta.env.PROD || import.meta.env.VITE_USE_PRODUCTION_API === 'true' ? import.meta.env.VITE_SERVER_PRIVATE_API_URL : '/authApi/'),
-    timeout: 50000,
-    headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-    },
-})
+const createPrivateApi = (token) => {
+    if (!token) {
+        throw new Error("No auth token provided to PrivateApi");
+    }
+    const instance = axios.create({
+        baseURL: (import.meta.env.PROD || import.meta.env.VITE_USE_PRODUCTION_API === 'true' ? import.meta.env.VITE_SERVER_PRIVATE_API_URL : '/authApi/'),
+        timeout: 50000,
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "Authorization": `Bearer ${token}`
+        },
+    });
 
-PrivateApi.interceptors.request.use(
-    async (config) => {
-        const token = localStorage.getItem('RKT');
-        if (!token) {
-            console.warn("No auth token found, aborting request.");
-            return Promise.reject(new Error("No auth token found"));
+    instance.interceptors.request.use(
+        async (config) => {
+            config.headers["Authorization"] = `Bearer ${token}`;
+            return config;
+        },
+        (error) => {
+            return Promise.reject(error);
         }
-        config.headers["Authorization"] = `Bearer ${token}`;
-        return config;
-    },
-    (error) => {
-        return Promise.reject(error);
-    }
-);
+    );
 
-PrivateApi.interceptors.response.use(
-    (response) => {
-        return response;
-    },
-    (error) => {
-        if (error.response) {
-            if (error.response.status === 401) {
-                console.warn("Authentication token expired or invalid");
-                if (window.openGlobalModel) {
-                    window.openGlobalModel({ for: 'invalidToken', heading: 'Invalid Token' });
+    instance.interceptors.response.use(
+        (response) => {
+            return response;
+        },
+        (error) => {
+            if (error.response) {
+                if (error.response.status === 401) {
+                    console.warn("Authentication token expired or invalid");
                 }
-                //localStorage.removeItem('RKT');
-                //window.location.reload();
             }
-        }   
-        return Promise.reject(error);
-    }
-)
+            return Promise.reject(error);
+        }
+    );
 
-export default PrivateApi;
+    return instance;
+};
+
+export default createPrivateApi;

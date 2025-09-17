@@ -3,11 +3,14 @@ import { useState, useEffect } from "react";
 import PrivateApi from "../../services/privateApi";
 import { useAuth0 } from "@auth0/auth0-react";
 import useAuth from "../../hooks/useAuth";
+import useAuthenticatedApi from "../../hooks/useAuthenticatedAPi";
 
 const OptionProvider = ({ children }) => {
 
     const { isAuthenticated } = useAuth0();
     const { token } = useAuth();
+
+    const api = useAuthenticatedApi();
 
     const API_PREFIX = "V1/options"
     const MISC_API_PREFIX = "V1/misc"
@@ -117,39 +120,39 @@ const OptionProvider = ({ children }) => {
                     miscRelationshipTypesRes,
                     sportsInterestsRes
                 ] = await Promise.all([
-                    PrivateApi.get(`${API_PREFIX}/alcoholconsumptionfrequencies`),
-                    PrivateApi.get(`${API_PREFIX}/complaintcategories`),
-                    PrivateApi.get(`${API_PREFIX}/complaintstatuses`),
-                    PrivateApi.get(`${API_PREFIX}/educationlevels`),
-                    PrivateApi.get(`${API_PREFIX}/ethnicities`),
-                    PrivateApi.get(`${API_PREFIX}/genders`),
-                    PrivateApi.get(`${API_PREFIX}/hobbies`),
-                    PrivateApi.get(`${API_PREFIX}/lovelanguages`),
-                    PrivateApi.get(`${API_PREFIX}/musicalinstruments`),
-                    PrivateApi.get(`${API_PREFIX}/musicgenres`),
-                    PrivateApi.get(`${API_PREFIX}/occupationprofiles`),
-                    PrivateApi.get(`${API_PREFIX}/orientations`),
-                    PrivateApi.get(`${API_PREFIX}/pets`),
-                    PrivateApi.get(`${API_PREFIX}/physicalactivitydurations`),
-                    PrivateApi.get(`${API_PREFIX}/physicalactivityfrequencies`),
-                    PrivateApi.get(`${API_PREFIX}/physicalactivityintensities`),
-                    PrivateApi.get(`${API_PREFIX}/physicalactivitytypes`),
-                    PrivateApi.get(`${API_PREFIX}/physicalactivitylengths`),
-                    PrivateApi.get(`${API_PREFIX}/politicalaffiliations`),
-                    PrivateApi.get(`${API_PREFIX}/relationshipstatuses`),
-                    PrivateApi.get(`${API_PREFIX}/relationshiptypes`),
-                    PrivateApi.get(`${API_PREFIX}/religions`),
-                    PrivateApi.get(`${API_PREFIX}/sports`),
-                    PrivateApi.get(`${API_PREFIX}/starsigns`),
-                    PrivateApi.get(`${API_PREFIX}/suggestioncategories`),
-                    PrivateApi.get(`${MISC_API_PREFIX}/convostarters`),
-                    PrivateApi.get(`${MISC_API_PREFIX}/hobbies`),
-                    PrivateApi.get(`${MISC_API_PREFIX}/musicalinstruments`),
-                    PrivateApi.get(`${MISC_API_PREFIX}/musicgenres`),
-                    PrivateApi.get(`${MISC_API_PREFIX}/pettypes`),
-                    PrivateApi.get(`${MISC_API_PREFIX}/physicalactivitytype`),
-                    PrivateApi.get(`${MISC_API_PREFIX}/relationshiptypes`),
-                    PrivateApi.get(`${MISC_API_PREFIX}/sportsinterests`)
+                    api.get(`${API_PREFIX}/alcoholconsumptionfrequencies`),
+                    api.get(`${API_PREFIX}/complaintcategories`),
+                    api.get(`${API_PREFIX}/complaintstatuses`),
+                    api.get(`${API_PREFIX}/educationlevels`),
+                    api.get(`${API_PREFIX}/ethnicities`),
+                    api.get(`${API_PREFIX}/genders`),
+                    api.get(`${API_PREFIX}/hobbies`),
+                    api.get(`${API_PREFIX}/lovelanguages`),
+                    api.get(`${API_PREFIX}/musicalinstruments`),
+                    api.get(`${API_PREFIX}/musicgenres`),
+                    api.get(`${API_PREFIX}/occupationprofiles`),
+                    api.get(`${API_PREFIX}/orientations`),
+                    api.get(`${API_PREFIX}/pets`),
+                    api.get(`${API_PREFIX}/physicalactivitydurations`),
+                    api.get(`${API_PREFIX}/physicalactivityfrequencies`),
+                    api.get(`${API_PREFIX}/physicalactivityintensities`),
+                    api.get(`${API_PREFIX}/physicalactivitytypes`),
+                    api.get(`${API_PREFIX}/physicalactivitylengths`),
+                    api.get(`${API_PREFIX}/politicalaffiliations`),
+                    api.get(`${API_PREFIX}/relationshipstatuses`),
+                    api.get(`${API_PREFIX}/relationshiptypes`),
+                    api.get(`${API_PREFIX}/religions`),
+                    api.get(`${API_PREFIX}/sports`),
+                    api.get(`${API_PREFIX}/starsigns`),
+                    api.get(`${API_PREFIX}/suggestioncategories`),
+                    api.get(`${MISC_API_PREFIX}/convostarters`),
+                    api.get(`${MISC_API_PREFIX}/hobbies`),
+                    api.get(`${MISC_API_PREFIX}/musicalinstruments`),
+                    api.get(`${MISC_API_PREFIX}/musicgenres`),
+                    api.get(`${MISC_API_PREFIX}/pettypes`),
+                    api.get(`${MISC_API_PREFIX}/physicalactivitytype`),
+                    api.get(`${MISC_API_PREFIX}/relationshiptypes`),
+                    api.get(`${MISC_API_PREFIX}/sportsinterests`)
                 ]);
 
                 setAlcoholConsumptionFrequencies(alcoholRes.data);

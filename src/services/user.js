@@ -1,6 +1,5 @@
 import api from "./api";
 import { toast } from "react-toastify";
-import PrivateApi from "./privateApi";
 
 
 const userService = {
@@ -134,9 +133,9 @@ const userService = {
         });
     },
 
-    async updateUserProfile(data){
+    async updateUserProfile(apiInstance, data){
         try {
-            const response = await PrivateApi.patch(`v1/profile`, data);
+            const response = await apiInstance.patch(`v1/profile`, data);
             if(response.status === 200) {
                 toast.success('Your changes have been saved successfully!');
             }
@@ -156,9 +155,10 @@ const userService = {
         }
     },
 
-    async updateUserPhysicalActivity(externalId, data){
+    async updateUserPhysicalActivity(apiInstance, externalId, data){
+      console.log('Updating physical activity with data:', data);
         try {
-            const response = await PrivateApi.patch(`v1/${externalId}/physical-activity`, data);
+            const response = await apiInstance.put(`v1/${externalId}/physical-activity`, data);
             if(response.status === 200) {
                 toast.success('Your changes have been saved successfully!');
             }
@@ -171,6 +171,8 @@ const userService = {
                 toast.error('You are not authorized to perform this action. Please log in and try again.');
             } else if(error.response?.status === 403) {
                 toast.error('You do not have permission to update this profile.');
+            } else if(error.response?.status === 404) {
+                toast.error('Profile not found.');
             } else if(error.response?.status === 500) {
                 toast.error('Your changes could not be saved. Please try again later.');
             }

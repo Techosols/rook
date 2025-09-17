@@ -2,6 +2,7 @@ import ProfileContext from "./ProfileContext";
 import { useState, useEffect } from "react";
 import PrivateApi from "../../services/privateApi";
 import useAuth from "../../hooks/useAuth";
+import useAuthenticatedApi from "../../hooks/useAuthenticatedAPi";
 
 function ProfileProvider({ children }) {
     const { token } = useAuth();
@@ -10,6 +11,8 @@ function ProfileProvider({ children }) {
     const [isProfileUpdating, setIsProfileUpdating] = useState(false);
     const [profileError, setProfileError] = useState(null);
     const [physicalActivity, setPhysicalActivty] = useState([]);
+
+    const api = useAuthenticatedApi();
 
     /*
     console.log("Profile State:", {
@@ -41,8 +44,8 @@ function ProfileProvider({ children }) {
             try {
                 setIsProfileLoading(true);
                 const [profileRes, activityRes] = await Promise.all([
-                    PrivateApi.get("V1/profile"),
-                    PrivateApi.get("V1/physical-activity")
+                    api.get("V1/profile"),
+                    api.get("V1/physical-activity")
                 ]);
                 setProfile(profileRes.data);
                 setPhysicalActivty(activityRes.data);

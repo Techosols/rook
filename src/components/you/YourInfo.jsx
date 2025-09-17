@@ -12,6 +12,8 @@ import { useEffect, useState } from "react";
 import userService from "../../services/user";
 
 import useAuth from "../../hooks/useAuth";
+import useAuthenticatedApi from "../../hooks/useAuthenticatedAPi";
+import { toast } from "react-toastify";
 
 function YourInfo() {
   const { profile, isProfileLoading, physicalActivity } = useProfile();
@@ -35,6 +37,9 @@ function YourInfo() {
     starSigns,
   } = useOption();
   const { userExternalId } = useAuth();
+  console.log('User External ID: ', userExternalId);
+
+  const api = useAuthenticatedApi();
 
   // States
   const [preferredName, setPreferredName] = useState("");
@@ -63,6 +68,7 @@ function YourInfo() {
   const [exerciseDuration, setExerciseDuration] = useState("");
   const [exerciseLength, setExerciseLength] = useState("");
   const [exerciseType, setExerciseType] = useState([]);
+  const [exerciseIndex, setExerciseIndex] = useState(null);
   const [smoke, setSmoke] = useState(false);
   const [recDrug, setRecDrug] = useState(false);
   const [disability, setDisability] = useState(false);
@@ -84,7 +90,7 @@ function YourInfo() {
   async function updateYouSection() {
     try {
       setYouSectionLoading(true);
-      await userService.updateUserProfile({
+      await userService.updateUserProfile(api, {
         preferredName: preferredName,
         heightInInches:
           (parseInt(heightFeet) || 0) * 12 + (parseInt(heightInches) || 0),
@@ -100,7 +106,7 @@ function YourInfo() {
   async function updateAboutYouSection() {
     try {
       setAboutYouSectionLoading(true);
-      await userService.updateUserProfile({
+      await userService.updateUserProfile(api,{
         gender: gender,
         relationshipStatus: relationshipStatus,
         ethnicity: ethnicity,
@@ -121,7 +127,7 @@ function YourInfo() {
   async function updateKidsPetsSection() {
     try {
       setKidsPetsSectionLoading(true);
-      await userService.updateUserProfile({
+      await userService.updateUserProfile(api, {
         hasKidsNow: hasKids,
         wantOwnKids: wantsKids,
         hasPetsNow: hasPets,
@@ -137,15 +143,17 @@ function YourInfo() {
   async function updatePhysicalActivitySection() {
     try {
       setPhysicalActivitySectionLoading(true);
-      await userService.updateUserPhysicalActivity(userExternalId, {
+      await userService.updateUserPhysicalActivity(api, userExternalId, {
         frequency: exerciseFrequency,
         length: exerciseLength,
         duration: exerciseDuration,
         intensity: exerciseIntensity,
         activityTypes: exerciseType,
+        index: exerciseIndex,
       })
     } catch (error) {
       console.error("Error updating profile:", error);
+      toast.error('Your changes could not be saved. Please try again.');
     } finally {
       setPhysicalActivitySectionLoading(false);
     }
@@ -154,7 +162,7 @@ function YourInfo() {
   async function updateHealthHabitsSection() {
     try {
       setHealthHabitsSectionLoading(true);
-      await userService.updateUserProfile({
+      await userService.updateUserProfile(api, {
         isSmoker: smoke,
         isRecreationalDrugUser: recDrug,
         hasDisability: disability,
@@ -171,7 +179,7 @@ function YourInfo() {
   async function updateMiscSection() {
     try {
       setMiscSectionLoading(true);
-      await userService.updateUserProfile({
+      await userService.updateUserProfile(api, {
         loveLanguage: loveLanguage,
         starSign: starSign,
         includeInRandomMatches: includeInRandomMatches,
@@ -217,6 +225,7 @@ function YourInfo() {
       setExerciseDuration(physicalActivity?.duration || "");
       setExerciseLength(physicalActivity?.length || "");
       setExerciseType(physicalActivity?.activityTypes || []);
+      setExerciseIndex(physicalActivity?.index || null);
       setSmoke(profile?.isSmoker || false);
       setRecDrug(profile?.isRecreationalDrugUser || false);
       setDisability(profile?.hasDisability || false);
@@ -314,6 +323,9 @@ function YourInfo() {
               Relationship Types | {relationshipType}
             </label>
             <div className="flex flex-col gap-1 h-30 overflow-y-auto border border-gray-300 dark:border-gray-600 p-2 rounded">
+              { !relationshipTypes && Array.from({length: 4}).map((_, idx) => (
+                <div key={idx} className="h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-1"></div>
+              ))}
               { relationshipTypes && Object.values(relationshipTypes).map((type, idx) => (
                 <Checkbox
                   key={idx}
@@ -607,6 +619,9 @@ function YourInfo() {
               Type
             </label>
             <div className="flex flex-col h-32 overflow-y-scroll border border-gray-300 dark:border-gray-600 p-2 rounded mb-1">
+              { !physicalActivityTypes && Array.from({length: 4}).map((_, idx) => (
+                <div key={idx} className="h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-1"></div>
+              ))}
               {physicalActivityTypes && Object.values(physicalActivityTypes).map((type, idx) => (
                 <Checkbox
                   key={idx}

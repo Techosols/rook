@@ -2,17 +2,19 @@ import useModel from "../hooks/useModel";
 import { useEffect, useState } from "react";
 import PrivateApi from "../services/privateApi";
 import useAuth from "../hooks/useAuth";
+import useAuthenticatedApi from "../hooks/useAuthenticatedAPi";
 
 function ProfilePercentageBanner() {
     const { openModel } = useModel();
     const { token } = useAuth();
     const [profileCompletion, setProfileCompletion] = useState(0);
     const [loading, setLoading] = useState(false);
+    const api = useAuthenticatedApi();
 
 
     useEffect(() => {
         setLoading(true);
-        PrivateApi.get('/v1/profile-complete-stats')
+        api.get('/v1/profile-complete-stats')
         .then((res) => {
             const percent = res.data && (res.data["Total % Completed"] ?? 0);
             setProfileCompletion(Math.floor(percent));
