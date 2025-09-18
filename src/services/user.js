@@ -155,10 +155,10 @@ const userService = {
         }
     },
 
-    async updateUserPhysicalActivity(apiInstance, externalId, data){
+    async updateUserPhysicalActivity(apiInstance, data){
       console.log('Updating physical activity with data:', data);
         try {
-            const response = await apiInstance.put(`v1/${externalId}/physical-activity`, data);
+            const response = await apiInstance.put(`v1/physical-activity`, data);
             if(response.status === 200) {
                 toast.success('Your changes have been saved successfully!');
             }

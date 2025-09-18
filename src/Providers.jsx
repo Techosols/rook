@@ -24,15 +24,15 @@ const Providers = ({ children }) => (
     >
       <ThemeProvider>
         <TabProvider>
-          <AuthProvider>
-            <OptionProvider>
-              <ProfileProvider>
-                <ModelProvider>
+          <ModelProvider>
+            <AuthProvider>
+              <OptionProvider>
+                <ProfileProvider>
                   {children}
-                </ModelProvider>
-              </ProfileProvider>
-            </OptionProvider>
-          </AuthProvider>
+                </ProfileProvider>
+              </OptionProvider>
+            </AuthProvider>
+          </ModelProvider>
         </TabProvider>
       </ThemeProvider>
     </Auth0Provider>

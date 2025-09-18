@@ -5,6 +5,7 @@ import ProfilePercentageModel from "./models/ProfilePercentageModel";
 import ProfileModel from "./models/ProfileModel";
 import NoInternet from "./models/NoInternet";
 import InvalidToken from "./models/InvalidToken";
+import SessionExpire from "./models/SessionExpire";
 
 function Model() {
   const { model, closeModel } = useModel();
@@ -41,6 +42,7 @@ function Model() {
           {model?.for == 'profile' && <ProfileModel />}
           {model?.for == 'noInternet' && <NoInternet />}
           {model?.for == 'invalidToken' && <InvalidToken />}
+          {model?.for == 'sessionExpire' && <SessionExpire />}
         </div>
       </div>
     </div>

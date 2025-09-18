@@ -78,6 +78,10 @@ function YourInfo() {
   const [starSign, setStarSign] = useState("");
   const [includeInRandomMatches, setIncludeInRandomMatches] = useState(false);
 
+
+  console.log('Exercise Type: ', exerciseType);
+  console.log('Physical Activity Types: ', physicalActivityTypes);
+
   // Loading States
   const [youSectionLoading, setYouSectionLoading] = useState(false);
   const [aboutYouSectionLoading, setAboutYouSectionLoading] = useState(false);
@@ -143,7 +147,7 @@ function YourInfo() {
   async function updatePhysicalActivitySection() {
     try {
       setPhysicalActivitySectionLoading(true);
-      await userService.updateUserPhysicalActivity(api, userExternalId, {
+      await userService.updateUserPhysicalActivity(api, {
         frequency: exerciseFrequency,
         length: exerciseLength,
         duration: exerciseDuration,
@@ -546,7 +550,7 @@ function YourInfo() {
           </div>
         </div>
       </FormSection>
-      <FormSection title="Physical Activity" onSave={() => updatePhysicalActivitySection()} loading={physicalActivitySectionLoading}>
+      <FormSection title="Physical Activity" onSave={() => updatePhysicalActivitySection()} loading={physicalActivitySectionLoading} disabled={true}>
         <p className="text-gray-400 text-sm flex gap-2 items-center">
           <span>
             <BadgeInfo />
@@ -626,13 +630,12 @@ function YourInfo() {
                 <Checkbox
                   key={idx}
                   label={type}
-                  checked={exerciseType.includes(type)}
+                  checked={!!exerciseType[type]}
                   onChange={() => {
-                    setExerciseType((prev) =>
-                      prev.includes(type)
-                        ? prev.filter((item) => item !== type)
-                        : [...prev, type]
-                    );
+                    setExerciseType(prev => ({
+                      ...prev,
+                      [type]: !prev[type]
+                    }));
                   }}
                 />
               ))}
@@ -723,7 +726,7 @@ function YourInfo() {
               className="font-medium dark:text-white"
               htmlFor="alcoholConsumptionFrequency"
             >
-              Alcohol Consumption Frequency | {drinks}
+              Alcohol Consumption Frequency
             </label>
             <Select
               options={alcoholConsumptionFrequencies}

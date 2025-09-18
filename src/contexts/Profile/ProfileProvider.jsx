@@ -3,9 +3,11 @@ import { useState, useEffect } from "react";
 import PrivateApi from "../../services/privateApi";
 import useAuth from "../../hooks/useAuth";
 import useAuthenticatedApi from "../../hooks/useAuthenticatedAPi";
+import { useAuth0 } from "@auth0/auth0-react";
 
 function ProfileProvider({ children }) {
     const { token } = useAuth();
+    const { isAuthenticated } = useAuth0();
     const [profile, setProfile] = useState(null);
     const [isProfileLoading, setIsProfileLoading] = useState(false);
     const [isProfileUpdating, setIsProfileUpdating] = useState(false);
@@ -57,8 +59,10 @@ function ProfileProvider({ children }) {
             }
         };
 
-        fetchAll();
-    }, [token]);
+        if(isAuthenticated) {
+            fetchAll();
+        }
+    }, [token, isAuthenticated]);
 
 
     return (

@@ -14,6 +14,12 @@ const AuthProvider = ({ children }) => {
     getIdTokenClaims,
   } = useAuth0();
 
+
+  console.log('User: ', user)
+  console.log('Is Authenticated: ' , isAuthenticated)
+
+
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userExternalId, setUserExternalId] = useState(null);
   const [needProfileCompletion, setNeedProfileCompletion] = useState(false);
@@ -72,8 +78,10 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     if (isAuthenticated) {
       getToken();
-    }
+    } 
   }, [isAuthenticated]);
+
+  
 
   return (
     <AuthContext.Provider

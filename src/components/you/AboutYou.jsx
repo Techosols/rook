@@ -17,7 +17,7 @@ function AboutYou() {
 
   useEffect(() => {
     if (!isProfileLoading) {
-      setContent(profile.aboutMe || "");
+      setContent(profile?.aboutMe || "");
     }
   }, [profile]);
 
@@ -77,8 +77,10 @@ function AboutYou() {
           <textarea
             rows={3}
             className="border border-gray-300 dark:border-gray-500 p-2 rounded-lg w-full focus:outline-primary placeholder:text-gray-400"
-            placeholder={convoStarters && Array.isArray(convoStarters) ? convoStarters.join("\n") : convoStarters && Object.values(convoStarters).join("\n")}
-          ></textarea>
+            placeholder={'Ask me about about my new puppy.\n Ask me about my recent vacation to Brazil.'}
+          >
+            {convoStarters && Array.isArray(convoStarters) ? convoStarters.join("\n") : convoStarters && Object.values(convoStarters).join("\n")}
+          </textarea>
         </div>
       </FormSection>
 
