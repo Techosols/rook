@@ -19,7 +19,6 @@ const AuthProvider = ({ children }) => {
   console.log('Is Authenticated: ' , isAuthenticated)
 
 
-
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userExternalId, setUserExternalId] = useState(null);
   const [needProfileCompletion, setNeedProfileCompletion] = useState(false);
@@ -32,6 +31,10 @@ const AuthProvider = ({ children }) => {
 
   const login = () => loginWithRedirect();
   const loginPopup = (options) => loginWithPopup(options);
+
+
+  console.log("Token:", token);
+
 
   useEffect(() => {
     const savedState = localStorage.getItem("RKU"); // RKU => Rook User

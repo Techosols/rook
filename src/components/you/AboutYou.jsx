@@ -78,8 +78,8 @@ function AboutYou() {
             rows={3}
             className="border border-gray-300 dark:border-gray-500 p-2 rounded-lg w-full focus:outline-primary placeholder:text-gray-400"
             placeholder={'Ask me about about my new puppy.\n Ask me about my recent vacation to Brazil.'}
+            value={convoStarters && Array.isArray(convoStarters) ? convoStarters.join("\n") : convoStarters && Object.values(convoStarters).join("\n")}
           >
-            {convoStarters && Array.isArray(convoStarters) ? convoStarters.join("\n") : convoStarters && Object.values(convoStarters).join("\n")}
           </textarea>
         </div>
       </FormSection>

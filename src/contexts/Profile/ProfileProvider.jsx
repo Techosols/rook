@@ -48,6 +48,7 @@ function ProfileProvider({ children }) {
                 const [profileRes, activityRes] = await Promise.all([
                     api.get("V1/profile"),
                     api.get("V1/physical-activity")
+                    
                 ]);
                 setProfile(profileRes.data);
                 setPhysicalActivty(activityRes.data);

@@ -7,6 +7,10 @@ import FormSection from "../ui/FormSection";
 import Input from "../ui/Input";
 import Checkbox from "../ui/Checkbox";
 
+import useAuthenticatedApi from "../../hooks/useAuthenticatedAPi";
+import userService from "../../services/user";
+import { toast } from "react-toastify";
+
 function YourHobbies() {
   const {
     miscHobbies,
@@ -16,6 +20,8 @@ function YourHobbies() {
     sportsInterests,
   } = useOption();
   const { profile, isProfileLoading } = useProfile();
+
+  const api = useAuthenticatedApi();
 
   const [hobbies, setHobbies] = useState([]);
   const [musicGener, setMusicGener] = useState([]);
@@ -28,6 +34,79 @@ function YourHobbies() {
   const [searchMusicalInstrument, setSearchMusicalInstrument] = useState("");
   const [searchPets, setSearchPets] = useState("");
   const [searchSports, setSearchSports] = useState("");
+
+  // Loading state for saving data
+  const [saveHobbyLoading, setSaveHobbyLoading] = useState(false);
+  const [saveMusicGenerLoading, setSaveMusicGenerLoading] = useState(false);
+  const [saveMusicalInstrumentLoading, setSaveMusicalInstrumentLoading] = useState(false);
+  const [savePetsLoading, setSavePetsLoading] = useState(false);
+  const [saveSportsLoading, setSaveSportsLoading] = useState(false);
+
+  function saveHobbies() {
+    const selectedHobbies = hobbies
+      .filter((hobby) => hobby.selected)
+      .map((hobby) => hobby.id);
+
+    console.log("Selected Hobbies:", selectedHobbies);
+    setSaveHobbyLoading(true);
+    userService.updateUserMiscData(api, "hobbies", selectedHobbies)
+      .finally(() => {
+        setSaveHobbyLoading(false);
+      });
+  }
+
+  function saveMusicGener() {
+    const selectedMusicGener = musicGener
+      .filter((gener) => gener.selected)
+      .map((gener) => gener.id);
+
+    console.log("Selected Music Gener:", selectedMusicGener);
+    setSaveMusicGenerLoading(true);
+    userService.updateUserMiscData(api, "musicgenres", selectedMusicGener)
+      .finally(() => {
+        setSaveMusicGenerLoading(false);
+      });
+  }
+
+  function saveMusicalInstrument() {
+    const selectedMusicalInstrument = musicalInstrument
+      .filter((instrument) => instrument.selected)
+      .map((instrument) => instrument.id);
+
+    console.log("Selected Musical Instrument:", selectedMusicalInstrument);
+    setSaveMusicalInstrumentLoading(true);
+    userService.updateUserMiscData(api, "musicalinstruments", selectedMusicalInstrument)
+      .finally(() => {
+        setSaveMusicalInstrumentLoading(false);
+      });
+  }
+
+  function savePets() {
+    const selectedPets = pets
+      .filter((pet) => pet.selected)
+      .map((pet) => pet.id);
+    console.log("Selected Pets:", selectedPets);
+
+    setSavePetsLoading(true);
+    userService.updateUserMiscData(api, "pettypes", selectedPets)
+      .finally(() => {
+        setSavePetsLoading(false);
+      }
+      );
+  }
+
+  function saveSports() {
+    const selectedSports = sports
+      .filter((sport) => sport.selected)
+      .map((sport) => sport.id);
+    console.log("Selected Sports:", selectedSports);
+    setSaveSportsLoading(true);
+    userService.updateUserMiscData(api, "sportsinterests", selectedSports)
+      .finally(() => {
+        setSaveSportsLoading(false);
+      });
+  }
+
 
   useEffect(() => {
     if (!isProfileLoading && profile) {
@@ -64,7 +143,7 @@ function YourHobbies() {
         In this page, you provide info that is shown to other people in your
         profile. This info cannot be filtered on.
       </p>
-      <FormSection title={"Your Hobbies"}>
+      <FormSection title={"Your Hobbies"} onSave={saveHobbies} loading={saveHobbyLoading}>
         <div className="">
           <Input
             type="text"
@@ -95,7 +174,7 @@ function YourHobbies() {
         </div>
       </FormSection>
 
-      <FormSection title={"Music genres you like"}>
+      <FormSection title={"Music genres you like"} onSave={saveMusicGener} loading={saveMusicGenerLoading}>
         <div className="">
           <Input
             type="text"
@@ -128,7 +207,7 @@ function YourHobbies() {
         </div>
       </FormSection>
 
-      <FormSection title={"Musical instruments you play"}>
+      <FormSection title={"Musical instruments you play"} onSave={saveMusicalInstrument} loading={saveMusicalInstrumentLoading}>
         <div className="">
           <Input
             type="text"
@@ -161,7 +240,7 @@ function YourHobbies() {
         </div>
       </FormSection>
 
-      <FormSection title={"Pets you own"}>
+      <FormSection title={"Pets you own"} onSave={savePets} loading={savePetsLoading}>
         <div className="">
           <Input
             type="text"
@@ -192,7 +271,7 @@ function YourHobbies() {
         </div>
       </FormSection>
 
-      <FormSection title={"Sports Interests"}>
+      <FormSection title={"Sports Interests"} onSave={saveSports} loading={saveSportsLoading}>
         <div className="">
           <Input
             type="text"

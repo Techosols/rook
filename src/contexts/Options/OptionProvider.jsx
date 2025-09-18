@@ -49,6 +49,8 @@ const OptionProvider = ({ children }) => {
     const [miscRelationshipTypes, setMiscRelationshipTypes] = useState();
     const [sportsInterests, setSportsInterests] = useState();
 
+    console.log('Hobbies: ', hobbies)
+
     /*
     console.log('Fetched Options: ', {
         alcoholConsumptionFrequencies,
