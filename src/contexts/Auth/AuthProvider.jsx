@@ -15,9 +15,6 @@ const AuthProvider = ({ children }) => {
   } = useAuth0();
 
 
-  console.log('User: ', user)
-  console.log('Is Authenticated: ' , isAuthenticated)
-
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userExternalId, setUserExternalId] = useState(null);

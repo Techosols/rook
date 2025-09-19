@@ -181,6 +181,7 @@ const userService = {
     },
 
     async updateUserMiscData(apiInstance, miscType, data){
+        console.log(`Updating user misc data for ${miscType} with data:`, data);
         try {
             const response = await apiInstance.put(`v1/misc/${miscType}`, data);
             if(response.status === 200) {

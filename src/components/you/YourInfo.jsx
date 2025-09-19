@@ -11,7 +11,6 @@ import useOption from "../../hooks/useOption";
 import { useEffect, useState } from "react";
 import userService from "../../services/user";
 
-import useAuth from "../../hooks/useAuth";
 import useAuthenticatedApi from "../../hooks/useAuthenticatedAPi";
 import { toast } from "react-toastify";
 
@@ -35,9 +34,10 @@ function YourInfo() {
     occupationProfiles,
     alcoholConsumptionFrequencies,
     starSigns,
+    miscRelationshipTypes,
+    miscPhysicalActivityTypes
   } = useOption();
-  const { userExternalId } = useAuth();
-  console.log('User External ID: ', userExternalId);
+
 
   const api = useAuthenticatedApi();
 
@@ -49,7 +49,7 @@ function YourInfo() {
   const [heightInches, setHeightInches] = useState("");
   const [weight, setWeight] = useState("");
   const [moniker, setMoniker] = useState("");
-  const [relationshipType, setRelationshipType] = useState("");
+  const [relationshipType, setRelationshipType] = useState([]);
   const [gender, setGender] = useState("");
   const [relationshipStatus, setRelationshipStatus] = useState("");
   const [ethnicity, setEthnicity] = useState("");
@@ -67,6 +67,7 @@ function YourInfo() {
   const [exerciseIntensity, setExerciseIntensity] = useState("");
   const [exerciseDuration, setExerciseDuration] = useState("");
   const [exerciseLength, setExerciseLength] = useState("");
+  // exerciseType is an array of {id, name, selected}
   const [exerciseType, setExerciseType] = useState([]);
   const [exerciseIndex, setExerciseIndex] = useState(null);
   const [smoke, setSmoke] = useState(false);
@@ -78,10 +79,6 @@ function YourInfo() {
   const [starSign, setStarSign] = useState("");
   const [includeInRandomMatches, setIncludeInRandomMatches] = useState(false);
 
-
-  console.log('Exercise Type: ', exerciseType);
-  console.log('Physical Activity Types: ', physicalActivityTypes);
-
   // Loading States
   const [youSectionLoading, setYouSectionLoading] = useState(false);
   const [aboutYouSectionLoading, setAboutYouSectionLoading] = useState(false);
@@ -92,6 +89,7 @@ function YourInfo() {
 
 
   async function updateYouSection() {
+    const selectedRelationShip = relationshipType.filter(rt => rt.selected).map(rt => rt.id);
     try {
       setYouSectionLoading(true);
       await userService.updateUserProfile(api, {
@@ -100,6 +98,7 @@ function YourInfo() {
           (parseInt(heightFeet) || 0) * 12 + (parseInt(heightInches) || 0),
         weight: weight,
       });
+      await userService.updateUserMiscData(api, 'relationshiptypes', selectedRelationShip);
     } catch (error) {
       console.error("Error updating profile:", error);
     } finally {
@@ -110,7 +109,7 @@ function YourInfo() {
   async function updateAboutYouSection() {
     try {
       setAboutYouSectionLoading(true);
-      await userService.updateUserProfile(api,{
+      await userService.updateUserProfile(api, {
         gender: gender,
         relationshipStatus: relationshipStatus,
         ethnicity: ethnicity,
@@ -145,6 +144,7 @@ function YourInfo() {
   }
 
   async function updatePhysicalActivitySection() {
+    const selectedActivityTypes = exerciseType.filter(et => et.selected).map(et => et.id);
     try {
       setPhysicalActivitySectionLoading(true);
       await userService.updateUserPhysicalActivity(api, {
@@ -155,6 +155,7 @@ function YourInfo() {
         activityTypes: exerciseType,
         index: exerciseIndex,
       })
+      await userService.updateUserMiscData(api, 'physicalactivitytype', selectedActivityTypes);
     } catch (error) {
       console.error("Error updating profile:", error);
       toast.error('Your changes could not be saved. Please try again.');
@@ -211,6 +212,7 @@ function YourInfo() {
       setMoniker(profile?.moniker || "");
       setAge(profile?.ageInYears || "");
       setZipCode(profile?.postalCode || "");
+      setRelationshipType(Array.isArray(miscRelationshipTypes) ? miscRelationshipTypes : []);
       setGender(profile?.gender || "");
       setRelationshipStatus(profile?.relationshipStatus || "");
       setEthnicity(profile?.ethnicity || "");
@@ -228,7 +230,8 @@ function YourInfo() {
       setExerciseIntensity(physicalActivity?.intensity || "");
       setExerciseDuration(physicalActivity?.duration || "");
       setExerciseLength(physicalActivity?.length || "");
-      setExerciseType(physicalActivity?.activityTypes || []);
+      // Always set exerciseType from miscPhysicalActivityTypes (array of {id, name, selected})
+      setExerciseType(Array.isArray(miscPhysicalActivityTypes) ? miscPhysicalActivityTypes : []);
       setExerciseIndex(physicalActivity?.index || null);
       setSmoke(profile?.isSmoker || false);
       setRecDrug(profile?.isRecreationalDrugUser || false);
@@ -239,7 +242,7 @@ function YourInfo() {
       setStarSign(profile?.starSign || "");
       setIncludeInRandomMatches(profile?.includeInRandomMatches || false);
     }
-  }, [profile]);
+  }, [profile, miscRelationshipTypes, isProfileLoading]);
 
   return (
     <div className="p-1 flex flex-col gap-1 md:gap-4">
@@ -324,25 +327,29 @@ function YourInfo() {
           </div>
           <div className="flex flex-col gap-2">
             <label className="font-medium dark:text-white" htmlFor="bodyType">
-              Relationship Types | {relationshipType}
+              Relationship Types
             </label>
             <div className="flex flex-col gap-1 h-30 overflow-y-auto border border-gray-300 dark:border-gray-600 p-2 rounded">
-              { !relationshipTypes && Array.from({length: 4}).map((_, idx) => (
-                <div key={idx} className="h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-1"></div>
-              ))}
-              { relationshipTypes && Object.values(relationshipTypes).map((type, idx) => (
-                <Checkbox
-                  key={idx}
-                  label={type}
-                  onChange={() => {
-                    setRelationshipType((prev) =>
-                      prev.includes(type)
-                        ? prev.filter((item) => item !== type)
-                        : [...prev, type]
-                    );
-                  }}
-                />
-              ))}
+              {relationshipType && relationshipType.length > 0 ? (
+                relationshipType.map((typeObj) => (
+                  <Checkbox
+                    key={typeObj.id}
+                    label={typeObj.name}
+                    checked={typeObj.selected}
+                    onChange={() => {
+                      setRelationshipType(prev =>
+                        prev.map(item =>
+                          item.id === typeObj.id ? { ...item, selected: !item.selected } : item
+                        )
+                      );
+                    }}
+                  />
+                ))
+              ) : (
+                Array.from({ length: 4 }).map((_, idx) => (
+                  <div key={idx} className="h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-1"></div>
+                ))
+              )}
             </div>
           </div>
         </div>
@@ -470,7 +477,7 @@ function YourInfo() {
           </div>
         </div>
       </FormSection>
-      <FormSection title="Kids/Pets" onSave={() => updateKidsPetsSection() } loading={kidsPetsSectionLoading}>
+      <FormSection title="Kids/Pets" onSave={() => updateKidsPetsSection()} loading={kidsPetsSectionLoading}>
         <div className="flex flex-col gap-2 md:gap-4">
           <div className="grid grid-cols-1 md:grid-cols-[1fr_3fr] gap-1 md:gap-2 items-center">
             <label className="font-medium dark:text-white" htmlFor="Kids">
@@ -623,22 +630,29 @@ function YourInfo() {
               Type
             </label>
             <div className="flex flex-col h-32 overflow-y-scroll border border-gray-300 dark:border-gray-600 p-2 rounded mb-1">
-              { !physicalActivityTypes && Array.from({length: 4}).map((_, idx) => (
+              {!physicalActivityTypes && Array.from({ length: 4 }).map((_, idx) => (
                 <div key={idx} className="h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-1"></div>
               ))}
-              {physicalActivityTypes && Object.values(physicalActivityTypes).map((type, idx) => (
-                <Checkbox
-                  key={idx}
-                  label={type}
-                  checked={!!exerciseType[type]}
-                  onChange={() => {
-                    setExerciseType(prev => ({
-                      ...prev,
-                      [type]: !prev[type]
-                    }));
-                  }}
-                />
-              ))}
+              {exerciseType && exerciseType.length > 0 ? (
+                exerciseType.map((typeObj) => (
+                  <Checkbox
+                    key={typeObj.id}
+                    label={typeObj.name}
+                    checked={typeObj.selected}
+                    onChange={() => {
+                      setExerciseType(prev =>
+                        prev.map(item =>
+                          item.id === typeObj.id ? { ...item, selected: !item.selected } : item
+                        )
+                      );
+                    }}
+                  />
+                ))
+              ) : (
+                Array.from({ length: 4 }).map((_, idx) => (
+                  <div key={idx} className="h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-1"></div>
+                ))
+              )}
             </div>
           </div>
         </div>

@@ -9,7 +9,6 @@ import Checkbox from "../ui/Checkbox";
 
 import useAuthenticatedApi from "../../hooks/useAuthenticatedAPi";
 import userService from "../../services/user";
-import { toast } from "react-toastify";
 
 function YourHobbies() {
   const {
