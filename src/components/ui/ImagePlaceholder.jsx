@@ -4,7 +4,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import Button from './Button';
 
 
-function ImagePlaceholder({ onImageSelect, className = '' }) {
+function ImagePlaceholder({ onImageSelect, className = '', hint = '' }) {
 
   const { user } = useAuth0();
 
@@ -73,6 +73,7 @@ function ImagePlaceholder({ onImageSelect, className = '' }) {
           onClick={() => inputRef.current && inputRef.current.click()}
           style={{ minHeight: 180 }}
         >
+          {hint && <p className="text-gray-500 dark:text-gray-300 mb-2 text-center">{hint}</p>}
           <Image className="w-10 h-10 mb-2 text-gray-400 group-hover:text-primary group-hover:opacity-70" />
           <p className="text-gray-500 dark:text-gray-300 mb-1 text-center">Drag & drop an image here, or <span className="text-primary underline">click to upload</span></p>
           <input

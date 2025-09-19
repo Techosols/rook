@@ -67,7 +67,6 @@ function YourInfo() {
   const [exerciseIntensity, setExerciseIntensity] = useState("");
   const [exerciseDuration, setExerciseDuration] = useState("");
   const [exerciseLength, setExerciseLength] = useState("");
-  // exerciseType is an array of {id, name, selected}
   const [exerciseType, setExerciseType] = useState([]);
   const [exerciseIndex, setExerciseIndex] = useState(null);
   const [smoke, setSmoke] = useState(false);
@@ -205,7 +204,7 @@ function YourInfo() {
         setHeightFeet(Math.floor(totalInches / 12).toString());
         setHeightInches((totalInches % 12).toString());
       } else {
-        setHeightFeet(profile?.heightFeet || "");
+        setHeightFeet(profile?.heightFeet || "0");
         setHeightInches(profile?.heightInInches || "0");
       }
       setWeight(profile?.weight || "");
