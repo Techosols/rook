@@ -59,6 +59,7 @@ function AboutYou() {
     const startersArr = convoStarter.split('\n').map(s => s.trim()).filter(s => s.length > 0);
     if (startersArr.length === 0) return;
     setConvoStartersUpdateLoading(true);
+    
     try {
       api.put('v1/strings/convostarters', startersArr)
       .then((res) => {
