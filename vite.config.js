@@ -17,13 +17,19 @@ export default defineConfig({
         changeOrigin: true,
         secure: true,
         rewrite: (path) => path.replace(/^\/authApi/, '')
-      }
-    },
+      },
+      '/fileApi' : {
+        target : 'https://user-file-service.rook.love/',
+        changeOrigin: true,
+        secure: true,
+        rewrite: (path) => path.replace(/^\/fileApi/, '')
+      },
+    }
   },
   plugins: [
     react(),
     tailwindcss({
       
     })
-  ],
+  ]
 })

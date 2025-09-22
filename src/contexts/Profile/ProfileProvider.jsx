@@ -1,8 +1,7 @@
 import ProfileContext from "./ProfileContext";
 import { useState, useEffect } from "react";
-import PrivateApi from "../../services/privateApi";
 import useAuth from "../../hooks/useAuth";
-import useAuthenticatedApi from "../../hooks/useAuthenticatedAPi";
+import useAuthenticatedApi from "../../hooks/useAuthenticatedApi";
 import { useAuth0 } from "@auth0/auth0-react";
 
 function ProfileProvider({ children }) {

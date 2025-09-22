@@ -7,7 +7,7 @@ import FormSection from "../ui/FormSection";
 import Input from "../ui/Input";
 import Checkbox from "../ui/Checkbox";
 
-import useAuthenticatedApi from "../../hooks/useAuthenticatedAPi";
+import useAuthenticatedApi from "../../hooks/useAuthenticatedApi";
 import userService from "../../services/user";
 
 function YourHobbies() {

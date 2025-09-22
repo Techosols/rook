@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import PrivateApi from "../../services/privateApi";
 import { useAuth0 } from "@auth0/auth0-react";
 import useAuth from "../../hooks/useAuth";
-import useAuthenticatedApi from "../../hooks/useAuthenticatedAPi";
+import useAuthenticatedApi from "../../hooks/useAuthenticatedApi";
 
 const OptionProvider = ({ children }) => {
 
@@ -193,7 +193,10 @@ const OptionProvider = ({ children }) => {
                 console.error("Error fetching options:", error);
             }
         }
-        fetchOptions();
+        
+        if(isAuthenticated) {
+            fetchOptions();
+        }
     }, [isAuthenticated, token]);
 
     const values = {

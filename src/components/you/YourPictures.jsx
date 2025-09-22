@@ -9,10 +9,10 @@ function YourPictures() {
       <FormSection title="Main Pictures">
         <p className='text-sm text-gray-500'> <span><BadgeAlert className="inline mb-1 mr-1" size={16} /></span>Solo pics where you are wearing sunglasses, or group pics, will be rejected.</p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
-          <ImagePlaceholder />
-          <ImagePlaceholder />
-          <ImagePlaceholder />
-          <ImagePlaceholder />
+          <ImagePlaceholder hint='Frontal face pic without makeup and filters' />
+          <ImagePlaceholder hint='Frontal smiling face pic with teeth showing'/>
+          <ImagePlaceholder hint='Frontal Full body pic standing up'/>
+          <ImagePlaceholder hint='Side full body pic standing up'/>
         </div>
       </FormSection>
       <FormSection title="Additional pictures">

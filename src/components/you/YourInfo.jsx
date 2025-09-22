@@ -11,7 +11,7 @@ import useOption from "../../hooks/useOption";
 import { useEffect, useState } from "react";
 import userService from "../../services/user";
 
-import useAuthenticatedApi from "../../hooks/useAuthenticatedAPi";
+import useAuthenticatedApi from "../../hooks/useAuthenticatedApi";
 import { toast } from "react-toastify";
 
 function YourInfo() {
@@ -151,7 +151,6 @@ function YourInfo() {
         length: exerciseLength,
         duration: exerciseDuration,
         intensity: exerciseIntensity,
-        activityTypes: exerciseType,
         index: exerciseIndex,
       })
       await userService.updateUserMiscData(api, 'physicalactivitytype', selectedActivityTypes);

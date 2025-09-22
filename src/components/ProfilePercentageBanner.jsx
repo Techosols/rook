@@ -2,7 +2,7 @@ import useModel from "../hooks/useModel";
 import { useEffect, useState } from "react";
 import PrivateApi from "../services/privateApi";
 import useAuth from "../hooks/useAuth";
-import useAuthenticatedApi from "../hooks/useAuthenticatedAPi";
+import useAuthenticatedApi from "../hooks/useAuthenticatedApi";
 
 function ProfilePercentageBanner() {
     const { openModel } = useModel();

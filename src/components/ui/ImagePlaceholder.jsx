@@ -27,15 +27,25 @@ function ImagePlaceholder({ onImageSelect, className = '', hint = '' }) {
     e.stopPropagation();
     setDragActive(false);
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      onImageSelect && onImageSelect(e.dataTransfer.files[0]);
-      setImage(URL.createObjectURL(e.dataTransfer.files[0]));
+      const file = e.dataTransfer.files[0];
+      if (file.size > 5 * 1024 * 1024) {
+        alert('Image size must be less than 5MB.');
+        return;
+      }
+      onImageSelect && onImageSelect(file);
+      setImage(URL.createObjectURL(file));
     }
   };
 
   const handleChange = (e) => {
     if (e.target.files && e.target.files[0]) {
-      onImageSelect && onImageSelect(e.target.files[0]);
-      setImage(URL.createObjectURL(e.target.files[0]));
+      const file = e.target.files[0];
+      if (file.size > 5 * 1024 * 1024) {
+        alert('Image size must be less than 5MB.');
+        return;
+      }
+      onImageSelect && onImageSelect(file);
+      setImage(URL.createObjectURL(file));
     }
   };
 
@@ -73,9 +83,9 @@ function ImagePlaceholder({ onImageSelect, className = '', hint = '' }) {
           onClick={() => inputRef.current && inputRef.current.click()}
           style={{ minHeight: 180 }}
         >
-          {hint && <p className="text-gray-500 dark:text-gray-300 mb-2 text-center">{hint}</p>}
+          {hint && <p className="text-gray-500 dark:text-gray-300 mb-2 text-center text-sm">{hint}</p>}
           <Image className="w-10 h-10 mb-2 text-gray-400 group-hover:text-primary group-hover:opacity-70" />
-          <p className="text-gray-500 dark:text-gray-300 mb-1 text-center">Drag & drop an image here, or <span className="text-primary underline">click to upload</span></p>
+          <p className="text-gray-500 dark:text-gray-300 mb-1 text-center text-sm">Drag & drop an image here, or <span className="text-primary underline">click to upload</span></p>
           <input
             ref={inputRef}
             type="file"

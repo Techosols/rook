@@ -5,7 +5,7 @@ import FormSection from "../ui/FormSection";
 import { SmileIcon, AnnoyedIcon, FrownIcon, LucideBadgeInfo } from "lucide-react";
 import useProfile from "../../hooks/useProfile";
 import useOption from "../../hooks/useOption";
-import useAuthenticatedApi from "../../hooks/useAuthenticatedAPi";
+import useAuthenticatedApi from "../../hooks/useAuthenticatedApi";
 import { toast } from "react-toastify";
 
 import userService from "../../services/user";
