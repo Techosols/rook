@@ -20,7 +20,6 @@ function YourInfo() {
     educationLevels,
     genders,
     relationshipStatuses,
-    relationshipTypes,
     religions,
     loveLanguages,
     ethnicities,
@@ -257,57 +256,80 @@ function YourInfo() {
             <label className="font-medium dark:text-white" htmlFor="firstName">
               Preferred Name
             </label>
-            <Input
-              placeholder="What do you want to be called?"
-              value={preferredName}
-              onChange={(e) => setPreferredName(e.target.value)}
-            />
+            {isProfileLoading ? (
+              <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+            ) : (
+              <Input
+                placeholder="What do you want to be called?"
+                value={preferredName}
+                onChange={(e) => setPreferredName(e.target.value)}
+              />
+            )}
           </div>
           <div className="flex flex-col gap-2">
             <label className="font-medium dark:text-white" htmlFor="lastName">
               Age
             </label>
-            <Input
-              placeholder="Age"
-              type="number"
-              value={age}
-              disabled={true}
-            />
+            {isProfileLoading ? (
+              <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+            ) : (
+              <Input
+                placeholder="Age"
+                type="number"
+                value={age}
+                disabled={true}
+              />
+            )}
           </div>
           <div className="flex flex-col gap-2">
             <label className="font-medium dark:text-white" htmlFor="location">
               ZipCode
             </label>
-            <Input
-              placeholder="Your Location"
-              value={zipCode}
-              disabled={true}
-            />
+            {isProfileLoading ? (
+              <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+            ) : (
+              <Input
+                placeholder="Your Location"
+                value={zipCode}
+                disabled={true}
+              />
+            )}
           </div>
           <div className="flex flex-col gap-2">
             <label className="font-medium dark:text-white" htmlFor="height">
               Height
             </label>
-            <div className="flex flex-col lg:flex-row gap-2">
-              <Input
-                placeholder="Feet"
-                type="number"
-                value={heightFeet}
-                onChange={(e) => setHeightFeet(e.target.value)}
-              />
-              <Input
-                placeholder="Inches"
-                type="number"
-                value={heightInches}
-                onChange={(e) => setHeightInches(e.target.value)}
-              />
-            </div>
+            {isProfileLoading ? (
+              <div className="flex flex-col lg:flex-row gap-2">
+                <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+                <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+              </div>
+            ) : (
+              <div className="flex flex-col lg:flex-row gap-2">
+                <Input
+                  placeholder="Feet"
+                  type="number"
+                  value={heightFeet}
+                  onChange={(e) => setHeightFeet(e.target.value)}
+                />
+                <Input
+                  placeholder="Inches"
+                  type="number"
+                  value={heightInches}
+                  onChange={(e) => setHeightInches(e.target.value)}
+                />
+              </div>
+            )}
           </div>
           <div className="flex flex-col gap-2">
             <label className="font-medium dark:text-white" htmlFor="weight">
               Moniker
             </label>
-            <Input placeholder="Moniker" disabled={true} value={moniker} />
+            {isProfileLoading ? (
+              <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+            ) : (
+              <Input placeholder="Moniker" disabled={true} value={moniker} />
+            )}
           </div>
           <div className="flex flex-col gap-2">
             <label className="font-medium dark:text-white" htmlFor="bodyType">
@@ -316,12 +338,16 @@ function YourInfo() {
                 {"("} in pounds {")"}
               </span>
             </label>
-            <Input
-              placeholder="Weight"
-              type="number"
-              value={weight}
-              onChange={(e) => setWeight(e.target.value)}
-            />
+            {isProfileLoading ? (
+              <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+            ) : (
+              <Input
+                placeholder="Weight"
+                type="number"
+                value={weight}
+                onChange={(e) => setWeight(e.target.value)}
+              />
+            )}
           </div>
           <div className="flex flex-col gap-2">
             <label className="font-medium dark:text-white" htmlFor="bodyType">
@@ -358,12 +384,16 @@ function YourInfo() {
             <label className="font-medium dark:text-white" htmlFor="Gender">
               Gender
             </label>
-            <Select
-              options={genders}
-              value={gender}
-              onChange={(e) => setGender(e.target.value)}
-              placeholder="Select Gender"
-            />
+            {isProfileLoading ? (
+              <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+            ) : (
+              <Select
+                options={genders}
+                value={gender}
+                onChange={(e) => setGender(e.target.value)}
+                placeholder="Select Gender"
+              />
+            )}
           </div>
           <div className="grid grid-cols-1 md:grid-cols-[1fr_4fr] gap-1 md:gap-2 items-center">
             <label
@@ -372,34 +402,46 @@ function YourInfo() {
             >
               Relationship Status
             </label>
-            <Select
-              options={relationshipStatuses}
-              value={relationshipStatus}
-              onChange={(e) => setRelationshipStatus(e.target.value)}
-              placeholder="Select Relationship Status"
-            />
+            {isProfileLoading ? (
+              <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+            ) : (
+              <Select
+                options={relationshipStatuses}
+                value={relationshipStatus}
+                onChange={(e) => setRelationshipStatus(e.target.value)}
+                placeholder="Select Relationship Status"
+              />
+            )}
           </div>
           <div className="grid grid-cols-1 md:grid-cols-[1fr_4fr] gap-1 md:gap-2 items-center">
             <label className="font-medium dark:text-white" htmlFor="Ethnicity">
               Ethnicity
             </label>
-            <Select
-              options={ethnicities}
-              value={ethnicity}
-              onChange={(e) => setEthnicity(e.target.value)}
-              placeholder="Select Ethnicity"
-            />
+            {isProfileLoading ? (
+              <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+            ) : (
+              <Select
+                options={ethnicities}
+                value={ethnicity}
+                onChange={(e) => setEthnicity(e.target.value)}
+                placeholder="Select Ethnicity"
+              />
+            )}
           </div>
           <div className="grid grid-cols-1 md:grid-cols-[1fr_4fr] gap-1 md:gap-2 items-center">
             <label className="font-medium dark:text-white" htmlFor="Religion">
               Religion
             </label>
-            <Select
-              options={religions}
-              value={religion}
-              onChange={(e) => setReligion(e.target.value)}
-              placeholder="Select Religion"
-            />
+            {isProfileLoading ? (
+              <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+            ) : (
+              <Select
+                options={religions}
+                value={religion}
+                onChange={(e) => setReligion(e.target.value)}
+                placeholder="Select Religion"
+              />
+            )}
           </div>
           <div className="grid grid-cols-1 md:grid-cols-[1fr_4fr] gap-1 md:gap-2 items-center">
             <label
@@ -408,23 +450,31 @@ function YourInfo() {
             >
               Education Level
             </label>
-            <Select
-              options={educationLevels}
-              value={educationLevel}
-              onChange={(e) => setEducationLevel(e.target.value)}
-              placeholder="Select Education Level"
-            />
+            {isProfileLoading ? (
+              <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+            ) : (
+              <Select
+                options={educationLevels}
+                value={educationLevel}
+                onChange={(e) => setEducationLevel(e.target.value)}
+                placeholder="Select Education Level"
+              />
+            )}
           </div>
           <div className="grid grid-cols-1 md:grid-cols-[1fr_4fr] gap-1 md:gap-2 items-center">
             <label className="font-medium dark:text-white" htmlFor="Occupation">
               Occupation
             </label>
-            <Select
-              options={occupationProfiles}
-              value={occupation}
-              onChange={(e) => setOccupation(e.target.value)}
-              placeholder="Select Occupation"
-            />
+            {isProfileLoading ? (
+              <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+            ) : (
+              <Select
+                options={occupationProfiles}
+                value={occupation}
+                onChange={(e) => setOccupation(e.target.value)}
+                placeholder="Select Occupation"
+              />
+            )}
           </div>
           <div className="grid grid-cols-1 md:grid-cols-[1fr_4fr] gap-1 md:gap-2 items-center">
             <label
@@ -433,12 +483,16 @@ function YourInfo() {
             >
               Political Affiliation
             </label>
-            <Select
-              options={politicalAffiliations}
-              value={politicalAffiliation}
-              onChange={(e) => setPoliticalAffiliation(e.target.value)}
-              placeholder="Select Political Affiliation"
-            />
+            {isProfileLoading ? (
+              <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+            ) : (
+              <Select
+                options={politicalAffiliations}
+                value={politicalAffiliation}
+                onChange={(e) => setPoliticalAffiliation(e.target.value)}
+                placeholder="Select Political Affiliation"
+              />
+            )}
           </div>
           <div className="grid grid-cols-1 md:grid-cols-[1fr_4fr] gap-1 md:gap-2 items-center">
             <label
@@ -447,31 +501,39 @@ function YourInfo() {
             >
               Sexual Orientation
             </label>
-            <Select
-              options={orientations}
-              value={sexualOrientation}
-              onChange={(e) => setSexualOrientation(e.target.value)}
-              placeholder="Select Sexual Orientation"
-            />
+            {isProfileLoading ? (
+              <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+            ) : (
+              <Select
+                options={orientations}
+                value={sexualOrientation}
+                onChange={(e) => setSexualOrientation(e.target.value)}
+                placeholder="Select Sexual Orientation"
+              />
+            )}
           </div>
           <div className="grid grid-cols-1 md:grid-cols-[1fr_4fr] gap-1 md:gap-2 items-center">
             <label className="font-medium dark:text-white" htmlFor="Asexual">
               Asexual{" "}
             </label>
-            <div className="flex items-center gap-2">
-              <Radio
-                label="Yes"
-                name="asexual"
-                checked={asexual === true}
-                onChange={() => setAsexual(true)}
-              />
-              <Radio
-                label="No"
-                name="asexual"
-                checked={asexual === false}
-                onChange={() => setAsexual(false)}
-              />
-            </div>
+            {isProfileLoading ? (
+              <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <Radio
+                  label="Yes"
+                  name="asexual"
+                  checked={asexual === true}
+                  onChange={() => setAsexual(true)}
+                />
+                <Radio
+                  label="No"
+                  name="asexual"
+                  checked={asexual === false}
+                  onChange={() => setAsexual(false)}
+                />
+              </div>
+            )}
           </div>
         </div>
       </FormSection>
@@ -481,77 +543,93 @@ function YourInfo() {
             <label className="font-medium dark:text-white" htmlFor="Kids">
               Do you have kids?
             </label>
-            <div className="flex items-center gap-2">
-              <Radio
-                label="Yes"
-                name="kids"
-                checked={hasKids === true}
-                onChange={() => setHasKids(true)}
-              />
-              <Radio
-                label="No"
-                name="kids"
-                checked={hasKids === false}
-                onChange={() => setHasKids(false)}
-              />
-            </div>
+            {isProfileLoading ? (
+              <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <Radio
+                  label="Yes"
+                  name="kids"
+                  checked={hasKids === true}
+                  onChange={() => setHasKids(true)}
+                />
+                <Radio
+                  label="No"
+                  name="kids"
+                  checked={hasKids === false}
+                  onChange={() => setHasKids(false)}
+                />
+              </div>
+            )}
           </div>
           <div className="grid grid-cols-1 md:grid-cols-[1fr_3fr] gap-1 md:gap-2 items-center">
             <label className="font-medium dark:text-white" htmlFor="wantKids">
               Do you want kids in the future?
             </label>
-            <div className="flex items-center gap-2">
-              <Radio
-                label="Yes"
-                name="wantKids"
-                checked={wantsKids === true}
-                onChange={() => setWantsKids(true)}
-              />
-              <Radio
-                label="No"
-                name="wantKids"
-                checked={wantsKids === false}
-                onChange={() => setWantsKids(false)}
-              />
-            </div>
+            {isProfileLoading ? (
+              <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <Radio
+                  label="Yes"
+                  name="wantKids"
+                  checked={wantsKids === true}
+                  onChange={() => setWantsKids(true)}
+                />
+                <Radio
+                  label="No"
+                  name="wantKids"
+                  checked={wantsKids === false}
+                  onChange={() => setWantsKids(false)}
+                />
+              </div>
+            )}
           </div>
           <div className="grid grid-cols-1 md:grid-cols-[1fr_3fr] gap-1 md:gap-2 items-center">
             <label className="font-medium dark:text-white" htmlFor="Pets">
               Do you have pets now?
             </label>
-            <div className="flex items-center gap-2">
-              <Radio
-                label="Yes"
-                name="pets"
-                checked={hasPets === true}
-                onChange={() => setHasPets(true)}
-              />
-              <Radio
-                label="No"
-                name="pets"
-                checked={hasPets === false}
-                onChange={() => setHasPets(false)}
-              />
-            </div>
+            {isProfileLoading ? (
+              <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <Radio
+                  label="Yes"
+                  name="pets"
+                  checked={hasPets === true}
+                  onChange={() => setHasPets(true)}
+                />
+                <Radio
+                  label="No"
+                  name="pets"
+                  checked={hasPets === false}
+                  onChange={() => setHasPets(false)}
+                />
+              </div>
+            )}
           </div>
           <div className="grid grid-cols-1 md:grid-cols-[1fr_3fr] gap-1 md:gap-2 items-center">
             <label className="font-medium dark:text-white" htmlFor="wantPets">
               Do you want pets in the future?
             </label>
-            <div className="flex items-center gap-2">
-              <Radio
-                label="Yes"
-                name="wantPets"
-                checked={wantsPets === true}
-                onChange={() => setWantsPets(true)}
-              />
-              <Radio
-                label="No"
-                name="wantPets"
-                checked={wantsPets === false}
-                onChange={() => setWantsPets(false)}
-              />
-            </div>
+            {isProfileLoading ? (
+              <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <Radio
+                  label="Yes"
+                  name="wantPets"
+                  checked={wantsPets === true}
+                  onChange={() => setWantsPets(true)}
+                />
+                <Radio
+                  label="No"
+                  name="wantPets"
+                  checked={wantsPets === false}
+                  onChange={() => setWantsPets(false)}
+                />
+              </div>
+            )}
           </div>
         </div>
       </FormSection>
@@ -571,12 +649,16 @@ function YourInfo() {
             >
               Frequency
             </label>
-            <Select
-              options={physicalActivityFrequencies}
-              value={exerciseFrequency}
-              onChange={(e) => setExerciseFrequency(e.target.value)}
-              placeholder="Select Frequency"
-            />
+            {isProfileLoading ? (
+              <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+            ) : (
+              <Select
+                options={physicalActivityFrequencies}
+                value={exerciseFrequency}
+                onChange={(e) => setExerciseFrequency(e.target.value)}
+                placeholder="Select Frequency"
+              />
+            )}
           </div>
           <div className="grid grid-cols-1 md:grid-cols-[1fr_3fr] gap-1 md:gap-2 items-center">
             <label
@@ -585,12 +667,16 @@ function YourInfo() {
             >
               Intensity
             </label>
-            <Select
-              options={physicalActivityIntensities}
-              value={exerciseIntensity}
-              onChange={(e) => setExerciseIntensity(e.target.value)}
-              placeholder="Select Intensity"
-            />
+            {isProfileLoading ? (
+              <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+            ) : (
+              <Select
+                options={physicalActivityIntensities}
+                value={exerciseIntensity}
+                onChange={(e) => setExerciseIntensity(e.target.value)}
+                placeholder="Select Intensity"
+              />
+            )}
           </div>
           <div className="grid grid-cols-1 md:grid-cols-[1fr_3fr] gap-1 md:gap-2 items-center">
             <label
@@ -599,12 +685,16 @@ function YourInfo() {
             >
               Duration
             </label>
-            <Select
-              options={physicalActivityDurations}
-              value={exerciseDuration}
-              onChange={(e) => setExerciseDuration(e.target.value)}
-              placeholder="Select Duration"
-            />
+            {isProfileLoading ? (
+              <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+            ) : (
+              <Select
+                options={physicalActivityDurations}
+                value={exerciseDuration}
+                onChange={(e) => setExerciseDuration(e.target.value)}
+                placeholder="Select Duration"
+              />
+            )}
           </div>
           <div className="grid grid-cols-1 md:grid-cols-[1fr_3fr] gap-1 md:gap-2 items-center">
             <label
@@ -613,12 +703,16 @@ function YourInfo() {
             >
               Length
             </label>
-            <Select
-              options={physicalActivityLengths}
-              value={exerciseLength}
-              onChange={(e) => setExerciseLength(e.target.value)}
-              placeholder="Select Length"
-            />
+            {isProfileLoading ? (
+              <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+            ) : (
+              <Select
+                options={physicalActivityLengths}
+                value={exerciseLength}
+                onChange={(e) => setExerciseLength(e.target.value)}
+                placeholder="Select Length"
+              />
+            )}
           </div>
           <div className="grid grid-cols-1 md:grid-cols-[1fr_3fr] gap-1 md:gap-2 items-start h-20">
             <label
@@ -661,77 +755,105 @@ function YourInfo() {
             <label className="font-medium dark:text-white" htmlFor="smoke">
               Are you a smoker?
             </label>
-            <div className="flex items-center gap-2">
-              <Radio
-                label="Yes"
-                name="smoke"
-                checked={smoke === true}
-                onChange={() => setSmoke(true)}
-              />
-              <Radio
-                label="No"
-                name="smoke"
-                checked={smoke === false}
-                onChange={() => setSmoke(false)}
-              />
-            </div>
+            {isProfileLoading ? (
+              <div className="flex items-center gap-2">
+                <div className="h-6 w-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+                <div className="h-6 w-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <Radio
+                  label="Yes"
+                  name="smoke"
+                  checked={smoke === true}
+                  onChange={() => setSmoke(true)}
+                />
+                <Radio
+                  label="No"
+                  name="smoke"
+                  checked={smoke === false}
+                  onChange={() => setSmoke(false)}
+                />
+              </div>
+            )}
           </div>
           <div className="grid grid-cols-1 md:grid-cols-[1fr_3fr] gap-1 md:gap-2 items-center">
             <label className="font-medium dark:text-white" htmlFor="recDrug">
               Do you use rec drugs?
             </label>
-            <div className="flex items-center gap-2">
-              <Radio
-                label="Yes"
-                name="recDrug"
-                checked={recDrug === true}
-                onChange={() => setRecDrug(true)}
-              />
-              <Radio
-                label="No"
-                name="recDrug"
-                checked={recDrug === false}
-                onChange={() => setRecDrug(false)}
-              />
-            </div>
+            {isProfileLoading ? (
+              <div className="flex items-center gap-2">
+                <div className="h-6 w-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+                <div className="h-6 w-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <Radio
+                  label="Yes"
+                  name="recDrug"
+                  checked={recDrug === true}
+                  onChange={() => setRecDrug(true)}
+                />
+                <Radio
+                  label="No"
+                  name="recDrug"
+                  checked={recDrug === false}
+                  onChange={() => setRecDrug(false)}
+                />
+              </div>
+            )}
           </div>
           <div className="grid grid-cols-1 md:grid-cols-[1fr_3fr] gap-1 md:gap-2 items-center">
             <label className="font-medium dark:text-white" htmlFor="disability">
               Disabilities?
             </label>
-            <div className="flex items-center gap-2">
-              <Radio
-                label="Yes"
-                name="disability"
-                checked={disability === true}
-                onChange={() => setDisability(true)}
-              />
-              <Radio
-                label="No"
-                name="disability"
-                checked={disability === false}
-                onChange={() => setDisability(false)}
-              />
-            </div>
+            {isProfileLoading ? (
+              <div className="flex items-center gap-2">
+                <div className="h-6 w-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+                <div className="h-6 w-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <Radio
+                  label="Yes"
+                  name="disability"
+                  checked={disability === true}
+                  onChange={() => setDisability(true)}
+                />
+                <Radio
+                  label="No"
+                  name="disability"
+                  checked={disability === false}
+                  onChange={() => setDisability(false)}
+                />
+              </div>
+            )}
           </div>
           <div className="grid grid-cols-1 md:grid-cols-[1fr_3fr] gap-1 md:gap-2 items-center">
             <label className="font-medium dark:text-white" htmlFor="stdSti">
               STDs/STIs
             </label>
-            <div className="flex items-center gap-2">
-              <Radio
-                label="Yes"
-                name="stdSti"
-                checked={stdSti === true}
-                onChange={() => setStdSti(true)}
-              />
-              <Radio
-                label="No"
-                name="stdSti"
-                checked={stdSti === false}
-                onChange={() => setStdSti(false)}
-              />
-            </div>
+            {isProfileLoading ? (
+              <div className="flex items-center gap-2">
+                <div className="h-6 w-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+                <div className="h-6 w-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <Radio
+                  label="Yes"
+                  name="stdSti"
+                  checked={stdSti === true}
+                  onChange={() => setStdSti(true)}
+                />
+                <Radio
+                  label="No"
+                  name="stdSti"
+                  checked={stdSti === false}
+                  onChange={() => setStdSti(false)}
+                />
+              </div>
+            )}
           </div>
           <div className="grid grid-cols-1 md:grid-cols-[1fr_3fr] gap-1 md:gap-2 items-center">
             <label
@@ -740,11 +862,15 @@ function YourInfo() {
             >
               Alcohol Consumption Frequency
             </label>
-            <Select
-              options={alcoholConsumptionFrequencies}
-              value={drinks}
-              onChange={(e) => setDrinks(e.target.value)}
-            />
+            {isProfileLoading ? (
+              <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+            ) : (
+              <Select
+                options={alcoholConsumptionFrequencies}
+                value={drinks}
+                onChange={(e) => setDrinks(e.target.value)}
+              />
+            )}
           </div>
         </div>
       </FormSection>
@@ -754,21 +880,29 @@ function YourInfo() {
             <label className="font-medium dark:text-white" htmlFor="loveLang">
               Your love language
             </label>
-            <Select
-              options={loveLanguages}
-              value={loveLanguage}
-              onChange={(e) => setLoveLanguage(e.target.value)}
-            />
+            {isProfileLoading ? (
+              <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+            ) : (
+              <Select
+                options={loveLanguages}
+                value={loveLanguage}
+                onChange={(e) => setLoveLanguage(e.target.value)}
+              />
+            )}
           </div>
           <div className="grid grid-cols-1 md:grid-cols-[1fr_3fr] gap-1 md:gap-2 items-center">
             <label className="font-medium dark:text-white" htmlFor="starSign">
               Your Star Sign
             </label>
-            <Select
-              options={starSigns}
-              value={starSign}
-              onChange={(e) => setStarSign(e.target.value)}
-            />
+            {isProfileLoading ? (
+              <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+            ) : (
+              <Select
+                options={starSigns}
+                value={starSign}
+                onChange={(e) => setStarSign(e.target.value)}
+              />
+            )}
           </div>
           <div className="grid grid-cols-1 md:grid-cols-[1fr_3fr] gap-1 md:gap-2 items-center">
             <label
@@ -777,20 +911,27 @@ function YourInfo() {
             >
               Include you in Random Matches?
             </label>
-            <div className="flex items-center gap-2">
-              <Radio
-                label="Yes"
-                name="includeInRandomMatches"
-                checked={includeInRandomMatches === true}
-                onChange={() => setIncludeInRandomMatches(true)}
-              />
-              <Radio
-                label="No"
-                name="includeInRandomMatches"
-                checked={includeInRandomMatches === false}
-                onChange={() => setIncludeInRandomMatches(false)}
-              />
-            </div>
+            {isProfileLoading ? (
+              <div className="flex items-center gap-2">
+                <div className="h-6 w-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+                <div className="h-6 w-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <Radio
+                  label="Yes"
+                  name="includeInRandomMatches"
+                  checked={includeInRandomMatches === true}
+                  onChange={() => setIncludeInRandomMatches(true)}
+                />
+                <Radio
+                  label="No"
+                  name="includeInRandomMatches"
+                  checked={includeInRandomMatches === false}
+                  onChange={() => setIncludeInRandomMatches(false)}
+                />
+              </div>
+            )}
           </div>
         </div>
       </FormSection>

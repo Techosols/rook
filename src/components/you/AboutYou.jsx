@@ -111,7 +111,7 @@ function AboutYou() {
         ></textarea>
         <p className="flex justify-end text-gray-500">{content.length}/5000</p>
         <div className='flex flex-col md:flex-row items-center space-x-2'>
-          <Button text={"Save"} active={content.length > 0} disabled={content.length === 0 || contentUpdateLoading} className={"mt-2"} onClick={saveBio} />
+          <Button text={"Save"} active={content.length > 0} disabled={content.length === 0 || contentUpdateLoading} loading={contentUpdateLoading} className={"mt-2"} onClick={saveBio} />
           <div className="flex items-center mt-2">
             <SmileIcon className={`ml-2 text-gray-500 ${sentiment !== null && sentiment === 0 ? 'text-primary' : ''} hover:cursor-pointer`} size={30}/>
             <FrownIcon className={`ml-2 text-gray-500 ${sentiment !== null && sentiment === 1 ? 'text-primary' : ''} hover:cursor-pointer`} size={30} />

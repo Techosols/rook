@@ -47,11 +47,12 @@ pids
 !.vscode/launch.json
 
 
-
-
 # Local development
 *.local
 
 
 # Vite cache
 .vite
+
+
+public/Test user images/
