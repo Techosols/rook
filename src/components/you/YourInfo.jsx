@@ -336,12 +336,14 @@ function YourInfo() {
                   type="number"
                   value={heightFeet}
                   onChange={(e) => setHeightFeet(e.target.value)}
+                  className="w-24"
                 />
                 <Input
                   placeholder="Inches"
                   type="number"
                   value={heightInches}
                   onChange={(e) => setHeightInches(e.target.value)}
+                  className="w-24"
                 />
               </div>
             )}
@@ -409,7 +411,7 @@ function YourInfo() {
             <label className="font-medium dark:text-white" htmlFor="Gender">
               Gender
             </label>
-            {isProfileLoading ? (
+            {isProfileLoading || !genders ? (
               <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
             ) : (
               <Select
@@ -427,7 +429,7 @@ function YourInfo() {
             >
               Relationship Status
             </label>
-            {isProfileLoading ? (
+            {isProfileLoading || !relationshipStatuses ? (
               <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
             ) : (
               <Select
@@ -442,7 +444,7 @@ function YourInfo() {
             <label className="font-medium dark:text-white" htmlFor="Ethnicity">
               Ethnicity
             </label>
-            {isProfileLoading ? (
+            {isProfileLoading || !ethnicities ? (
               <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
             ) : (
               <Select
@@ -457,7 +459,7 @@ function YourInfo() {
             <label className="font-medium dark:text-white" htmlFor="Religion">
               Religion
             </label>
-            {isProfileLoading ? (
+            {isProfileLoading || !religions ? (
               <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
             ) : (
               <Select
@@ -475,7 +477,7 @@ function YourInfo() {
             >
               Education Level
             </label>
-            {isProfileLoading ? (
+            {isProfileLoading || !educationLevels ? (
               <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
             ) : (
               <Select
@@ -490,7 +492,7 @@ function YourInfo() {
             <label className="font-medium dark:text-white" htmlFor="Occupation">
               Occupation
             </label>
-            {isProfileLoading ? (
+            {isProfileLoading || !occupationProfiles ? (
               <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
             ) : (
               <Select
@@ -508,7 +510,7 @@ function YourInfo() {
             >
               Political Affiliation
             </label>
-            {isProfileLoading ? (
+            {isProfileLoading || !politicalAffiliations ? (
               <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
             ) : (
               <Select
@@ -526,7 +528,7 @@ function YourInfo() {
             >
               Sexual Orientation
             </label>
-            {isProfileLoading ? (
+            {isProfileLoading || !orientations ? (
               <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
             ) : (
               <Select
@@ -541,8 +543,11 @@ function YourInfo() {
             <label className="font-medium dark:text-white" htmlFor="Asexual">
               Asexual{" "}
             </label>
-            {isProfileLoading ? (
-              <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+            {isProfileLoading || !profile ? (
+              <div className="flex items-center gap-2">
+                <div className="h-6 w-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+                <div className="h-6 w-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+              </div>
             ) : (
               <div className="flex items-center gap-2">
                 <Radio
@@ -568,8 +573,11 @@ function YourInfo() {
             <label className="font-medium dark:text-white" htmlFor="Kids">
               Do you have kids?
             </label>
-            {isProfileLoading ? (
-              <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+            {isProfileLoading || !profile ? (
+              <div className="flex items-center gap-2">
+                <div className="h-6 w-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+                <div className="h-6 w-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+              </div>
             ) : (
               <div className="flex items-center gap-2">
                 <Radio
@@ -591,8 +599,11 @@ function YourInfo() {
             <label className="font-medium dark:text-white" htmlFor="wantKids">
               Do you want kids in the future?
             </label>
-            {isProfileLoading ? (
-              <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+            {isProfileLoading || !profile ? (
+              <div className="flex items-center gap-2">
+                <div className="h-6 w-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+                <div className="h-6 w-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+              </div>
             ) : (
               <div className="flex items-center gap-2">
                 <Radio
@@ -614,7 +625,7 @@ function YourInfo() {
             <label className="font-medium dark:text-white" htmlFor="Pets">
               Do you have pets now?
             </label>
-            {isProfileLoading ? (
+            {isProfileLoading  ? (
               <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
             ) : (
               <div className="flex items-center gap-2">
@@ -637,8 +648,11 @@ function YourInfo() {
             <label className="font-medium dark:text-white" htmlFor="wantPets">
               Do you want pets in the future?
             </label>
-            {isProfileLoading ? (
-              <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+            {isProfileLoading || !profile ? (
+              <div className="flex items-center gap-2">
+                <div className="h-6 w-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+                <div className="h-6 w-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+              </div>
             ) : (
               <div className="flex items-center gap-2">
                 <Radio
@@ -674,7 +688,7 @@ function YourInfo() {
             >
               Frequency
             </label>
-            {isProfileLoading ? (
+            {isProfileLoading || !physicalActivityFrequencies ? (
               <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
             ) : (
               <Select
@@ -692,7 +706,7 @@ function YourInfo() {
             >
               Intensity
             </label>
-            {isProfileLoading ? (
+            {isProfileLoading || !physicalActivityIntensities ? (
               <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
             ) : (
               <Select
@@ -710,7 +724,7 @@ function YourInfo() {
             >
               Duration
             </label>
-            {isProfileLoading ? (
+            {isProfileLoading || !physicalActivityDurations ? (
               <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
             ) : (
               <Select
@@ -728,7 +742,7 @@ function YourInfo() {
             >
               Length
             </label>
-            {isProfileLoading ? (
+            {isProfileLoading || !physicalActivityLengths ? (
               <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
             ) : (
               <Select
@@ -780,7 +794,7 @@ function YourInfo() {
             <label className="font-medium dark:text-white" htmlFor="smoke">
               Are you a smoker?
             </label>
-            {isProfileLoading ? (
+            {isProfileLoading || !profile ? (
               <div className="flex items-center gap-2">
                 <div className="h-6 w-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
                 <div className="h-6 w-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
@@ -806,7 +820,7 @@ function YourInfo() {
             <label className="font-medium dark:text-white" htmlFor="recDrug">
               Do you use rec drugs?
             </label>
-            {isProfileLoading ? (
+            {isProfileLoading || !profile ? (
               <div className="flex items-center gap-2">
                 <div className="h-6 w-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
                 <div className="h-6 w-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
@@ -832,7 +846,7 @@ function YourInfo() {
             <label className="font-medium dark:text-white" htmlFor="disability">
               Disabilities?
             </label>
-            {isProfileLoading ? (
+            {isProfileLoading || !profile ? (
               <div className="flex items-center gap-2">
                 <div className="h-6 w-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
                 <div className="h-6 w-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
@@ -858,7 +872,7 @@ function YourInfo() {
             <label className="font-medium dark:text-white" htmlFor="stdSti">
               STDs/STIs
             </label>
-            {isProfileLoading ? (
+            {isProfileLoading || !profile ? (
               <div className="flex items-center gap-2">
                 <div className="h-6 w-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
                 <div className="h-6 w-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
@@ -887,7 +901,7 @@ function YourInfo() {
             >
               Alcohol Consumption Frequency
             </label>
-            {isProfileLoading ? (
+            {isProfileLoading || !alcoholConsumptionFrequencies ? (
               <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
             ) : (
               <Select
@@ -905,7 +919,7 @@ function YourInfo() {
             <label className="font-medium dark:text-white" htmlFor="loveLang">
               Your love language
             </label>
-            {isProfileLoading ? (
+            {isProfileLoading || !loveLanguages ? (
               <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
             ) : (
               <Select
@@ -919,7 +933,7 @@ function YourInfo() {
             <label className="font-medium dark:text-white" htmlFor="starSign">
               Your Star Sign
             </label>
-            {isProfileLoading ? (
+            {isProfileLoading || !starSigns ? (
               <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
             ) : (
               <Select
@@ -936,7 +950,7 @@ function YourInfo() {
             >
               Include you in Random Matches?
             </label>
-            {isProfileLoading ? (
+            {isProfileLoading || !profile ? (
               <div className="flex items-center gap-2">
                 <div className="h-6 w-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
                 <div className="h-6 w-12 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>

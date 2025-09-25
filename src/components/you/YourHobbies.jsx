@@ -144,159 +144,219 @@ function YourHobbies() {
       </p>
       <FormSection title={"Your Hobbies"} onSave={saveHobbies} loading={saveHobbyLoading}>
         <div className="">
-          <Input
-            type="text"
-            placeholder={"e.g. Reading, Traveling, Cooking"}
-            className="w-66"
-            value={searchHobby}
-            onChange={(e) => setSearchHobby(e.target.value)}
-          />
-          <div className="border border-gray-300 dark:bg-gray-500 p-3 rounded-lg mt-3 flex flex-col gap-3 max-h-96 overflow-y-auto">
-            {filteredHobbies.length === 0 && (
-              <p className="text-gray-500">No hobbies found "{searchHobby}"</p>
+          {isProfileLoading || !miscHobbies ? (
+            <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-3"></div>
+          ) : (
+            <Input
+              type="text"
+              placeholder={"e.g. Reading, Traveling, Cooking"}
+              className="w-66"
+              value={searchHobby}
+              onChange={(e) => setSearchHobby(e.target.value)}
+            />
+          )}
+          <div className="border border-gray-300 p-3 rounded-lg mt-3 flex flex-col gap-3 max-h-96 overflow-y-auto">
+            {isProfileLoading || !miscHobbies ? (
+              Array.from({ length: 6 }).map((_, idx) => (
+                <div key={idx} className="h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+              ))
+            ) : (
+              <>
+                {filteredHobbies.length === 0 && (
+                  <p className="text-gray-500">No hobbies found "{searchHobby}"</p>
+                )}
+                {filteredHobbies.map((hobby) => (
+                  <Checkbox
+                    key={hobby.id}
+                    label={hobby.name}
+                    checked={hobby.selected}
+                    onChange={() => {
+                      setHobbies((prev) =>
+                        prev.map((item) =>
+                          item.id === hobby.id ? { ...item, selected: !item.selected } : item
+                        )
+                      );
+                    }}
+                  />
+                ))}
+              </>
             )}
-            {filteredHobbies.map((hobby) => (
-              <Checkbox
-                key={hobby.id}
-                label={hobby.name}
-                checked={hobby.selected}
-                onChange={() => {
-                  setHobbies((prev) =>
-                    prev.map((item) =>
-                      item.id === hobby.id ? { ...item, selected: !item.selected } : item
-                    )
-                  );
-                }}
-              />
-            ))}
           </div>
         </div>
       </FormSection>
 
       <FormSection title={"Music genres you like"} onSave={saveMusicGener} loading={saveMusicGenerLoading}>
         <div className="">
-          <Input
-            type="text"
-            placeholder={"e.g. Pop, Rock, Jazz"}
-            className="w-66"
-            value={searchMusicGener}
-            onChange={(e) => setSearchMusicGener(e.target.value)}
-          />
+          {isProfileLoading || !miscMusicGenres ? (
+            <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-3"></div>
+          ) : (
+            <Input
+              type="text"
+              placeholder={"e.g. Pop, Rock, Jazz"}
+              className="w-66"
+              value={searchMusicGener}
+              onChange={(e) => setSearchMusicGener(e.target.value)}
+            />
+          )}
           <div className="border border-gray-300 dark:border-gray-500 p-3 rounded-lg mt-3 flex flex-col gap-3 max-h-96 overflow-y-auto">
-            {filteredMusicGener.length === 0 && (
-              <p className="text-gray-500">
-                No music genres found "{searchMusicGener}"
-              </p>
+            {isProfileLoading || !miscMusicGenres ? (
+              Array.from({ length: 6 }).map((_, idx) => (
+                <div key={idx} className="h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+              ))
+            ) : (
+              <>
+                {filteredMusicGener.length === 0 && (
+                  <p className="text-gray-500">
+                    No music genres found "{searchMusicGener}"
+                  </p>
+                )}
+                {filteredMusicGener.map((gener) => (
+                  <Checkbox
+                    key={gener.id}
+                    label={gener.name}
+                    checked={gener.selected}
+                    onChange={() => {
+                      setMusicGener((prev) =>
+                        prev.map((item) =>
+                          item.id === gener.id ? { ...item, selected: !item.selected } : item
+                        )
+                      );
+                    }}
+                  />
+                ))}
+              </>
             )}
-            {filteredMusicGener.map((gener) => (
-              <Checkbox
-                key={gener.id}
-                label={gener.name}
-                checked={gener.selected}
-                onChange={() => {
-                  setMusicGener((prev) =>
-                    prev.map((item) =>
-                      item.id === gener.id ? { ...item, selected: !item.selected } : item
-                    )
-                  );
-                }}
-              />
-            ))}
           </div>
         </div>
       </FormSection>
 
       <FormSection title={"Musical instruments you play"} onSave={saveMusicalInstrument} loading={saveMusicalInstrumentLoading}>
         <div className="">
-          <Input
-            type="text"
-            placeholder={"e.g. Guitar, Piano, Drums"}
-            className="w-66"
-            value={searchMusicalInstrument}
-            onChange={(e) => setSearchMusicalInstrument(e.target.value)}
-          />
+          {isProfileLoading || !miscMusicalInstruments ? (
+            <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-3"></div>
+          ) : (
+            <Input
+              type="text"
+              placeholder={"e.g. Guitar, Piano, Drums"}
+              className="w-66"
+              value={searchMusicalInstrument}
+              onChange={(e) => setSearchMusicalInstrument(e.target.value)}
+            />
+          )}
           <div className="border border-gray-300 dark:border-gray-500 p-3 rounded-lg mt-3 flex flex-col gap-3 max-h-96 overflow-y-auto">
-            {filteredMusicalInstrument.length === 0 && (
-              <p className="text-gray-500">
-                No instruments found "{searchMusicalInstrument}"
-              </p>
+            {isProfileLoading || !miscMusicalInstruments ? (
+              Array.from({ length: 6 }).map((_, idx) => (
+                <div key={idx} className="h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+              ))
+            ) : (
+              <>
+                {filteredMusicalInstrument.length === 0 && (
+                  <p className="text-gray-500">
+                    No instruments found "{searchMusicalInstrument}"
+                  </p>
+                )}
+                {filteredMusicalInstrument.map((instrument) => (
+                  <Checkbox
+                    key={instrument.id}
+                    label={instrument.name}
+                    checked={instrument.selected}
+                    onChange={() => {
+                      setMusicalInstrument((prev) =>
+                        prev.map((item) =>
+                          item.id === instrument.id ? { ...item, selected: !item.selected } : item
+                        )
+                      );
+                    }}
+                  />
+                ))}
+              </>
             )}
-            {filteredMusicalInstrument.map((instrument) => (
-              <Checkbox
-                key={instrument.id}
-                label={instrument.name}
-                checked={instrument.selected}
-                onChange={() => {
-                  setMusicalInstrument((prev) =>
-                    prev.map((item) =>
-                      item.id === instrument.id ? { ...item, selected: !item.selected } : item
-                    )
-                  );
-                }}
-              />
-            ))}
           </div>
         </div>
       </FormSection>
 
       <FormSection title={"Pets you own"} onSave={savePets} loading={savePetsLoading}>
         <div className="">
-          <Input
-            type="text"
-            placeholder={"e.g. Dogs, Cats, Fish"}
-            className="w-66"
-            value={searchPets}
-            onChange={(e) => setSearchPets(e.target.value)}
-          />
+          {isProfileLoading || !petTypes ? (
+            <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-3"></div>
+          ) : (
+            <Input
+              type="text"
+              placeholder={"e.g. Dogs, Cats, Fish"}
+              className="w-66"
+              value={searchPets}
+              onChange={(e) => setSearchPets(e.target.value)}
+            />
+          )}
           <div className="border border-gray-300 dark:border-gray-500 p-3 rounded-lg mt-3 flex flex-col gap-3 max-h-96 overflow-y-auto">
-            {filteredPets.length === 0 && (
-              <p className="text-gray-500">No pets found "{searchPets}"</p>
+            {isProfileLoading || !petTypes ? (
+              Array.from({ length: 6 }).map((_, idx) => (
+                <div key={idx} className="h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+              ))
+            ) : (
+              <>
+                {filteredPets.length === 0 && (
+                  <p className="text-gray-500">No pets found "{searchPets}"</p>
+                )}
+                {filteredPets.map((pet) => (
+                  <Checkbox
+                    key={pet.id}
+                    label={pet.name}
+                    checked={pet.selected}
+                    onChange={() => {
+                      setPets((prev) =>
+                        prev.map((item) =>
+                          item.id === pet.id ? { ...item, selected: !item.selected } : item
+                        )
+                      );
+                    }}
+                  />
+                ))}
+              </>
             )}
-            {filteredPets.map((pet) => (
-              <Checkbox
-                key={pet.id}
-                label={pet.name}
-                checked={pet.selected}
-                onChange={() => {
-                  setPets((prev) =>
-                    prev.map((item) =>
-                      item.id === pet.id ? { ...item, selected: !item.selected } : item
-                    )
-                  );
-                }}
-              />
-            ))}
           </div>
         </div>
       </FormSection>
 
       <FormSection title={"Sports Interests"} onSave={saveSports} loading={saveSportsLoading}>
         <div className="">
-          <Input
-            type="text"
-            placeholder={"e.g. Soccer, Basketball, Swimming"}
-            className="w-66"
-            value={searchSports}
-            onChange={(e) => setSearchSports(e.target.value)}
-          />
+          {isProfileLoading || !sportsInterests ? (
+            <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-3"></div>
+          ) : (
+            <Input
+              type="text"
+              placeholder={"e.g. Soccer, Basketball, Swimming"}
+              className="w-66"
+              value={searchSports}
+              onChange={(e) => setSearchSports(e.target.value)}
+            />
+          )}
           <div className="border border-gray-300 dark:border-gray-500 p-3 rounded-lg mt-3 flex flex-col gap-3 max-h-96 overflow-y-auto">
-            {filteredSports.length === 0 && (
-              <p className="text-gray-500">No sports found "{searchSports}"</p>
+            {isProfileLoading || !sportsInterests ? (
+              Array.from({ length: 6 }).map((_, idx) => (
+                <div key={idx} className="h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+              ))
+            ) : (
+              <>
+                {filteredSports.length === 0 && (
+                  <p className="text-gray-500">No sports found "{searchSports}"</p>
+                )}
+                {filteredSports.map((sport) => (
+                  <Checkbox
+                    key={sport.id}
+                    label={sport.name}
+                    checked={sport.selected}
+                    onChange={() => {
+                      setSports((prev) =>
+                        prev.map((item) =>
+                          item.id === sport.id ? { ...item, selected: !item.selected } : item
+                        )
+                      );
+                    }}
+                  />
+                ))}
+              </>
             )}
-            {filteredSports.map((sport) => (
-              <Checkbox
-                key={sport.id}
-                label={sport.name}
-                checked={sport.selected}
-                onChange={() => {
-                  setSports((prev) =>
-                    prev.map((item) =>
-                      item.id === sport.id ? { ...item, selected: !item.selected } : item
-                    )
-                  );
-                }}
-              />
-            ))}
           </div>
         </div>
       </FormSection>
