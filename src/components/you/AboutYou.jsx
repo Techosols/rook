@@ -110,61 +110,133 @@ function AboutYou() {
 
 
   return (
-    <div className='p-1 flex flex-col gap-1 md:gap-4'>
-      <div className=''>
-        {isProfileLoading ? (
-          <>
-            <div className="h-40 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse"></div>
-            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mt-2 w-20 ml-auto"></div>
-          </>
-        ) : (
-          <>
-            <textarea
-              name=""
-              id=""
-              rows="10"
-              className='border border-gray-300 dark:border-gray-500 p-2 rounded-lg w-full focus:outline-primary'
-              placeholder="Tell us about yourself..."
-              value={content}
-              onChange={(e) => {
-                const value = e.target.value;
-                if (value.length > 5000) return;
-                setContent(value);
-                if (value.length === 0) setSentiment(null);
-              }}
-              onInput={sentimentAnalysis}
-            ></textarea>
-            <p className="flex justify-end text-gray-500">{content.length}/5000</p>
-          </>
-        )}
-        {isProfileLoading ? (
-          <div className="flex flex-col md:flex-row items-center space-x-2">
-            <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mt-2 w-20"></div>
-            <div className="flex items-center mt-2 space-x-2">
-              <div className="h-8 w-8 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
-              <div className="h-8 w-8 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
-              <div className="h-8 w-8 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
-            </div>
-            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mt-2 w-40"></div>
-          </div>
-        ) : (
-          <div className='flex flex-col md:flex-row items-center space-x-2'>
-            <Button text={"Save"} active={content.length > 0} disabled={content.length === 0 || contentUpdateLoading} loading={contentUpdateLoading} className={"mt-2"} onClick={saveBio} />
-            <div className="flex items-center mt-2">
-              <SmileIcon className={`ml-2 text-gray-500 ${sentiment !== null && sentiment === 0 ? 'text-primary' : ''} hover:cursor-pointer`} size={30} />
-              <FrownIcon className={`ml-2 text-gray-500 ${sentiment !== null && sentiment === 1 ? 'text-primary' : ''} hover:cursor-pointer`} size={30} />
-              <AnnoyedIcon className={`ml-2 text-gray-500 ${sentiment !== null && sentiment === 2 ? 'text-primary' : ''} hover:cursor-pointer`} size={30} />
-            </div>
-            <p className="mt-2 text-gray-500">
-              <span className={`${sentiment !== null && sentiment === 0 ? 'text-primary' : ''}`}>Positive</span>/
-              <span className={`${sentiment !== null && sentiment === 1 ? 'text-primary' : ''}`}>Neutral</span>/
-              <span className={`${sentiment !== null && sentiment === 2 ? 'text-primary' : ''}`}>Negative</span>/
-              <span className={`${sentiment !== null && sentiment === 3 ? 'text-primary' : ''}`}>Mixed</span>
-            </p>
-          </div>
-        )}
+    <div className='min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-blue-900 dark:to-indigo-900'>
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Header Section */}
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+            About You
+          </h1>
+          <p className="text-lg text-gray-600 dark:text-gray-300">
+            Share your story and let others know what makes you unique
+          </p>
+        </div>
 
-      </div>
+        {/* Bio Content Card */}
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden mb-8">
+          <div className="bg-gradient-to-r from-purple-500 via-pink-500 to-rose-500 px-6 py-4">
+            <h2 className="text-xl font-semibold text-white">Your Story</h2>
+            <p className="text-purple-100 text-sm">Tell others about yourself, your interests, and what you're looking for</p>
+          </div>
+          
+          <div className="p-6">
+            {isProfileLoading ? (
+              <>
+                <div className="h-48 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded-xl animate-pulse"></div>
+                <div className="h-4 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded animate-pulse mt-4 w-24 ml-auto"></div>
+              </>
+            ) : (
+              <div className="space-y-4">
+                <div className="relative">
+                  <textarea
+                    name=""
+                    id=""
+                    rows="12"
+                    className='w-full px-4 py-4 border-2 border-gray-200 dark:border-gray-600 rounded-xl bg-gray-50 dark:bg-gray-700/50 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/20 focus:bg-white dark:focus:bg-gray-700 transition-all duration-200 resize-none font-medium leading-relaxed'
+                    placeholder="Tell us about yourself... What are your passions? What makes you laugh? What are you looking for in a connection? Share anything that helps others understand who you are."
+                    value={content}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (value.length > 5000) return;
+                      setContent(value);
+                      if (value.length === 0) setSentiment(null);
+                    }}
+                    onInput={sentimentAnalysis}
+                  ></textarea>
+                  
+                  {/* Character Counter */}
+                  <div className="absolute bottom-3 right-3">
+                    <span className={`text-sm px-3 py-1 rounded-full font-medium ${
+                      content.length > 4500 
+                        ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' 
+                        : content.length > 4000
+                        ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400'
+                        : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400'
+                    }`}>
+                      {content.length}/5000
+                    </span>
+                  </div>
+                </div>
+              </div>
+            )}
+            {/* Sentiment Analysis & Save Section */}
+            {isProfileLoading ? (
+              <div className="flex flex-col lg:flex-row items-center justify-between pt-6 border-t border-gray-200 dark:border-gray-700">
+                <div className="h-12 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded-lg animate-pulse w-32"></div>
+                <div className="flex items-center mt-4 lg:mt-0 space-x-4">
+                  <div className="h-10 w-10 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded-full animate-pulse"></div>
+                  <div className="h-10 w-10 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded-full animate-pulse"></div>
+                  <div className="h-10 w-10 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded-full animate-pulse"></div>
+                </div>
+              </div>
+            ) : (
+              <div className='flex flex-col lg:flex-row items-center justify-between pt-6 border-t border-gray-200 dark:border-gray-700 space-y-4 lg:space-y-0'>
+                {/* Save Button */}
+                <div className="relative group/btn">
+                  <div className="absolute inset-0 bg-gradient-to-r from-purple-500 via-pink-500 to-rose-500 rounded-xl blur-lg opacity-30 group-hover/btn:opacity-50 transition-opacity duration-300"></div>
+                  <Button 
+                    text={"Save Changes"} 
+                    active={content.length > 0} 
+                    disabled={content.length === 0 || contentUpdateLoading} 
+                    loading={contentUpdateLoading} 
+                    onClick={saveBio}
+                    className="relative px-8 py-3 bg-gradient-to-r from-purple-500 via-pink-500 to-rose-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 border-0"
+                  />
+                </div>
+
+                {/* Sentiment Analysis */}
+                <div className="flex items-center space-x-6">
+                  <div className="flex items-center space-x-3 bg-gray-50 dark:bg-gray-700/50 rounded-xl px-4 py-2">
+                    <SmileIcon 
+                      className={`transition-all duration-200 cursor-pointer hover:scale-110 ${
+                        sentiment !== null && sentiment === 0 
+                          ? 'text-green-500' 
+                          : 'text-gray-400 hover:text-green-400'
+                      }`} 
+                      size={28} 
+                    />
+                    <FrownIcon 
+                      className={`transition-all duration-200 cursor-pointer hover:scale-110 ${
+                        sentiment !== null && sentiment === 1 
+                          ? 'text-blue-500' 
+                          : 'text-gray-400 hover:text-blue-400'
+                      }`} 
+                      size={28} 
+                    />
+                    <AnnoyedIcon 
+                      className={`transition-all duration-200 cursor-pointer hover:scale-110 ${
+                        sentiment !== null && sentiment === 2 
+                          ? 'text-red-500' 
+                          : 'text-gray-400 hover:text-red-400'
+                      }`} 
+                      size={28} 
+                    />
+                  </div>
+                  
+                  <div className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                    <span className={`transition-colors duration-200 ${sentiment !== null && sentiment === 0 ? 'text-green-500 font-semibold' : ''}`}>Positive</span>
+                    <span className="mx-1 text-gray-300">/</span>
+                    <span className={`transition-colors duration-200 ${sentiment !== null && sentiment === 1 ? 'text-blue-500 font-semibold' : ''}`}>Neutral</span>
+                    <span className="mx-1 text-gray-300">/</span>
+                    <span className={`transition-colors duration-200 ${sentiment !== null && sentiment === 2 ? 'text-red-500 font-semibold' : ''}`}>Negative</span>
+                    <span className="mx-1 text-gray-300">/</span>
+                    <span className={`transition-colors duration-200 ${sentiment !== null && sentiment === 3 ? 'text-purple-500 font-semibold' : ''}`}>Mixed</span>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
 
       <FormSection title={"Conversation Starters"} loading={convoStartersUpdateLoading} onSave={saveConvoStarters} className={"mt-4"}>
         {isProfileLoading || !convoStarters ? (
@@ -199,8 +271,8 @@ function AboutYou() {
             </div>
           </>
         )}
-      </FormSection>
-
+        </FormSection>
+      </div>
     </div>
   )
 }
