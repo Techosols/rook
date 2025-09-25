@@ -57,15 +57,15 @@ function YourInfo() {
   const [occupation, setOccupation] = useState("");
   const [politicalAffiliation, setPoliticalAffiliation] = useState("");
   const [sexualOrientation, setSexualOrientation] = useState("");
-  const [asexual, setAsexual] = useState("");
-  const [hasKids, setHasKids] = useState("");
-  const [wantsKids, setWantsKids] = useState("");
-  const [hasPets, setHasPets] = useState("");
-  const [wantsPets, setWantsPets] = useState("");
-  const [exerciseFrequency, setExerciseFrequency] = useState("");
-  const [exerciseIntensity, setExerciseIntensity] = useState("");
-  const [exerciseDuration, setExerciseDuration] = useState("");
-  const [exerciseLength, setExerciseLength] = useState("");
+  const [asexual, setAsexual] = useState(null);
+  const [hasKids, setHasKids] = useState(null);
+  const [wantsKids, setWantsKids] = useState(null);
+  const [hasPets, setHasPets] = useState(null);
+  const [wantsPets, setWantsPets] = useState(null);
+  const [exerciseFrequency, setExerciseFrequency] = useState(null);
+  const [exerciseIntensity, setExerciseIntensity] = useState(null);
+  const [exerciseDuration, setExerciseDuration] = useState(null);
+  const [exerciseLength, setExerciseLength] = useState(null);
   const [exerciseType, setExerciseType] = useState([]);
   const [exerciseIndex, setExerciseIndex] = useState(null);
   const [smoke, setSmoke] = useState(false);
@@ -84,7 +84,6 @@ function YourInfo() {
   const [physicalActivitySectionLoading, setPhysicalActivitySectionLoading] = useState(false);
   const [healthHabitsSectionLoading, setHealthHabitsSectionLoading] = useState(false);
   const [miscSectionLoading, setMiscSectionLoading] = useState(false);
-
 
   async function updateYouSection() {
     const selectedRelationShip = relationshipType.filter(rt => rt.selected).map(rt => rt.id);
@@ -201,8 +200,9 @@ function YourInfo() {
     }
   }
 
+  // Effect for profile data
   useEffect(() => {
-    if (!isProfileLoading) {
+    if (!isProfileLoading && profile) {
       setPreferredName(profile?.preferredName || "");
       setHeightFeet(profile?.heightFeet || "");
       if (profile?.heightInInches) {
@@ -217,7 +217,6 @@ function YourInfo() {
       setMoniker(profile?.moniker || "");
       setAge(profile?.ageInYears || "");
       setZipCode(profile?.postalCode || "");
-      setRelationshipType(Array.isArray(miscRelationshipTypes) ? miscRelationshipTypes : []);
       setGender(profile?.gender || "");
       setRelationshipStatus(profile?.relationshipStatus || "");
       setEthnicity(profile?.ethnicity || "");
@@ -226,18 +225,11 @@ function YourInfo() {
       setOccupation(profile?.occupation || "");
       setPoliticalAffiliation(profile?.politicalAffiliation || "");
       setSexualOrientation(profile?.orientation || "");
-      setAsexual(profile?.asexual || false);
-      setHasKids(profile?.hasKidsNow || false);
-      setWantsKids(profile?.wantOwnKids || false);
-      setHasPets(profile?.hasPetsNow || false);
-      setWantsPets(profile?.wantOwnPets || false);
-      setExerciseFrequency(physicalActivity?.frequency || "");
-      setExerciseIntensity(physicalActivity?.intensity || "");
-      setExerciseDuration(physicalActivity?.duration || "");
-      setExerciseLength(physicalActivity?.length || "");
-      // Always set exerciseType from miscPhysicalActivityTypes (array of {id, name, selected})
-      setExerciseType(Array.isArray(miscPhysicalActivityTypes) ? miscPhysicalActivityTypes : []);
-      setExerciseIndex(physicalActivity?.index || null);
+      setAsexual(profile?.asexual ?? null);
+      setHasKids(profile?.hasKidsNow ?? null);
+      setWantsKids(profile?.wantOwnKids ?? null);
+      setHasPets(profile?.hasPetsNow ?? null);
+      setWantsPets(profile?.wantOwnPets ?? null);
       setSmoke(profile?.isSmoker || false);
       setRecDrug(profile?.isRecreationalDrugUser || false);
       setDisability(profile?.hasDisability || false);
@@ -247,7 +239,32 @@ function YourInfo() {
       setStarSign(profile?.starSign || "");
       setIncludeInRandomMatches(profile?.includeInRandomMatches || false);
     }
-  }, [profile, miscRelationshipTypes, isProfileLoading]);
+  }, [profile, isProfileLoading]);
+
+  // Effect for physical activity data
+  useEffect(() => {
+    if (physicalActivity) {
+      setExerciseFrequency(physicalActivity?.frequency || "");
+      setExerciseIntensity(physicalActivity?.intensity || "");
+      setExerciseDuration(physicalActivity?.duration || "");
+      setExerciseLength(physicalActivity?.length || "");
+      setExerciseIndex(physicalActivity?.index || null);
+    }
+  }, [physicalActivity]);
+
+  // Effect for relationship types
+  useEffect(() => {
+    if (miscRelationshipTypes) {
+      setRelationshipType(Array.isArray(miscRelationshipTypes) ? miscRelationshipTypes : []);
+    }
+  }, [miscRelationshipTypes]);
+
+  // Effect for physical activity types
+  useEffect(() => {
+    if (miscPhysicalActivityTypes) {
+      setExerciseType(Array.isArray(miscPhysicalActivityTypes) ? miscPhysicalActivityTypes : []);
+    }
+  }, [miscPhysicalActivityTypes]);
 
   return (
     <div className="p-1 flex flex-col gap-1 md:gap-4">
