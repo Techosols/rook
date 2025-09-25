@@ -230,7 +230,7 @@ function YourInfo() {
       setHasKids(profile?.hasKidsNow || false);
       setWantsKids(profile?.wantOwnKids || false);
       setHasPets(profile?.hasPetsNow || false);
-      setWantsPets(profile?.wantsPets || true);
+      setWantsPets(profile?.wantOwnPets || true);
       setExerciseFrequency(physicalActivity?.frequency || "");
       setExerciseIntensity(physicalActivity?.intensity || "");
       setExerciseDuration(physicalActivity?.duration || "");
