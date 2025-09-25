@@ -57,11 +57,11 @@ function YourInfo() {
   const [occupation, setOccupation] = useState("");
   const [politicalAffiliation, setPoliticalAffiliation] = useState("");
   const [sexualOrientation, setSexualOrientation] = useState("");
-  const [asexual, setAsexual] = useState(false);
-  const [hasKids, setHasKids] = useState(false);
-  const [wantsKids, setWantsKids] = useState(false);
-  const [hasPets, setHasPets] = useState(false);
-  const [wantsPets, setWantsPets] = useState(true);
+  const [asexual, setAsexual] = useState("");
+  const [hasKids, setHasKids] = useState("");
+  const [wantsKids, setWantsKids] = useState("");
+  const [hasPets, setHasPets] = useState("");
+  const [wantsPets, setWantsPets] = useState("");
   const [exerciseFrequency, setExerciseFrequency] = useState("");
   const [exerciseIntensity, setExerciseIntensity] = useState("");
   const [exerciseDuration, setExerciseDuration] = useState("");
