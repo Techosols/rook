@@ -13,6 +13,8 @@ function ProfileProvider({ children }) {
     const [profileError, setProfileError] = useState(null);
     const [physicalActivity, setPhysicalActivty] = useState([]);
 
+    
+
     const api = useAuthenticatedApi();
 
     /*

@@ -8,8 +8,6 @@ import useOption from "../../hooks/useOption";
 import useAuthenticatedApi from "../../hooks/useAuthenticatedApi";
 import { toast } from "react-toastify";
 
-import userService from "../../services/user";
-
 
 function AboutYou() {
 
@@ -45,9 +43,29 @@ function AboutYou() {
     if (content.length === 0) return;
     setContentUpdateLoading(true);
     try {
-      userService.updateUserProfile(api, {
-        aboutMe: content,
-      });
+      api.post('v1/actions/record', {
+        "object": "event",
+        "type": "user.about-me",
+        "data": {
+          "occurredAt": "2025-09-01T22:06:54.788Z",
+          "notes": content
+        }
+      }).then((res) => {
+        if (res.status === 200) {
+          toast.success('Your changes were saved successfully!');
+        }
+      }).catch((err) => {
+          if(err?.status === 400){
+            const errs = err?.response?.data?.errors.Error;
+            console.error("ERR_UPDATE_BIO", errs);
+            if(errs && errs.length > 0){
+              errs.forEach(e => {
+                toast.error(e);
+              });
+            }
+          }
+          
+        });
     } catch (error) {
       console.error("ERR_UPDATE_BIO", error);
     } finally {
@@ -59,18 +77,18 @@ function AboutYou() {
     const startersArr = convoStarter.split('\n').map(s => s.trim()).filter(s => s.length > 0);
     if (startersArr.length === 0) return;
     setConvoStartersUpdateLoading(true);
-    
+
     try {
       api.put('v1/strings/convostarters', startersArr)
-      .then((res) => {
-        if (res.status === 200) {
-          toast.success('Conversation Starters updated successfully!');
-        }
-      })
-      .catch((err) => {
-        toast.error('Failed to update Conversation Starters');
-        console.error("ERR_UPDATE_CONVO_STARTERS", err);
-      });
+        .then((res) => {
+          if (res.status === 200) {
+            toast.success('Conversation Starters updated successfully!');
+          }
+        })
+        .catch((err) => {
+          toast.error('Failed to update Conversation Starters');
+          console.error("ERR_UPDATE_CONVO_STARTERS", err);
+        });
     }
     catch (error) {
       console.error("ERR_UPDATE_CONVO_STARTERS", error);
@@ -87,7 +105,7 @@ function AboutYou() {
     }
   }, [profile]);
 
-  
+
 
 
 
@@ -113,7 +131,7 @@ function AboutYou() {
         <div className='flex flex-col md:flex-row items-center space-x-2'>
           <Button text={"Save"} active={content.length > 0} disabled={content.length === 0 || contentUpdateLoading} loading={contentUpdateLoading} className={"mt-2"} onClick={saveBio} />
           <div className="flex items-center mt-2">
-            <SmileIcon className={`ml-2 text-gray-500 ${sentiment !== null && sentiment === 0 ? 'text-primary' : ''} hover:cursor-pointer`} size={30}/>
+            <SmileIcon className={`ml-2 text-gray-500 ${sentiment !== null && sentiment === 0 ? 'text-primary' : ''} hover:cursor-pointer`} size={30} />
             <FrownIcon className={`ml-2 text-gray-500 ${sentiment !== null && sentiment === 1 ? 'text-primary' : ''} hover:cursor-pointer`} size={30} />
             <AnnoyedIcon className={`ml-2 text-gray-500 ${sentiment !== null && sentiment === 2 ? 'text-primary' : ''} hover:cursor-pointer`} size={30} />
           </div>
@@ -124,11 +142,11 @@ function AboutYou() {
             <span className={`${sentiment !== null && sentiment === 3 ? 'text-primary' : ''}`}>Mixed</span>
           </p>
         </div>
-        
+
       </div>
 
       <FormSection title={"Conversation Starters"} loading={convoStartersUpdateLoading} onSave={saveConvoStarters} className={"mt-4"}>
-        <p className="text-sm flex items-center text-gray-500"><LucideBadgeInfo className="mr-2 text-gray-500 inline" size={16}  /> Save some short sentences that others can use, to start conversations with you. </p>
+        <p className="text-sm flex items-center text-gray-500"><LucideBadgeInfo className="mr-2 text-gray-500 inline" size={16} /> Save some short sentences that others can use, to start conversations with you. </p>
         <div>
           <textarea
             rows={3}
