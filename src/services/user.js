@@ -191,6 +191,7 @@ const userService = {
       if (error.code === 'ECONNABORTED' || error.message?.toLowerCase().includes('timeout')) {
         toast.error('Request timed out. Please try again.');
       } else if (error.response?.status === 400) {
+        console.error('Error updating user misc data:', error);
         toast.error('Invalid Data. Please check your input and try again.');
       } else if (error.response?.status === 401) {
         toast.error('You are not authorized to perform this action. Please log in and try again.');

@@ -142,7 +142,14 @@ function YourInfo() {
   }
 
   async function updatePhysicalActivitySection() {
-    const selectedActivityTypes = exerciseType.filter(et => et.selected).map(et => et.id);
+
+    const activityTypeDictionary = exerciseType.reduce((acc, activity) => {
+      acc[activity.name] = activity.selected === true;
+      return acc;
+    }, {});
+
+    console.log('Selected Activity: ', exerciseType)
+    console.log('Activity Type Dictionary: ', activityTypeDictionary)
     try {
       setPhysicalActivitySectionLoading(true);
       await userService.updateUserPhysicalActivity(api, {
@@ -151,8 +158,9 @@ function YourInfo() {
         duration: exerciseDuration,
         intensity: exerciseIntensity,
         index: exerciseIndex,
+        activityTypes: activityTypeDictionary
       })
-      await userService.updateUserMiscData(api, 'physicalactivitytype', selectedActivityTypes);
+      //await userService.updateUserMiscData(api, 'physicalactivitytype', selectedActivityTypes);
     } catch (error) {
       console.error("Error updating profile:", error);
       toast.error('Your changes could not be saved. Please try again.');
