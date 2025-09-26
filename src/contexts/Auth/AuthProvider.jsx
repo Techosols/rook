@@ -30,7 +30,7 @@ const AuthProvider = ({ children }) => {
   const loginPopup = (options) => loginWithPopup(options);
 
 
-  console.log("Token:", token);
+  //console.log("Token:", token);
 
 
   useEffect(() => {

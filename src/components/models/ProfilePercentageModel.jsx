@@ -3,17 +3,58 @@
 
 import { User, SlidersHorizontal, Info, Heart, Music, Dumbbell, Image } from "lucide-react";
 
-function ProfilePercentageModel() {
-  const sections = [
-    { icon: User, label: "Your Info", percent: 83 },
-    { icon: SlidersHorizontal, label: "Filters", percent: 87 },
-    { icon: Info, label: "About You", percent: 100 },
-    { icon: Heart, label: "Your Hobbies", percent: 0 },
-    { icon: Music, label: "Music you like", percent: 0 },
-    { icon: Dumbbell, label: "Phys Activity", percent: 0 },
-    { icon: Image, label: "Your Pictures", percent: 75 },
+function ProfilePercentageModel({ data }) {
+  const statData = data?.statData;
+  
+  // Define section mappings with their corresponding icons and API keys
+  const sectionMappings = [
+    { 
+      icon: User, 
+      label: "Your Info", 
+      key: "Your Info"
+    },
+    { 
+      icon: SlidersHorizontal, 
+      label: "Filters", 
+      key: "Filters"
+    },
+    { 
+      icon: Info, 
+      label: "About You", 
+      key: "About You"
+    },
+    { 
+      icon: Heart, 
+      label: "Your Hobbies", 
+      key: "Your Hobbies"
+    },
+    { 
+      icon: Music, 
+      label: "Music you like", 
+      key: "Music you like"
+    },
+    { 
+      icon: Dumbbell, 
+      label: "Physical Activity", 
+      key: "Your Physical Activity"
+    },
+    { 
+      icon: Image, 
+      label: "Your Pictures", 
+      key: "Your Pictures"
+    },
   ];
-  const total = 56;
+
+  // Get sections with actual data or fallback to 0
+  const sections = sectionMappings.map(section => ({
+    ...section,
+    percent: statData ? Math.floor(statData[section.key] || 0) : 0
+  }));
+
+  // Get total percentage
+  const total = statData ? Math.floor(statData["Total % Completed"] || 0) : 0;
+
+  
 
   return (
     <div className="bg-white dark:bg-background-dark rounded-2xl shadow-lg p-6 max-w-md mx-auto border border-gray-100 dark:border-gray-700">
@@ -31,7 +72,7 @@ function ProfilePercentageModel() {
         </div>
       </div>
       <ul className="divide-y divide-gray-100 dark:divide-gray-700">
-        {sections.map(({ icon: Icon, label, percent }, idx) => (
+        {sections.map(({ icon: Icon, label, percent }) => (
           <li key={label} className="flex items-center gap-3 py-3">
             <span className="flex items-center justify-center bg-primary/10 text-primary rounded-full p-2">
               <Icon className="w-5 h-5" />

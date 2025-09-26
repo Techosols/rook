@@ -27,11 +27,10 @@ function YourPictures() {
     setLoading(true)
     api.get('v1/profile-images')
       .then(res => {
-        console.log('Fetched profile images:', res.data);
         setApiImages(res.data)
       })
       .catch(err => {
-        console.error('Error fetching profile images: ', err)
+        console.error('ERR_FETCH_IMAGES: ', err)
       })
       .finally(() => setLoading(false))
   }

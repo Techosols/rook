@@ -9,8 +9,6 @@ import useAuthenticatedApi from '../../hooks/useAuthenticatedApi';
 
 function ImagePlaceholder({ onImageSelect, onUploadSuccess, className = '', hint = '', imageObject }) {
 
-  console.log("Rendering ImagePlaceholder", imageObject);
-
   const { user } = useAuth0();
 
   const api = useFileServiceApi();
@@ -74,13 +72,8 @@ function ImagePlaceholder({ onImageSelect, onUploadSuccess, className = '', hint
   };
 
   const handleRemoveImage = async () => {
-    // console.log('Removing image:', imageObject);
-    // onImageSelect && onImageSelect(null);
-
-
     setIsDeleting(true);
     try {
-      console.log('Removing image:', imageObject);
       const res = await api.post('v1/actions/record', {
         "object": "event",
         "type": "user.image-deleted",
@@ -89,7 +82,6 @@ function ImagePlaceholder({ onImageSelect, onUploadSuccess, className = '', hint
           "occurredAt": new Date().toISOString()
         }
       });
-      console.log('Delete response:', res);
       if (res.status === 200) {
         toast.success('Your image was deleted successfully');
         setImage(null);
@@ -104,6 +96,7 @@ function ImagePlaceholder({ onImageSelect, onUploadSuccess, className = '', hint
     }
   };
 
+  // Function to handle image upload
   const handleImageUpload = async (imageType, status) => {
     if (!allowImageUpload) {
       toast.info(allowImageUploadMessage || 'Image uploads are currently disabled. Please try again later or contact support.');
@@ -132,7 +125,7 @@ function ImagePlaceholder({ onImageSelect, onUploadSuccess, className = '', hint
         // Create updated image data with new status
         const updatedImageData = {
           ...imageObject,
-          profileImageStatus: 'Pending', // or whatever status the upload creates
+          profileImageStatus: 'Pending', 
           fileExternalId: res.data?.fileExternalId || imageObject.fileExternalId,
           uploadedAt: new Date().toISOString()
         };
@@ -153,7 +146,6 @@ function ImagePlaceholder({ onImageSelect, onUploadSuccess, className = '', hint
 
   return (
     <>
-      {console.log("Rendering ImagePlaceholder", image)}
       {image ? (
         <div className='group relative overflow-hidden bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:shadow-2xl hover:scale-[1.02]'>
           {/* Status Badge */}
@@ -164,6 +156,8 @@ function ImagePlaceholder({ onImageSelect, onUploadSuccess, className = '', hint
                   ? 'bg-blue-500/20 text-blue-600 border border-blue-500/30' 
                   : imageObject.profileImageStatus === 'Pending'
                   ? 'bg-yellow-500/20 text-yellow-600 border border-yellow-500/30'
+                  : imageObject.profileImageStatus === 'Rejected'
+                  ? 'bg-red-500/20 text-red-600 border border-red-500/30'
                   : 'bg-green-500/20 text-green-600 border border-green-500/30'
               }`}>
                 {imageObject.profileImageStatus === 'ReadyToUpload' ? 'Ready' : imageObject.profileImageStatus}
@@ -185,7 +179,7 @@ function ImagePlaceholder({ onImageSelect, onUploadSuccess, className = '', hint
           {/* Action Buttons */}
           <div className='p-4 bg-gray-50 dark:bg-gray-800/50'>
             <div className='flex items-center justify-center gap-3'>
-              {/* Upload/Approve buttons only enabled for ReadyToUpload */}
+              {/* Upload button only enabled for ReadyToUpload */}
               <Button
                 size="sm"
                 loading={autoUploadingImage}
@@ -200,27 +194,31 @@ function ImagePlaceholder({ onImageSelect, onUploadSuccess, className = '', hint
               >
                 <ImageUp className='w-4 h-4' />
               </Button>
+              {/* UserCheck button enabled for ReadyToUpload or Rejected */}
               <Button
                 size="sm"
                 variant="secondary"
                 disabled={
                   !allowImageUpload ||
-                  !imageObject?.file ||
-                  imageObject?.profileImageStatus !== 'ReadyToUpload' ||
+                  (imageObject?.profileImageStatus === 'ReadyToUpload' && !imageObject?.file) ||
+                  (imageObject?.profileImageStatus !== 'ReadyToUpload' && imageObject?.profileImageStatus !== 'Rejected') ||
                   autoUploadingImage
                 }
+                onClick={() => {
+                  // Add your UserCheck logic here
+                }}
                 className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white border-0 shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200"
               >
                 <UserCheck className='w-4 h-4' />
               </Button>
-              {/* Delete only enabled for uploaded images (not ReadyToUpload) */}
+              {/* Delete button enabled for uploaded images (not ReadyToUpload) or Rejected */}
               <Button
                 size="sm"
                 onClick={handleRemoveImage}
                 disabled={
                   isDeleting ||
                   autoUploadingImage ||
-                  imageObject?.profileImageStatus === 'ReadyToUpload'
+                  (imageObject?.profileImageStatus === 'ReadyToUpload')
                 }
                 loading={isDeleting}
                 className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white border-0 shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200"

@@ -13,10 +13,9 @@ function AboutYou() {
 
   const api = useAuthenticatedApi();
 
-  const [content, setContent] = useState("");
   const [sentiment, setSentiment] = useState(null);
   const [convoStarter, setConvoStarter] = useState("");
-  const { profile, isProfileLoading } = useProfile();
+  const { profile, isProfileLoading, aboutMe, setAboutMe } = useProfile();
   const { convoStarters } = useOption();
 
   //Loading States
@@ -26,11 +25,11 @@ function AboutYou() {
 
 
   async function sentimentAnalysis() {
-    if (content.length === 0) {
+    if (aboutMe.length === 0) {
       setSentiment(null);
       return;
     }
-    api.post('v1/sentiment', content)
+    api.post('v1/sentiment', aboutMe)
       .then((res) => {
         setSentiment(res.data.sentiment);
       })
@@ -39,71 +38,65 @@ function AboutYou() {
       });
   }
 
-  function saveBio() {
-    if (content.length === 0) return;
+  async function saveBio() {
+    if (aboutMe.length === 0) return;
     setContentUpdateLoading(true);
+    
     try {
-      api.post('v1/actions/record', {
+      const res = await api.post('v1/actions/record', {
         "object": "event",
         "type": "user.about-me",
         "data": {
-          "occurredAt": "2025-09-01T22:06:54.788Z",
-          "notes": content
+          "occurredAt": new Date().toISOString(),
+          "notes": aboutMe
         }
-      }).then((res) => {
-        if (res.status === 200) {
-          toast.success('Your changes were saved successfully!');
+      });
+      
+      if (res.status === 200) {
+        toast.success('Your changes were saved successfully!');
+      }
+    } catch (err) {
+      if (err?.status === 400) {
+        const errs = err?.response?.data?.errors?.Error;
+        console.error("ERR_UPDATE_BIO", errs);
+        if (errs && errs.length > 0) {
+          errs.forEach(e => {
+            toast.error(e);
+          });
         }
-      }).catch((err) => {
-          if(err?.status === 400){
-            const errs = err?.response?.data?.errors.Error;
-            console.error("ERR_UPDATE_BIO", errs);
-            if(errs && errs.length > 0){
-              errs.forEach(e => {
-                toast.error(e);
-              });
-            }
-          }
-          
-        });
-    } catch (error) {
-      console.error("ERR_UPDATE_BIO", error);
+      } else {
+        toast.error('Failed to save changes. Please try again.');
+        console.error("ERR_UPDATE_BIO", err);
+      }
     } finally {
       setContentUpdateLoading(false);
     }
   }
 
-  function saveConvoStarters() {
+  async function saveConvoStarters() {
     const startersArr = convoStarter.split('\n').map(s => s.trim()).filter(s => s.length > 0);
     if (startersArr.length === 0) return;
     setConvoStartersUpdateLoading(true);
 
     try {
-      api.put('v1/strings/convostarters', startersArr)
-        .then((res) => {
-          if (res.status === 200) {
-            toast.success('Conversation Starters updated successfully!');
-          }
-        })
-        .catch((err) => {
-          toast.error('Failed to update Conversation Starters');
-          console.error("ERR_UPDATE_CONVO_STARTERS", err);
-        });
-    }
-    catch (error) {
-      console.error("ERR_UPDATE_CONVO_STARTERS", error);
+      const res = await api.put('v1/strings/convostarters', startersArr);
+      if (res.status === 200) {
+        toast.success('Conversation Starters updated successfully!');
+      }
+    } catch (err) {
+      toast.error('Failed to update Conversation Starters');
+      console.error("ERR_UPDATE_CONVO_STARTERS", err);
     } finally {
       setConvoStartersUpdateLoading(false);
     }
   }
 
   useEffect(() => {
-    if (!isProfileLoading) {
-      setContent(profile?.aboutMe || "");
+    if (!isProfileLoading && profile) {
       setSentiment(null);
       setConvoStarter(convoStarters && Array.isArray(convoStarters) ? convoStarters.join("\n") : convoStarters && Object.values(convoStarters).join("\n"));
     }
-  }, [profile]);
+  }, [profile, isProfileLoading, convoStarters]);
 
 
 
@@ -117,17 +110,17 @@ function AboutYou() {
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
             About You
           </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-300">
+          {/* <p className="text-lg text-gray-600 dark:text-gray-300">
             Share your story and let others know what makes you unique
-          </p>
+          </p> */}
         </div>
 
         {/* Bio Content Card */}
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden mb-8">
-          <div className="bg-gradient-to-r from-purple-500 via-pink-500 to-rose-500 px-6 py-4">
+          {/* <div className="bg-gradient-to-r from-purple-500 via-pink-500 to-rose-500 px-6 py-4">
             <h2 className="text-xl font-semibold text-white">Your Story</h2>
             <p className="text-purple-100 text-sm">Tell others about yourself, your interests, and what you're looking for</p>
-          </div>
+          </div> */}
           
           <div className="p-6">
             {isProfileLoading ? (
@@ -144,11 +137,11 @@ function AboutYou() {
                     rows="12"
                     className='w-full px-4 py-4 border-2 border-gray-200 dark:border-gray-600 rounded-xl bg-gray-50 dark:bg-gray-700/50 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/20 focus:bg-white dark:focus:bg-gray-700 transition-all duration-200 resize-none font-medium leading-relaxed'
                     placeholder="Tell us about yourself... What are your passions? What makes you laugh? What are you looking for in a connection? Share anything that helps others understand who you are."
-                    value={content}
+                    value={aboutMe}
                     onChange={(e) => {
                       const value = e.target.value;
                       if (value.length > 5000) return;
-                      setContent(value);
+                      setAboutMe(value);
                       if (value.length === 0) setSentiment(null);
                     }}
                     onInput={sentimentAnalysis}
@@ -157,13 +150,13 @@ function AboutYou() {
                   {/* Character Counter */}
                   <div className="absolute bottom-3 right-3">
                     <span className={`text-sm px-3 py-1 rounded-full font-medium ${
-                      content.length > 4500 
+                      aboutMe.length > 4500 
                         ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' 
-                        : content.length > 4000
+                        : aboutMe.length > 4000
                         ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400'
                         : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400'
                     }`}>
-                      {content.length}/5000
+                      {aboutMe.length}/5000
                     </span>
                   </div>
                 </div>
@@ -186,8 +179,8 @@ function AboutYou() {
                   <div className="absolute inset-0 bg-gradient-to-r from-purple-500 via-pink-500 to-rose-500 rounded-xl blur-lg opacity-30 group-hover/btn:opacity-50 transition-opacity duration-300"></div>
                   <Button 
                     text={"Save Changes"} 
-                    active={content.length > 0} 
-                    disabled={content.length === 0 || contentUpdateLoading} 
+                    active={aboutMe.length > 0} 
+                    disabled={aboutMe.length === 0 || contentUpdateLoading} 
                     loading={contentUpdateLoading} 
                     onClick={saveBio}
                     className="relative px-8 py-3 bg-gradient-to-r from-purple-500 via-pink-500 to-rose-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 border-0"
@@ -263,8 +256,7 @@ function AboutYou() {
                     const value = textarea.value;
                     const newValue = value.substring(0, start) + '\n' + value.substring(end);
                     textarea.value = newValue;
-                    textarea.selectionStart = textarea.selectionEnd = start + 1;
-                    // Optionally, update state if you want to allow editing
+                    textarea.selectionStart = textarea.selectionEnd = start + 1
                   }
                 }}
               />

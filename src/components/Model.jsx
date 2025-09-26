@@ -38,7 +38,7 @@ function Model() {
           </button>}
         </div>
         <div className="mt-4">
-          {model?.for == 'profilePercentage' && <ProfilePercentageModel />}
+          {model?.for == 'profilePercentage' && <ProfilePercentageModel data={model?.data} />}
           {model?.for == 'profile' && <ProfileModel />}
           {model?.for == 'noInternet' && <NoInternet />}
           {model?.for == 'invalidToken' && <InvalidToken />}

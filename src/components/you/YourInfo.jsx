@@ -37,45 +37,83 @@ function YourInfo() {
     miscPhysicalActivityTypes
   } = useOption();
 
+  const { 
+    preferredName, setPreferredName,
+    age,
+    zipCode, 
+    heightFeet, setHeightFeet,
+    heightInches, setHeightInches,
+    weight, setWeight,
+    moniker,
+    relationshipType, setRelationshipType,
+    gender, setGender,
+    relationshipStatus, setRelationshipStatus,
+    ethnicity, setEthnicity,
+    religion, setReligion,
+    educationLevel, setEducationLevel,
+    occupation, setOccupation,
+    politicalAffiliation, setPoliticalAffiliation,
+    sexualOrientation, setSexualOrientation,
+    asexual, setAsexual,
+    hasKids, setHasKids,
+    wantsKids, setWantsKids,
+    hasPets, setHasPets,
+    wantsPets, setWantsPets,
+    exerciseFrequency, setExerciseFrequency,
+    exerciseIntensity, setExerciseIntensity,
+    exerciseDuration, setExerciseDuration,
+    exerciseLength, setExerciseLength,
+    exerciseType, setExerciseType,
+    exerciseIndex, setExerciseIndex,
+    smoke, setSmoke,
+    recDrug, setRecDrug,
+    disability, setDisability,
+    stdSti, setStdSti,
+    drinks, setDrinks,
+    loveLanguage, setLoveLanguage,
+    starSign, setStarSign,
+    includeInRandomMatches, setIncludeInRandomMatches
+   } = useProfile();
+
 
   const api = useAuthenticatedApi();
 
   // States
-  const [preferredName, setPreferredName] = useState("");
-  const [age, setAge] = useState("");
-  const [zipCode, setZipCode] = useState("");
-  const [heightFeet, setHeightFeet] = useState("");
-  const [heightInches, setHeightInches] = useState("");
-  const [weight, setWeight] = useState("");
-  const [moniker, setMoniker] = useState("");
-  const [relationshipType, setRelationshipType] = useState([]);
-  const [gender, setGender] = useState("");
-  const [relationshipStatus, setRelationshipStatus] = useState("");
-  const [ethnicity, setEthnicity] = useState("");
-  const [religion, setReligion] = useState("");
-  const [educationLevel, setEducationLevel] = useState("");
-  const [occupation, setOccupation] = useState("");
-  const [politicalAffiliation, setPoliticalAffiliation] = useState("");
-  const [sexualOrientation, setSexualOrientation] = useState("");
-  const [asexual, setAsexual] = useState(null);
-  const [hasKids, setHasKids] = useState(null);
-  const [wantsKids, setWantsKids] = useState(null);
-  const [hasPets, setHasPets] = useState(null);
-  const [wantsPets, setWantsPets] = useState(null);
-  const [exerciseFrequency, setExerciseFrequency] = useState(null);
-  const [exerciseIntensity, setExerciseIntensity] = useState(null);
-  const [exerciseDuration, setExerciseDuration] = useState(null);
-  const [exerciseLength, setExerciseLength] = useState(null);
-  const [exerciseType, setExerciseType] = useState([]);
-  const [exerciseIndex, setExerciseIndex] = useState(null);
-  const [smoke, setSmoke] = useState(false);
-  const [recDrug, setRecDrug] = useState(false);
-  const [disability, setDisability] = useState(false);
-  const [stdSti, setStdSti] = useState(false);
-  const [drinks, setDrinks] = useState("");
-  const [loveLanguage, setLoveLanguage] = useState("");
-  const [starSign, setStarSign] = useState("");
-  const [includeInRandomMatches, setIncludeInRandomMatches] = useState(false);
+  // const [preferredName, setPreferredName] = useState("");
+  // const [age, setAge] = useState("");
+  // const [zipCode, setZipCode] = useState("");
+  // const [heightFeet, setHeightFeet] = useState("");
+  // const [heightInches, setHeightInches] = useState("");
+  // const [weight, setWeight] = useState("");
+  // const [moniker, setMoniker] = useState("");
+  // const [relationshipType, setRelationshipType] = useState([]);
+  // const [gender, setGender] = useState("");
+  // const [relationshipStatus, setRelationshipStatus] = useState("");
+  // const [ethnicity, setEthnicity] = useState("");
+  // const [religion, setReligion] = useState("");
+  // const [educationLevel, setEducationLevel] = useState("");
+  // const [occupation, setOccupation] = useState("");
+  // const [politicalAffiliation, setPoliticalAffiliation] = useState("");
+  // const [sexualOrientation, setSexualOrientation] = useState("");
+  // const [asexual, setAsexual] = useState(null);
+  // const [hasKids, setHasKids] = useState(null);
+  // const [wantsKids, setWantsKids] = useState(null);
+  // const [hasPets, setHasPets] = useState(null);
+  // const [wantsPets, setWantsPets] = useState(null);
+  // const [exerciseFrequency, setExerciseFrequency] = useState(null);
+  // const [exerciseIntensity, setExerciseIntensity] = useState(null);
+  // const [exerciseDuration, setExerciseDuration] = useState(null);
+  // const [exerciseLength, setExerciseLength] = useState(null);
+  // const [exerciseType, setExerciseType] = useState([]);
+  // const [exerciseIndex, setExerciseIndex] = useState(null);
+  // const [smoke, setSmoke] = useState(false);
+  // const [recDrug, setRecDrug] = useState(false);
+  // const [disability, setDisability] = useState(false);
+  // const [stdSti, setStdSti] = useState(false);
+  // const [drinks, setDrinks] = useState("");
+  // const [loveLanguage, setLoveLanguage] = useState("");
+  // const [starSign, setStarSign] = useState("");
+  // const [includeInRandomMatches, setIncludeInRandomMatches] = useState(false);
 
   // Loading States
   const [youSectionLoading, setYouSectionLoading] = useState(false);
@@ -201,6 +239,7 @@ function YourInfo() {
   }
 
   // Effect for profile data
+  /*
   useEffect(() => {
     if (!isProfileLoading && profile) {
       setPreferredName(profile?.preferredName || "");
@@ -240,6 +279,7 @@ function YourInfo() {
       setIncludeInRandomMatches(profile?.includeInRandomMatches || false);
     }
   }, [profile, isProfileLoading]);
+  */
 
   // Effect for physical activity data
   useEffect(() => {
@@ -672,7 +712,7 @@ function YourInfo() {
           </div>
         </div>
       </FormSection>
-      <FormSection title="Physical Activity" onSave={() => updatePhysicalActivitySection()} loading={physicalActivitySectionLoading} disabled={true}>
+      <FormSection title="Physical Activity" onSave={() => updatePhysicalActivitySection()} loading={physicalActivitySectionLoading}>
         <p className="text-gray-400 text-sm flex gap-2 items-center">
           <span>
             <BadgeInfo />
