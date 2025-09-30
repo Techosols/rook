@@ -143,6 +143,7 @@ function ProfileProvider({ children }) {
     setProfile,
     setProfileField,
     updateProfile,
+    setIsProfileUpdating,
     physicalActivity,
     setPhysicalActivty,
     // Individual fields
