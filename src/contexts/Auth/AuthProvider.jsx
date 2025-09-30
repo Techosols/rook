@@ -45,7 +45,6 @@ const AuthProvider = ({ children }) => {
     if (savedToken) {
       setToken(savedToken);
     }
-    // Do NOT call getToken here; only call when isAuthenticated is true
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -73,12 +72,14 @@ const AuthProvider = ({ children }) => {
       localStorage.setItem("RKU", true); // RKU => Rook User
       getUserExternalId();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoggedIn, user]);
 
   useEffect(() => {
     if (isAuthenticated) {
       getToken();
     } 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated]);
 
   
