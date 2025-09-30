@@ -12,7 +12,6 @@ import userService from "../../services/user";
 
 function YourHobbies() {
   const {
-    miscHobbies,
     miscMusicalInstruments,
     miscMusicGenres,
     petTypes,
