@@ -224,7 +224,7 @@ function AboutYou() {
         </div>
 
       <FormSection title={"Conversation Starters"} loading={convoStartersUpdateLoading} onSave={saveConvoStarters} className={"mt-4"}>
-        {isProfileLoading || !convoStarters ? (
+        {isProfileLoading ? (
           <>
             <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-3 w-3/4"></div>
             <div className="h-20 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse"></div>
