@@ -48,37 +48,13 @@ const OptionProvider = ({ children }) => {
     const [miscPhysicalActivityTypes, setMiscPhysicalActivityTypes] = useState();
     const [miscRelationshipTypes, setMiscRelationshipTypes] = useState();
     const [sportsInterests, setSportsInterests] = useState();
-
-
-    /*
-    console.log('Fetched Options: ', {
-        alcoholConsumptionFrequencies,
-        complaintCategories,
-        complaintStatuses,
-        educationLevels,
-        ethnicities,
-        genders,
-        hobbies,
-        loveLanguages,
-        musicalInstruments,
-        musicGenres,
-        occupationProfiles,
-        orientations,
-        pets,
-        physicalActivityDurations,
-        physicalActivityFrequencies,
-        physicalActivityIntensities,
-        physicalActivityTypes,
-        politicalAffiliations,
-        relationshipStatuses,
-        relationshipTypes,
-        religions,
-        sports,
-        starSigns,
-        suggestionCategories
-    })
-
-    */
+    
+    // Additional state for user selections
+    const [userHobbies, setUserHobbies] = useState([]);
+    const [musicGener, setMusicGener] = useState([]);
+    const [musicalInstrument, setMusicalInstrument] = useState([]);
+    const [userPets, setUserPets] = useState([]);
+    const [userSports, setUserSports] = useState([]);
 
 
     useEffect(() => {
@@ -193,47 +169,64 @@ const OptionProvider = ({ children }) => {
                 console.error("Error fetching options:", error);
             }
         }
-        
-        if(isAuthenticated) {
+
+        if (isAuthenticated) {
             fetchOptions();
         }
     }, [isAuthenticated, token]);
 
     const values = {
-        alcoholConsumptionFrequencies,
-        complaintCategories,
-        complaintStatuses,
-        educationLevels,
-        ethnicities,
-        genders,
-        hobbies,
-        loveLanguages,
-        musicalInstruments,
-        musicGenres,
-        occupationProfiles,
-        orientations,
-        pets,
-        physicalActivityDurations,
-        physicalActivityFrequencies,
-        physicalActivityIntensities,
-        physicalActivityTypes,
-        physicalActivityLengths,
-        politicalAffiliations,
-        relationshipStatuses,
-        relationshipTypes,
-        religions,
-        sports,
-        starSigns,
-        suggestionCategories,
-        convoStarters,
-        miscHobbies,
-        miscMusicalInstruments,
-        miscMusicGenres,
-        petTypes,
-        miscPhysicalActivityTypes,
-        miscRelationshipTypes,
-        sportsInterests
+        alcoholConsumptionFrequencies, setAlcoholConsumptionFrequencies,
+        complaintCategories, setComplaintCategories,
+        complaintStatuses, setComplaintStatuses,
+        educationLevels, setEducationLevels,
+        ethnicities, setEthnicities,
+        genders, setGenders,
+        hobbies, setHobbies,
+        loveLanguages, setLoveLanguages,
+        musicalInstruments, setMusicalInstruments,
+        musicGenres, setMusicGenres,
+        occupationProfiles, setOccupationProfiles,
+        orientations, setOrientations,
+        pets, setPets,
+        physicalActivityDurations, setPhysicalActivityDurations,
+        physicalActivityFrequencies, setPhysicalActivityFrequencies,
+        physicalActivityIntensities, setPhysicalActivityIntensities,
+        physicalActivityTypes, setPhysicalActivityTypes,
+        physicalActivityLengths, setPhysicalActivityLengths,
+        politicalAffiliations, setPoliticalAffiliations,
+        relationshipStatuses, setRelationshipStatuses,
+        relationshipTypes, setRelationshipTypes,
+        religions, setReligions,
+        sports, setSports,
+        starSigns, setStarSigns,
+        suggestionCategories, setSuggestionCategories,
+        convoStarters, setConvoStarters,
+        miscHobbies, setMiscHobbies,
+        miscMusicalInstruments, setMiscMusicalInstruments,
+        miscMusicGenres, setMiscMusicGenres,
+        petTypes, setPetTypes,
+        miscPhysicalActivityTypes, setMiscPhysicalActivityTypes,
+        miscRelationshipTypes, setMiscRelationshipTypes,
+        sportsInterests, setSportsInterests,
+        
+        // User selection states
+        userHobbies, setUserHobbies,
+        musicGener, setMusicGener,
+        musicalInstrument, setMusicalInstrument,
+        userPets, setUserPets,
+        userSports, setUserSports
     }
+
+    useEffect(() => {
+        // Initialize user selection states with fetched data
+        if (miscHobbies) setUserHobbies(miscHobbies || []);
+        if (miscMusicGenres) setMusicGener(miscMusicGenres || []);
+        if (miscMusicalInstruments) setMusicalInstrument(miscMusicalInstruments || []);
+        if (petTypes) setUserPets(petTypes || []);
+        if (sportsInterests) setUserSports(sportsInterests || []);
+    }, [miscHobbies, miscMusicGenres, miscMusicalInstruments, petTypes, sportsInterests])
+
 
     return (
         <OptionContext.Provider value={values}>

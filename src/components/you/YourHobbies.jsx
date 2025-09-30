@@ -1,5 +1,5 @@
 import { LucideBadgeInfo } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import useOption from "../../hooks/useOption";
 import useProfile from "../../hooks/useProfile";
 
@@ -17,16 +17,18 @@ function YourHobbies() {
     miscMusicGenres,
     petTypes,
     sportsInterests,
+    // User selection states from OptionProvider
+    musicGener, setMusicGener,
+    musicalInstrument, setMusicalInstrument,
+    userPets, setUserPets,
+    userSports, setUserSports,
+    userHobbies, setUserHobbies
   } = useOption();
-  const { profile, isProfileLoading } = useProfile();
+  const { isProfileLoading } = useProfile();
 
   const api = useAuthenticatedApi();
 
-  const [hobbies, setHobbies] = useState([]);
-  const [musicGener, setMusicGener] = useState([]);
-  const [musicalInstrument, setMusicalInstrument] = useState([]);
-  const [pets, setPets] = useState([]);
-  const [sports, setSports] = useState([]);
+  // Keep only search states local for immediate reset when switching tabs
 
   const [searchHobby, setSearchHobby] = useState("");
   const [searchMusicGener, setSearchMusicGener] = useState("");
@@ -42,11 +44,10 @@ function YourHobbies() {
   const [saveSportsLoading, setSaveSportsLoading] = useState(false);
 
   function saveHobbies() {
-    const selectedHobbies = hobbies
+    const selectedHobbies = userHobbies
       .filter((hobby) => hobby.selected)
       .map((hobby) => hobby.id);
 
-    console.log("Selected Hobbies:", selectedHobbies);
     setSaveHobbyLoading(true);
     userService.updateUserMiscData(api, "hobbies", selectedHobbies)
       .finally(() => {
@@ -59,7 +60,6 @@ function YourHobbies() {
       .filter((gener) => gener.selected)
       .map((gener) => gener.id);
 
-    console.log("Selected Music Gener:", selectedMusicGener);
     setSaveMusicGenerLoading(true);
     userService.updateUserMiscData(api, "musicgenres", selectedMusicGener)
       .finally(() => {
@@ -72,7 +72,6 @@ function YourHobbies() {
       .filter((instrument) => instrument.selected)
       .map((instrument) => instrument.id);
 
-    console.log("Selected Musical Instrument:", selectedMusicalInstrument);
     setSaveMusicalInstrumentLoading(true);
     userService.updateUserMiscData(api, "musicalinstruments", selectedMusicalInstrument)
       .finally(() => {
@@ -81,10 +80,9 @@ function YourHobbies() {
   }
 
   function savePets() {
-    const selectedPets = pets
+    const selectedPets = userPets
       .filter((pet) => pet.selected)
       .map((pet) => pet.id);
-    console.log("Selected Pets:", selectedPets);
 
     setSavePetsLoading(true);
     userService.updateUserMiscData(api, "pettypes", selectedPets)
@@ -95,10 +93,9 @@ function YourHobbies() {
   }
 
   function saveSports() {
-    const selectedSports = sports
+    const selectedSports = userSports
       .filter((sport) => sport.selected)
       .map((sport) => sport.id);
-    console.log("Selected Sports:", selectedSports);
     setSaveSportsLoading(true);
     userService.updateUserMiscData(api, "sportsinterests", selectedSports)
       .finally(() => {
@@ -107,31 +104,34 @@ function YourHobbies() {
   }
 
 
-  useEffect(() => {
-    if (!isProfileLoading && profile) {
-      setHobbies(miscHobbies || []);
-      setMusicGener(miscMusicGenres || []);
-      setMusicalInstrument(miscMusicalInstruments || []);
-      setPets(petTypes || []);
-      setSports(sportsInterests || []);
-    }
-  }, [profile]);
+  // Filter functions for search functionality with proper null checks
+  const filteredHobbies = userHobbies && Array.isArray(userHobbies)
+    ? userHobbies.filter((hobby) =>
+        hobby && hobby.name && hobby.name.toLowerCase().includes(searchHobby.toLowerCase())
+      )
+    : [];  const filteredMusicGener = musicGener && Array.isArray(musicGener)
+    ? musicGener.filter((gener) =>
+        gener && gener.name && gener.name.toLowerCase().includes(searchMusicGener.toLowerCase())
+      )
+    : [];
 
-  const filteredHobbies = Object.values(hobbies).filter((hobby) =>
-    hobby.name.toLowerCase().includes(searchHobby.toLowerCase())
-  );
-  const filteredMusicGener = Object.values(musicGener).filter((gener) =>
-    gener.name.toLowerCase().includes(searchMusicGener.toLowerCase())
-  );
-  const filteredMusicalInstrument = Object.values(musicalInstrument).filter((instrument) =>
-    instrument.name.toLowerCase().includes(searchMusicalInstrument.toLowerCase())
-  );
-  const filteredPets = Object.values(pets).filter((pet) =>
-    pet.name.toLowerCase().includes(searchPets.toLowerCase())
-  );
-  const filteredSports = Object.values(sports).filter((sport) =>
-    sport.name.toLowerCase().includes(searchSports.toLowerCase())
-  );
+  const filteredMusicalInstrument = musicalInstrument && Array.isArray(musicalInstrument)
+    ? musicalInstrument.filter((instrument) =>
+        instrument && instrument.name && instrument.name.toLowerCase().includes(searchMusicalInstrument.toLowerCase())
+      )
+    : [];
+
+  const filteredPets = userPets && Array.isArray(userPets)
+    ? userPets.filter((pet) =>
+        pet && pet.name && pet.name.toLowerCase().includes(searchPets.toLowerCase())
+      )
+    : [];
+
+  const filteredSports = userSports && Array.isArray(userSports)
+    ? userSports.filter((sport) =>
+        sport && sport.name && sport.name.toLowerCase().includes(searchSports.toLowerCase())
+      )
+    : [];
 
   return (
     <div className="p-1 flex flex-col gap-1 md:gap-4">
@@ -144,7 +144,7 @@ function YourHobbies() {
       </p>
       <FormSection title={"Your Hobbies"} onSave={saveHobbies} loading={saveHobbyLoading}>
         <div className="">
-          {isProfileLoading || !miscHobbies ? (
+          {isProfileLoading || !userHobbies ? (
             <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-3"></div>
           ) : (
             <Input
@@ -156,22 +156,22 @@ function YourHobbies() {
             />
           )}
           <div className="border border-gray-300 p-3 rounded-lg mt-3 flex flex-col gap-3 max-h-96 overflow-y-auto">
-            {isProfileLoading || !miscHobbies ? (
+            {isProfileLoading || !userHobbies ? (
               Array.from({ length: 6 }).map((_, idx) => (
                 <div key={idx} className="h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
               ))
             ) : (
               <>
-                {filteredHobbies.length === 0 && (
+                {filteredHobbies && filteredHobbies.length === 0 && (
                   <p className="text-gray-500">No hobbies found "{searchHobby}"</p>
                 )}
-                {filteredHobbies.map((hobby) => (
+                {filteredHobbies && filteredHobbies.map((hobby) => (
                   <Checkbox
                     key={hobby.id}
                     label={hobby.name}
                     checked={hobby.selected}
                     onChange={() => {
-                      setHobbies((prev) =>
+                      setUserHobbies((prev) =>
                         prev.map((item) =>
                           item.id === hobby.id ? { ...item, selected: !item.selected } : item
                         )
@@ -205,12 +205,12 @@ function YourHobbies() {
               ))
             ) : (
               <>
-                {filteredMusicGener.length === 0 && (
+                {filteredMusicGener && filteredMusicGener.length === 0 && (
                   <p className="text-gray-500">
                     No music genres found "{searchMusicGener}"
                   </p>
                 )}
-                {filteredMusicGener.map((gener) => (
+                {filteredMusicGener && filteredMusicGener.map((gener) => (
                   <Checkbox
                     key={gener.id}
                     label={gener.name}
@@ -250,12 +250,12 @@ function YourHobbies() {
               ))
             ) : (
               <>
-                {filteredMusicalInstrument.length === 0 && (
+                {filteredMusicalInstrument && filteredMusicalInstrument.length === 0 && (
                   <p className="text-gray-500">
                     No instruments found "{searchMusicalInstrument}"
                   </p>
                 )}
-                {filteredMusicalInstrument.map((instrument) => (
+                {filteredMusicalInstrument && filteredMusicalInstrument.map((instrument) => (
                   <Checkbox
                     key={instrument.id}
                     label={instrument.name}
@@ -295,16 +295,16 @@ function YourHobbies() {
               ))
             ) : (
               <>
-                {filteredPets.length === 0 && (
+                {filteredPets && filteredPets.length === 0 && (
                   <p className="text-gray-500">No pets found "{searchPets}"</p>
                 )}
-                {filteredPets.map((pet) => (
+                {filteredPets && filteredPets.map((pet) => (
                   <Checkbox
                     key={pet.id}
                     label={pet.name}
                     checked={pet.selected}
                     onChange={() => {
-                      setPets((prev) =>
+                      setUserPets((prev) =>
                         prev.map((item) =>
                           item.id === pet.id ? { ...item, selected: !item.selected } : item
                         )
@@ -338,16 +338,16 @@ function YourHobbies() {
               ))
             ) : (
               <>
-                {filteredSports.length === 0 && (
+                {filteredSports && filteredSports.length === 0 && (
                   <p className="text-gray-500">No sports found "{searchSports}"</p>
                 )}
-                {filteredSports.map((sport) => (
+                {filteredSports && filteredSports.map((sport) => (
                   <Checkbox
                     key={sport.id}
                     label={sport.name}
                     checked={sport.selected}
                     onChange={() => {
-                      setSports((prev) =>
+                      setUserSports((prev) =>
                         prev.map((item) =>
                           item.id === sport.id ? { ...item, selected: !item.selected } : item
                         )

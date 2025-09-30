@@ -102,8 +102,8 @@ function ProfileProvider({ children }) {
         setHeightFeet(Math.floor(totalInches / 12).toString());
         setHeightInches((totalInches % 12).toString());
       } else {
-        setHeightFeet(profile?.heightFeet || "0");
-        setHeightInches(profile?.heightInInches || "0");
+        setHeightFeet(profile?.heightFeet || 2);
+        setHeightInches(profile?.heightInInches || 0);
       }
       setWeight(profile?.weight || "");
       setMoniker(profile?.moniker || "");
