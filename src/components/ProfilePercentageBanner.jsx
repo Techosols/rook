@@ -18,7 +18,6 @@ function ProfilePercentageBanner() {
         setLoading(true);
         api.get('/v1/profile-complete-stats')
         .then((res) => {
-            console.log("Profile Completion Stats Response:", res.data);
             const percent = res.data && (res.data["Total % Completed"] ?? 0);
             setProfileCompletion(Math.floor(percent));
             setStatData(res.data);

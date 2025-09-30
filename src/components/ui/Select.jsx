@@ -13,7 +13,7 @@ function Select({ value, onChange, options = [], className = '', placeholder = '
                 {...props}
             >
                 <option value="" disabled hidden>{placeholder}</option>
-                <option value="" >None</option>
+                {/* <option value="" >None</option> */}
                 {Object.values(options).map((opt, idx) => (
                     <option key={idx} value={opt} className="font-semibold">
                         {opt}

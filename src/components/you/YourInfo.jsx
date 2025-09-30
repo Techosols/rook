@@ -40,7 +40,7 @@ function YourInfo() {
   const { 
     preferredName, setPreferredName,
     age,
-    zipCode, 
+    zipCode, setZipCode, 
     heightFeet, setHeightFeet,
     heightInches, setHeightInches,
     weight, setWeight,
@@ -78,43 +78,6 @@ function YourInfo() {
 
   const api = useAuthenticatedApi();
 
-  // States
-  // const [preferredName, setPreferredName] = useState("");
-  // const [age, setAge] = useState("");
-  // const [zipCode, setZipCode] = useState("");
-  // const [heightFeet, setHeightFeet] = useState("");
-  // const [heightInches, setHeightInches] = useState("");
-  // const [weight, setWeight] = useState("");
-  // const [moniker, setMoniker] = useState("");
-  // const [relationshipType, setRelationshipType] = useState([]);
-  // const [gender, setGender] = useState("");
-  // const [relationshipStatus, setRelationshipStatus] = useState("");
-  // const [ethnicity, setEthnicity] = useState("");
-  // const [religion, setReligion] = useState("");
-  // const [educationLevel, setEducationLevel] = useState("");
-  // const [occupation, setOccupation] = useState("");
-  // const [politicalAffiliation, setPoliticalAffiliation] = useState("");
-  // const [sexualOrientation, setSexualOrientation] = useState("");
-  // const [asexual, setAsexual] = useState(null);
-  // const [hasKids, setHasKids] = useState(null);
-  // const [wantsKids, setWantsKids] = useState(null);
-  // const [hasPets, setHasPets] = useState(null);
-  // const [wantsPets, setWantsPets] = useState(null);
-  // const [exerciseFrequency, setExerciseFrequency] = useState(null);
-  // const [exerciseIntensity, setExerciseIntensity] = useState(null);
-  // const [exerciseDuration, setExerciseDuration] = useState(null);
-  // const [exerciseLength, setExerciseLength] = useState(null);
-  // const [exerciseType, setExerciseType] = useState([]);
-  // const [exerciseIndex, setExerciseIndex] = useState(null);
-  // const [smoke, setSmoke] = useState(false);
-  // const [recDrug, setRecDrug] = useState(false);
-  // const [disability, setDisability] = useState(false);
-  // const [stdSti, setStdSti] = useState(false);
-  // const [drinks, setDrinks] = useState("");
-  // const [loveLanguage, setLoveLanguage] = useState("");
-  // const [starSign, setStarSign] = useState("");
-  // const [includeInRandomMatches, setIncludeInRandomMatches] = useState(false);
-
   // Loading States
   const [youSectionLoading, setYouSectionLoading] = useState(false);
   const [aboutYouSectionLoading, setAboutYouSectionLoading] = useState(false);
@@ -143,6 +106,19 @@ function YourInfo() {
 
   async function updateAboutYouSection() {
     try {
+      const data = {
+        gender: gender,
+        relationshipStatus: relationshipStatus,
+        ethnicity: ethnicity,
+        religion: religion,
+        educationLevel: educationLevel,
+        occupation: occupation,
+        politicalAffiliation: politicalAffiliation,
+        asexual: asexual,
+        orientation: sexualOrientation,
+      }
+
+      console.log('About You Data to be sent: ', data)
       setAboutYouSectionLoading(true);
       await userService.updateUserProfile(api, {
         gender: gender,
@@ -185,8 +161,6 @@ function YourInfo() {
       return acc;
     }, {});
 
-    console.log('Selected Activity: ', exerciseType)
-    console.log('Activity Type Dictionary: ', activityTypeDictionary)
     try {
       setPhysicalActivitySectionLoading(true);
       await userService.updateUserPhysicalActivity(api, {
@@ -197,7 +171,6 @@ function YourInfo() {
         index: exerciseIndex,
         activityTypes: activityTypeDictionary
       })
-      //await userService.updateUserMiscData(api, 'physicalactivitytype', selectedActivityTypes);
     } catch (error) {
       console.error("Error updating profile:", error);
       toast.error('Your changes could not be saved. Please try again.');
@@ -238,48 +211,6 @@ function YourInfo() {
     }
   }
 
-  // Effect for profile data
-  /*
-  useEffect(() => {
-    if (!isProfileLoading && profile) {
-      setPreferredName(profile?.preferredName || "");
-      setHeightFeet(profile?.heightFeet || "");
-      if (profile?.heightInInches) {
-        const totalInches = profile.heightInInches;
-        setHeightFeet(Math.floor(totalInches / 12).toString());
-        setHeightInches((totalInches % 12).toString());
-      } else {
-        setHeightFeet(profile?.heightFeet || "0");
-        setHeightInches(profile?.heightInInches || "0");
-      }
-      setWeight(profile?.weight || "");
-      setMoniker(profile?.moniker || "");
-      setAge(profile?.ageInYears || "");
-      setZipCode(profile?.postalCode || "");
-      setGender(profile?.gender || "");
-      setRelationshipStatus(profile?.relationshipStatus || "");
-      setEthnicity(profile?.ethnicity || "");
-      setReligion(profile?.religion || "");
-      setEducationLevel(profile?.educationLevel || "");
-      setOccupation(profile?.occupation || "");
-      setPoliticalAffiliation(profile?.politicalAffiliation || "");
-      setSexualOrientation(profile?.orientation || "");
-      setAsexual(profile?.asexual ?? null);
-      setHasKids(profile?.hasKidsNow ?? null);
-      setWantsKids(profile?.wantOwnKids ?? null);
-      setHasPets(profile?.hasPetsNow ?? null);
-      setWantsPets(profile?.wantOwnPets ?? null);
-      setSmoke(profile?.isSmoker || false);
-      setRecDrug(profile?.isRecreationalDrugUser || false);
-      setDisability(profile?.hasDisability || false);
-      setStdSti(profile?.hasSexuallyTransmittedInfection || false);
-      setDrinks(profile?.alcoholConsumptionFrequency || "");
-      setLoveLanguage(profile?.loveLanguage || "");
-      setStarSign(profile?.starSign || "");
-      setIncludeInRandomMatches(profile?.includeInRandomMatches || false);
-    }
-  }, [profile, isProfileLoading]);
-  */
 
   // Effect for physical activity data
   useEffect(() => {
@@ -356,7 +287,8 @@ function YourInfo() {
               <Input
                 placeholder="Your Location"
                 value={zipCode}
-                disabled={true}
+                onChange={(e) => setZipCode(e.target.value)}
+                maxLength={5}
               />
             )}
           </div>
@@ -375,15 +307,29 @@ function YourInfo() {
                   placeholder="Feet"
                   type="number"
                   value={heightFeet}
-                  onChange={(e) => setHeightFeet(e.target.value)}
+                  onChange={(e) => {
+                    let value = parseInt(e.target.value) || 0;
+                    if (value < 2) value = 2;
+                    if (value > 7) value = 7;
+                    setHeightFeet(value);
+                  }}
                   className="w-24"
+                  min={2}
+                  max={7}
                 />
                 <Input
                   placeholder="Inches"
                   type="number"
                   value={heightInches}
-                  onChange={(e) => setHeightInches(e.target.value)}
+                  onChange={(e) => {
+                    let value = parseInt(e.target.value) || 0;
+                    if (value < 0) value = 0;
+                    if (value > 12) value = 12;
+                    setHeightInches(value);
+                  }}
                   className="w-24"
+                  min={0}
+                  max={12}
                 />
               </div>
             )}
@@ -412,7 +358,17 @@ function YourInfo() {
                 placeholder="Weight"
                 type="number"
                 value={weight}
-                onChange={(e) => setWeight(e.target.value)}
+                onChange={(e) => {
+                  setWeight(e.target.value)
+                }}
+                onBlur={() => {
+                  if (parseInt(weight) < 100) {
+                    setWeight(100);
+                  }
+                  if (parseInt(weight) > 500) {
+                    setWeight(500);
+                  }
+                }}
               />
             )}
           </div>
@@ -793,14 +749,14 @@ function YourInfo() {
               />
             )}
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-[1fr_3fr] gap-1 md:gap-2 items-start h-20">
+          <div className="grid grid-cols-1 md:grid-cols-[1fr_3fr] gap-1 md:gap-2 items-start">
             <label
               className="font-medium dark:text-white"
               htmlFor="exerciseType"
             >
               Type
             </label>
-            <div className="flex flex-col h-32 overflow-y-scroll border border-gray-300 dark:border-gray-600 p-2 rounded mb-1">
+            <div className="flex flex-col max-h-32 overflow-y-auto border border-gray-300 dark:border-gray-600 p-2 rounded">
               {!physicalActivityTypes && Array.from({ length: 4 }).map((_, idx) => (
                 <div key={idx} className="h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-1"></div>
               ))}

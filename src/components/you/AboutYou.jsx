@@ -110,18 +110,10 @@ function AboutYou() {
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
             About You
           </h1>
-          {/* <p className="text-lg text-gray-600 dark:text-gray-300">
-            Share your story and let others know what makes you unique
-          </p> */}
         </div>
 
         {/* Bio Content Card */}
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden mb-8">
-          {/* <div className="bg-gradient-to-r from-purple-500 via-pink-500 to-rose-500 px-6 py-4">
-            <h2 className="text-xl font-semibold text-white">Your Story</h2>
-            <p className="text-purple-100 text-sm">Tell others about yourself, your interests, and what you're looking for</p>
-          </div> */}
-          
           <div className="p-6">
             {isProfileLoading ? (
               <>
@@ -142,9 +134,9 @@ function AboutYou() {
                       const value = e.target.value;
                       if (value.length > 5000) return;
                       setAboutMe(value);
+                      sentimentAnalysis();
                       if (value.length === 0) setSentiment(null);
                     }}
-                    onInput={sentimentAnalysis}
                   ></textarea>
                   
                   {/* Character Counter */}
