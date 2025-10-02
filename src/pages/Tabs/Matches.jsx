@@ -1,5 +1,6 @@
 import { useState } from "react";
 import AuthenticatedTabLayout from "../../components/ui/Authenticated Tab/AuthenticatedTabLayout";
+import useMatches from "../../hooks/useMatches";
 
 // Components
 import Connections from "../../components/matches/Connections";
@@ -16,6 +17,11 @@ import BlockedByYou from "../../components/matches/BlockedByYou";
 import IgnoredByYou from "../../components/matches/IgnoredByYou";
 
 function Matches() {
+  // Get matches data from context
+  const { 
+    matches, 
+    randomMatches
+  } = useMatches();
 
   const tabs = [
     { id: 1, value: 'matches', label: 'Matches' },
@@ -37,7 +43,7 @@ function Matches() {
   function renderTabContent() {
     switch (activeTab) {
       case 'matches':
-        return <Match />;
+        return <Match matchesData={matches} />;
       case 'connections':
         return <Connections />;
       case 'connectionRequestsByYou':
@@ -59,7 +65,7 @@ function Matches() {
       case 'ignoredByYou':
         return <IgnoredByYou />;
       case 'randomMatches':
-        return <RandomMatches />;
+        return <RandomMatches matchesData={randomMatches} />;
     }
   }
 

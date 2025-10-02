@@ -6,6 +6,7 @@ import { Auth0Provider } from "@auth0/auth0-react";
 import ThemeProvider from "./contexts/Theme/ThemeProvider";
 import TabProvider from "./contexts/Tab/TabProvider";
 import AuthProvider from "./contexts/Auth/AuthProvider";
+import MatchesProvider from "./contexts/Matches/MatchesProvider";
 import OptionProvider from "./contexts/Options/OptionProvider";
 import ProfileProvider from "./contexts/Profile/ProfileProvider";
 import ModelProvider from "./contexts/Model/ModelProvider";
@@ -26,11 +27,13 @@ const Providers = ({ children }) => (
         <TabProvider>
           <ModelProvider>
             <AuthProvider>
-              <OptionProvider>
-                <ProfileProvider>
-                  {children}
-                </ProfileProvider>
-              </OptionProvider>
+              <MatchesProvider>
+                <OptionProvider>
+                  <ProfileProvider>
+                    {children}
+                  </ProfileProvider>
+                </OptionProvider>
+              </MatchesProvider>
             </AuthProvider>
           </ModelProvider>
         </TabProvider>

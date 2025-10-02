@@ -15,7 +15,20 @@ import {
   PawPrint,
   Trophy,
   Music,
-  Guitar
+  Guitar,
+  MessageCircle,
+  MapPin,
+  BarChart3,
+  Users,
+  Church,
+  ShieldCheck,
+  UserCheck,
+  Compass,
+  Users2,
+  Vote,
+  Zap,
+  Briefcase,
+  UserX
 } from 'lucide-react'
 
 const sectionIcons = {
@@ -36,6 +49,19 @@ const sectionIcons = {
   'Sports Interests': Trophy,
   'Music genres you like': Music, 
   'Musical instruments you play': Guitar,
+  'Conversation Starters': MessageCircle,
+  'Location': MapPin,
+  'Stats': BarChart3,
+  'Ethnicities': Users,
+  'Religions': Church,
+  'Background Check Status': ShieldCheck,
+  'Gender': UserCheck,
+  'Orientation': Compass,
+  'Relationship Types': Users2,
+  'Political Affiliation': Vote,
+  'Physical Activity Index': Zap,
+  'Included Occupations': Briefcase,
+  'Excluded Occupations': UserX,
 }
 
 const gradientStyles = {
@@ -56,6 +82,19 @@ const gradientStyles = {
   'Sports Interests': 'from-orange-500 via-red-500 to-pink-500',
   'Music genres you like': 'from-pink-500 via-rose-500 to-red-500',
   'Musical instruments you play': 'from-cyan-500 via-blue-500 to-indigo-500',
+  'Conversation Starters': 'from-teal-500 via-cyan-500 to-blue-500',
+  'Location': 'from-green-500 via-teal-500 to-cyan-500',
+  'Stats': 'from-indigo-500 via-blue-500 to-cyan-500',
+  'Ethnicities': 'from-purple-500 via-violet-500 to-indigo-500',
+  'Religions': 'from-amber-500 via-yellow-500 to-orange-500',
+  'Background Check Status': 'from-red-500 via-rose-500 to-pink-500',
+  'Gender': 'from-blue-500 via-purple-500 to-pink-500',
+  'Orientation': 'from-pink-500 via-purple-500 to-indigo-500',
+  'Relationship Types': 'from-rose-500 via-pink-500 to-purple-500',
+  'Political Affiliation': 'from-red-500 via-blue-500 to-purple-500',
+  'Physical Activity Index': 'from-yellow-500 via-orange-500 to-red-500',
+  'Included Occupations': 'from-green-500 via-blue-500 to-purple-500',
+  'Excluded Occupations': 'from-gray-500 via-red-500 to-pink-500',
 }
 
 function FormSection({

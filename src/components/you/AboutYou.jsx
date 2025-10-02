@@ -134,9 +134,9 @@ function AboutYou() {
                       const value = e.target.value;
                       if (value.length > 5000) return;
                       setAboutMe(value);
-                      sentimentAnalysis();
                       if (value.length === 0) setSentiment(null);
                     }}
+                    onBlur={sentimentAnalysis}
                   ></textarea>
                   
                   {/* Character Counter */}

@@ -3,6 +3,7 @@ import { BadgeInfo, Check, LucideBadgeInfo } from "lucide-react";
 import Input from "../ui/Input";
 import Checkbox from "../ui/Checkbox";
 import Select from "../ui/Select";
+import SearchableSelect from "../ui/SearchableSelect";
 import Radio from "../ui/Radio";
 
 import useProfile from "../../hooks/useProfile";
@@ -95,8 +96,12 @@ function YourInfo() {
         heightInInches:
           (parseInt(heightFeet) || 0) * 12 + (parseInt(heightInches) || 0),
         weight: weight,
+        postalCode: zipCode,
       });
-      await userService.updateUserMiscData(api, 'relationshiptypes', selectedRelationShip);
+      if(selectedRelationShip.length > 0){
+          await userService.updateUserMiscData(api, 'relationshiptypes', selectedRelationShip);
+      }
+
     } catch (error) {
       console.error("Error updating profile:", error);
     } finally {
@@ -221,21 +226,21 @@ function YourInfo() {
       setExerciseLength(physicalActivity?.length || "");
       setExerciseIndex(physicalActivity?.index || null);
     }
-  }, [physicalActivity]);
+  }, [physicalActivity, setExerciseFrequency, setExerciseIntensity, setExerciseDuration, setExerciseLength, setExerciseIndex]);
 
-  // Effect for relationship types
+  // Effect for relationship types - only set if not already set to preserve user changes
   useEffect(() => {
-    if (miscRelationshipTypes) {
+    if (miscRelationshipTypes && relationshipType.length === 0) {
       setRelationshipType(Array.isArray(miscRelationshipTypes) ? miscRelationshipTypes : []);
     }
-  }, [miscRelationshipTypes]);
+  }, [miscRelationshipTypes, relationshipType.length, setRelationshipType]);
 
-  // Effect for physical activity types
+  // Effect for physical activity types - only set if not already set to preserve user changes
   useEffect(() => {
-    if (miscPhysicalActivityTypes) {
+    if (miscPhysicalActivityTypes && exerciseType.length === 0) {
       setExerciseType(Array.isArray(miscPhysicalActivityTypes) ? miscPhysicalActivityTypes : []);
     }
-  }, [miscPhysicalActivityTypes]);
+  }, [miscPhysicalActivityTypes, exerciseType.length, setExerciseType]);
 
   return (
     <div className="p-1 flex flex-col gap-1 md:gap-4">
@@ -491,11 +496,13 @@ function YourInfo() {
             {isProfileLoading || !occupationProfiles ? (
               <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
             ) : (
-              <Select
+              <SearchableSelect
                 options={occupationProfiles}
                 value={occupation}
                 onChange={(e) => setOccupation(e.target.value)}
-                placeholder="Select Occupation"
+                placeholder="Search and select occupation"
+                noOptionsText="No occupations found"
+                maxDisplayOptions={50}
               />
             )}
           </div>
