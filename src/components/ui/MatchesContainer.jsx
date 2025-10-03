@@ -69,7 +69,7 @@ function MatchesContainer({ title = 'Matches', data, endPoint = 'GetYourMatches'
             </div>
 
             {/* Search Bar */}
-            {uiData && (
+            {/* {uiData && (
                 <div className="p-6 border-b border-gray-200 dark:border-gray-700">
                     <div className="relative">
                         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -80,7 +80,7 @@ function MatchesContainer({ title = 'Matches', data, endPoint = 'GetYourMatches'
                         />
                     </div>
                 </div>
-            )}
+            )} */}
 
 
 
@@ -88,9 +88,9 @@ function MatchesContainer({ title = 'Matches', data, endPoint = 'GetYourMatches'
             <div className="p-6">
                 {uiData ? (
                     <>
-                        <div className="mb-4 text-gray-600 dark:text-gray-400">
+                        {/* <div className="mb-4 text-gray-600 dark:text-gray-400">
                             Found {uiData?.results?.length || 0} matches
-                        </div>
+                        </div> */}
                         <div className="space-y-4">
                             {uiData?.results?.map((match) => (
                                 <ProfileCard key={match.profileId} profile={match} />

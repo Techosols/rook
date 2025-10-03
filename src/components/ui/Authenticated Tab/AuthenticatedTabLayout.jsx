@@ -19,7 +19,7 @@ function AuthenticatedTabLayout({children, tabs, activeTab, setActiveTab}) {
 
   return (
     <div className='grid grid-cols-1 md:grid-cols-[1fr_3fr] gap-2'>
-        <div>
+        <div className="">
             <AuthenticatedTabSidebar tabs={tabs} onTabClick={handleTabClick} active={activeTab} />
         </div>
         <div  >

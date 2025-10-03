@@ -65,11 +65,6 @@ function SearchableSelect({
     setSearchTerm('');
   };
 
-  const handleClear = (e) => {
-    e.stopPropagation();
-    onChange({ target: { value: '' } });
-  };
-
   const getDisplayValue = () => {
     if (!value) return placeholder;
     return value;
@@ -85,17 +80,6 @@ function SearchableSelect({
       >
         <span className="block truncate">{getDisplayValue()}</span>
       </div>
-
-      {/* Clear button */}
-      {value && (
-        <button
-          type="button"
-          className="absolute right-8 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-300 hover:text-gray-600 dark:hover:text-gray-100 transition-colors duration-150"
-          onClick={handleClear}
-        >
-          <X size={16} />
-        </button>
-      )}
 
       {/* Dropdown chevron */}
       <span className="pointer-events-none absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-300 transition-colors duration-150 group-hover:text-primary">
@@ -124,14 +108,6 @@ function SearchableSelect({
           <div className="max-h-64 overflow-y-auto">
             {filteredOptions.length > 0 ? (
               <>
-                {/* Empty option */}
-                <button
-                  type="button"
-                  className="w-full px-4 py-2 text-left text-sm hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400 border-b border-gray-100 dark:border-gray-700"
-                  onClick={() => handleSelect('')}
-                >
-                  <em>None selected</em>
-                </button>
                 
                 {/* Filtered options */}
                 {filteredOptions.map((option, index) => (

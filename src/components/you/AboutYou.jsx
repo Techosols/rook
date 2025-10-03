@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import Button from "../ui/Button";
 import FormSection from "../ui/FormSection";
@@ -14,9 +14,8 @@ function AboutYou() {
   const api = useAuthenticatedApi();
 
   const [sentiment, setSentiment] = useState(null);
-  const [convoStarter, setConvoStarter] = useState("");
-  const { profile, isProfileLoading, aboutMe, setAboutMe } = useProfile();
-  const { convoStarters } = useOption();
+  const { isProfileLoading, aboutMe, setAboutMe } = useProfile();
+  const { convoStarters, setConvoStarters } = useOption();
 
   //Loading States
   const [contentUpdateLoading, setContentUpdateLoading] = useState(false);
@@ -74,7 +73,7 @@ function AboutYou() {
   }
 
   async function saveConvoStarters() {
-    const startersArr = convoStarter.split('\n').map(s => s.trim()).filter(s => s.length > 0);
+    const startersArr = convoStarters.split('\n').map(s => s.trim()).filter(s => s.length > 0);
     if (startersArr.length === 0) return;
     setConvoStartersUpdateLoading(true);
 
@@ -91,12 +90,7 @@ function AboutYou() {
     }
   }
 
-  useEffect(() => {
-    if (!isProfileLoading && profile) {
-      setSentiment(null);
-      setConvoStarter(convoStarters && Array.isArray(convoStarters) ? convoStarters.join("\n") : convoStarters && Object.values(convoStarters).join("\n"));
-    }
-  }, [profile, isProfileLoading, convoStarters]);
+
 
 
 
@@ -236,9 +230,14 @@ function AboutYou() {
               <textarea
                 rows={3}
                 className="border border-gray-300 dark:border-gray-500 p-2 rounded-lg w-full focus:outline-primary placeholder:text-gray-400"
-                placeholder={'Ask me about about my new puppy.\n Ask me about my recent vacation to Brazil.'}
-                value={convoStarter}
-                onChange={(e) => { setConvoStarter(e.target.value); }}
+                placeholder={'Ask me about my new puppy.\nAsk me about my recent vacation to Brazil.'}
+                value={Array.isArray(convoStarters) 
+                  ? convoStarters.join('\n') 
+                  : convoStarters?.split(',').map(item => item.trim()).join('\n') || ''
+                }
+                onChange={(e) => { 
+                  setConvoStarters(e.target.value); 
+                }}
                 onKeyDown={e => {
                   if (e.key === 'Enter' && e.shiftKey) {
                     e.preventDefault();
