@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link2, BookmarkPlus, Bell, UserRoundX, BadgeCheck, MapPin, Image  } from 'lucide-react'
-import useAuthenticatedApi from '../../hooks/useAuthenticatedApi';
+// import useAuthenticatedApi from '../../hooks/useAuthenticatedApi';
 
 function ProfileCard({ profile }) {
   console.log('🔵 Rendering ProfileCard for profile:', profile);
@@ -12,7 +12,7 @@ function ProfileCard({ profile }) {
     block: profile?.blockedByYou || false
   });
 
-  const api = useAuthenticatedApi();
+  // const api = useAuthenticatedApi();
 
   const toggleIcon = (iconName) => {
     setIconStates(prev => ({
@@ -37,10 +37,6 @@ function ProfileCard({ profile }) {
         </div>
       </div>
     );
-  }
-
-  function block(){
-
   }
 
   return (
