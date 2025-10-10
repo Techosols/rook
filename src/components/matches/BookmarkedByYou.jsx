@@ -1,11 +1,10 @@
-import React from 'react'
+import useMatches from "../../hooks/useMatches";
+import MatchesContainer from "../ui/MatchesContainer";
 
-function BookmarkedByYou() {
+function BookmarkedByYou({data}) {
+  const { loadingMatches } = useMatches();
   return (
-    <div>
-      <h2>Bookmarked by You</h2>
-      <p>View the items you have bookmarked.</p>
-    </div>
+    <MatchesContainer title="Bookmarked By You" data={data} isLoadingMatches={loadingMatches} />
   )
 }
 

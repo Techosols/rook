@@ -2,13 +2,14 @@ import MatchesContext from "./MatchesContext";
 import { useEffect, useState } from "react";
 import useAuthenticatedApi from "../../hooks/useAuthenticatedApi";
 import useAuth from "../../hooks/useAuth";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const MatchesProvider = ({ children }) => {
     const [loadingMatches, setLoadingMatches] = useState(false);
     
     const api = useAuthenticatedApi();
     const { token } = useAuth(); 
-
+    const { isAuthenticated } = useAuth0();
 
     const [blockedUsers, setBlockedUsers] = useState([]);
     const [ignoredUsers, setIgnoredUsers] = useState([]);
@@ -40,7 +41,7 @@ const MatchesProvider = ({ children }) => {
 
     useEffect(() => {
         // Only fetch when we have a valid API instance (token available)
-        if (!api || !token) {
+        if (!api || !token || !isAuthenticated)  {
             return;
         }
 

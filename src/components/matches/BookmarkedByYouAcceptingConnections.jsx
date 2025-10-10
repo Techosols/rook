@@ -1,11 +1,10 @@
-import React from 'react'
+import useMatches from "../../hooks/useMatches";
+import MatchesContainer from "../ui/MatchesContainer";
 
-function BookmarkedByYouAcceptingConnections() {
+function BookmarkedByYouAcceptingConnections({data}) {
+  const { loadingMatches } = useMatches();
   return (
-    <div>
-      <h2>Bookmarked by You - Accepting Connections</h2>
-      <p>View the items you have bookmarked that are currently accepting connections.</p>
-    </div>
+    <MatchesContainer title="Bookmarked - Accepting Connections" data={data} isLoadingMatches={loadingMatches} />
   )
 }
 

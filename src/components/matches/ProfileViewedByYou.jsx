@@ -1,11 +1,10 @@
-import React from 'react'
+import useMatches from "../../hooks/useMatches";
+import MatchesContainer from "../ui/MatchesContainer";
 
-function ProfileViewedByYou() {
+function ProfileViewedByYou({data}) {
+  const { loadingMatches } = useMatches();
   return (
-    <div>
-      <h2>Profile Viewed By You</h2>
-      <p>View the profiles you have viewed.</p>
-    </div>
+    <MatchesContainer title="Profiles" data={data} isLoadingMatches={loadingMatches} />
   )
 }
 

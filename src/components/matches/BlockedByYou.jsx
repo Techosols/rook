@@ -1,11 +1,10 @@
-import React from 'react'
+import useMatches from "../../hooks/useMatches";
+import MatchesContainer from "../ui/MatchesContainer";
 
-function BlockedByYou() {
+function BlockedByYou({data}) {
+  const { loadingMatches } = useMatches();
   return (
-    <div>
-      <h2>Blocked by You</h2>
-      <p>View the users you have blocked.</p>
-    </div>
+    <MatchesContainer title="Blocked" data={data} isLoadingMatches={loadingMatches} />
   )
 }
 

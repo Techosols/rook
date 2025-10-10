@@ -1,11 +1,10 @@
-import React from 'react'
+import useMatches from "../../hooks/useMatches";
+import MatchesContainer from "../ui/MatchesContainer";
 
-function RandomMatches() {
+function RandomMatches({data}) {
+  const { loadingMatches } = useMatches();
   return (
-    <div>
-      <h2>Random Matches</h2>
-      <p>View a selection of random matches.</p>
-    </div>
+    <MatchesContainer title="Random matches" data={data} isLoadingMatches={loadingMatches} />
   )
 }
 

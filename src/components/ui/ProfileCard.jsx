@@ -1,5 +1,12 @@
 import React, { useState } from 'react'
-import { Link2, BookmarkPlus, Bell, UserRoundX, BadgeCheck, MapPin, Image  } from 'lucide-react'
+import { BookmarkPlus, BookmarkMinus, BellOff, UserRoundX, MapPin, Image, UserPlus2, UserMinus2, LucideHourglass, BadgeCheck } from 'lucide-react'
+// Material icons (prefer for badges)
+import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty'
+import PendingIcon from '@mui/icons-material/Pending'
+import CheckCircleIcon from '@mui/icons-material/CheckCircle'
+import CancelIcon from '@mui/icons-material/Cancel'
+import AutorenewIcon from '@mui/icons-material/Autorenew'
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
 // import useAuthenticatedApi from '../../hooks/useAuthenticatedApi';
 
 function ProfileCard({ profile }) {
@@ -66,9 +73,9 @@ function ProfileCard({ profile }) {
                   ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/25' 
                   : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
               }`}
-              title="Copy Link"
+              title={iconStates.link ? 'Remove Connection' : 'Connect'}
             >
-              <Link2 size={18} />
+              {iconStates.link ? <UserMinus2 size={18} /> : <UserPlus2 size={18} /> }
             </button>
             
             <button 
@@ -78,9 +85,9 @@ function ProfileCard({ profile }) {
                   ? 'bg-green-500 text-white shadow-lg shadow-green-500/25' 
                   : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
               }`}
-              title="Bookmark"
+              title={iconStates.bookmark ? 'Remove Bookmark' : 'Bookmark'}
             >
-              <BookmarkPlus size={18} />
+              {iconStates.bookmark ? <BookmarkMinus size={18} /> : <BookmarkPlus size={18} />}
             </button>
             
             <button 
@@ -90,9 +97,9 @@ function ProfileCard({ profile }) {
                   ? 'bg-yellow-500 text-white shadow-lg shadow-yellow-500/25' 
                   : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
               }`}
-              title="Notifications"
+              title="Ignore"
             >
-              <Bell size={18} />
+              <BellOff size={18} />
             </button>
             
             <button 
@@ -124,12 +131,54 @@ function ProfileCard({ profile }) {
         {/* Footer Section */}
         <div className='flex flex-col md:flex-row justify-between items-center mb-4'>
           <div className="flex items-center space-x-3">
-            {profile.backgroundCheckStatus === "Background Check Completed" && (
-              <div className="flex items-center space-x-1 px-3 py-1.5 bg-green-50 dark:bg-green-900/20 rounded-lg">
-                <BadgeCheck size={16} className="text-green-600 dark:text-green-400" />
-                <span className="text-green-700 dark:text-green-300 text-xs font-medium">Verified</span>
-              </div>
-            )}
+            {/* Background check status badge - map status to icon and color */}
+            {(() => {
+              const status = profile?.backgroundCheckStatus || '';
+              const key = status.toString().toLowerCase();
+
+              const statusMap = {
+                'background check not started': {
+                  icon: <HourglassEmptyIcon fontSize="small" className="text-gray-600 dark:text-gray-300" />,
+                  bg: 'bg-gray-50 dark:bg-gray-900/20',
+                  text: 'text-gray-700 dark:text-gray-300'
+                },
+                'background check pending': {
+                  icon: <PendingIcon fontSize="small" className="text-amber-600 dark:text-amber-400" />,
+                  bg: 'bg-amber-50 dark:bg-amber-900/20',
+                  text: 'text-amber-700 dark:text-amber-300'
+                },
+                'background check started': {
+                  icon: <LucideHourglass fontSize="small" className="text-blue-600 dark:text-blue-400" />,
+                  bg: 'bg-blue-50 dark:bg-blue-900/20',
+                  text: 'text-blue-700 dark:text-blue-300'
+                },
+                'background check in progress': {
+                  icon: <AutorenewIcon fontSize="small" className="text-purple-600 dark:text-purple-400" />,
+                  bg: 'bg-purple-50 dark:bg-purple-900/20',
+                  text: 'text-purple-700 dark:text-purple-300'
+                },
+                'background check failed': {
+                  icon: <CancelIcon fontSize="small" className="text-red-600 dark:text-red-400" />,
+                  bg: 'bg-red-50 dark:bg-red-900/20',
+                  text: 'text-red-700 dark:text-red-300'
+                },
+                'background check completed': {
+                  icon: <BadgeCheck fontSize="small" className="text-green-600 dark:text-green-400" />,
+                  bg: 'bg-green-50 dark:bg-green-900/20',
+                  text: 'text-green-700 dark:text-green-300'
+                }
+              };
+
+              const item = statusMap[key] || null;
+              if (!item) return null;
+
+              return (
+                <div className={`flex items-center space-x-1 px-3 py-1.5 ${item.bg} rounded-lg`} title={status}>
+                  {item.icon}
+                  {/* <span className={`${item.text} text-xs font-medium`}>{status}</span> */}
+                </div>
+              );
+            })()}
             <div className="flex items-center space-x-1 px-3 py-1.5 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
               <MapPin size={16} className="text-blue-600 dark:text-blue-400" />
               <span className="text-blue-700 dark:text-blue-300 text-sm font-medium">

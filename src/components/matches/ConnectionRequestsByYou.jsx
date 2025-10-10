@@ -1,11 +1,11 @@
-import React from 'react'
 
-function ConnectionRequestsByYou() {
+import useMatches from '../../hooks/useMatches'
+import MatchesContainer from '../ui/MatchesContainer'
+
+function ConnectionRequestsByYou({data}) {
+  const { loadingMatches } = useMatches();
   return (
-    <div>
-      <h2>Connection Requests by You</h2>
-      <p>View the connection requests you have sent.</p>
-    </div>
+    <MatchesContainer title="Connection Requests - Sent" data={data} isLoadingMatches={loadingMatches} />
   )
 }
 

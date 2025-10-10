@@ -20,7 +20,17 @@ function Matches() {
   // Get matches data from context
   const { 
     matches, 
-    randomMatches
+    randomMatches,
+    connections,
+    blockedUsers,
+    ignoredUsers,
+    bookmarkedByMeUsers,
+    bookmarkedMeUsers,
+    profilesViewedByMe,
+    profilesViewedMe,
+    connectionRequestsSent,
+    connectionRequestsReceived,
+    bookmarkedByMeAcceptingConnections
   } = useMatches();
 
   const tabs = [
@@ -45,25 +55,25 @@ function Matches() {
       case 'matches':
         return <Match matchesData={matches} />;
       case 'connections':
-        return <Connections />;
+        return <Connections connectionsData={connections}/>;
       case 'connectionRequestsByYou':
-        return <ConnectionRequestsByYou />;
+        return <ConnectionRequestsByYou data={connectionRequestsSent} />;
       case 'connectionRequestsToYou':
-        return <ConnectionRequestToYou />;
+        return <ConnectionRequestToYou data={connectionRequestsReceived} />;
       case 'bookmarkedByYou':
-        return <BookmarkedByYou />;
+        return <BookmarkedByYou data={bookmarkedByMeUsers} />;
       case 'bookmarkedByYouAcceptingConnections':
-        return <BookmarkedByYouAcceptingConnections />;
+        return <BookmarkedByYouAcceptingConnections data={bookmarkedByMeAcceptingConnections} />;
       case 'whoBookmarkedYou':
-        return <WhoBookmarkedYou />;
+        return <WhoBookmarkedYou data={bookmarkedMeUsers} />;
       case 'profileViewedByYou':
-        return <ProfileViewedByYou />;
+        return <ProfileViewedByYou data={profilesViewedByMe} />;
       case 'whoViewedYourProfile':
-        return <WhoViewedProfile />;
+        return <WhoViewedProfile data={profilesViewedMe} />;
       case 'blockedByYou':
-        return <BlockedByYou />;
+        return <BlockedByYou data={blockedUsers}  />;
       case 'ignoredByYou':
-        return <IgnoredByYou />;
+        return <IgnoredByYou data={ignoredUsers} />;
       case 'randomMatches':
         return <RandomMatches matchesData={randomMatches} />;
     }

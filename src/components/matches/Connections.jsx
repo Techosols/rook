@@ -1,11 +1,11 @@
-import React from 'react'
+import MatchesContainer from "../ui/MatchesContainer"
+import useMatches from "../../hooks/useMatches"
 
-function Connections() {
+function Connections({connectionsData}) {
+
+  const { loadingMatches } = useMatches()
   return (
-    <div>
-      <h2>Connections</h2>
-      <p>Manage your connections here.</p>
-    </div>
+    <MatchesContainer title="Connections" data={connectionsData} isLoadingMatches={loadingMatches} />
   )
 }
 

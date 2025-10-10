@@ -1,11 +1,10 @@
-import React from 'react'
+import useMatches from "../../hooks/useMatches";
+import MatchesContainer from "../ui/MatchesContainer";
 
-function IgnoredByYou() {
+function IgnoredByYou({data}) {
+  const { loadingMatches } = useMatches();
   return (
-    <div>
-      <h2>Ignored by You</h2>
-      <p>View the users you have ignored.</p>
-    </div>
+    <MatchesContainer title="Ignored" data={data} isLoadingMatches={loadingMatches} />
   )
 }
 
