@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { use, useState } from 'react'
 import { BookmarkPlus, BookmarkMinus, BellOff, UserRoundX, MapPin, Image, UserPlus2, UserMinus2, LucideHourglass, BadgeCheck } from 'lucide-react'
+import useMatches from '../../hooks/useMatches'
 // Material icons (prefer for badges)
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty'
 import PendingIcon from '@mui/icons-material/Pending'
@@ -10,16 +11,16 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
 // import useAuthenticatedApi from '../../hooks/useAuthenticatedApi';
 
 function ProfileCard({ profile }) {
-  console.log('🔵 Rendering ProfileCard for profile:', profile);
   // State for toggleable icons - initialize with profile data
   const [iconStates, setIconStates] = useState({
-    link: false,
+    link: (profile?.acceptingConnections && (profile.connectionStatus === 'New' || profile.connectionStatus === 'Connected')),
     bookmark: profile?.bookmarkedByYou || false,
     bell: profile?.ignoredByYou || false,
     block: profile?.blockedByYou || false
   });
 
   // const api = useAuthenticatedApi();
+  const { connectUser, disconnectUser } = useMatches();
 
   const toggleIcon = (iconName) => {
     setIconStates(prev => ({
@@ -27,6 +28,65 @@ function ProfileCard({ profile }) {
       [iconName]: !prev[iconName]
     }));
   };
+
+  async function handleConnect() {
+    // Call API to connect user
+    // Example: await api.post('/connect', { externalId: profile.externalId });
+    await connectUser(profile.externalId)
+    const res = await connectUser(profile.externalId);
+    if (res.status == 200) {
+      toggleIcon('link');
+      return;
+    }
+
+  }
+
+  async function handleDisconnect() {
+    // Call API to disconnect user
+    // Example: await api.post('/disconnect', { externalId: profile.externalId });
+    const res = await disconnectUser(profile.externalId);
+    if (res.status == 200) {
+      toggleIcon('link');
+      return;
+    }
+  }
+
+
+  function handleBookmark() {
+    // Call API to bookmark user
+    // Example: await api.post('/bookmark', { externalId: profile.externalId });
+    toggleIcon('bookmark');
+  }
+
+  function handleRemoveBookmark() {
+    // Call API to remove bookmark
+    // Example: await api.post('/remove-bookmark', { externalId: profile.externalId });
+    toggleIcon('bookmark');
+  }
+
+  function handleIgnore() {
+    // Call API to ignore user
+    // Example: await api.post('/ignore', { externalId: profile.externalId });
+    toggleIcon('bell');
+  }
+
+  function handleUnignore() {
+    // Call API to unignore user
+    // Example: await api.post('/unignore', { externalId: profile.externalId });
+    toggleIcon('bell');
+  }
+
+  function handleBlock() {
+    // Call API to block user
+    // Example: await api.post('/block', { externalId: profile.externalId });
+    toggleIcon('block');
+  }
+
+  function handleUnblock() {
+    // Call API to unblock user
+    // Example: await api.post('/unblock', { externalId: profile.externalId });
+    toggleIcon('block');
+  }
 
   // If no profile data, show loading state
   if (!profile) {
@@ -50,7 +110,7 @@ function ProfileCard({ profile }) {
     <div className='group relative overflow-hidden bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 transition-all duration-300 hover:shadow-2xl'>
       {/* Subtle gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-50/30 via-purple-50/20 to-pink-50/30 dark:from-blue-900/10 dark:via-purple-900/10 dark:to-pink-900/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-      
+
       <div className='relative p-6'>
         {/* Header Section */}
         <div className="flex justify-between items-center mb-6">
@@ -63,52 +123,51 @@ function ProfileCard({ profile }) {
               <span className="text-gray-600 dark:text-gray-300 font-medium">{profile.city}</span>
             </div>
           </div>
-          
+
           {/* Action Icons */}
           <div className="flex items-center space-x-2">
-            <button 
-              onClick={() => toggleIcon('link')}
-              className={`p-2.5 rounded-xl transition-all duration-200 hover:scale-105 hover:cursor-pointer ${
-                iconStates.link 
-                  ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/25' 
+            <button
+              onClick={() => iconStates.link ? handleDisconnect(profile.externalId) : handleConnect(profile.externalId)}
+              className={`p-2.5 rounded-xl transition-all duration-200 hover:scale-105 hover:cursor-pointer disabled:cursor-not-allowed ${iconStates.link
+                  ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/25'
                   : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-              }`}
+                }`}
               title={iconStates.link ? 'Remove Connection' : 'Connect'}
+              disabled={!profile?.acceptingConnections || (profile.connectionStatus === 'Rejected' || profile.connectionStatus === 'Disconnected')}
             >
-              {iconStates.link ? <UserMinus2 size={18} /> : <UserPlus2 size={18} /> }
+              {profile?.connectionStatus == '' ? 'Unavailable' : profile?.connectionStatus}
+
+              {iconStates.link ? <UserMinus2 size={18} /> : <UserPlus2 size={18} />}
             </button>
-            
-            <button 
+
+            <button
               onClick={() => toggleIcon('bookmark')}
-              className={`p-2.5 rounded-xl transition-all duration-200 hover:scale-105 hover:cursor-pointer ${
-                iconStates.bookmark 
-                  ? 'bg-green-500 text-white shadow-lg shadow-green-500/25' 
+              className={`p-2.5 rounded-xl transition-all duration-200 hover:scale-105 hover:cursor-pointer ${iconStates.bookmark
+                  ? 'bg-green-500 text-white shadow-lg shadow-green-500/25'
                   : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-              }`}
+                }`}
               title={iconStates.bookmark ? 'Remove Bookmark' : 'Bookmark'}
             >
               {iconStates.bookmark ? <BookmarkMinus size={18} /> : <BookmarkPlus size={18} />}
             </button>
-            
-            <button 
+
+            <button
               onClick={() => toggleIcon('bell')}
-              className={`p-2.5 rounded-xl transition-all duration-200 hover:scale-105 hover:cursor-pointer ${
-                iconStates.bell 
-                  ? 'bg-yellow-500 text-white shadow-lg shadow-yellow-500/25' 
+              className={`p-2.5 rounded-xl transition-all duration-200 hover:scale-105 hover:cursor-pointer ${iconStates.bell
+                  ? 'bg-yellow-500 text-white shadow-lg shadow-yellow-500/25'
                   : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-              }`}
+                }`}
               title="Ignore"
             >
               <BellOff size={18} />
             </button>
-            
-            <button 
+
+            <button
               onClick={() => toggleIcon('block')}
-              className={`p-2.5 rounded-xl transition-all duration-200 hover:scale-105 hover:cursor-pointer ${
-                iconStates.block 
-                  ? 'bg-red-500 text-white shadow-lg shadow-red-500/25' 
+              className={`p-2.5 rounded-xl transition-all duration-200 hover:scale-105 hover:cursor-pointer ${iconStates.block
+                  ? 'bg-red-500 text-white shadow-lg shadow-red-500/25'
                   : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-              }`}
+                }`}
               title="Block User"
             >
               <UserRoundX size={18} />
@@ -116,6 +175,7 @@ function ProfileCard({ profile }) {
           </div>
         </div>
 
+        <p className="select-text">{profile?.externalId}</p>
 
         {/* Image Section */}
         <div className="mb-4">

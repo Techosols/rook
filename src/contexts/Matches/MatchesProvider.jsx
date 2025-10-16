@@ -218,6 +218,180 @@ const MatchesProvider = ({ children }) => {
         return response.data;
     }
 
+    async function refreshAllData() {
+        await Promise.all([
+            fetchBlockedUsers(),
+            fetchIgnoredUsers(),
+            fetchBookmarkedByMeUsers(),
+            fetchBookmarkedMeUsers(),
+            fetchProfilesViewedByMe(),
+            fetchProfilesViewedMe(),
+            fetchConnectionRequestsSent(),
+            fetchConnectionRequestsReceived(),
+            fetchConnections(),
+            fetchMatches(),
+            fetchRandomMatches(),
+            fetchBookmarkedByMeAcceptingConnections(),
+        ]);
+    }
+
+    // Events
+
+    // User Connection Event
+    async function connectUser(externalId) {
+        if (!api) {
+            return;
+        }
+        if(!externalId) {
+            console.error('connectUser called without externalId');
+            return;
+        }
+        const response = await api.post(`/v1/actions/record`, {
+            "object": "event",
+            "type": "user.connect",
+            "data": { 
+                "occurredAt": `${new Date().toISOString()}`,
+                "targetUserExternalId": `${externalId}`
+            }
+        });
+        return response;
+    }
+
+    // User Disconnect Event
+    async function disconnectUser(externalId, notes = "") {
+        if (!api) {
+            return;
+        }
+        if(!externalId) {
+            console.error('disconnectUser called without externalId');
+            return;
+        }
+        const response = await api.post(`/v1/actions/record`, {
+            "object": "event",
+            "type": "user.disconnect",
+            "data": { 
+                "occurredAt": new Date().toISOString(),
+                "targetUserExternalId": externalId,
+                "notes": notes
+            }
+        });
+        return response;
+    }
+
+    // User Rekindle Connection Event
+    async function rekindleConnection(externalId) {
+        if (!api) {
+            return;
+        }
+        const response = await api.post(`/v1/actions/record`, {
+            "object": "event",
+            "type": "user.rekindle-connection",
+            "data": { 
+                "occurredAt": new Date().toISOString(),
+                "externalId": externalId
+            }
+        });
+        return response.data;
+    }
+
+    // User Bookmark Event
+    async function bookmarkUser(externalId) {
+        if (!api) {
+            return;
+        }
+        const response = await api.post(`/v1/actions/record`, {
+            "object": "event",
+            "type": "user.bookmark",
+            "data": { 
+                "occurredAt": new Date().toISOString(),
+                "externalId": externalId
+            }
+        });
+        return response.data;
+    }
+
+    // User Remove Bookmark Event
+    async function removeBookmarkUser(externalId) {
+        if (!api) {
+            return;
+        }
+        const response = await api.post(`/v1/actions/record`, {
+            "object": "event",
+            "type": "user.remove-bookmark",
+            "data": { 
+                "occurredAt": new Date().toISOString(),
+                "externalId": externalId
+            }
+        });
+        return response.data;
+    }
+
+    // ignore User Event
+    async function ignoreUser(externalId) {
+        if (!api) {
+            return;
+        }
+        const response = await api.post(`/v1/actions/record`, {
+            "object": "event",
+            "type": "user.ignore",
+            "data": { 
+                "occurredAt": new Date().toISOString(),
+                "externalId": externalId
+            }
+        });
+        return response.data;
+    }
+
+    // Remove ignore User Event
+    async function removeIgnoreUser(externalId) {
+        if (!api) {
+            return;
+        }
+        const response = await api.post(`/v1/actions/record`, {
+            "object": "event",
+            "type": "user.remove-ignore",
+            "data": {
+                "occurredAt": new Date().toISOString(),
+                "externalId": externalId
+            }
+        });
+        return response.data;
+    }
+
+    // Block User Event
+    async function blockUser(externalId) {
+        if (!api) {
+            return;
+        }
+        const response = await api.post(`/v1/actions/record`, {
+            "object": "event",
+            "type": "user.block",
+            "data": {
+                "occurredAt": new Date().toISOString(),
+                "externalId": externalId
+            }
+        });
+        return response.data;
+    }
+
+    // unblock User Event
+    async function unblockUser(externalId) {
+        if (!api) {
+            return;
+        }
+        const response = await api.post(`/v1/actions/record`, {
+            "object": "event",
+            "type": "user.remove-block",
+            "data": {
+                "occurredAt": new Date().toISOString(),
+                "externalId": externalId
+            }
+        });
+        return response.data;
+    }
+
+
+
     const values = {
         loadingMatches,
         blockedUsers, setBlockedUsers,
@@ -244,6 +418,16 @@ const MatchesProvider = ({ children }) => {
         fetchMatches,
         fetchRandomMatches,
         fetchBookmarkedByMeAcceptingConnections,
+        refreshAllData,
+        connectUser,
+        disconnectUser,
+        rekindleConnection,
+        bookmarkUser,
+        removeBookmarkUser,
+        ignoreUser,
+        removeIgnoreUser,
+        blockUser,
+        unblockUser,
     };
 
     return (
