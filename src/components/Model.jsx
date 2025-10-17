@@ -6,6 +6,7 @@ import ProfileModel from "./models/ProfileModel";
 import NoInternet from "./models/NoInternet";
 import InvalidToken from "./models/InvalidToken";
 import SessionExpire from "./models/SessionExpire";
+import DisconnectReason from "./models/DisconnectReason";
 
 function Model() {
   const { model, closeModel } = useModel();
@@ -43,6 +44,7 @@ function Model() {
           {model?.for == 'noInternet' && <NoInternet />}
           {model?.for == 'invalidToken' && <InvalidToken />}
           {model?.for == 'sessionExpire' && <SessionExpire />}
+          {model?.for == 'disconnectReason' && <DisconnectReason />}
         </div>
       </div>
     </div>

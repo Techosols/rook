@@ -6,9 +6,9 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 const MatchesProvider = ({ children }) => {
     const [loadingMatches, setLoadingMatches] = useState(false);
-    
+
     const api = useAuthenticatedApi();
-    const { token } = useAuth(); 
+    const { token } = useAuth();
     const { isAuthenticated } = useAuth0();
 
     const [blockedUsers, setBlockedUsers] = useState([]);
@@ -41,7 +41,7 @@ const MatchesProvider = ({ children }) => {
 
     useEffect(() => {
         // Only fetch when we have a valid API instance (token available)
-        if (!api || !token || !isAuthenticated)  {
+        if (!api || !token || !isAuthenticated) {
             return;
         }
 
@@ -49,14 +49,13 @@ const MatchesProvider = ({ children }) => {
             console.log('Fetching initial data...');
             setLoadingMatches(true);
             try {
-                const [blockedUsersData, ignoredUsersData, bookmarkedByMeUsersData, bookmarkedMeUsersData, connectionRequestsSentData, connectionRequestsReceivedData, connectionsData, matchesData, randomMatchesData, bookmarkedByMeAcceptingConnectionsData] = await Promise.all([
+                const [blockedUsersData, ignoredUsersData, bookmarkedByMeUsersData, bookmarkedMeUsersData, profilesViewedByMeData, profilesViewedMeData, connectionRequestsSentData, connectionRequestsReceivedData, connectionsData, matchesData, randomMatchesData, bookmarkedByMeAcceptingConnectionsData] = await Promise.all([
                     api.get(`v1/query/GetUsersBlockedByYou`),
                     api.get(`v1/query/GetUsersIgnoredByYou`),
                     api.get(`v1/query/GetUsersBookmarkedByYou`),
                     api.get(`v1/query/GetUsersWhoBookmarkedYou`),
-                    // Before Uncommenting add data states
-                    // api.get(`v1/query/GetProfilesViewedByYou`), // ERROR was here
-                    // api.get(`v1/query/GetUsersWhoViewedProfile`), // ERROR was here
+                    api.get(`v1/query/GetProfilesViewedByYou`),
+                    api.get(`v1/query/GetUsersWhoViewedProfile`),
                     api.get(`v1/query/GetConnectionRequestsByYou`),
                     api.get(`v1/query/GetConnectionRequestsToYou`),
                     api.get(`v1/query/GetYourConnections`),
@@ -68,8 +67,8 @@ const MatchesProvider = ({ children }) => {
                 setIgnoredUsers(ignoredUsersData.data ?? []);
                 setBookmarkedByMeUsers(bookmarkedByMeUsersData.data ?? []);
                 setBookmarkedMeUsers(bookmarkedMeUsersData.data ?? []);
-                // setProfilesViewedByMe(profilesViewedByMeData.data);
-                // setProfilesViewedMe(profilesViewedMeData.data);
+                setProfilesViewedByMe(profilesViewedByMeData.data);
+                setProfilesViewedMe(profilesViewedMeData.data);
                 setConnectionRequestsSent(connectionRequestsSentData.data ?? []);
                 setConnectionRequestsReceived(connectionRequestsReceivedData.data ?? []);
                 setConnections(connectionsData.data ?? []);
@@ -91,7 +90,7 @@ const MatchesProvider = ({ children }) => {
             return;
         }
         const response = await api.get(`v1/query/GetUsersBlockedByYou`, {
-            query: { page, oldestFirst  }
+            query: { page, oldestFirst }
         });
         setBlockedUsers(response.data);
         return response.data;
@@ -102,7 +101,7 @@ const MatchesProvider = ({ children }) => {
             return;
         }
         const response = await api.get(`v1/query/GetUsersIgnoredByYou`, {
-            query: { page, oldestFirst  }
+            query: { page, oldestFirst }
         });
         setIgnoredUsers(response.data);
         return response.data;
@@ -113,7 +112,7 @@ const MatchesProvider = ({ children }) => {
             return;
         }
         const response = await api.get(`v1/query/GetUsersBookmarkedByYou`, {
-            query: { page, oldestFirst  }
+            query: { page, oldestFirst }
         });
         setBookmarkedByMeUsers(response.data);
         return response.data;
@@ -124,7 +123,7 @@ const MatchesProvider = ({ children }) => {
             return;
         }
         const response = await api.get(`v1/query/GetUsersWhoBookmarkedYou`, {
-            query: { page, oldestFirst  }
+            query: { page, oldestFirst }
         });
         setBookmarkedMeUsers(response.data);
         return response.data;
@@ -135,7 +134,7 @@ const MatchesProvider = ({ children }) => {
             return;
         }
         const response = await api.get(`v1/query/GetProfilesViewedByYou`, {
-            query: { page, oldestFirst  }
+            query: { page, oldestFirst }
         });
         setProfilesViewedByMe(response.data);
         return response.data;
@@ -146,7 +145,7 @@ const MatchesProvider = ({ children }) => {
             return;
         }
         const response = await api.get(`v1/query/GetUsersWhoViewedProfile`, {
-            query: { page, oldestFirst  }
+            query: { page, oldestFirst }
         });
         setProfilesViewedMe(response.data);
         return response.data;
@@ -157,7 +156,7 @@ const MatchesProvider = ({ children }) => {
             return;
         }
         const response = await api.get(`v1/query/GetConnectionRequestsByYou`, {
-            query: { page, oldestFirst  }
+            query: { page, oldestFirst }
         });
         setConnectionRequestsSent(response.data);
         return response.data;
@@ -168,7 +167,7 @@ const MatchesProvider = ({ children }) => {
             return;
         }
         const response = await api.get(`v1/query/GetConnectionRequestsToYou`, {
-            query: { page, oldestFirst  }
+            query: { page, oldestFirst }
         });
         setConnectionRequestsReceived(response.data);
         return response.data;
@@ -179,7 +178,7 @@ const MatchesProvider = ({ children }) => {
             return;
         }
         const response = await api.get(`v1/query/GetYourConnections`, {
-            query: { page, oldestFirst  }
+            query: { page, oldestFirst }
         });
         setConnections(response.data);
         return response.data;
@@ -190,7 +189,7 @@ const MatchesProvider = ({ children }) => {
             return;
         }
         const response = await api.get(`v1/query/GetYourMatches`, {
-            query: { page, oldestFirst  }
+            query: { page, oldestFirst }
         });
         setMatches(response.data);
         return response.data;
@@ -201,7 +200,7 @@ const MatchesProvider = ({ children }) => {
             return;
         }
         const response = await api.get(`v1/query/GetYourRandomMatches`, {
-            query: { page, oldestFirst  }
+            query: { page, oldestFirst }
         });
         setRandomMatches(response.data);
         return response.data;
@@ -212,7 +211,7 @@ const MatchesProvider = ({ children }) => {
             return;
         }
         const response = await api.get(`v1/query/GetUsersBookmarkedByYouAcceptingConnections`, {
-            query: { page, oldestFirst  }
+            query: { page, oldestFirst }
         });
         setBookmarkedByMeAcceptingConnections(response.data);
         return response.data;
@@ -236,159 +235,221 @@ const MatchesProvider = ({ children }) => {
     }
 
     // Events
+    // --- 🔥 OPTIMISTIC USER ACTIONS --- //
 
-    // User Connection Event
+    // ✅ Connect User
     async function connectUser(externalId) {
-        if (!api) {
-            return;
-        }
-        if(!externalId) {
-            console.error('connectUser called without externalId');
-            return;
-        }
-        const response = await api.post(`/v1/actions/record`, {
-            "object": "event",
-            "type": "user.connect",
-            "data": { 
-                "occurredAt": `${new Date().toISOString()}`,
-                "targetUserExternalId": `${externalId}`
-            }
+        if (!api || !externalId) return;
+
+        setConnectionRequestsSent((prev = []) => {
+            const safePrev = Array.isArray(prev) ? prev : [];
+            if (safePrev.some((u) => u?.externalId === externalId)) return safePrev;
+            return [...safePrev, { externalId }];
         });
-        return response;
+
+        try {
+            const response = await api.post(`/v1/actions/record`, {
+                object: "event",
+                type: "user.connect",
+                data: {
+                    occurredAt: new Date().toISOString(),
+                    targetUserExternalId: externalId,
+                },
+            });
+            fetchConnectionRequestsSent();
+            return response;
+        } catch (err) {
+            console.error("Connect failed:", err);
+            fetchConnectionRequestsSent();
+        }
     }
 
-    // User Disconnect Event
+    // ✅ Disconnect User
     async function disconnectUser(externalId, notes = "") {
-        if (!api) {
-            return;
+        if (!api || !externalId) return;
+
+        setConnectionRequestsSent((prev = []) =>
+            (Array.isArray(prev) ? prev : []).filter((u) => u?.externalId !== externalId)
+        );
+
+        setConnections((prev = []) =>
+            (Array.isArray(prev) ? prev : []).filter((u) => u?.externalId !== externalId)
+        );
+
+        try {
+            const response = await api.post(`/v1/actions/record`, {
+                object: "event",
+                type: "user.disconnect",
+                data: {
+                    occurredAt: new Date().toISOString(),
+                    targetUserExternalId: externalId,
+                    notes,
+                },
+            });
+            fetchConnections();
+            return response;
+        } catch (err) {
+            console.error("Disconnect failed:", err);
+            fetchConnections();
         }
-        if(!externalId) {
-            console.error('disconnectUser called without externalId');
-            return;
-        }
-        const response = await api.post(`/v1/actions/record`, {
-            "object": "event",
-            "type": "user.disconnect",
-            "data": { 
-                "occurredAt": new Date().toISOString(),
-                "targetUserExternalId": externalId,
-                "notes": notes
-            }
-        });
-        return response;
     }
 
-    // User Rekindle Connection Event
-    async function rekindleConnection(externalId) {
-        if (!api) {
-            return;
-        }
-        const response = await api.post(`/v1/actions/record`, {
-            "object": "event",
-            "type": "user.rekindle-connection",
-            "data": { 
-                "occurredAt": new Date().toISOString(),
-                "externalId": externalId
-            }
-        });
-        return response.data;
-    }
-
-    // User Bookmark Event
-    async function bookmarkUser(externalId) {
-        if (!api) {
-            return;
-        }
-        const response = await api.post(`/v1/actions/record`, {
-            "object": "event",
-            "type": "user.bookmark",
-            "data": { 
-                "occurredAt": new Date().toISOString(),
-                "externalId": externalId
-            }
-        });
-        return response.data;
-    }
-
-    // User Remove Bookmark Event
-    async function removeBookmarkUser(externalId) {
-        if (!api) {
-            return;
-        }
-        const response = await api.post(`/v1/actions/record`, {
-            "object": "event",
-            "type": "user.remove-bookmark",
-            "data": { 
-                "occurredAt": new Date().toISOString(),
-                "externalId": externalId
-            }
-        });
-        return response.data;
-    }
-
-    // ignore User Event
+    // ✅ Ignore User
     async function ignoreUser(externalId) {
-        if (!api) {
-            return;
-        }
-        const response = await api.post(`/v1/actions/record`, {
-            "object": "event",
-            "type": "user.ignore",
-            "data": { 
-                "occurredAt": new Date().toISOString(),
-                "externalId": externalId
-            }
+        if (!api || !externalId) return;
+
+        setIgnoredUsers((prev = []) => {
+            const safePrev = Array.isArray(prev) ? prev : [];
+            if (safePrev.some((u) => u?.externalId === externalId)) return safePrev;
+            return [...safePrev, { externalId }];
         });
-        return response.data;
+
+        try {
+            const response = await api.post(`/v1/actions/record`, {
+                object: "event",
+                type: "user.ignore",
+                data: {
+                    occurredAt: new Date().toISOString(),
+                    targetUserExternalId: externalId,
+                },
+            });
+            fetchIgnoredUsers();
+            return response;
+        } catch (err) {
+            console.error("Ignore failed:", err);
+            fetchIgnoredUsers();
+        }
     }
 
-    // Remove ignore User Event
+    // ✅ Unignore User
     async function removeIgnoreUser(externalId) {
-        if (!api) {
-            return;
+        if (!api || !externalId) return;
+
+        setIgnoredUsers((prev = []) =>
+            (Array.isArray(prev) ? prev : []).filter((u) => u?.externalId !== externalId)
+        );
+
+        try {
+            const response = await api.post(`/v1/actions/record`, {
+                object: "event",
+                type: "user.remove-ignore",
+                data: {
+                    occurredAt: new Date().toISOString(),
+                    targetUserExternalId: externalId,
+                },
+            });
+            fetchIgnoredUsers();
+            return response;
+        } catch (err) {
+            console.error("Unignore failed:", err);
+            fetchIgnoredUsers();
         }
-        const response = await api.post(`/v1/actions/record`, {
-            "object": "event",
-            "type": "user.remove-ignore",
-            "data": {
-                "occurredAt": new Date().toISOString(),
-                "externalId": externalId
-            }
-        });
-        return response.data;
     }
 
-    // Block User Event
+    // ✅ Block User
     async function blockUser(externalId) {
-        if (!api) {
-            return;
-        }
-        const response = await api.post(`/v1/actions/record`, {
-            "object": "event",
-            "type": "user.block",
-            "data": {
-                "occurredAt": new Date().toISOString(),
-                "externalId": externalId
-            }
+        if (!api || !externalId) return;
+
+        setBlockedUsers((prev = []) => {
+            const safePrev = Array.isArray(prev) ? prev : [];
+            if (safePrev.some((u) => u?.externalId === externalId)) return safePrev;
+            return [...safePrev, { externalId }];
         });
-        return response.data;
+
+        try {
+            const response = await api.post(`/v1/actions/record`, {
+                object: "event",
+                type: "user.block",
+                data: {
+                    occurredAt: new Date().toISOString(),
+                    targetUserExternalId: externalId,
+                },
+            });
+            fetchBlockedUsers();
+            return response;
+        } catch (err) {
+            console.error("Block failed:", err);
+            fetchBlockedUsers();
+        }
     }
 
-    // unblock User Event
+    // ✅ Unblock User
     async function unblockUser(externalId) {
-        if (!api) {
-            return;
+        if (!api || !externalId) return;
+
+        setBlockedUsers((prev = []) =>
+            (Array.isArray(prev) ? prev : []).filter((u) => u?.externalId !== externalId)
+        );
+
+        try {
+            const response = await api.post(`/v1/actions/record`, {
+                object: "event",
+                type: "user.remove-block",
+                data: {
+                    occurredAt: new Date().toISOString(),
+                    targetUserExternalId: externalId,
+                },
+            });
+            fetchBlockedUsers();
+            return response;
+        } catch (err) {
+            console.error("Unblock failed:", err);
+            fetchBlockedUsers();
         }
-        const response = await api.post(`/v1/actions/record`, {
-            "object": "event",
-            "type": "user.remove-block",
-            "data": {
-                "occurredAt": new Date().toISOString(),
-                "externalId": externalId
-            }
-        });
-        return response.data;
     }
+
+    // ✅ Bookmark User
+    async function bookmarkUser(externalId) {
+        if (!api || !externalId) return;
+
+        setBookmarkedByMeUsers((prev = []) => {
+            const safePrev = Array.isArray(prev) ? prev : [];
+            if (safePrev.some((u) => u?.externalId === externalId)) return safePrev;
+            return [...safePrev, { externalId }];
+        });
+
+        try {
+            const response = await api.post(`/v1/actions/record`, {
+                object: "event",
+                type: "user.bookmark",
+                data: {
+                    occurredAt: new Date().toISOString(),
+                    targetUserExternalId: externalId,
+                },
+            });
+            fetchBookmarkedByMeUsers();
+            return response;
+        } catch (err) {
+            console.error("Bookmark failed:", err);
+            fetchBookmarkedByMeUsers();
+        }
+    }
+
+    // ✅ Remove Bookmark
+    async function removeBookmarkUser(externalId) {
+        if (!api || !externalId) return;
+
+        setBookmarkedByMeUsers((prev = []) =>
+            (Array.isArray(prev) ? prev : []).filter((u) => u?.externalId !== externalId)
+        );
+
+        try {
+            const response = await api.post(`/v1/actions/record`, {
+                object: "event",
+                type: "user.remove-bookmark",
+                data: {
+                    occurredAt: new Date().toISOString(),
+                    targetUserExternalId: externalId,
+                },
+            });
+            fetchBookmarkedByMeUsers();
+            return response;
+        } catch (err) {
+            console.error("Remove bookmark failed:", err);
+            fetchBookmarkedByMeUsers();
+        }
+    }
+
 
 
 
@@ -421,7 +482,6 @@ const MatchesProvider = ({ children }) => {
         refreshAllData,
         connectUser,
         disconnectUser,
-        rekindleConnection,
         bookmarkUser,
         removeBookmarkUser,
         ignoreUser,

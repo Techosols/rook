@@ -1,4 +1,4 @@
-import React, { use, useState } from 'react'
+import React from 'react'
 import { BookmarkPlus, BookmarkMinus, BellOff, UserRoundX, MapPin, Image, UserPlus2, UserMinus2, LucideHourglass, BadgeCheck } from 'lucide-react'
 import useMatches from '../../hooks/useMatches'
 // Material icons (prefer for badges)
@@ -9,10 +9,12 @@ import CancelIcon from '@mui/icons-material/Cancel'
 import AutorenewIcon from '@mui/icons-material/Autorenew'
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
 // import useAuthenticatedApi from '../../hooks/useAuthenticatedApi';
+import useModel from '../../hooks/useModel'
+import useOptimistic from '../../hooks/useOptimistic'
 
-function ProfileCard({ profile }) {
+function ProfileCard({ profile, showEvents }) {
   // State for toggleable icons - initialize with profile data
-  const [iconStates, setIconStates] = useState({
+  const [iconStates, applyIconStates, commitIconStates, rollbackIconStates] = useOptimistic({
     link: (profile?.acceptingConnections && (profile.connectionStatus === 'New' || profile.connectionStatus === 'Connected')),
     bookmark: profile?.bookmarkedByYou || false,
     bell: profile?.ignoredByYou || false,
@@ -20,72 +22,140 @@ function ProfileCard({ profile }) {
   });
 
   // const api = useAuthenticatedApi();
-  const { connectUser, disconnectUser } = useMatches();
+  const { connectUser, bookmarkUser, removeBookmarkUser, ignoreUser, removeIgnoreUser, blockUser, unblockUser, fetchBookmarkedByMeUsers, fetchIgnoredUsers, fetchBlockedUsers } = useMatches();
+  const { openModel } = useModel();
 
   const toggleIcon = (iconName) => {
-    setIconStates(prev => ({
-      ...prev,
-      [iconName]: !prev[iconName]
-    }));
+    applyIconStates(prev => ({ ...prev, [iconName]: !prev[iconName] }))
   };
 
-  async function handleConnect() {
-    // Call API to connect user
-    // Example: await api.post('/connect', { externalId: profile.externalId });
-    await connectUser(profile.externalId)
-    const res = await connectUser(profile.externalId);
-    if (res.status == 200) {
-      toggleIcon('link');
-      return;
+  async function handleConnect(externalId) {
+    if (!externalId) return;
+    // optimistic toggle
+    toggleIcon('link')
+    try {
+      const res = await connectUser(externalId);
+      if (res && res.status === 200) {
+        commitIconStates()
+      } else {
+        rollbackIconStates()
+      }
+    } catch (err) {
+      rollbackIconStates()
+      console.warn('connect failed', err)
     }
-
   }
 
   async function handleDisconnect() {
-    // Call API to disconnect user
-    // Example: await api.post('/disconnect', { externalId: profile.externalId });
-    const res = await disconnectUser(profile.externalId);
-    if (res.status == 200) {
-      toggleIcon('link');
-      return;
+    openModel({
+      for: 'disconnectReason',
+      heading: `Disconnect ${profile.preferredName}`,
+      dissmissible: true,
+      externalId: profile.externalId,
+      onDone: (result) => {
+        // Only toggle icon when the modal reports a successful disconnect
+        if (result && result.success) toggleIcon('link');
+      }
+    });
+  }
+
+
+  async function handleBookmark() {
+    toggleIcon('bookmark')
+    try {
+      const res = await bookmarkUser(profile?.externalId);
+      if (res && (res.status === 200 || res.status === 201)) {
+        commitIconStates()
+        try { await fetchBookmarkedByMeUsers(); } catch (err) { console.warn('refresh bookmarks failed', err) }
+      } else {
+        rollbackIconStates()
+      }
+    } catch (err) {
+      rollbackIconStates()
+      console.warn('bookmark failed', err)
     }
   }
 
-
-  function handleBookmark() {
-    // Call API to bookmark user
-    // Example: await api.post('/bookmark', { externalId: profile.externalId });
-    toggleIcon('bookmark');
+  async function handleRemoveBookmark() {
+    toggleIcon('bookmark')
+    try {
+      const res = await removeBookmarkUser(profile?.externalId);
+      if (res && (res.status === 200 || res.status === 204)) {
+        commitIconStates()
+        try { await fetchBookmarkedByMeUsers(); } catch (err) { console.warn('refresh bookmarks failed', err) }
+      } else {
+        rollbackIconStates()
+      }
+    } catch (err) {
+      rollbackIconStates()
+      console.warn('remove bookmark failed', err)
+    }
   }
 
-  function handleRemoveBookmark() {
-    // Call API to remove bookmark
-    // Example: await api.post('/remove-bookmark', { externalId: profile.externalId });
-    toggleIcon('bookmark');
+  async function handleIgnore() {
+    toggleIcon('bell')
+    try {
+      const res = await ignoreUser(profile?.externalId);
+      console.log('Ignore response:', res);
+      if (res && (res.status === 200 || res.status === 201)) {
+        commitIconStates()
+        try { await fetchIgnoredUsers(); } catch (err) { console.warn('refresh ignored failed', err) }
+      } else {
+        rollbackIconStates()
+      }
+    } catch (err) {
+      rollbackIconStates()
+      console.warn('ignore failed', err)
+    }
   }
 
-  function handleIgnore() {
-    // Call API to ignore user
-    // Example: await api.post('/ignore', { externalId: profile.externalId });
-    toggleIcon('bell');
+  async function handleUnignore() {
+    toggleIcon('bell')
+    try {
+      const res = await removeIgnoreUser(profile?.externalId);
+      console.log('Unignore response:', res);
+      if (res && (res.status === 200 || res.status === 204)) {
+        commitIconStates()
+        try { await fetchIgnoredUsers(); } catch (err) { console.warn('refresh ignored failed', err) }
+      } else {
+        rollbackIconStates()
+      }
+    } catch (err) {
+      rollbackIconStates()
+      console.warn('unignore failed', err)
+    }
   }
 
-  function handleUnignore() {
-    // Call API to unignore user
-    // Example: await api.post('/unignore', { externalId: profile.externalId });
-    toggleIcon('bell');
+  async function handleBlock() {
+    toggleIcon('block')
+    try {
+      const res = await blockUser(profile?.externalId);
+      if (res && (res.status === 200 || res.status === 201)) {
+        commitIconStates()
+        try { await fetchBlockedUsers(); } catch (err) { console.warn('refresh blocked failed', err) }
+      } else {
+        rollbackIconStates()
+      }
+    } catch (err) {
+      rollbackIconStates()
+      console.warn('block failed', err)
+    }
   }
 
-  function handleBlock() {
-    // Call API to block user
-    // Example: await api.post('/block', { externalId: profile.externalId });
-    toggleIcon('block');
-  }
-
-  function handleUnblock() {
-    // Call API to unblock user
-    // Example: await api.post('/unblock', { externalId: profile.externalId });
-    toggleIcon('block');
+  async function handleUnblock() {
+    toggleIcon('block')
+    try {
+      const res = await unblockUser(profile.externalId);
+      if (res && (res.status === 200 || res.status === 204)) {
+        commitIconStates()
+        try { await fetchBlockedUsers(); } catch (err) { console.warn('refresh blocked failed', err) }
+      } else {
+        rollbackIconStates()
+      }
+    } catch (err) {
+      rollbackIconStates()
+      console.warn('unblock failed', err)
+    }
   }
 
   // If no profile data, show loading state
@@ -125,57 +195,58 @@ function ProfileCard({ profile }) {
           </div>
 
           {/* Action Icons */}
-          <div className="flex items-center space-x-2">
-            <button
-              onClick={() => iconStates.link ? handleDisconnect(profile.externalId) : handleConnect(profile.externalId)}
-              className={`p-2.5 rounded-xl transition-all duration-200 hover:scale-105 hover:cursor-pointer disabled:cursor-not-allowed ${iconStates.link
+          {showEvents && (
+            <div className="flex items-center space-x-2">
+              <button
+                onClick={() => iconStates.link ? handleDisconnect() : handleConnect(profile.externalId)}
+                className={`p-2.5 rounded-xl transition-all duration-200 hover:scale-105 hover:cursor-pointer disabled:cursor-not-allowed ${iconStates.link
                   ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/25'
                   : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-                }`}
-              title={iconStates.link ? 'Remove Connection' : 'Connect'}
-              disabled={!profile?.acceptingConnections || (profile.connectionStatus === 'Rejected' || profile.connectionStatus === 'Disconnected')}
-            >
-              {profile?.connectionStatus == '' ? 'Unavailable' : profile?.connectionStatus}
+                  }`}
+                title={iconStates.link ? 'Remove Connection' : 'Connect'}
+                disabled={!profile?.acceptingConnections || (profile.connectionStatus === 'Rejected' || profile.connectionStatus === 'Disconnected')}
+              >
+                {iconStates.link ? <UserMinus2 size={18} /> : <UserPlus2 size={18} />}
+              </button>
 
-              {iconStates.link ? <UserMinus2 size={18} /> : <UserPlus2 size={18} />}
-            </button>
-
-            <button
-              onClick={() => toggleIcon('bookmark')}
-              className={`p-2.5 rounded-xl transition-all duration-200 hover:scale-105 hover:cursor-pointer ${iconStates.bookmark
+              <button
+                onClick={() => iconStates.bookmark ? handleRemoveBookmark() : handleBookmark()}
+                className={`p-2.5 rounded-xl transition-all duration-200 hover:scale-105 hover:cursor-pointer ${iconStates.bookmark
                   ? 'bg-green-500 text-white shadow-lg shadow-green-500/25'
                   : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-                }`}
-              title={iconStates.bookmark ? 'Remove Bookmark' : 'Bookmark'}
-            >
-              {iconStates.bookmark ? <BookmarkMinus size={18} /> : <BookmarkPlus size={18} />}
-            </button>
+                  }`}
+                title={iconStates.bookmark ? 'Remove Bookmark' : 'Bookmark'}
+              >
+                {iconStates.bookmark ? <BookmarkMinus size={18} /> : <BookmarkPlus size={18} />}
+              </button>
 
-            <button
-              onClick={() => toggleIcon('bell')}
-              className={`p-2.5 rounded-xl transition-all duration-200 hover:scale-105 hover:cursor-pointer ${iconStates.bell
+              <button
+                onClick={() => iconStates.bell ? handleUnignore() : handleIgnore()}
+                className={`p-2.5 rounded-xl transition-all duration-200 hover:scale-105 hover:cursor-pointer ${iconStates.bell
                   ? 'bg-yellow-500 text-white shadow-lg shadow-yellow-500/25'
                   : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-                }`}
-              title="Ignore"
-            >
-              <BellOff size={18} />
-            </button>
+                  }`}
+                title="Ignore"
+              >
+                <BellOff size={18} />
+              </button>
 
-            <button
-              onClick={() => toggleIcon('block')}
-              className={`p-2.5 rounded-xl transition-all duration-200 hover:scale-105 hover:cursor-pointer ${iconStates.block
+              <button
+                onClick={() => iconStates.block ? handleUnblock() : handleBlock()}
+                className={`p-2.5 rounded-xl transition-all duration-200 hover:scale-105 hover:cursor-pointer ${iconStates.block
                   ? 'bg-red-500 text-white shadow-lg shadow-red-500/25'
                   : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-                }`}
-              title="Block User"
-            >
-              <UserRoundX size={18} />
-            </button>
-          </div>
+                  }`}
+                title="Block User"
+              >
+                <UserRoundX size={18} />
+              </button>
+            </div>
+          )}
         </div>
 
-        <p className="select-text">{profile?.externalId}</p>
+        {/* External ID [Debug] */}
+        {/* <p className='text-sm text-gray-500 dark:text-gray-400 selection-text'>{profile.externalId}</p> */}
 
         {/* Image Section */}
         <div className="mb-4">
