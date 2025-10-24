@@ -1,38 +1,41 @@
 import axios from "axios";
 
+// Determine base URL
+const baseURL =
+  import.meta.env.PROD ||
+  import.meta.env.VITE_USE_PRODUCTION_API === "true"
+    ? "/api/" // in production, /api is handled by Azure
+    : "/api/"; // local proxy also forwards to localhost:7071
 
 const api = axios.create({
-    baseURL: (import.meta.env.PROD || import.meta.env.VITE_USE_PRODUCTION_API === 'true' ? import.meta.env.VITE_SERVER_BASE_URL : '/api/'),
-    timeout: 50000,
-    headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-        "x-api-key": import.meta.env.VITE_SERVER_API_KEY
-    },
-})
+  baseURL,
+  timeout: 50000,
+  headers: {
+    "Content-Type": "application/json",
+    Accept: "application/json"
+  }
+});
 
-
+// Optional: request/response interceptors
 api.interceptors.request.use(
-    async (config) => {
-        return config;
-    },
-    (error) => {
-        return Promise.reject(error);
-    }
+  async (config) => {
+    console.log('Request made with config:', config);   
+    return config;
+  },
+  (error) => {
+    console.error('Error fetching user external ID:', error);
+    return Promise.reject(error);
+  }
 );
 
 api.interceptors.response.use(
-    (response) => {
-        return response;
-    },
-    (error) => {
-        if (error.response) {
-            if (error.response.status === 401) {
-                console.warn("Authentication token expired or invalid");
-            }
-        }
-        return Promise.reject(error);
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      console.warn("Authentication token expired or invalid");
     }
+    return Promise.reject(error);
+  }
 );
 
 export default api;

@@ -29,7 +29,7 @@ const AuthProvider = ({ children }) => {
   const login = () => loginWithRedirect();
   const loginPopup = (options) => loginWithPopup(options);
 
-  console.log("Token: ", token)
+  // console.log("Token: ", token)
 
   useEffect(() => {
     const savedState = localStorage.getItem("RKU"); // RKU => Rook User

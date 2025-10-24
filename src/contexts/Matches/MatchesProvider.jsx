@@ -24,20 +24,20 @@ const MatchesProvider = ({ children }) => {
     const [randomMatches, setRandomMatches] = useState([]);
     const [bookmarkedByMeAcceptingConnections, setBookmarkedByMeAcceptingConnections] = useState([]);
 
-    console.log('MatchesProvider States:', {
-        blockedUsers,
-        ignoredUsers,
-        bookmarkedByMeUsers,
-        bookmarkedMeUsers,
-        profilesViewedByMe,
-        profilesViewedMe,
-        connectionRequestsSent,
-        connectionRequestsReceived,
-        connections,
-        matches,
-        randomMatches,
-        bookmarkedByMeAcceptingConnections
-    })
+    // console.log('MatchesProvider States:', {
+    //     blockedUsers,
+    //     ignoredUsers,
+    //     bookmarkedByMeUsers,
+    //     bookmarkedMeUsers,
+    //     profilesViewedByMe,
+    //     profilesViewedMe,
+    //     connectionRequestsSent,
+    //     connectionRequestsReceived,
+    //     connections,
+    //     matches,
+    //     randomMatches,
+    //     bookmarkedByMeAcceptingConnections
+    // })
 
     useEffect(() => {
         // Only fetch when we have a valid API instance (token available)

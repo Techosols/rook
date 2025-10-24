@@ -1,0 +1,9 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "FUNCTIONS_WORKER_RUNTIME": "node",
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "SERVER_API_KEY": Ey9463b13yjs8tInHPn3STMcojwYJzwW5I63EsRR",
+    "SERVER_API_URL": "https://user-intake-service.rook.love/"
+  }
+}

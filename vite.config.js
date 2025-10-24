@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://user-intake-service.rook.love/',
+        target: 'http://localhost:7071/',
         changeOrigin: true,
         secure: true,
         rewrite: (path) => path.replace(/^\/api/, '')
