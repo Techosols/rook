@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 const fetch = require("node-fetch");
-require("dotenv").config({ path: "../.env" }); // ✅ load env from project root if needed
+require("dotenv").config();
 
 console.log("✅ Patch Data Function Loaded");
 
@@ -39,13 +39,23 @@ module.exports = async function (context, req) {
 
     // Example endpoint: update user profile
     const exampleEndpoint = `${externalApiUrl}/v2/profile`;
+    const endPoint = req.query.endpoint;
+    if (!endPoint) {
+      context.res = {
+        status: 400,
+        body: "Endpoint query parameter is required."
+      };
+      return;
+    }
+
+    const finalEndpoint = `${externalApiUrl}/v2/${endPoint}`;
 
     const headers = {
       "x-api-key": externalApiKey,
       "Content-Type": "application/json"
     };
 
-    const response = await fetch(exampleEndpoint, {
+    const response = await fetch(finalEndpoint, {
       method: "PATCH",
       headers,
       body: JSON.stringify(patchData)

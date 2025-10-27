@@ -38,9 +38,10 @@ function Banner() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get('v2/settings');
-        setAllowLogin(response.data.allowUserLogins)
-        setAllowLoginMessage(response.data.disallowUserLoginsMessage)
+        const response = await fetch('/api/fetch-data?endpoint=settings');
+        const data = await response.json();
+        setAllowLogin(data.allowUserLogins)
+        setAllowLoginMessage(data.disallowUserLoginsMessage)
       } catch (err) {
         console.error('ERR_SETTING_ENDPOINT', err)
       } finally {

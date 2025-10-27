@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { MapPin, BarChart2 } from "lucide-react";
-import api from "../../services/api";
 
 import Table from "../../components/Table";
 
@@ -21,8 +20,8 @@ function Stats() {
     setLoading(true);
     try {
       const [exactRes, nearbyRes] = await Promise.all([
-        api.get(`/v2/stats/zip/${zipCode}/scope/exact`),
-        api.get(`/v2/stats/zip/${zipCode}/scope/withinradius`)
+        fetch(`/api/fetch-data?endpoint=stats/zip/${zipCode}/scope/exact`),
+        fetch(`/api/fetch-data?endpoint=stats/zip/${zipCode}/scope/withinradius`)
       ]);
       setStatData(exactRes.data);
       setNearByStatsData(nearbyRes.data);

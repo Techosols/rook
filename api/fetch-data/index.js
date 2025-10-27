@@ -31,8 +31,21 @@ module.exports = async function (context, req) {
       "Content-Type": "application/json"
     };
 
+    const endpoint = req.query.endpoint;
+    
+    if(!endpoint) {
+      context.res = {
+        status: 400,
+        body: "Endpoint query parameter is required."
+      };
+      return;
+    }
 
-    const response = await fetch(externalApiUrl, {
+    const finalEndpoint = `${externalApiUrl}/V2/${endpoint}`;
+
+    const exampleEndpoint = `${externalApiUrl}/v2/settings`;
+
+    const response = await fetch(finalEndpoint, {
       method: "GET",
       headers
     });

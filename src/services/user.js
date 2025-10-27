@@ -1,11 +1,16 @@
-import api from "./api";
 import { toast } from "react-toastify";
 
 
 const userService = {
   async verifyPII(data) {
     try {
-      const response = await api.post('v2/user-pii-check', data);
+      const response = await fetch('/api/post-data?endpoint=user-pii-check', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
       return response;
     } catch (error) {
 
@@ -74,7 +79,8 @@ const userService = {
 
   async verifyUserExistenceByEmail(email, type = 'signup') {
     try {
-      const response = await api.get(`v2/user/${email}`);
+      const response = await fetch(`/api/fetch-data?endpoint=user/${email}`);
+      // api.get(`v2/user/${email}`);
       switch (response.status) {
         case 200:
           if (type === 'signup') {
@@ -101,7 +107,13 @@ const userService = {
 
   async registerNewUser(data) {
     try {
-      const response = await api.post('v2/user', data);
+      const response = await fetch('/api/post-data?endpoint=user', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
       if (response.status === 201) {
         toast.success('Registration successful');
       }
@@ -122,8 +134,12 @@ const userService = {
   },
 
   async updateUserStatus(externalId) {
-    await api.patch(`v2/user/${externalId}/active`)
-      .then(response => {
+    await fetch(`/api/patch-data?endpoint=user/${externalId}/active`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }).then(response => {
         toast.success('User status updated successfully');
         return response;
       })

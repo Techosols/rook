@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import api from "../../services/api"
 
 import Loader from "../Loader";
 
@@ -14,7 +13,7 @@ function Agreement({ onClick }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('/api/fetch-data');
+        const response = await fetch('/api/fetch-data?endpoint=settings');
         console.log('Settings Response Status: ', response)
         const data = await response.json();
         setRespons(data);

@@ -47,8 +47,19 @@ module.exports = async function (context, req) {
       "Content-Type": "application/json",
     };
 
+
+    const endpoint = req.query.endpoint;
+
+    if (!endpoint) {
+      context.res = {
+        status: 400,
+        body: "Endpoint query parameter is required."
+      };
+      return;
+    }
+
     // 6. Make the POST request to the external API with the body from the React app.
-    const response = await fetch(externalApiUrl, {
+    const response = await fetch(`${externalApiUrl}/v2/${endpoint}`, {
       method: "POST",
       headers: headers,
       body: JSON.stringify(reactData),
