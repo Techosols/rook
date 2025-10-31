@@ -1,5 +1,5 @@
 import FilterContext from "./FilterContext";
-import { useState } from "react";``
+import { useEffect, useState } from "react";``
 
 const FilterProvider = ({ children }) => {
 
@@ -38,7 +38,9 @@ const FilterProvider = ({ children }) => {
     const [includeOccupations, setIncludeOccupations] = useState([]);
     const [excludeOccupations, setExcludeOccupations] = useState([]);
 
-    
+    useEffect(() => {
+        // Update filters object whenever any filter state changes
+    }, [filters]);
 
 
     const values = {
