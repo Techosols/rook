@@ -14,8 +14,9 @@ function Agreement({ onClick }) {
     const fetchData = async () => {
       try {
         const response = await fetch('/api/fetch-data?endpoint=settings');
-        console.log('Settings Response Status: ', response)
+        
         const data = await response.json();
+        console.log('Settings Response Status: ', data);
         setRespons(data);
         setAllowSignup(data.allowNewUserSignups)
       } catch (err) {

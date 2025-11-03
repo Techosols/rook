@@ -18,10 +18,18 @@ module.exports = async function (context, req) {
     // eslint-disable-next-line no-undef
     const externalApiUrl = process.env.SERVER_API_URL;
 
-    if (!externalApiKey || !externalApiUrl) {
+    if(!externalApiUrl) {
       context.res = {
         status: 500,
-        body: "SERVER_API_KEY or SERVER_API_URL is not configured."
+        body: "URL is not configured."
+      };
+      return;
+    }
+
+    if(!externalApiKey) {
+      context.res = {
+        status: 500,
+        body: "API KEY is not configured."
       };
       return;
     }
