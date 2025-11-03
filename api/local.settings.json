@@ -1,7 +1,10 @@
 {
-  "IsEncrypted": true,
+  "IsEncrypted": false,
   "Values": {
-    "FUNCTIONS_WORKER_RUNTIME": "CfDJ8APJ9Zu+e0JIqS4wyP65SUCSl5qOvGKDmDk03Lw5ZU6n9TJlVgGPDZf25rsgEYWWHH/hE+1sutkkoQkuUNQ6iOtr58yl7hX4n5S1O6YtknUOP4WoK2i77SPYp/E8AA/g4g=="
+    "FUNCTIONS_WORKER_RUNTIME": "node",
+    "SERVER_API_KEY": "Ey9463b13yjs8tInHPn3STMcojwYJzwW5I63EsRR",
+    "SERVER_API_URL": "https://user-intake-service.rook.love/"
   },
-  "ConnectionStrings": {}
+  "ConnectionStrings": {
+  }
 }
