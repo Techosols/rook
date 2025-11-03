@@ -183,16 +183,23 @@ function ProfileCard({ profile, showEvents }) {
 
       <div className='relative p-6'>
         {/* Header Section */}
-        <div className="flex justify-between items-center mb-6">
-          <div className="flex items-center space-x-4">
-            <h4 className="text-3xl font-bold text-gray-800 dark:text-white">{profile.preferredName}</h4>
-            <div className="flex items-center space-x-3">
-              <span className="px-3 py-1 bg-gradient-to-r from-blue-500 to-purple-500 text-white text-sm font-semibold rounded-full">
-                {profile.ageInYears}
-              </span>
-              <span className="text-gray-600 dark:text-gray-300 font-medium">{profile.city}</span>
-            </div>
-          </div>
+       <div className="block sm:flex justify-between items-center mb-2">
+  <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 w-full">
+    {/* Name and Age Row */}
+    <div className="flex justify-between items-center w-full sm:w-auto mb-1 sm:mb-0 gap-2">
+      <h4 className="text-xl sm:text-3xl font-bold text-gray-800 dark:text-white">
+        {profile.preferredName}
+      </h4>
+      <span className="px-3 py-1 bg-gradient-to-r from-blue-500 to-purple-500 text-white text-sm font-semibold rounded-full sm:ml-0">
+        {profile.ageInYears}
+      </span>
+    </div>
+
+    {/* City (below on small, inline on large) */}
+    <span className="text-gray-600 dark:text-gray-300 font-medium text-sm mb-3 sm:mb-0">
+      {profile.city}
+    </span>
+  </div>
 
           {/* Action Icons */}
           {showEvents && (
@@ -261,7 +268,7 @@ function ProfileCard({ profile, showEvents }) {
 
         {/* Footer Section */}
         <div className='flex flex-col md:flex-row justify-between items-center mb-4'>
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-3 w-full sm:w-auto justify-between">
             {/* Background check status badge - map status to icon and color */}
             {(() => {
               const status = profile?.backgroundCheckStatus || '';
@@ -317,7 +324,7 @@ function ProfileCard({ profile, showEvents }) {
               </span>
             </div>
           </div>
-          <div className="px-4 py-2 bg-gray-50 dark:bg-gray-700 rounded-lg">
+          <div className="px-4 py-2 bg-gray-50 dark:bg-gray-700 rounded-lg w-full sm:w-auto">
             <p className="text-gray-700 dark:text-gray-300 font-semibold">
               {profile.height} / {profile.weight}
             </p>
@@ -326,15 +333,15 @@ function ProfileCard({ profile, showEvents }) {
 
         {/* Description */}
         <div className="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-4">
-          <div className="space-y-2 flex gap-1">
+          <div className="space-y-2 block sm:flex gap-1">
             <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
               {profile.educationLevel}
             </p>
             <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
-              <span className="font-medium"> || </span> {profile.occupation}
+              <span className="font-medium"> <span className='hidden sm:inline'>||</span> </span> {profile.occupation}
             </p>
             <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
-              <span className="font-medium"> || </span> {profile.kidsDescription}
+              <span className="font-medium"> <span className='hidden sm:inline'>||</span> </span> {profile.kidsDescription}
             </p>
           </div>
         </div>
