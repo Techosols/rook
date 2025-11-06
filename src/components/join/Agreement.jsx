@@ -7,8 +7,7 @@ function Agreement({ onClick }) {
   const [allowSignup, setAllowSignup] = useState();
   const [loading, setLoading] = useState(true);
 
-  // [DEBUG] Fetch settings to determine if signups are allowed
-  const [respons, setRespons] = useState(null);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -17,7 +16,6 @@ function Agreement({ onClick }) {
         
         const data = await response.json();
         console.log('Settings Response Status: ', data);
-        setRespons(data);
         setAllowSignup(data.allowNewUserSignups)
       } catch (err) {
         console.error('ERR_SETTING_ENDPOINT', err)
@@ -91,7 +89,6 @@ function Agreement({ onClick }) {
               </>
             ) : (
               <div className="bg-white dark:bg-background-dark border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg p-6 md:p-10 text-center">
-              {JSON.stringify(respons)}
                 <div className="mb-4">
                   <h2 className="text-xl font-bold text-gray-700 dark:text-white mb-2">Signups Temporarily Closed</h2>
                   <p className="text-gray-600 dark:text-gray-300">

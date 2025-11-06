@@ -8,6 +8,7 @@ import TabProvider from "./contexts/Tab/TabProvider";
 import AuthProvider from "./contexts/Auth/AuthProvider";
 import MatchesProvider from "./contexts/Matches/MatchesProvider";
 import OptionProvider from "./contexts/Options/OptionProvider";
+import FilterProvider from "./contexts/Filter/FilterProvider";
 import ProfileProvider from "./contexts/Profile/ProfileProvider";
 import ModelProvider from "./contexts/Model/ModelProvider";
 
@@ -30,7 +31,9 @@ const Providers = ({ children }) => (
               <MatchesProvider>
                 <OptionProvider>
                   <ProfileProvider>
-                    {children}
+                    <FilterProvider>
+                      {children}
+                    </FilterProvider>
                   </ProfileProvider>
                 </OptionProvider>
               </MatchesProvider>

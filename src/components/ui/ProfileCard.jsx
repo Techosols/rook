@@ -12,7 +12,7 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
 import useModel from '../../hooks/useModel'
 import useOptimistic from '../../hooks/useOptimistic'
 
-function ProfileCard({ profile, showEvents }) {
+function ProfileCard({ profile, showEvents, showOnlyBlockEvent, showOnlyBookmarkEvent, showOnlyignoreEvent, showOnlyConnectEvent }) {
   // State for toggleable icons - initialize with profile data
   const [iconStates, applyIconStates, commitIconStates, rollbackIconStates] = useOptimistic({
     link: (profile?.acceptingConnections && (profile.connectionStatus === 'New' || profile.connectionStatus === 'Connected')),
@@ -195,54 +195,122 @@ function ProfileCard({ profile, showEvents }) {
           </div>
 
           {/* Action Icons */}
-          {showEvents && (
-            <div className="flex items-center space-x-2">
-              <button
-                onClick={() => iconStates.link ? handleDisconnect() : handleConnect(profile.externalId)}
-                className={`p-2.5 rounded-xl transition-all duration-200 hover:scale-105 hover:cursor-pointer disabled:cursor-not-allowed ${iconStates.link
-                  ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/25'
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-                  }`}
-                title={iconStates.link ? 'Remove Connection' : 'Connect'}
-                disabled={!profile?.acceptingConnections || (profile.connectionStatus === 'Rejected' || profile.connectionStatus === 'Disconnected')}
-              >
-                {iconStates.link ? <UserMinus2 size={18} /> : <UserPlus2 size={18} />}
-              </button>
+          <div className="flex items-center space-x-2">
+            {(() => {
+              switch (true) {
+                case showEvents:
+                  return (
+                    <>
+                      {/* All buttons visible */}
+                      <button
+                        onClick={() => iconStates.link ? handleDisconnect() : handleConnect(profile.externalId)}
+                        className={`p-2.5 rounded-xl transition-all duration-200 hover:scale-105 hover:cursor-pointer disabled:cursor-not-allowed ${iconStates.link
+                          ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/25'
+                          : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                          }`}
+                        title={iconStates.link ? 'Remove Connection' : 'Connect'}
+                        disabled={!profile?.acceptingConnections || (profile.connectionStatus === 'Rejected' || profile.connectionStatus === 'Disconnected')}
+                      >
+                        {iconStates.link ? <UserMinus2 size={18} /> : <UserPlus2 size={18} />}
+                      </button>
 
-              <button
-                onClick={() => iconStates.bookmark ? handleRemoveBookmark() : handleBookmark()}
-                className={`p-2.5 rounded-xl transition-all duration-200 hover:scale-105 hover:cursor-pointer ${iconStates.bookmark
-                  ? 'bg-green-500 text-white shadow-lg shadow-green-500/25'
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-                  }`}
-                title={iconStates.bookmark ? 'Remove Bookmark' : 'Bookmark'}
-              >
-                {iconStates.bookmark ? <BookmarkMinus size={18} /> : <BookmarkPlus size={18} />}
-              </button>
+                      <button
+                        onClick={() => iconStates.bookmark ? handleRemoveBookmark() : handleBookmark()}
+                        className={`p-2.5 rounded-xl transition-all duration-200 hover:scale-105 hover:cursor-pointer ${iconStates.bookmark
+                          ? 'bg-green-500 text-white shadow-lg shadow-green-500/25'
+                          : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                          }`}
+                        title={iconStates.bookmark ? 'Remove Bookmark' : 'Bookmark'}
+                      >
+                        {iconStates.bookmark ? <BookmarkMinus size={18} /> : <BookmarkPlus size={18} />}
+                      </button>
 
-              <button
-                onClick={() => iconStates.bell ? handleUnignore() : handleIgnore()}
-                className={`p-2.5 rounded-xl transition-all duration-200 hover:scale-105 hover:cursor-pointer ${iconStates.bell
-                  ? 'bg-yellow-500 text-white shadow-lg shadow-yellow-500/25'
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-                  }`}
-                title="Ignore"
-              >
-                <BellOff size={18} />
-              </button>
+                      <button
+                        onClick={() => iconStates.bell ? handleUnignore() : handleIgnore()}
+                        className={`p-2.5 rounded-xl transition-all duration-200 hover:scale-105 hover:cursor-pointer ${iconStates.bell
+                          ? 'bg-yellow-500 text-white shadow-lg shadow-yellow-500/25'
+                          : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                          }`}
+                        title={iconStates.bell ? 'Unignore User' : 'Ignore User'}
+                      >
+                        <BellOff size={18} />
+                      </button>
 
-              <button
-                onClick={() => iconStates.block ? handleUnblock() : handleBlock()}
-                className={`p-2.5 rounded-xl transition-all duration-200 hover:scale-105 hover:cursor-pointer ${iconStates.block
-                  ? 'bg-red-500 text-white shadow-lg shadow-red-500/25'
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-                  }`}
-                title="Block User"
-              >
-                <UserRoundX size={18} />
-              </button>
-            </div>
-          )}
+                      <button
+                        onClick={() => iconStates.block ? handleUnblock() : handleBlock()}
+                        className={`p-2.5 rounded-xl transition-all duration-200 hover:scale-105 hover:cursor-pointer ${iconStates.block
+                          ? 'bg-red-500 text-white shadow-lg shadow-red-500/25'
+                          : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                          }`}
+                        title={iconStates.block ? 'Unblock User' : 'Block User'}
+                      >
+                        <UserRoundX size={18} />
+                      </button>
+                    </>
+                  );
+
+                case showOnlyBlockEvent:
+                  return (
+                    <button
+                      onClick={() => iconStates.block ? handleUnblock() : handleBlock()}
+                      className={`p-2.5 rounded-xl transition-all duration-200 hover:scale-105 hover:cursor-pointer ${iconStates.block
+                        ? 'bg-red-500 text-white shadow-lg shadow-red-500/25'
+                        : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                        }`}
+                      title={iconStates.block ? 'Unblock User' : 'Block User'}
+                    >
+                      <UserRoundX size={18} />
+                    </button>
+                  );
+
+                case showOnlyBookmarkEvent:
+                  return (
+                    <button
+                      onClick={() => iconStates.bookmark ? handleRemoveBookmark() : handleBookmark()}
+                      className={`p-2.5 rounded-xl transition-all duration-200 hover:scale-105 hover:cursor-pointer ${iconStates.bookmark
+                        ? 'bg-green-500 text-white shadow-lg shadow-green-500/25'
+                        : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                        }`}
+                      title={iconStates.bookmark ? 'Remove Bookmark' : 'Bookmark'}
+                    >
+                      {iconStates.bookmark ? <BookmarkMinus size={18} /> : <BookmarkPlus size={18} />}
+                    </button>
+                  );
+
+                case showOnlyignoreEvent:
+                  return (
+                    <button
+                      onClick={() => iconStates.bell ? handleUnignore() : handleIgnore()}
+                      className={`p-2.5 rounded-xl transition-all duration-200 hover:scale-105 hover:cursor-pointer ${iconStates.bell
+                        ? 'bg-yellow-500 text-white shadow-lg shadow-yellow-500/25'
+                        : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                        }`}
+                      title={iconStates.bell ? 'Unignore User' : 'Ignore User'}
+                    >
+                      <BellOff size={18} />
+                    </button>
+                  );
+
+                case showOnlyConnectEvent:
+                  return (
+                    <button
+                      onClick={() => iconStates.link ? handleDisconnect() : handleConnect(profile.externalId)}
+                      className={`p-2.5 rounded-xl transition-all duration-200 hover:scale-105 hover:cursor-pointer disabled:cursor-not-allowed ${iconStates.link
+                        ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/25'
+                        : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                        }`}
+                      title={iconStates.link ? 'Remove Connection' : 'Connect'}
+                      disabled={!profile?.acceptingConnections || (profile.connectionStatus === 'Rejected' || profile.connectionStatus === 'Disconnected')}
+                    >
+                      {iconStates.link ? <UserMinus2 size={18} /> : <UserPlus2 size={18} />}
+                    </button>
+                  );
+
+                default:
+                  return null;
+              }
+            })()}
+          </div>
         </div>
 
         {/* External ID [Debug] */}

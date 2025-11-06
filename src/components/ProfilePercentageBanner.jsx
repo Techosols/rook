@@ -12,9 +12,10 @@ function ProfilePercentageBanner() {
     const [loading, setLoading] = useState(false);
     const api = useAuthenticatedApi();
 
-
-
     useEffect(() => {
+        if( !api || !token ) {
+            return;
+        }
         setLoading(true);
         api.get('/v1/profile-complete-stats')
         .then((res) => {
@@ -32,10 +33,6 @@ function ProfilePercentageBanner() {
     }, []);
 
     
-    if(!token) {
-        return;
-    }
-
 
     return (
         <section className="relative bg-[url('../Images/bride-groom-their-wedding-ceremony.jpg')] bg-no-repeat bg-cover bg-[center_20%] bg-background dark:bg-background-dark text-text dark:text-text-dark px-4 py-10 ">

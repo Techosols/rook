@@ -12,26 +12,31 @@ function Stats() {
   const [searchedZip, setSearchZipcode] = useState(null)
   const [statsFound, setStatsFound] = useState(null);
 
-  console.log('Exact Stat Data', statData)
-  console.log('Nearby Stats Data: ', nearbyStatsData)
-
   const fetchStats = async (zipCode) => {
     setStatsFound(null);
     setLoading(true);
+    setStatData(null);
+    setNearByStatsData(null);
+    setSearchZipcode(zipCode);
     try {
       const [exactRes, nearbyRes] = await Promise.all([
         fetch(`/api/fetch-data?endpoint=stats/zip/${zipCode}/scope/exact`),
         fetch(`/api/fetch-data?endpoint=stats/zip/${zipCode}/scope/withinradius`)
       ]);
-      setStatData(exactRes.data);
-      setNearByStatsData(nearbyRes.data);
-      setSearchZipcode(search);
-      // Check if all categories in both are empty
+
+      const data = await Promise.all([exactRes.json(), nearbyRes.json()]);
+      const [exactResData, nearbyResData] = data;
+
+      setStatData(exactResData);
+      setNearByStatsData(nearbyResData);
+
+
       const isEmpty = (obj) =>
         !obj || Object.values(obj).every(
           (cat) => !cat || Object.keys(cat).length === 0
         );
-      if (isEmpty(exactRes.data) && isEmpty(nearbyRes.data)) {
+
+      if (isEmpty(exactResData) && isEmpty(nearbyResData)) {
         setStatsFound(false);
       } else {
         setStatsFound(true);
@@ -42,7 +47,9 @@ function Stats() {
     } finally {
       setLoading(false);
     }
-  }
+  };
+
+
 
   return (
     <section className={`bg-background dark:bg-background-dark text-text dark:text-text-dark min-h-[60vh] py-6`}>
@@ -62,7 +69,7 @@ function Stats() {
             }}
           />
           <button
-            className="bg-primary dark:bg-primary-dark text-white p-2 rounded-lg hover:bg-secondary transition-colors duration-300 hover:cursor-pointer disabled:cursor-not-allowed w-full sm:w-auto"
+            className="bg-primary dark:bg-primary-dark text-white p-2 rounded-lg hover:bg-secondary transition-colors duration-300 hover:cursor-pointer disabled:cursor-not-allowed w-full sm:w-auto disabled:bg-gray-400 flex justify-center items-center"
             onClick={() => fetchStats(search)}
             disabled={(loading || (search.length < 5))}
           >
@@ -87,7 +94,7 @@ function Stats() {
           </div>
         )}
 
-        {(statData || nearbyStatsData) && (
+        {statsFound === true && (statData || nearbyStatsData) && (
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8 p-0 md:p-2">
             {statData ? (
               <div className="p-0 md:p-2">

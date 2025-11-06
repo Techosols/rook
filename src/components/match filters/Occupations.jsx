@@ -5,32 +5,22 @@ import Input from "../ui/Input"
 
 import { useState } from "react"
 
+import useOption from "../../hooks/useOption";
+
 
 function Occupations() {
 
   const [searchInclude, setSearchInclude] = useState("");
   const [searchExclude, setSearchExclude] = useState("");
 
-  const occupations = [
-    "Healthcare",
-    "Education",
-    "Technology",
-    "Finance",
-    "Arts & Entertainment",
-    "Law Enforcement",
-    "Military",
-    "Hospitality",
-    "Retail",
-    "Construction",
-    "Transportation",
-    "Manufacturing",
-  ];
+  const { occupationProfiles = [] } = useOption();
 
-  const includeOccupations = occupations.filter((occupation) =>
+
+  const includeOccupations = Object.values(occupationProfiles).filter((occupation) =>
     occupation.toLowerCase().includes(searchInclude.toLowerCase())
   );
 
-  const excludeOccupations = occupations.filter((occupation) =>
+  const excludeOccupations = Object.values(occupationProfiles).filter((occupation) =>
     occupation.toLowerCase().includes(searchExclude.toLowerCase())
   );
 

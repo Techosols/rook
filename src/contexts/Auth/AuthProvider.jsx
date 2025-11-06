@@ -2,7 +2,7 @@ import AuthContext from "./AuthContext";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
 import useTab from "../../hooks/useTab";
-import api from "../../services/api";
+// import api from "../../services/api";
 
 const AuthProvider = ({ children }) => {
   const {
@@ -48,7 +48,7 @@ const AuthProvider = ({ children }) => {
 
   const getToken = async () => {
     const claim = await getIdTokenClaims();
-    const authToken = claim.__raw;
+    const authToken = claim?.__raw;
     if (authToken) {
       setToken(authToken);
       localStorage.setItem("RKT", authToken); // RKT => Rook Token
@@ -56,9 +56,14 @@ const AuthProvider = ({ children }) => {
   };
 
   const getUserExternalId = async () => {
+
+    if (!user?.email) return;
+
     try {
-      const response = await api.get(`v2/user/${user?.email}`);
-      setUserExternalId(response.data.externalId);
+      const response = await fetch('/api/fetch-data?endpoint=user/' + encodeURIComponent(user?.email));
+      const data = await response.json();
+      // console.log('User External ID Response: ', data);
+      setUserExternalId(data.externalId);
     } catch (error) {
       console.error('Error fetching user external ID:', error);
     }
@@ -68,6 +73,7 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     if (isLoggedIn) {
       localStorage.setItem("RKU", true); // RKU => Rook User
+      getToken();
       getUserExternalId();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

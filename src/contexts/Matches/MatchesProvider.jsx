@@ -237,7 +237,7 @@ const MatchesProvider = ({ children }) => {
     // Events
     // --- 🔥 OPTIMISTIC USER ACTIONS --- //
 
-    // ✅ Connect User
+    // Connect User
     async function connectUser(externalId) {
         if (!api || !externalId) return;
 
@@ -264,7 +264,7 @@ const MatchesProvider = ({ children }) => {
         }
     }
 
-    // ✅ Disconnect User
+    // Disconnect User
     async function disconnectUser(externalId, notes = "") {
         if (!api || !externalId) return;
 

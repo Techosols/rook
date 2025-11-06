@@ -2,36 +2,20 @@ import { LucideBadgeInfo } from "lucide-react"
 import FormSection from "../ui/FormSection"
 import Checkbox from "../ui/Checkbox"
 
+import useOption from "../../hooks/useOption";
+
 function EthnicitiesReligions() {
 
+const { ethnicities = [], religions = [] } = useOption();
 
-  const Ethnicities = [
-    "Asian",
-    "Black or African American",
-    "Hispanic or Latino",
-    "White or Caucasian",
-    "Middle Eastern or North African",
-    "Native American or Alaska Native",
-    "Native Hawaiian or Other Pacific Islander",
-    "Mixed or Multiracial",
-    "Other"
-  ];
-
-  const Religions = [
-    "Christianity",
-    "Islam",
-    "Hinduism",
-    "Buddhism",
-    "Judaism",
-    "Sikhism",
-    "Atheism/Agnosticism",
-    "Other"
-  ];
 
   const backgroundCheckStatus = [
     "Background Check Not Started",
     "Background Check Pending",
-    "Background Check Failed"
+    "Background Check Started",
+    "Background Check In Progress",
+    "Background Check Failed",
+    "Background Check Completed"
   ];
 
   return (
@@ -39,7 +23,7 @@ function EthnicitiesReligions() {
       <FormSection title="Ethnicities">
         <p className="text-gray-500 text-sm"> <LucideBadgeInfo className="inline-block mr-1" /> Check off all options you want to exclude from your matches.</p>
         <div className="border border-gray-300 dark:border-gray-600 rounded-lg p-3 max-h-60 overflow-y-auto flex flex-col gap-2">
-          {Ethnicities.map((ethnicity) => (
+          {Object.values(ethnicities).map((ethnicity) => (
             <Checkbox key={ethnicity} label={ethnicity} />
           ))}
         </div>
@@ -47,7 +31,7 @@ function EthnicitiesReligions() {
       <FormSection title="Religions">
         <p className="text-gray-500 text-sm"> <LucideBadgeInfo className="inline-block mr-1" /> Check off all options you want to exclude from your matches.</p>
         <div className="border border-gray-300 dark:border-gray-600 rounded-lg p-3 max-h-60 overflow-y-auto flex flex-col gap-2">
-          {Religions.map((religion) => (
+          {Object.values(religions).map((religion) => (
             <Checkbox key={religion} label={religion} />
           ))}
         </div>

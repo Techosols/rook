@@ -2,23 +2,18 @@ import { LucideBadgeInfo } from "lucide-react"
 import FormSection from "../ui/FormSection"
 import Checkbox from "../ui/Checkbox"
 
+import useOption from "../../hooks/useOption";
+
 function PoliticsPhysicalActivity() {
 
-  const politicalAffiliations = [
-    "Democrat",
-    "Republican",
-    "Independent",
-    "Green",
-    "Libertarian",
-    "Other"
-  ];
+  const { politicalAffiliations = []} = useOption();
 
   const physicalActivityLevels = [
-    "Sedentary",
-    "Lightly active",
-    "Moderately active",
-    "Very active",
-    "Super active"
+    "Very High",
+    "High",
+    "Acceptable",
+    "Low",
+    "Inactive"
   ];
 
   return (
@@ -26,7 +21,7 @@ function PoliticsPhysicalActivity() {
       <FormSection title="Political Affiliation">
         <p className="text-gray-500 text-sm"> <LucideBadgeInfo className="inline-block mr-1" /> Check off all options you want to exclude from your matches.</p>
         <div className="border border-gray-300 dark:border-gray-600 rounded-lg p-3 max-h-60 overflow-y-auto flex flex-col gap-2">
-          {politicalAffiliations.map((affiliation) => (
+          {Object.values(politicalAffiliations).map((affiliation) => (
             <Checkbox key={affiliation} label={affiliation} />
           ))}
         </div>
