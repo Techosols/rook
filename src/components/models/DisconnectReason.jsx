@@ -49,7 +49,7 @@ function DisconnectReason() {
   }
 
   return (
-    <div className=" bg-white dark:bg-gray-800 rounded-xl">
+    <div className=" bg-white dark:bg-gray-800 rounded-xl p-5">
       <div className="flex items-start justify-between">
         <div className="flex items-center space-x-3">
           <div className="p-2 bg-red-50 dark:bg-red-900/20 rounded-lg">
@@ -64,11 +64,11 @@ function DisconnectReason() {
 
       <div className="mt-5">
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">Note</label>
-        <textarea ref={textareaRef} value={note} onChange={(e) => setNote(e.target.value)} rows={6} placeholder="Add a short note" className="mt-2 w-full p-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none" />
+        <textarea ref={textareaRef} value={note} onChange={(e) => setNote(e.target.value)} rows={6} placeholder="Add a short note" className="mt-2 w-full p-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:text-white dark:bg-gray-800 focus:outline-none" />
 
         <div className="mt-3 flex flex-wrap gap-2">
           {suggestions.map(s => (
-            <button key={s} type="button" onClick={() => addSuggestion(s)} className="inline-flex items-center space-x-2 px-3 py-1.5 bg-gray-100 dark:bg-gray-700 rounded-full text-sm hover:bg-gray-200">
+            <button key={s} type="button" onClick={() => addSuggestion(s)} className="inline-flex items-center space-x-2 px-3 py-1.5 bg-gray-100 dark:bg-gray-700 rounded-full text-sm hover:bg-gray-200 dark:hover:bg-gray-600">
               <Zap className="w-4 h-4 text-yellow-500" />
               <span className="text-gray-800 dark:text-gray-100">{s}</span>
             </button>
@@ -76,7 +76,7 @@ function DisconnectReason() {
         </div>
 
         <div className="mt-6 flex items-center justify-end space-x-3">
-          <button type="button" onClick={() => { setNote(''); }} className="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700">Reset</button>
+          <button type="button" onClick={() => { setNote(''); }} className="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 dark:text-white">Reset</button>
           <button type="button" onClick={onSubmit} className="px-4 py-2 rounded-lg bg-red-600 text-white">Submit note</button>
         </div>
       </div>
