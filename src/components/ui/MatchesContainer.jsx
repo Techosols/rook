@@ -161,7 +161,7 @@ function MatchesContainer({ title = 'Matches', data, endPoint = 'GetYourMatches'
                             </div>
                         </div>
                         <div className=''>
-                            <input type="text" placeholder={`Search ${title}`} className='bg-white p-3 rounded-xl w-72 focus:outline-none' value={search} onChange={(e) => setSearch(e.target.value)} />
+                            <input type="text" placeholder={`Search ${title}`} className='bg-white dark:bg-gray-800 p-3 rounded-xl w-72 focus:outline-none' value={search} onChange={(e) => setSearch(e.target.value)} />
                         </div>
                     </div>
                 </div>
