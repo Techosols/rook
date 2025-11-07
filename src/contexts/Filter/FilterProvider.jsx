@@ -55,6 +55,18 @@ const FilterProvider = ({ children }) => {
 
 
     // console.log("FilterProvider Rendered - singleChoiceFilters:", singleChoiceFilters);
+    // console.log('Multi-Choice Filters: ', {
+    //     excludeEthnicities,
+    //     excludeReligions,
+    //     excludeBackgroundCheckStatus,
+    //     excludeOccupations,
+    //     excludeGenders,
+    //     excludeSexualOrientations,
+    //     excludeRelationshipTypes,
+    //     excludePoliticalAffiliations,
+    //     excludePhysicalActivityIndexes,
+    //     includeOccupations,
+    // })
 
     // Fetch initial filters when API becomes available
     useEffect(() => {
@@ -119,7 +131,6 @@ const FilterProvider = ({ children }) => {
     useEffect(() => {
         if (!singleChoiceFilters || Object.keys(singleChoiceFilters).length === 0) return;
 
-        setZipCode(singleChoiceFilters.postalCode || "");
         setDistance(singleChoiceFilters.postalCodeWithinRadius || "");
         setAgeFrom(singleChoiceFilters.ageFrom || "");
         setAgeTo(singleChoiceFilters.ageTo || "");

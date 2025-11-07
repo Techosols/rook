@@ -5,28 +5,28 @@ import Input from "../ui/Input"
 
 import { useState } from "react"
 
-import useOption from "../../hooks/useOption";
+import useFilter from "../../hooks/useFilter";
 
 
 function Occupations() {
 
   const [searchInclude, setSearchInclude] = useState("");
   const [searchExclude, setSearchExclude] = useState("");
+  const { includeOccupations, excludeOccupations } = useFilter();
 
-  const { occupationProfiles = [] } = useOption();
 
 
-  const includeOccupations = Object.values(occupationProfiles).filter((occupation) =>
+  const includeOccupationResults = includeOccupations.filter((occupation) =>
     occupation.toLowerCase().includes(searchInclude.toLowerCase())
   );
 
-  const excludeOccupations = Object.values(occupationProfiles).filter((occupation) =>
+  const excludeOccupationResults = excludeOccupations.filter((occupation) =>
     occupation.toLowerCase().includes(searchExclude.toLowerCase())
   );
 
   return (
     <div className='p-1 flex flex-col gap-1 md:gap-4'>
-      <FormSection title="Included Occupations">
+      <FormSection title="Included Occupations" disabled={includeOccupations.length === 0}>
         <div className="flex flex-col gap-1 md:gap-2 border-l-4 border-yellow-500 pl-2 bg-yellow-50 p-1">
           <div className="flex items-center gap-1 ">
             <TriangleAlert className="text-yellow-500 " />
@@ -39,12 +39,12 @@ function Occupations() {
         <p className="text-gray-500 text-sm"> <LucideBadgeInfo className="inline-block mr-1" /> Check off all options you want to include in your matches.</p>
         <Input type="text" placeholder="Search occupations to include..." value={searchInclude} onChange={(e) => setSearchInclude(e.target.value)} className="w-96" />
         <div className="border border-gray-300 dark:border-gray-600 rounded-lg p-3 max-h-60 overflow-y-auto flex flex-col gap-2">
-          {includeOccupations.map((occupation) => (
-            <Checkbox key={occupation} label={occupation} />
+          {includeOccupationResults.map((occupation) => (
+            <Checkbox key={occupation} label={occupation} onChange={(e) => e.target.checked} />
           ))}
         </div>
       </FormSection>
-      <FormSection title="Excluded Occupations">
+      <FormSection title="Excluded Occupations" disabled={excludeOccupations.length === 0}>
         <div className="flex flex-col gap-1 md:gap-2 border-l-4 border-yellow-500 pl-2 bg-yellow-50 p-1">
           <div className="flex items-center gap-1 ">
             <TriangleAlert className="text-yellow-500 " />
@@ -57,7 +57,7 @@ function Occupations() {
         <p className="text-gray-500 text-sm"> <LucideBadgeInfo className="inline-block mr-1" /> Check off all options you want to exclude from your matches.</p>
         <Input type="text" placeholder="Search occupations to exclude..." value={searchExclude} onChange={(e) => setSearchExclude(e.target.value)} className="w-96" />
         <div className="border border-gray-300 dark:border-gray-600 rounded-lg p-3 max-h-60 overflow-y-auto flex flex-col gap-2">
-          {excludeOccupations.map((occupation) => (
+          {excludeOccupationResults.map((occupation) => (
             <Checkbox key={occupation} label={occupation} />
           ))}
         </div>

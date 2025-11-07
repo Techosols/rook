@@ -2,12 +2,11 @@ import { LucideBadgeInfo } from "lucide-react"
 import FormSection from "../ui/FormSection"
 import Checkbox from "../ui/Checkbox"
 
-import useOption from "../../hooks/useOption";
+import useFilter from "../../hooks/useFilter";
 
 function EthnicitiesReligions() {
 
-const { ethnicities = [], religions = [] } = useOption();
-
+  const { excludeEthnicities, excludeReligions } = useFilter();
 
   const backgroundCheckStatus = [
     "Background Check Not Started",
@@ -23,20 +22,20 @@ const { ethnicities = [], religions = [] } = useOption();
       <FormSection title="Ethnicities">
         <p className="text-gray-500 text-sm"> <LucideBadgeInfo className="inline-block mr-1" /> Check off all options you want to exclude from your matches.</p>
         <div className="border border-gray-300 dark:border-gray-600 rounded-lg p-3 max-h-60 overflow-y-auto flex flex-col gap-2">
-          {Object.values(ethnicities).map((ethnicity) => (
-            <Checkbox key={ethnicity} label={ethnicity} />
+          {excludeEthnicities.map((ethnicity) => (
+            <Checkbox key={ethnicity?.id} label={ethnicity?.name} checked={ethnicity?.excluded} onChange={(ethnicity) => !ethnicity?.excluded} />
           ))}
         </div>
       </FormSection>
       <FormSection title="Religions">
         <p className="text-gray-500 text-sm"> <LucideBadgeInfo className="inline-block mr-1" /> Check off all options you want to exclude from your matches.</p>
         <div className="border border-gray-300 dark:border-gray-600 rounded-lg p-3 max-h-60 overflow-y-auto flex flex-col gap-2">
-          {Object.values(religions).map((religion) => (
-            <Checkbox key={religion} label={religion} />
+          {excludeReligions.map((religion) => (
+            <Checkbox key={religion?.id} label={religion?.name} checked={religion?.excluded} onChange={!religion?.excluded} />
           ))}
         </div>
       </FormSection>
-      <FormSection title="Background Check Status">
+      <FormSection title="Background Check Status" disabled>
         <p className="text-gray-500 text-sm"> <LucideBadgeInfo className="inline-block mr-1" /> Check off all options you want to exclude from your matches.</p>
         <div className="border border-gray-300 dark:border-gray-600 rounded-lg p-3 max-h-60 overflow-y-auto flex flex-col gap-2">
           {backgroundCheckStatus.map((status) => (
