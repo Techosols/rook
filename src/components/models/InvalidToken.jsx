@@ -18,7 +18,7 @@ function InvalidToken() {
     setLoading(true)
     closeModel();
     setIsLoggedIn(false);
-    localStorage.removeItem('RKU');
+    localStorage.removeItem('RKT');
     localStorage.setItem("activeTab", 'background');
     logout({
       logoutParams: {
@@ -44,7 +44,7 @@ function InvalidToken() {
       </p>
       <div className="flex items-center flex-col md:flex-row gap-2">
         <button
-          className="mt-2 px-6 py-2 rounded-lg bg-secondary dark:bg-secondary-dark text-white font-semibold shadow hover:bg-secondary-dark hover:text-primary hover:border hover:border-secondary transition-colors flex items-center gap-2"
+          className="mt-2 px-6 dark:text-black py-2 rounded-lg bg-secondary dark:bg-secondary-dark text-white font-semibold shadow hover:bg-secondary-dark hover:text-primary hover:border hover:border-secondary transition-colors flex items-center gap-2"
           onClick={() => window.location.reload()}
         >
           <RotateCcw size={20} />
