@@ -11,6 +11,7 @@ import useOption from "../../hooks/useOption";
 
 function LocationStats() {
 
+
   const { educationLevels, alcoholConsumptionFrequencies } = useOption();
 
   const {
@@ -35,6 +36,7 @@ function LocationStats() {
     excludeSmokers, setExcludeSmokers,
     excludeRecreationalDrugUsers, setExcludeRecreationalDrugUsers,
     maximumAlcoholConsumption, setMaximumAlcoholConsumption,
+    saveStats, saveKidsPets,saveLocation, saveHealthHabits,
   } = useFilter();
 
   // // Fields
@@ -62,7 +64,7 @@ function LocationStats() {
   return (
     <div className="p-1 flex flex-col gap-1 md:gap-4">
       <p className="text-gray-500 text-sm"> <LucideBadgeInfo className="inline-block mr-1" /> In this page, you provide info about yourself that can be used by others in filters, to include/exclude you in their matches.</p>
-      <FormSection title="Location">
+      <FormSection title="Location" onSave={() => saveLocation()}>
         <p>Enter ZIP code and radius. You will be shown matches in and around this zip code only.</p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
           <div>
@@ -75,7 +77,7 @@ function LocationStats() {
           </div>
         </div>
       </FormSection>
-      <FormSection title="Stats">
+      <FormSection title="Stats" onSave={() => saveStats()}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 gap-y-4 md:gap-y-6">
           <div className="">
             <label className="block font-bold text-gray-700 dark:text-gray-300 mb-1">Age from  - <span className="text-gray-500 font-normal">(Min 18 years)</span></label>
@@ -113,7 +115,7 @@ function LocationStats() {
           </div>
         </div>
       </FormSection>
-      <FormSection title="Kids/Pets">
+      <FormSection title="Kids/Pets" onSave={() => saveKidsPets()}>
         <div className="flex flex-col gap-2">
           <div className="grid grid-cols-1 md:grid-cols-[2fr_4fr] gap-1 md:gap-2 items-center">
             <label className="font-medium dark:text-white" htmlFor="exclude_kids">Exclude persons with kids?</label>
@@ -145,7 +147,7 @@ function LocationStats() {
           </div>
         </div>
       </FormSection>
-      <FormSection title="Health/Habits">
+      <FormSection title="Health/Habits" onSave={() => saveHealthHabits()}>
         <div className="flex flex-col gap-2">
           <div className="grid grid-cols-1 md:grid-cols-[2fr_4fr] gap-1 md:gap-2 items-center">
             <label className="font-medium dark:text-white" htmlFor="exclude_asexual_persons">Exclude asexual persons?</label>

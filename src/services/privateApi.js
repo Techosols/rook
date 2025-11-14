@@ -5,7 +5,6 @@ const createPrivateApi = (token) => {
   if (!token) {
     throw new Error("No auth token provided to PrivateApi");
   }
-
   const instance = axios.create({
     baseURL:
       import.meta.env.PROD || import.meta.env.VITE_USE_PRODUCTION_API === "true"
@@ -22,6 +21,7 @@ const createPrivateApi = (token) => {
   instance.interceptors.request.use(
     async (config) => {
       config.headers.Authorization = `Bearer ${token}`;
+      console.log("Request Method", config.method)
       return config;
     },
     (error) => Promise.reject(error)

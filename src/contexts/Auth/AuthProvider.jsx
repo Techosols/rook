@@ -5,6 +5,7 @@ import useTab from "../../hooks/useTab";
 // import api from "../../services/api";
 
 const AuthProvider = ({ children }) => {
+
   const {
     user,
     isAuthenticated,
@@ -14,7 +15,7 @@ const AuthProvider = ({ children }) => {
     getIdTokenClaims,
   } = useAuth0();
 
-
+  
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userExternalId, setUserExternalId] = useState(null);
@@ -30,7 +31,7 @@ const AuthProvider = ({ children }) => {
   const loginPopup = (options) => loginWithPopup(options);
 
   // console.log("Token: ", token)
-
+  
   useEffect(() => {
     const savedState = localStorage.getItem("RKU"); // RKU => Rook User
     const savedToken = localStorage.getItem("RKT"); // RKT => Rook Token
