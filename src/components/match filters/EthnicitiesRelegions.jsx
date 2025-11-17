@@ -5,22 +5,21 @@ import useFilter from "../../hooks/useFilter";
 
 function EthnicitiesReligions() {
   
-  const { excludeEthnicities = [], excludeReligions = [], excludeBackgroundCheckStatus, saveEthnicities, UpdateEthnicities, UpdateReligion, saveReligion, UpdateBackgroundCheckStatus, saveBackgroundCheckStatus, } = useFilter();
+  const { excludeEthnicities = [], excludeReligions = [], excludeBackgroundCheckStatus, saveEthnicities, UpdateEthnicities, UpdateReligion, saveReligion, UpdateBackgroundCheckStatus, saveBackgroundCheckStatus, isLoading} = useFilter();
   console.log('excludeEthnicities', excludeEthnicities);
-  // const backgroundCheckStatus = [
-  //   "Background Check Not Started",
-  //   "Background Check Pending",
-  //   "Background Check Started",
-  //   "Background Check In Progress",
-  //   "Background Check Failed",
-  //   "Background Check Completed"
-  // ];
 
   return (
     <div className='p-1 flex flex-col gap-1 md:gap-4'>
-      <FormSection title="Ethnicities" onSave={() => saveEthnicities()}>
+      <FormSection title="Ethnicities" onSave={() => saveEthnicities()} disabled={isLoading || excludeEthnicities.length === 0}>
         <p className="text-gray-500 text-sm"> <LucideBadgeInfo className="inline-block mr-1" /> Check off all options you want to exclude from your matches.</p>
         <div className="border border-gray-300 dark:border-gray-600 rounded-lg p-3 max-h-60 overflow-y-auto flex flex-col gap-2">
+          {isLoading && (
+            <div className="flex flex-col gap-2">
+              <div className="w-full h-6 bg-gray-300 animate-pulse"></div>
+              <div className="w-full h-6 bg-gray-300 animate-pulse"></div>
+              <div className="w-full h-6 bg-gray-300 animate-pulse"></div>
+            </div>
+          )}
           {excludeEthnicities.map((ethnicity) => (
             <Checkbox key={ethnicity?.id} label={ethnicity?.name} checked={ethnicity?.excluded} onChange={() => UpdateEthnicities(ethnicity?.id)} />
           ))}

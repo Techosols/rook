@@ -7,7 +7,7 @@ import useProfile from "../../hooks/useProfile";
 const FilterProvider = ({ children }) => {
 
     const [singleChoiceFilters, setSingleChoiceFilters] = useState({});
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
 
     const { zipCode, setZipCode} = useProfile();
