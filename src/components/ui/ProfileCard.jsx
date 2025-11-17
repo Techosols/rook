@@ -1,173 +1,229 @@
-import React from 'react'
-import { BookmarkPlus, BookmarkMinus, BellOff, UserRoundX, MapPin, Image, UserPlus2, UserMinus2, LucideHourglass, BadgeCheck } from 'lucide-react'
-import useMatches from '../../hooks/useMatches'
+import React from "react";
+import {
+  BookmarkPlus,
+  BookmarkMinus,
+  BellOff,
+  UserRoundX,
+  MapPin,
+  Image,
+  UserPlus2,
+  UserMinus2,
+  LucideHourglass,
+  BadgeCheck,
+} from "lucide-react";
+import useMatches from "../../hooks/useMatches";
 // Material icons (prefer for badges)
-import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty'
-import PendingIcon from '@mui/icons-material/Pending'
-import CheckCircleIcon from '@mui/icons-material/CheckCircle'
-import CancelIcon from '@mui/icons-material/Cancel'
-import AutorenewIcon from '@mui/icons-material/Autorenew'
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
+import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
+import PendingIcon from "@mui/icons-material/Pending";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import CancelIcon from "@mui/icons-material/Cancel";
+import AutorenewIcon from "@mui/icons-material/Autorenew";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 // import useAuthenticatedApi from '../../hooks/useAuthenticatedApi';
-import useModel from '../../hooks/useModel'
-import useOptimistic from '../../hooks/useOptimistic'
+import useModel from "../../hooks/useModel";
+import useOptimistic from "../../hooks/useOptimistic";
 
-function ProfileCard({ profile, showEvents, showOnlyBlockEvent, showOnlyBookmarkEvent, showOnlyignoreEvent, showOnlyConnectEvent }) {
+function ProfileCard({
+  profile,
+}) {
   // State for toggleable icons - initialize with profile data
-  const [iconStates, applyIconStates, commitIconStates, rollbackIconStates] = useOptimistic({
-    link: (profile?.acceptingConnections && (profile.connectionStatus === 'New' || profile.connectionStatus === 'Connected')),
-    bookmark: profile?.bookmarkedByYou || false,
-    bell: profile?.ignoredByYou || false,
-    block: profile?.blockedByYou || false
-  });
+  const [iconStates, applyIconStates, commitIconStates, rollbackIconStates] =
+    useOptimistic({
+      link:
+        profile?.acceptingConnections &&
+        (profile.connectionStatus === "New" ||
+          profile.connectionStatus === "Connected"),
+      bookmark: profile?.bookmarkedByYou || false,
+      bell: profile?.ignoredByYou || false,
+      block: profile?.blockedByYou || false,
+    });
 
   // const api = useAuthenticatedApi();
-  const { connectUser, bookmarkUser, removeBookmarkUser, ignoreUser, removeIgnoreUser, blockUser, unblockUser, fetchBookmarkedByMeUsers, fetchIgnoredUsers, fetchBlockedUsers } = useMatches();
+  const {
+    connectUser,
+    bookmarkUser,
+    removeBookmarkUser,
+    ignoreUser,
+    removeIgnoreUser,
+    blockUser,
+    unblockUser,
+    fetchBookmarkedByMeUsers,
+    fetchIgnoredUsers,
+    fetchBlockedUsers,
+  } = useMatches();
   const { openModel } = useModel();
 
   const toggleIcon = (iconName) => {
-    applyIconStates(prev => ({ ...prev, [iconName]: !prev[iconName] }))
+    applyIconStates((prev) => ({ ...prev, [iconName]: !prev[iconName] }));
   };
 
   async function handleConnect(externalId) {
     if (!externalId) return;
     // optimistic toggle
-    toggleIcon('link')
+    toggleIcon("link");
     try {
       const res = await connectUser(externalId);
       if (res && res.status === 200) {
-        commitIconStates()
+        commitIconStates();
       } else {
-        rollbackIconStates()
+        rollbackIconStates();
       }
     } catch (err) {
-      rollbackIconStates()
-      console.warn('connect failed', err)
+      rollbackIconStates();
+      console.warn("connect failed", err);
     }
   }
 
   async function handleDisconnect() {
     openModel({
-      for: 'disconnectReason',
+      for: "disconnectReason",
       heading: `Disconnect ${profile.preferredName}`,
       dissmissible: true,
       externalId: profile.externalId,
       onDone: (result) => {
         // Only toggle icon when the modal reports a successful disconnect
-        if (result && result.success) toggleIcon('link');
-      }
+        if (result && result.success) toggleIcon("link");
+      },
     });
   }
 
-
   async function handleBookmark() {
-    toggleIcon('bookmark')
+    toggleIcon("bookmark");
     try {
       const res = await bookmarkUser(profile?.externalId);
       if (res && (res.status === 200 || res.status === 201)) {
-        commitIconStates()
-        try { await fetchBookmarkedByMeUsers(); } catch (err) { console.warn('refresh bookmarks failed', err) }
+        commitIconStates();
+        try {
+          await fetchBookmarkedByMeUsers();
+        } catch (err) {
+          console.warn("refresh bookmarks failed", err);
+        }
       } else {
-        rollbackIconStates()
+        rollbackIconStates();
       }
     } catch (err) {
-      rollbackIconStates()
-      console.warn('bookmark failed', err)
+      rollbackIconStates();
+      console.warn("bookmark failed", err);
     }
   }
 
   async function handleRemoveBookmark() {
-    toggleIcon('bookmark')
+    toggleIcon("bookmark");
     try {
       const res = await removeBookmarkUser(profile?.externalId);
       if (res && (res.status === 200 || res.status === 204)) {
-        commitIconStates()
-        try { await fetchBookmarkedByMeUsers(); } catch (err) { console.warn('refresh bookmarks failed', err) }
+        commitIconStates();
+        try {
+          await fetchBookmarkedByMeUsers();
+        } catch (err) {
+          console.warn("refresh bookmarks failed", err);
+        }
       } else {
-        rollbackIconStates()
+        rollbackIconStates();
       }
     } catch (err) {
-      rollbackIconStates()
-      console.warn('remove bookmark failed', err)
+      rollbackIconStates();
+      console.warn("remove bookmark failed", err);
     }
   }
 
   async function handleIgnore() {
-    toggleIcon('bell')
+    toggleIcon("bell");
     try {
       const res = await ignoreUser(profile?.externalId);
-      console.log('Ignore response:', res);
+      console.log("Ignore response:", res);
       if (res && (res.status === 200 || res.status === 201)) {
-        commitIconStates()
-        try { await fetchIgnoredUsers(); } catch (err) { console.warn('refresh ignored failed', err) }
+        commitIconStates();
+        try {
+          await fetchIgnoredUsers();
+        } catch (err) {
+          console.warn("refresh ignored failed", err);
+        }
       } else {
-        rollbackIconStates()
+        rollbackIconStates();
       }
     } catch (err) {
-      rollbackIconStates()
-      console.warn('ignore failed', err)
+      rollbackIconStates();
+      console.warn("ignore failed", err);
     }
   }
 
   async function handleUnignore() {
-    toggleIcon('bell')
+    toggleIcon("bell");
     try {
       const res = await removeIgnoreUser(profile?.externalId);
-      console.log('Unignore response:', res);
+      console.log("Unignore response:", res);
       if (res && (res.status === 200 || res.status === 204)) {
-        commitIconStates()
-        try { await fetchIgnoredUsers(); } catch (err) { console.warn('refresh ignored failed', err) }
+        commitIconStates();
+        try {
+          await fetchIgnoredUsers();
+        } catch (err) {
+          console.warn("refresh ignored failed", err);
+        }
       } else {
-        rollbackIconStates()
+        rollbackIconStates();
       }
     } catch (err) {
-      rollbackIconStates()
-      console.warn('unignore failed', err)
+      rollbackIconStates();
+      console.warn("unignore failed", err);
     }
   }
 
   async function handleBlock() {
-    toggleIcon('block')
+    toggleIcon("block");
     try {
       const res = await blockUser(profile?.externalId);
       if (res && (res.status === 200 || res.status === 201)) {
-        commitIconStates()
-        try { await fetchBlockedUsers(); } catch (err) { console.warn('refresh blocked failed', err) }
+        commitIconStates();
+        try {
+          await fetchBlockedUsers();
+        } catch (err) {
+          console.warn("refresh blocked failed", err);
+        }
       } else {
-        rollbackIconStates()
+        rollbackIconStates();
       }
     } catch (err) {
-      rollbackIconStates()
-      console.warn('block failed', err)
+      rollbackIconStates();
+      console.warn("block failed", err);
     }
   }
 
   async function handleUnblock() {
-    toggleIcon('block')
+    toggleIcon("block");
     try {
       const res = await unblockUser(profile.externalId);
       if (res && (res.status === 200 || res.status === 204)) {
-        commitIconStates()
-        try { await fetchBlockedUsers(); } catch (err) { console.warn('refresh blocked failed', err) }
+        commitIconStates();
+        try {
+          await fetchBlockedUsers();
+        } catch (err) {
+          console.warn("refresh blocked failed", err);
+        }
       } else {
-        rollbackIconStates()
+        rollbackIconStates();
       }
     } catch (err) {
-      rollbackIconStates()
-      console.warn('unblock failed', err)
+      rollbackIconStates();
+      console.warn("unblock failed", err);
     }
   }
 
   // If no profile data, show loading state
   if (!profile) {
     return (
-      <div className='group relative overflow-hidden bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 animate-pulse'>
-        <div className='relative p-6'>
+      <div className="group relative overflow-hidden bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 animate-pulse">
+        <div className="relative p-6">
           <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded mb-4"></div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-            {Array(4).fill(0).map((_, index) => (
-              <div key={index} className='aspect-square bg-gray-200 dark:bg-gray-700 rounded-xl'></div>
-            ))}
+            {Array(4)
+              .fill(0)
+              .map((_, index) => (
+                <div
+                  key={index}
+                  className="aspect-square bg-gray-200 dark:bg-gray-700 rounded-xl"
+                ></div>
+              ))}
           </div>
           <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded mb-2"></div>
           <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
@@ -177,147 +233,103 @@ function ProfileCard({ profile, showEvents, showOnlyBlockEvent, showOnlyBookmark
   }
 
   return (
-    <div className='group relative overflow-hidden bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 transition-all duration-300 hover:shadow-2xl'>
+    <div className="group relative overflow-hidden bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 transition-all duration-300 hover:shadow-2xl">
       {/* Subtle gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-50/30 via-purple-50/20 to-pink-50/30 dark:from-blue-900/10 dark:via-purple-900/10 dark:to-pink-900/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-      <div className='relative p-6'>
+      <div className="relative p-6">
         {/* Header Section */}
-       <div className="block sm:flex justify-between items-center mb-2">
-  <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 w-full">
-    {/* Name and Age Row */}
-    <div className="flex justify-between items-center w-full sm:w-auto mb-1 sm:mb-0 gap-2">
-      <h4 className="text-xl sm:text-3xl font-bold text-gray-800 dark:text-white">
-        {profile.preferredName}
-      </h4>
-      <span className="px-3 py-1 bg-gradient-to-r from-blue-500 to-purple-500 text-white text-sm font-semibold rounded-full sm:ml-0">
-        {profile.ageInYears}
-      </span>
-    </div>
+        <div className="block sm:flex justify-between items-center mb-2">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 w-full">
+            {/* Name and Age Row */}
+            <div className="flex justify-between items-center w-full sm:w-auto mb-1 sm:mb-0 gap-2">
+              <h4 className="text-xl sm:text-3xl font-bold text-gray-800 dark:text-white">
+                {profile.preferredName}
+              </h4>
+              <span className="px-3 py-1 bg-gradient-to-r from-blue-500 to-purple-500 text-white text-sm font-semibold rounded-full sm:ml-0">
+                {profile.ageInYears}
+              </span>
+            </div>
 
-    {/* City (below on small, inline on large) */}
-    <span className="text-gray-600 dark:text-gray-300 font-medium text-sm mb-3 sm:mb-0">
-      {profile.city}
-    </span>
-  </div>
-
-          {/* Action Icons */}
-          <div className="flex items-center space-x-2">
-            {(() => {
-              switch (true) {
-                case showEvents:
-                  return (
-                    <>
-                      {/* All buttons visible */}
-                      <button
-                        onClick={() => iconStates.link ? handleDisconnect() : handleConnect(profile.externalId)}
-                        className={`p-2.5 rounded-xl transition-all duration-200 hover:scale-105 hover:cursor-pointer disabled:cursor-not-allowed ${iconStates.link
-                          ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/25'
-                          : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-                          }`}
-                        title={iconStates.link ? 'Remove Connection' : 'Connect'}
-                        disabled={!profile?.acceptingConnections || (profile.connectionStatus === 'Rejected' || profile.connectionStatus === 'Disconnected')}
-                      >
-                        {iconStates.link ? <UserMinus2 size={18} /> : <UserPlus2 size={18} />}
-                      </button>
-
-                      <button
-                        onClick={() => iconStates.bookmark ? handleRemoveBookmark() : handleBookmark()}
-                        className={`p-2.5 rounded-xl transition-all duration-200 hover:scale-105 hover:cursor-pointer ${iconStates.bookmark
-                          ? 'bg-green-500 text-white shadow-lg shadow-green-500/25'
-                          : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-                          }`}
-                        title={iconStates.bookmark ? 'Remove Bookmark' : 'Bookmark'}
-                      >
-                        {iconStates.bookmark ? <BookmarkMinus size={18} /> : <BookmarkPlus size={18} />}
-                      </button>
-
-                      <button
-                        onClick={() => iconStates.bell ? handleUnignore() : handleIgnore()}
-                        className={`p-2.5 rounded-xl transition-all duration-200 hover:scale-105 hover:cursor-pointer ${iconStates.bell
-                          ? 'bg-yellow-500 text-white shadow-lg shadow-yellow-500/25'
-                          : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-                          }`}
-                        title={iconStates.bell ? 'Unignore User' : 'Ignore User'}
-                      >
-                        <BellOff size={18} />
-                      </button>
-
-                      <button
-                        onClick={() => iconStates.block ? handleUnblock() : handleBlock()}
-                        className={`p-2.5 rounded-xl transition-all duration-200 hover:scale-105 hover:cursor-pointer ${iconStates.block
-                          ? 'bg-red-500 text-white shadow-lg shadow-red-500/25'
-                          : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-                          }`}
-                        title={iconStates.block ? 'Unblock User' : 'Block User'}
-                      >
-                        <UserRoundX size={18} />
-                      </button>
-                    </>
-                  );
-
-                case showOnlyBlockEvent:
-                  return (
-                    <button
-                      onClick={() => iconStates.block ? handleUnblock() : handleBlock()}
-                      className={`p-2.5 rounded-xl transition-all duration-200 hover:scale-105 hover:cursor-pointer ${iconStates.block
-                        ? 'bg-red-500 text-white shadow-lg shadow-red-500/25'
-                        : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-                        }`}
-                      title={iconStates.block ? 'Unblock User' : 'Block User'}
-                    >
-                      <UserRoundX size={18} />
-                    </button>
-                  );
-
-                case showOnlyBookmarkEvent:
-                  return (
-                    <button
-                      onClick={() => iconStates.bookmark ? handleRemoveBookmark() : handleBookmark()}
-                      className={`p-2.5 rounded-xl transition-all duration-200 hover:scale-105 hover:cursor-pointer ${iconStates.bookmark
-                        ? 'bg-green-500 text-white shadow-lg shadow-green-500/25'
-                        : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-                        }`}
-                      title={iconStates.bookmark ? 'Remove Bookmark' : 'Bookmark'}
-                    >
-                      {iconStates.bookmark ? <BookmarkMinus size={18} /> : <BookmarkPlus size={18} />}
-                    </button>
-                  );
-
-                case showOnlyignoreEvent:
-                  return (
-                    <button
-                      onClick={() => iconStates.bell ? handleUnignore() : handleIgnore()}
-                      className={`p-2.5 rounded-xl transition-all duration-200 hover:scale-105 hover:cursor-pointer ${iconStates.bell
-                        ? 'bg-yellow-500 text-white shadow-lg shadow-yellow-500/25'
-                        : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-                        }`}
-                      title={iconStates.bell ? 'Unignore User' : 'Ignore User'}
-                    >
-                      <BellOff size={18} />
-                    </button>
-                  );
-
-                case showOnlyConnectEvent:
-                  return (
-                    <button
-                      onClick={() => iconStates.link ? handleDisconnect() : handleConnect(profile.externalId)}
-                      className={`p-2.5 rounded-xl transition-all duration-200 hover:scale-105 hover:cursor-pointer disabled:cursor-not-allowed ${iconStates.link
-                        ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/25'
-                        : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-                        }`}
-                      title={iconStates.link ? 'Remove Connection' : 'Connect'}
-                      disabled={!profile?.acceptingConnections || (profile.connectionStatus === 'Rejected' || profile.connectionStatus === 'Disconnected')}
-                    >
-                      {iconStates.link ? <UserMinus2 size={18} /> : <UserPlus2 size={18} />}
-                    </button>
-                  );
-
-                default:
-                  return null;
-              }
-            })()}
+            {/* City (below on small, inline on large) */}
+            <span className="text-gray-600 dark:text-gray-300 font-medium text-sm mb-3 sm:mb-0">
+              {profile.city}
+            </span>
           </div>
+
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={() =>
+                iconStates.link
+                  ? handleDisconnect()
+                  : handleConnect(profile.externalId)
+              }
+              className={`p-2.5 rounded-xl transition-all duration-200 hover:scale-105 hover:cursor-pointer disabled:cursor-not-allowed ${
+                iconStates.link
+                  ? "bg-blue-500 text-white shadow-lg shadow-blue-500/25"
+                  : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
+              }`}
+              title={iconStates.link ? "Remove Connection" : "Connect"}
+              disabled={
+                !profile?.acceptingConnections ||
+                profile.connectionStatus === "Rejected" ||
+                profile.connectionStatus === "Disconnected"
+              }
+            >
+              {iconStates.link ? (
+                <UserMinus2 size={18} />
+              ) : (
+                <UserPlus2 size={18} />
+              )}
+            </button>
+
+            <button
+              onClick={() =>
+                iconStates.bookmark ? handleRemoveBookmark() : handleBookmark()
+              }
+              className={`p-2.5 rounded-xl transition-all duration-200 hover:scale-105 hover:cursor-pointer ${
+                iconStates.bookmark
+                  ? "bg-green-500 text-white shadow-lg shadow-green-500/25"
+                  : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
+              }`}
+              title={iconStates.bookmark ? "Remove Bookmark" : "Bookmark"}
+            >
+              {iconStates.bookmark ? (
+                <BookmarkMinus size={18} />
+              ) : (
+                <BookmarkPlus size={18} />
+              )}
+            </button>
+
+            <button
+              onClick={() =>
+                iconStates.bell ? handleUnignore() : handleIgnore()
+              }
+              className={`p-2.5 rounded-xl transition-all duration-200 hover:scale-105 hover:cursor-pointer ${
+                iconStates.bell
+                  ? "bg-yellow-500 text-white shadow-lg shadow-yellow-500/25"
+                  : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
+              }`}
+              title={iconStates.bell ? "Unignore User" : "Ignore User"}
+            >
+              <BellOff size={18} />
+            </button>
+
+            <button
+              onClick={() =>
+                iconStates.block ? handleUnblock() : handleBlock()
+              }
+              className={`p-2.5 rounded-xl transition-all duration-200 hover:scale-105 hover:cursor-pointer ${
+                iconStates.block
+                  ? "bg-red-500 text-white shadow-lg shadow-red-500/25"
+                  : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
+              }`}
+              title={iconStates.block ? "Unblock User" : "Block User"}
+            >
+              <UserRoundX size={18} />
+            </button>
+          </div>
+
         </div>
 
         {/* External ID [Debug] */}
@@ -327,7 +339,11 @@ function ProfileCard({ profile, showEvents, showOnlyBlockEvent, showOnlyBookmark
         <div className="mb-4">
           {profile.collageUrl ? (
             <>
-              <img src={profile.collageUrl} alt="" className='w-full h-50 rounded-xl' />
+              <img
+                src={profile.collageUrl}
+                alt=""
+                className="w-full h-50 rounded-xl"
+              />
             </>
           ) : (
             <Image />
@@ -335,51 +351,84 @@ function ProfileCard({ profile, showEvents, showOnlyBlockEvent, showOnlyBookmark
         </div>
 
         {/* Footer Section */}
-        <div className='flex flex-col md:flex-row justify-between items-center mb-4'>
+        <div className="flex flex-col md:flex-row justify-between items-center mb-4">
           <div className="flex items-center space-x-3 w-full sm:w-auto justify-between">
             {/* Background check status badge - map status to icon and color */}
             {(() => {
-              const status = profile?.backgroundCheckStatus || '';
+              const status = profile?.backgroundCheckStatus || "";
               const key = status.toString().toLowerCase();
 
               const statusMap = {
-                'background check not started': {
-                  icon: <HourglassEmptyIcon fontSize="small" className="text-gray-600 dark:text-gray-300" />,
-                  bg: 'bg-gray-50 dark:bg-gray-900/20',
-                  text: 'text-gray-700 dark:text-gray-300'
+                "background check not started": {
+                  icon: (
+                    <HourglassEmptyIcon
+                      fontSize="small"
+                      className="text-gray-600 dark:text-gray-300"
+                    />
+                  ),
+                  bg: "bg-gray-50 dark:bg-gray-900/20",
+                  text: "text-gray-700 dark:text-gray-300",
                 },
-                'background check pending': {
-                  icon: <PendingIcon fontSize="small" className="text-amber-600 dark:text-amber-400" />,
-                  bg: 'bg-amber-50 dark:bg-amber-900/20',
-                  text: 'text-amber-700 dark:text-amber-300'
+                "background check pending": {
+                  icon: (
+                    <PendingIcon
+                      fontSize="small"
+                      className="text-amber-600 dark:text-amber-400"
+                    />
+                  ),
+                  bg: "bg-amber-50 dark:bg-amber-900/20",
+                  text: "text-amber-700 dark:text-amber-300",
                 },
-                'background check started': {
-                  icon: <LucideHourglass fontSize="small" className="text-blue-600 dark:text-blue-400" />,
-                  bg: 'bg-blue-50 dark:bg-blue-900/20',
-                  text: 'text-blue-700 dark:text-blue-300'
+                "background check started": {
+                  icon: (
+                    <LucideHourglass
+                      fontSize="small"
+                      className="text-blue-600 dark:text-blue-400"
+                    />
+                  ),
+                  bg: "bg-blue-50 dark:bg-blue-900/20",
+                  text: "text-blue-700 dark:text-blue-300",
                 },
-                'background check in progress': {
-                  icon: <AutorenewIcon fontSize="small" className="text-purple-600 dark:text-purple-400" />,
-                  bg: 'bg-purple-50 dark:bg-purple-900/20',
-                  text: 'text-purple-700 dark:text-purple-300'
+                "background check in progress": {
+                  icon: (
+                    <AutorenewIcon
+                      fontSize="small"
+                      className="text-purple-600 dark:text-purple-400"
+                    />
+                  ),
+                  bg: "bg-purple-50 dark:bg-purple-900/20",
+                  text: "text-purple-700 dark:text-purple-300",
                 },
-                'background check failed': {
-                  icon: <CancelIcon fontSize="small" className="text-red-600 dark:text-red-400" />,
-                  bg: 'bg-red-50 dark:bg-red-900/20',
-                  text: 'text-red-700 dark:text-red-300'
+                "background check failed": {
+                  icon: (
+                    <CancelIcon
+                      fontSize="small"
+                      className="text-red-600 dark:text-red-400"
+                    />
+                  ),
+                  bg: "bg-red-50 dark:bg-red-900/20",
+                  text: "text-red-700 dark:text-red-300",
                 },
-                'background check completed': {
-                  icon: <BadgeCheck fontSize="small" className="text-green-600 dark:text-green-400" />,
-                  bg: 'bg-green-50 dark:bg-green-900/20',
-                  text: 'text-green-700 dark:text-green-300'
-                }
+                "background check completed": {
+                  icon: (
+                    <BadgeCheck
+                      fontSize="small"
+                      className="text-green-600 dark:text-green-400"
+                    />
+                  ),
+                  bg: "bg-green-50 dark:bg-green-900/20",
+                  text: "text-green-700 dark:text-green-300",
+                },
               };
 
               const item = statusMap[key] || null;
               if (!item) return null;
 
               return (
-                <div className={`flex items-center space-x-1 px-3 py-1.5 ${item.bg} rounded-lg`} title={status}>
+                <div
+                  className={`flex items-center space-x-1 px-3 py-1.5 ${item.bg} rounded-lg`}
+                  title={status}
+                >
                   {item.icon}
                   {/* <span className={`${item.text} text-xs font-medium`}>{status}</span> */}
                 </div>
@@ -388,7 +437,8 @@ function ProfileCard({ profile, showEvents, showOnlyBlockEvent, showOnlyBookmark
             <div className="flex items-center space-x-1 px-3 py-1.5 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
               <MapPin size={16} className="text-blue-600 dark:text-blue-400" />
               <span className="text-blue-700 dark:text-blue-300 text-sm font-medium">
-                {profile.distanceInMiles} mile{profile.distanceInMiles !== 1 ? 's' : ''} away
+                {profile.distanceInMiles} mile
+                {profile.distanceInMiles !== 1 ? "s" : ""} away
               </span>
             </div>
           </div>
@@ -406,16 +456,24 @@ function ProfileCard({ profile, showEvents, showOnlyBlockEvent, showOnlyBookmark
               {profile.educationLevel}
             </p>
             <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
-              <span className="font-medium"> <span className='hidden sm:inline'>||</span> </span> {profile.occupation}
+              <span className="font-medium">
+                {" "}
+                <span className="hidden sm:inline">||</span>{" "}
+              </span>{" "}
+              {profile.occupation}
             </p>
             <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
-              <span className="font-medium"> <span className='hidden sm:inline'>||</span> </span> {profile.kidsDescription}
+              <span className="font-medium">
+                {" "}
+                <span className="hidden sm:inline">||</span>{" "}
+              </span>{" "}
+              {profile.kidsDescription}
             </p>
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default ProfileCard
+export default ProfileCard;

@@ -210,7 +210,7 @@ function MatchesContainer({ title = 'Matches', data, endPoint = 'GetYourMatches'
                     <>
                         <div className="space-y-4">
                             {filteredData.map((match) => (
-                                <ProfileCard key={match.profileId} profile={match} showEvents={title === 'Your Matches'} showOnlyBlockEvent={title === 'Blocked by You'} showOnlyConnectEvent={title === 'Connections' || title === 'Connection Requests - Sent'} showOnlyBookmarkEvent={title === 'Bookmarked By You' || title === 'Bookmarked - Accepting Connections'} showOnlyignoreEvent={title === 'Ignored'} />
+                                <ProfileCard key={match.profileId} profile={match}  />
                             ))}
                         </div>
                     </>

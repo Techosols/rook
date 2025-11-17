@@ -25,17 +25,34 @@ function EthnicitiesReligions() {
           ))}
         </div>
       </FormSection>
-      <FormSection title="Religions" onSave={() => saveReligion()}>
+      <FormSection title="Religions" onSave={() => saveReligion()} disabled={isLoading || excludeReligions.length === 0}>
         <p className="text-gray-500 text-sm"> <LucideBadgeInfo className="inline-block mr-1" /> Check off all options you want to exclude from your matches.</p>
         <div className="border border-gray-300 dark:border-gray-600 rounded-lg p-3 max-h-60 overflow-y-auto flex flex-col gap-2">
+          {isLoading && (
+            <div className="flex flex-col gap-2">
+              <div className="w-full h-6 bg-gray-300 animate-pulse"></div>
+              <div className="w-full h-6 bg-gray-300 animate-pulse"></div>
+              <div className="w-full h-6 bg-gray-300 animate-pulse"></div>
+            </div>
+          )}
           {excludeReligions.map((religion) => (
             <Checkbox key={religion?.id} label={religion?.name} checked={religion?.excluded}  onChange={() => UpdateReligion(religion?.id)} />
           ))}
         </div>
       </FormSection>
-      <FormSection title="Background Check Status" onSave={() => saveBackgroundCheckStatus()}>
+      <FormSection title="Background Check Status" onSave={() => saveBackgroundCheckStatus()} disabled={isLoading || excludeBackgroundCheckStatus.length === 0}>
         <p className="text-gray-500 text-sm"> <LucideBadgeInfo className="inline-block mr-1" /> Check off all options you want to exclude from your matches.</p>
         <div className="border border-gray-300 dark:border-gray-600 rounded-lg p-3 max-h-60 overflow-y-auto flex flex-col gap-2">
+          {isLoading && (
+            <div className="flex flex-col gap-2">
+              <div className="w-full h-6 bg-gray-300 animate-pulse"></div>
+              <div className="w-full h-6 bg-gray-300 animate-pulse"></div>
+              <div className="w-full h-6 bg-gray-300 animate-pulse"></div>
+              <div className="w-full h-6 bg-gray-300 animate-pulse"></div>
+              <div className="w-full h-6 bg-gray-300 animate-pulse"></div>
+              <div className="w-full h-6 bg-gray-300 animate-pulse"></div>
+            </div>
+          )}
           {excludeBackgroundCheckStatus.map((status) => (
             <Checkbox key={status?.id} label={status?.name} checked={status?.excluded} onChange={() => UpdateBackgroundCheckStatus(status?.id)} />
           ))}
