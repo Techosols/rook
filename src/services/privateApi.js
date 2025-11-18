@@ -32,7 +32,7 @@ const createPrivateApi = (token) => {
     (response) => response,
     (error) => {
       if (error.response?.status === 401) {
-        console.warn("Authentication token expired or invalid");
+        console.warn("Session expired or invalid. Please log in again.");
         if (typeof window !== "undefined" && window.openGlobalModel) {
           window.openGlobalModel({ for: "invalidToken" });
         }

@@ -294,7 +294,7 @@ const MatchesProvider = ({ children }) => {
         }
     }
 
-    // ✅ Ignore User
+    // Ignore User
     async function ignoreUser(externalId) {
         if (!api || !externalId) return;
 
@@ -321,7 +321,7 @@ const MatchesProvider = ({ children }) => {
         }
     }
 
-    // ✅ Unignore User
+    // Unignore User
     async function removeIgnoreUser(externalId) {
         if (!api || !externalId) return;
 
@@ -346,7 +346,7 @@ const MatchesProvider = ({ children }) => {
         }
     }
 
-    // ✅ Block User
+    // Block User
     async function blockUser(externalId) {
         if (!api || !externalId) return;
 
@@ -373,7 +373,7 @@ const MatchesProvider = ({ children }) => {
         }
     }
 
-    // ✅ Unblock User
+    // Unblock User
     async function unblockUser(externalId) {
         if (!api || !externalId) return;
 
@@ -398,7 +398,7 @@ const MatchesProvider = ({ children }) => {
         }
     }
 
-    // ✅ Bookmark User
+    // Bookmark User
     async function bookmarkUser(externalId) {
         if (!api || !externalId) return;
 
@@ -425,7 +425,7 @@ const MatchesProvider = ({ children }) => {
         }
     }
 
-    // ✅ Remove Bookmark
+    // Remove Bookmark
     async function removeBookmarkUser(externalId) {
         if (!api || !externalId) return;
 

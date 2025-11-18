@@ -10,6 +10,7 @@ import MatchesProvider from "./contexts/Matches/MatchesProvider";
 import OptionProvider from "./contexts/Options/OptionProvider";
 import FilterProvider from "./contexts/Filter/FilterProvider";
 import ProfileProvider from "./contexts/Profile/ProfileProvider";
+import ChatProvider from "./contexts/Chat/ChatProvider";
 import ModelProvider from "./contexts/Model/ModelProvider";
 
 const queryClient = new QueryClient();
@@ -32,7 +33,9 @@ const Providers = ({ children }) => (
                 <OptionProvider>
                   <ProfileProvider>
                     <FilterProvider>
-                      {children}
+                      <ChatProvider>
+                        {children}
+                      </ChatProvider>
                     </FilterProvider>
                   </ProfileProvider>
                 </OptionProvider>

@@ -1,0 +1,316 @@
+[
+  {
+    "threadId": "51f72284-0555-48fe-a20a-4369ee94dc31",
+    "chattingWith": "Alice Johnson",
+    "createdAt": "2025-11-15T10:12:00Z",
+    "isLocked": false,
+    "unreadCount": 2,
+    "messages": [
+      {
+        "messageId": "8540d774-4863-4d2b-b788-4ecb19412e85",
+        "you": true,
+        "sentAt": "2025-11-15T10:13:00Z",
+        "isDeleted": false,
+        "messageContent": "Hey Alice, how are you?"
+      },
+      {
+        "messageId": "c6b7a9d5-8f33-4b67-9c2b-5e1c61e4f789",
+        "you": false,
+        "sentAt": "2025-11-15T10:14:05Z",
+        "isDeleted": false,
+        "messageContent": "Hi! I'm good, thanks. How about you?"
+      },
+      {
+        "messageId": "7f1c4a3e-2d91-4c55-a1e8-7e8f5b2d3c12",
+        "you": true,
+        "sentAt": "2025-11-15T10:15:12Z",
+        "isDeleted": false,
+        "messageContent": "Doing great! Did you finish the project?"
+      },
+      {
+        "messageId": "d3f5b6c7-2a11-4f4e-b3d8-3f7b2e8d9a44",
+        "you": false,
+        "sentAt": "2025-11-15T10:16:20Z",
+        "isDeleted": false,
+        "messageContent": "Yes, just submitted it today."
+      }
+    ]
+  },
+  {
+    "threadId": "51f72284-0555-48fe-a20a-4369ee94dc32",
+    "chattingWith": "Bob Smith",
+    "createdAt": "2025-11-14T09:30:15Z",
+    "isLocked": true,
+    "unreadCount": 0,
+    "messages": [
+      {
+        "messageId": "e1f2a3b4-5c6d-7e8f-9a0b-1c2d3e4f5a6b",
+        "you": true,
+        "sentAt": "2025-11-14T09:31:10Z",
+        "isDeleted": false,
+        "messageContent": "Morning Bob!"
+      },
+      {
+        "messageId": "f1a2b3c4-5d6e-7f8a-9b0c-1d2e3f4a5b6c",
+        "you": false,
+        "sentAt": "2025-11-14T09:32:25Z",
+        "isDeleted": false,
+        "messageContent": "Morning! Ready for the meeting?"
+      },
+      {
+        "messageId": "a2b3c4d5-6e7f-8a9b-0c1d-2e3f4a5b6c7d",
+        "you": true,
+        "sentAt": "2025-11-14T09:33:40Z",
+        "isDeleted": false,
+        "messageContent": "Yes, just reviewing the slides."
+      },
+      {
+        "messageId": "b2c3d4e5-6f7a-8b9c-0d1e-2f3a4b5c6d7e",
+        "you": false,
+        "sentAt": "2025-11-14T09:35:05Z",
+        "isDeleted": false,
+        "messageContent": "Perfect. See you in 10."
+      }
+    ]
+  },
+  {
+    "threadId": "51f72284-0555-48fe-a20a-4369ee94dc33",
+    "chattingWith": "Charlie Davis",
+    "createdAt": "2025-11-13T16:45:50Z",
+    "isLocked": false,
+    "unreadCount": 5,
+    "messages": [
+      {
+        "messageId": "c2d3e4f5-6a7b-8c9d-0e1f-2a3b4c5d6e7f",
+        "you": false,
+        "sentAt": "2025-11-13T16:46:30Z",
+        "isDeleted": false,
+        "messageContent": "Hey! Are you free this weekend?"
+      },
+      {
+        "messageId": "d2e3f4a5-6b7c-8d9e-0f1a-2b3c4d5e6f7a",
+        "you": true,
+        "sentAt": "2025-11-13T16:48:00Z",
+        "isDeleted": false,
+        "messageContent": "I think so, what's up?"
+      },
+      {
+        "messageId": "e2f3a4b5-6c7d-8e9f-0a1b-2c3d4e5f6a7b",
+        "you": false,
+        "sentAt": "2025-11-13T16:49:15Z",
+        "isDeleted": false,
+        "messageContent": "Want to grab lunch on Saturday?"
+      },
+      {
+        "messageId": "f2a3b4c5-6d7e-8f9a-0b1c-2d3e4f5a6b7c",
+        "you": true,
+        "sentAt": "2025-11-13T16:50:45Z",
+        "isDeleted": false,
+        "messageContent": "Sure! Where?"
+      },
+      {
+        "messageId": "a3b4c5d6-7e8f-9a0b-1c2d-3e4f5a6b7c8d",
+        "you": false,
+        "sentAt": "2025-11-13T16:52:00Z",
+        "isDeleted": false,
+        "messageContent": "That Italian place downtown?"
+      }
+    ]
+  },
+  {
+    "threadId": "51f72284-0555-48fe-a20a-4369ee94dc34",
+    "chattingWith": "Dana Lee",
+    "createdAt": "2025-11-12T20:05:12Z",
+    "isLocked": false,
+    "unreadCount": 1,
+    "messages": [
+      {
+        "messageId": "b3c4d5e6-7f8a-9b0c-1d2e-3f4a5b6c7d8e",
+        "you": true,
+        "sentAt": "2025-11-12T20:06:30Z",
+        "isDeleted": false,
+        "messageContent": "Hi Dana, thanks for today!"
+      },
+      {
+        "messageId": "c3d4e5f6-7a8b-9c0d-1e2f-3a4b5c6d7e8f",
+        "you": false,
+        "sentAt": "2025-11-12T20:07:45Z",
+        "isDeleted": false,
+        "messageContent": "Anytime! It was great catching up."
+      },
+      {
+        "messageId": "d3e4f5a6-7b8c-9d0e-1f2a-3b4c5d6e7f8a",
+        "you": true,
+        "sentAt": "2025-11-12T20:09:00Z",
+        "isDeleted": false,
+        "messageContent": "Let's do it again soon!"
+      }
+    ]
+  },
+  {
+    "threadId": "51f72284-0555-48fe-a20a-4369ee94dc35",
+    "chattingWith": "Ethan Brown",
+    "createdAt": "2025-11-11T13:22:33Z",
+    "isLocked": true,
+    "unreadCount": 0,
+    "messages": [
+      {
+        "messageId": "e3f4a5b6-7c8d-9e0f-1a2b-3c4d5e6f7a8b",
+        "you": true,
+        "sentAt": "2025-11-11T13:23:50Z",
+        "isDeleted": false,
+        "messageContent": "Did you get the email about the conference?"
+      },
+      {
+        "messageId": "f3a4b5c6-7d8e-9f0a-1b2c-3d4e5f6a7b8c",
+        "you": false,
+        "sentAt": "2025-11-11T13:25:10Z",
+        "isDeleted": false,
+        "messageContent": "Yes, sounds interesting!"
+      },
+      {
+        "messageId": "a4b5c6d7-8e9f-0a1b-2c3d-4e5f6a7b8c9d",
+        "you": true,
+        "sentAt": "2025-11-11T13:26:25Z",
+        "isDeleted": false,
+        "messageContent": "Should we register together?"
+      }
+    ]
+  },
+  {
+    "threadId": "51f72284-0555-48fe-a20a-4369ee94dc36",
+    "chattingWith": "Fiona Green",
+    "createdAt": "2025-11-10T08:55:44Z",
+    "isLocked": false,
+    "unreadCount": 3,
+    "messages": [
+      {
+        "messageId": "b4c5d6e7-8f9a-0b1c-2d3e-4f5a6b7c8d9e",
+        "you": false,
+        "sentAt": "2025-11-10T08:57:00Z",
+        "isDeleted": false,
+        "messageContent": "Good morning! How's your day?"
+      },
+      {
+        "messageId": "c4d5e6f7-8a9b-0c1d-2e3f-4a5b6c7d8e9f",
+        "you": true,
+        "sentAt": "2025-11-10T08:58:30Z",
+        "isDeleted": false,
+        "messageContent": "Pretty good so far! You?"
+      },
+      {
+        "messageId": "d4e5f6a7-8b9c-0d1e-2f3a-4b5c6d7e8f9a",
+        "you": false,
+        "sentAt": "2025-11-10T09:00:15Z",
+        "isDeleted": false,
+        "messageContent": "Busy but manageable. Want to grab coffee?"
+      }
+    ]
+  },
+  {
+    "threadId": "51f72284-0555-48fe-a20a-4369ee94dc37",
+    "chattingWith": "George White",
+    "createdAt": "2025-11-09T22:17:05Z",
+    "isLocked": true,
+    "unreadCount": 0,
+    "messages": [
+      {
+        "messageId": "e4f5a6b7-8c9d-0e1f-2a3b-4c5d6e7f8a9b",
+        "you": true,
+        "sentAt": "2025-11-09T22:18:20Z",
+        "isDeleted": false,
+        "messageContent": "Hey George, got your message earlier!"
+      },
+      {
+        "messageId": "f4a5b6c7-8d9e-0f1a-2b3c-4d5e6f7a8b9c",
+        "you": false,
+        "sentAt": "2025-11-09T22:19:45Z",
+        "isDeleted": false,
+        "messageContent": "Great! Can we talk tomorrow?"
+      }
+    ]
+  },
+  {
+    "threadId": "51f72284-0555-48fe-a20a-4369ee94dc38",
+    "chattingWith": "Hannah Black",
+    "createdAt": "2025-11-08T11:40:50Z",
+    "isLocked": false,
+    "unreadCount": 4,
+    "messages": [
+      {
+        "messageId": "a5b6c7d8-9e0f-1a2b-3c4d-5e6f7a8b9c0d",
+        "you": false,
+        "sentAt": "2025-11-08T11:42:00Z",
+        "isDeleted": false,
+        "messageContent": "Quick question about the report"
+      },
+      {
+        "messageId": "b5c6d7e8-9f0a-1b2c-3d4e-5f6a7b8c9d0e",
+        "you": true,
+        "sentAt": "2025-11-08T11:43:15Z",
+        "isDeleted": false,
+        "messageContent": "Sure, what do you need?"
+      },
+      {
+        "messageId": "c5d6e7f8-9a0b-1c2d-3e4f-5a6b7c8d9e0f",
+        "you": false,
+        "sentAt": "2025-11-08T11:44:30Z",
+        "isDeleted": false,
+        "messageContent": "When do you think it'll be ready?"
+      }
+    ]
+  },
+  {
+    "threadId": "51f72284-0555-48fe-a20a-4369ee94dc39",
+    "chattingWith": "Ian Clark",
+    "createdAt": "2025-11-07T15:33:20Z",
+    "isLocked": true,
+    "unreadCount": 0,
+    "messages": [
+      {
+        "messageId": "d5e6f7a8-9b0c-1d2e-3f4a-5b6c7d8e9f0a",
+        "you": true,
+        "sentAt": "2025-11-07T15:34:45Z",
+        "isDeleted": false,
+        "messageContent": "Hi Ian, hope you're well"
+      },
+      {
+        "messageId": "e5f6a7b8-9c0d-1e2f-3a4b-5c6d7e8f9a0b",
+        "you": false,
+        "sentAt": "2025-11-07T15:36:00Z",
+        "isDeleted": false,
+        "messageContent": "All good here! You?"
+      }
+    ]
+  },
+  {
+    "threadId": "51f72284-0555-48fe-a20a-4369ee94dc3a",
+    "chattingWith": "Julia Adams",
+    "createdAt": "2025-11-06T18:25:30Z",
+    "isLocked": false,
+    "unreadCount": 6,
+    "messages": [
+      {
+        "messageId": "f5a6b7c8-9d0e-1f2a-3b4c-5d6e7f8a9b0c",
+        "you": false,
+        "sentAt": "2025-11-06T18:26:45Z",
+        "isDeleted": false,
+        "messageContent": "Julia here! Are we still on for Friday?"
+      },
+      {
+        "messageId": "a6b7c8d9-0e1f-2a3b-4c5d-6e7f8a9b0c1d",
+        "you": true,
+        "sentAt": "2025-11-06T18:28:00Z",
+        "isDeleted": false,
+        "messageContent": "Yes! What time works for you?"
+      },
+      {
+        "messageId": "b6c7d8e9-0f1a-2b3c-4d5e-6f7a8b9c0d1e",
+        "you": false,
+        "sentAt": "2025-11-06T18:29:30Z",
+        "isDeleted": false,
+        "messageContent": "How about 6 PM?"
+      }
+    ]
+  }
+]
