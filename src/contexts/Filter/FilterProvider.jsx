@@ -54,6 +54,23 @@ const FilterProvider = ({ children }) => {
     const [excludeOccupations, setExcludeOccupations] = useState([]);
 
 
+    // Saving Loaders
+    const [isSavingLocation, setIsSavingLocation] = useState(false);
+    const [isSavingStats, setIsSavingStats] = useState(false);
+    const [isSavingKidsPets, setIsSavingKidsPets] = useState(false);
+    const [isSavingHealthHabits, setIsSavingHealthHabits] = useState(false);
+    const [isSavingEthnicities, setIsSavingEthnicities] = useState(false);
+    const [isSavingReligions, setIsSavingReligions] = useState(false);
+    const [isSavingBackgroundCheckStatus, setIsSavingBackgroundCheckStatus] = useState(false);
+    const [isSavingGenders, setIsSavingGenders] = useState(false);
+    const [isSavingSexualOrientations, setIsSavingSexualOrientations] = useState(false);
+    const [isSavingRelationshipTypes, setIsSavingRelationshipTypes] = useState(false);
+    const [isSavingPoliticalAffiliations, setIsSavingPoliticalAffiliations] = useState(false);
+    const [isSavingPhysicalActivityIndexes, setIsSavingPhysicalActivityIndexes] = useState(false);
+    const [isSavingIncludedOccupations, setIsSavingIncludedOccupations] = useState(false);
+    const [isSavingExcludedOccupations, setIsSavingExcludedOccupations] = useState(false);
+
+
     // console.log("FilterProvider Rendered - singleChoiceFilters:", singleChoiceFilters);
     // console.log('Multi-Choice Filters: ', {
     //     excludeEthnicities,
@@ -161,6 +178,7 @@ const FilterProvider = ({ children }) => {
 
     const saveLocation = async () => {
         if (!api) return;
+        setIsSavingLocation(true);
         await api.patch('/v1/filter/other', {
            // postalCode: zipCode,
             postalCodeWithinRadius: distance,
@@ -169,11 +187,14 @@ const FilterProvider = ({ children }) => {
         }).catch((error) => {
             console.error("🔴 Error saving location filters:", error);
             toast.error("Error saving location filters: " + error.message);
+        }).finally(() => {
+            setIsSavingLocation(false);
         });
     };
     
     const saveStats = async () => {
         if (!api) return;
+        setIsSavingStats(true);
         await api.patch('/v1/filter/other', {
             ageFrom: ageFrom,
             ageTo: ageTo,
@@ -186,6 +207,8 @@ const FilterProvider = ({ children }) => {
             toast.success("Stat filters saved successfully.");
         }).catch((error) => {
             toast.error("Error saving stat filters: " + error.message);
+        }).finally(() => {
+            setIsSavingStats(false);
         });
     };
 
@@ -476,6 +499,11 @@ const FilterProvider = ({ children }) => {
         UpdateExcludedOccupation, saveExcludedOccupation,
         UpdateBackgroundCheckStatus, saveBackgroundCheckStatus,
         isLoading, error,
+        isSavingLocation, isSavingStats, isSavingKidsPets, isSavingHealthHabits,
+        isSavingEthnicities, isSavingReligions, isSavingBackgroundCheckStatus,
+        isSavingGenders, isSavingSexualOrientations, isSavingRelationshipTypes,
+        isSavingPoliticalAffiliations, isSavingPhysicalActivityIndexes,
+        isSavingIncludedOccupations, isSavingExcludedOccupations,
     };
 
     return (
