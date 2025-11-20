@@ -5,12 +5,12 @@ import useFilter from "../../hooks/useFilter";
 
 function EthnicitiesReligions() {
   
-  const { excludeEthnicities = [], excludeReligions = [], excludeBackgroundCheckStatus, saveEthnicities, UpdateEthnicities, UpdateReligion, saveReligion, UpdateBackgroundCheckStatus, saveBackgroundCheckStatus, isLoading} = useFilter();
+  const { excludeEthnicities = [], excludeReligions = [], excludeBackgroundCheckStatus, saveEthnicities, UpdateEthnicities, UpdateReligion, saveReligion, UpdateBackgroundCheckStatus, saveBackgroundCheckStatus, isLoading, isSavingEthnicities, isSavingReligions, isSavingBackgroundCheckStatus} = useFilter();
   console.log('excludeEthnicities', excludeEthnicities);
 
   return (
     <div className='p-1 flex flex-col gap-1 md:gap-4'>
-      <FormSection title="Ethnicities" onSave={() => saveEthnicities()} disabled={isLoading || excludeEthnicities.length === 0}>
+      <FormSection title="Ethnicities" onSave={() => saveEthnicities()} disabled={isLoading || excludeEthnicities.length === 0} loading={isSavingEthnicities}>
         <p className="text-gray-500 text-sm"> <LucideBadgeInfo className="inline-block mr-1" /> Check off all options you want to exclude from your matches.</p>
         <div className="border border-gray-300 dark:border-gray-600 rounded-lg p-3 max-h-60 overflow-y-auto flex flex-col gap-2">
           {isLoading && (
@@ -25,7 +25,7 @@ function EthnicitiesReligions() {
           ))}
         </div>
       </FormSection>
-      <FormSection title="Religions" onSave={() => saveReligion()} disabled={isLoading || excludeReligions.length === 0}>
+      <FormSection title="Religions" onSave={() => saveReligion()} disabled={isLoading || excludeReligions.length === 0} loading={isSavingReligions}>
         <p className="text-gray-500 text-sm"> <LucideBadgeInfo className="inline-block mr-1" /> Check off all options you want to exclude from your matches.</p>
         <div className="border border-gray-300 dark:border-gray-600 rounded-lg p-3 max-h-60 overflow-y-auto flex flex-col gap-2">
           {isLoading && (
@@ -40,7 +40,7 @@ function EthnicitiesReligions() {
           ))}
         </div>
       </FormSection>
-      <FormSection title="Background Check Status" onSave={() => saveBackgroundCheckStatus()} disabled={isLoading || excludeBackgroundCheckStatus.length === 0}>
+      <FormSection title="Background Check Status" onSave={() => saveBackgroundCheckStatus()} disabled={isLoading || excludeBackgroundCheckStatus.length === 0} loading={isSavingBackgroundCheckStatus}>
         <p className="text-gray-500 text-sm"> <LucideBadgeInfo className="inline-block mr-1" /> Check off all options you want to exclude from your matches.</p>
         <div className="border border-gray-300 dark:border-gray-600 rounded-lg p-3 max-h-60 overflow-y-auto flex flex-col gap-2">
           {isLoading && (

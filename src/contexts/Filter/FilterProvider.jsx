@@ -214,6 +214,7 @@ const FilterProvider = ({ children }) => {
 
     const saveKidsPets = async () => {
         if (!api) return;
+        setIsSavingKidsPets(true);
         await api.patch('/v1/filter/other', {
             excludePersonsWithKidsNow: excludePeopleHaveKids,
             excludePersonsWhoWantOwnKids: excludePeopleWantKids,
@@ -223,11 +224,14 @@ const FilterProvider = ({ children }) => {
             toast.success("Kids and Pets filters saved successfully.");
         }).catch((error) => {
             toast.error("Error saving Kids and Pets filters: " + error.message);
+        }).finally(() => {
+            setIsSavingKidsPets(false);
         });
     };
 
     const saveHealthHabits = async () => {
         if (!api) return;
+        setIsSavingHealthHabits(true);
         await api.patch('/v1/filter/other', {
             excludeAsexualPersons: excludeAsexualPeople,
             excludeDisabledPersons: excludeDisablingPeople,
@@ -239,6 +243,8 @@ const FilterProvider = ({ children }) => {
             toast.success("Health and Habits filters saved successfully.");
         }).catch((error) => {
             toast.error("Error saving Health and Habits filters: " + error.message);
+        }).finally(() => {
+            setIsSavingHealthHabits(false);
         });
     };
     
@@ -249,7 +255,8 @@ const FilterProvider = ({ children }) => {
             ))
     }
 
-    const saveBackgroundCheckStatus = async () => {
+    const saveBackgroundCheckStatus = async () => { 
+        setIsSavingBackgroundCheckStatus(true);
         if (!api) return;
         const selectedBackgroundCheckStatus = excludeBackgroundCheckStatus.filter(e => e.excluded).map(e => e.id);
         console.log('🔴selectedBackgroundCheckStatus', selectedBackgroundCheckStatus);
@@ -260,6 +267,8 @@ const FilterProvider = ({ children }) => {
         }).catch((error) => {
             toast.error("Error saving Background Check Status filters: " + error.message);
             console.log("🔴 Error saving  background check status", error);
+        }).finally(() => {
+            setIsSavingBackgroundCheckStatus(false);
         });
     };
 
@@ -271,6 +280,7 @@ const FilterProvider = ({ children }) => {
     }
 
     const saveEthnicities = async () => {
+            setIsSavingEthnicities(true);
         if (!api) return;
         const selectedEthnicities = excludeEthnicities.filter(e => e.excluded).map(e => e.id);
         console.log('🔴selectedEthnicities', selectedEthnicities);
@@ -281,6 +291,8 @@ const FilterProvider = ({ children }) => {
         }).catch((error) => {
             toast.error("Error saving Ethnicities filters: " + error.message);
             console.log("🔴 Error saving  ethnicity", error);
+        }).finally(() => {
+            setIsSavingEthnicities(false);
         });
     };
 
@@ -293,6 +305,7 @@ const FilterProvider = ({ children }) => {
 
     const saveReligion = async () => {
         if (!api) return;
+        setIsSavingReligions(true);
         const selectedReligions = excludeReligions.filter(e => e.excluded).map(e => e.id);
         console.log('🔴selectedReligions', selectedReligions);
         await api.post('/v1/filter/religion/choices', 
@@ -302,6 +315,8 @@ const FilterProvider = ({ children }) => {
         }).catch((error) => {
             toast.error("Error saving Religions filters: " + error.message);
             console.log("🔴 Error saving  religion", error);
+        }).finally(() => {
+            setIsSavingReligions(false);
         });
     };
 
@@ -314,6 +329,7 @@ const FilterProvider = ({ children }) => {
 
     const saveGender = async () => {
         if (!api) return;
+        setIsSavingGenders(true);
         const selectedGenders = excludeGenders.filter(e => e.excluded).map(e => e.id);
         console.log('🔴selectedGenders', selectedGenders);
         await api.post('/v1/filter/gender/choices', 
@@ -323,6 +339,8 @@ const FilterProvider = ({ children }) => {
         }).catch((error) => {
             toast.error("Error saving Genders filters: " + error.message);
             console.log("🔴 Error saving  gender", error);
+        }).finally(() => {
+            setIsSavingGenders(false);
         });
     };
 
@@ -335,6 +353,7 @@ const FilterProvider = ({ children }) => {
 
     const saveOrientation = async () => {
         if (!api) return;
+        setIsSavingSexualOrientations(true);
         const selectedOrientations = excludeSexualOrientations.filter(e => e.excluded).map(e => e.id);
         console.log('🔴selectedOrientations', selectedOrientations);
         await api.post('/v1/filter/orientation/choices', 
@@ -344,6 +363,8 @@ const FilterProvider = ({ children }) => {
         }).catch((error) => {
             toast.error("Error saving Orientation filters: " + error.message);
             console.log("🔴 Error saving  orientation", error);
+        }).finally(() => {
+            setIsSavingSexualOrientations(false);
         });
     };
 
@@ -356,6 +377,7 @@ const FilterProvider = ({ children }) => {
 
     const saveRelationshipType = async () => {
         if (!api) return;
+        setIsSavingRelationshipTypes(true);
         const selectedRelationshipTypes = excludeRelationshipTypes.filter(e => e.excluded).map(e => e.id);
         console.log('🔴selectedRelationshipTypes', selectedRelationshipTypes);
         await api.post('/v1/filter/relationshiptype/choices', 
@@ -365,6 +387,8 @@ const FilterProvider = ({ children }) => {
         }).catch((error) => {
             toast.error("Error saving Relationship Types filters: " + error.message);
             console.log("🔴 Error saving  relationship type", error);
+        }).finally(() => {
+            setIsSavingRelationshipTypes(false);
         });
     };
 
@@ -377,6 +401,7 @@ const FilterProvider = ({ children }) => {
 
     const savePoliticalAffiliation = async () => {
         if (!api) return;
+        setIsSavingPoliticalAffiliations(true);
         const selectedPoliticalAffiliations = excludePoliticalAffiliations.filter(e => e.excluded).map(e => e.id);
         console.log('🔴selectedPoliticalAffiliations', selectedPoliticalAffiliations);
         await api.post('/v1/filter/politicalaffiliation/choices', 
@@ -386,6 +411,8 @@ const FilterProvider = ({ children }) => {
         }).catch((error) => {
             toast.error("Error saving Political Affiliations filters: " + error.message);
             console.log("🔴 Error saving  political affiliation", error);
+        }).finally(() => {
+            setIsSavingPoliticalAffiliations(false);
         });
     };
      const UpdatePhysicalActivityIndex = async (id) => {
@@ -397,6 +424,7 @@ const FilterProvider = ({ children }) => {
 
     const savePhysicalActivityIndex = async () => {
         if (!api) return;
+        setIsSavingPhysicalActivityIndexes(true);
         const selectedPhysicalActivityIndexes = excludePhysicalActivityIndexes.filter(e => e.excluded).map(e => e.id);
         console.log('🔴selectedPhysicalActivityIndexes', selectedPhysicalActivityIndexes);
         await api.post('/v1/filter/physicalactivityindex/choices', 
@@ -406,6 +434,8 @@ const FilterProvider = ({ children }) => {
         }).catch((error) => {
             toast.error("Error saving Physical Activity Index filters: " + error.message);
             console.log("🔴 Error saving  physical activity index", error);
+        }).finally(() => {
+            setIsSavingPhysicalActivityIndexes(false);
         });
     };
 
@@ -418,6 +448,7 @@ const FilterProvider = ({ children }) => {
 
     const saveExcludedOccupation = async () => {
         if (!api) return;
+        setIsSavingExcludedOccupations(true);
         const selectedOccupations = excludeOccupations.filter(e => e.excluded).map(e => e.id);
         console.log('🔴selectedOccupations', selectedOccupations);
         await api.post('/v1/filter/excludedoccupation/choices', 
@@ -427,6 +458,8 @@ const FilterProvider = ({ children }) => {
         }).catch((error) => {
             toast.error("Error saving Occupation filters: " + error.message);
             console.log("🔴 Error saving  occupation", error);
+        }).finally(() => {
+            setIsSavingExcludedOccupations(false);
         });
     };
 
@@ -439,6 +472,7 @@ const FilterProvider = ({ children }) => {
 
     const saveIncludedOccupation = async () => {
         if (!api) return;
+        setIsSavingIncludedOccupations(true);
         const selectedOccupations = excludeOccupations.filter(e => e.excluded).map(e => e.id);
         console.log('🔴selectedOccupations', selectedOccupations);
         await api.post('/v1/filter/excludedoccupation/choices', 
@@ -448,6 +482,8 @@ const FilterProvider = ({ children }) => {
         }).catch((error) => {
             toast.error("Error saving Occupation filters: " + error.message);
             console.log("🔴 Error saving  occupation", error);
+        }).finally(() => {
+            setIsSavingIncludedOccupations(false);
         });
     };
    

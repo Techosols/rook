@@ -37,7 +37,11 @@ function LocationStats() {
     excludeRecreationalDrugUsers, setExcludeRecreationalDrugUsers,
     maximumAlcoholConsumption, setMaximumAlcoholConsumption,
     saveStats, saveKidsPets,saveLocation, saveHealthHabits,
-    isLoading
+    isLoading,
+    isSavingLocation,
+    isSavingStats,
+    isSavingKidsPets,
+    isSavingHealthHabits
   } = useFilter();
 
   // // Fields
@@ -65,7 +69,7 @@ function LocationStats() {
   return (
     <div className="p-1 flex flex-col gap-1 md:gap-4">
       <p className="text-gray-500 text-sm"> <LucideBadgeInfo className="inline-block mr-1" /> In this page, you provide info about yourself that can be used by others in filters, to include/exclude you in their matches.</p>
-      <FormSection title="Location" onSave={() => saveLocation()} disabled={isLoading || (zipCode.length === 0 && distance.length === 0)}>
+      <FormSection title="Location" onSave={() => saveLocation()} disabled={isLoading || (zipCode.length === 0 && distance.length === 0)} loading={isSavingLocation}>
         <p>Enter ZIP code and radius. You will be shown matches in and around this zip code only.</p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
           {isLoading ? (
@@ -88,7 +92,7 @@ function LocationStats() {
          
         </div>
       </FormSection>
-      <FormSection title="Stats" onSave={() => saveStats()} disabled={isLoading}>
+      <FormSection title="Stats" onSave={() => saveStats()} disabled={isLoading} loading={isSavingStats}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 gap-y-4 md:gap-y-6">
 
           {isLoading ? (
@@ -213,7 +217,7 @@ function LocationStats() {
         </div>
       </FormSection>
 
-      <FormSection title="Kids/Pets" onSave={() => saveKidsPets()}>
+      <FormSection title="Kids/Pets" onSave={() => saveKidsPets()} loading={isSavingKidsPets}>
         <div className="flex flex-col gap-2">
           <div className="grid grid-cols-1 md:grid-cols-[2fr_4fr] gap-1 md:gap-2 items-center">
             <label className="font-medium dark:text-white" htmlFor="exclude_kids">Exclude persons with kids?</label>
@@ -282,7 +286,7 @@ function LocationStats() {
           </div>
         </div>
       </FormSection>
-      <FormSection title="Health/Habits" onSave={() => saveHealthHabits()}>
+      <FormSection title="Health/Habits" onSave={() => saveHealthHabits()} disabled={isLoading} loading={isSavingHealthHabits}>
         <div className="flex flex-col gap-2">
           <div className="grid grid-cols-1 md:grid-cols-[2fr_4fr] gap-1 md:gap-2 items-center">
             <label className="font-medium dark:text-white" htmlFor="exclude_asexual_persons">Exclude asexual persons?</label>

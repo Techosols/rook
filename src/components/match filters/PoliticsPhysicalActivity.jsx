@@ -6,12 +6,12 @@ import useFilter from "../../hooks/useFilter";
 
 function PoliticsPhysicalActivity() {
 
-  const { excludePoliticalAffiliations, excludePhysicalActivityIndexes, UpdatePoliticalAffiliation, savePoliticalAffiliation, UpdatePhysicalActivityIndex, savePhysicalActivityIndex, isLoading } = useFilter();
+  const { excludePoliticalAffiliations, excludePhysicalActivityIndexes, UpdatePoliticalAffiliation, savePoliticalAffiliation, UpdatePhysicalActivityIndex, savePhysicalActivityIndex, isLoading, isSavingPoliticalAffiliations, isSavingPhysicalActivityIndexes } = useFilter();
 
 
   return (
     <div className='p-1 flex flex-col gap-1 md:gap-4'>
-      <FormSection title="Political Affiliation" onSave={() => savePoliticalAffiliation()} disabled={isLoading ||excludePoliticalAffiliations.length === 0}>
+      <FormSection title="Political Affiliation" onSave={() => savePoliticalAffiliation()} disabled={isLoading || excludePoliticalAffiliations.length === 0} loading={isSavingPoliticalAffiliations}>
         <p className="text-gray-500 text-sm"> <LucideBadgeInfo className="inline-block mr-1" /> Check off all options you want to exclude from your matches.</p>
         <div className="border border-gray-300 dark:border-gray-600 rounded-lg p-3 max-h-60 overflow-y-auto flex flex-col gap-2">
           {isLoading && (
@@ -27,7 +27,7 @@ function PoliticsPhysicalActivity() {
           ))}
         </div>
       </FormSection>
-      <FormSection title="Physical Activity Index" onSave={() => savePhysicalActivityIndex()} disabled={isLoading || excludePhysicalActivityIndexes.length === 0}>
+      <FormSection title="Physical Activity Index" onSave={() => savePhysicalActivityIndex()} disabled={isLoading || excludePhysicalActivityIndexes.length === 0} loading={isSavingPhysicalActivityIndexes}>
         <p className="text-gray-500 text-sm"> <LucideBadgeInfo className="inline-block mr-1" /> Check off all options you want to exclude from your matches.</p>
         <div className="border border-gray-300 dark:border-gray-600 rounded-lg p-3 max-h-60 overflow-y-auto flex flex-col gap-2">
            {isLoading && (
