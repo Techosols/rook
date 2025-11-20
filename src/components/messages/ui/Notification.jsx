@@ -10,37 +10,14 @@ const mockNotifications = [
       'We released a big update with lot of features!',
     href: '#',
   },
-  {
-    id: 1,
-    title: 'Rook',
-    date: 'Jun 5',
-    summary:
-      'We released a big update with lot of features!',
-    href: '#',
-  },
-  {
-    id: 1,
-    title: 'Rook',
-    date: 'Jun 5',
-    summary:
-      'We released a big update with lot of features!',
-    href: '#',
-  },
-  {
-    id: 1,
-    title: 'Rook',
-    date: 'Jun 5',
-    summary:
-      'We released a big update with lot of features!',
-    href: '#',
-  },
+  
 ]
 
 const Notification = () => {
   return (
     <div className="w-full max-w-4xl">
       <div className="space-y-3">
-        {mockNotifications.map((n) => (
+        { mockNotifications.map((n) => (
           <article
             key={n.id}
             aria-labelledby={`notif-${n.id}-title`}

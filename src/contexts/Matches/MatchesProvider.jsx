@@ -83,7 +83,7 @@ const MatchesProvider = ({ children }) => {
         };
 
         fetchInitials();
-    }, [token]);
+    }, [api, token, isAuthenticated]);
 
     async function fetchBlockedUsers(page = 1, oldestFirst = false) {
         if (!api) {
