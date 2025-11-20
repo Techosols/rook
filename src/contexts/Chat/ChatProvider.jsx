@@ -4,7 +4,6 @@ import chatsData from "../../data/Messages Tab/Chats.json";
 import { useEffect, useState } from "react";
 
 const ChatProvider = ({ children }) => {
-
     const [chats, setChats] = useState(null);
     const [matchedUserSelectedChat, setMatchedUserSelectedChat] = useState(null);
     const [disconnectedUserSelectedChat, setDisconnectedUserSelectedChat] = useState(null);

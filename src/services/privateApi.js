@@ -5,7 +5,7 @@ const createPrivateApi = (token) => {
   if (!token) {
     throw new Error("No auth token provided to PrivateApi");
   }
-  // console.log(token)
+  console.log(token)
   const instance = axios.create({
     baseURL:
       import.meta.env.PROD || import.meta.env.VITE_USE_PRODUCTION_API === "true"
