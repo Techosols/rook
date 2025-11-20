@@ -9,7 +9,8 @@ function Chats() {
           <ChatWindow />
         </Section>
         <Section title="Chatting with disconnected/Blocked Users" description="icon indicates disconnected users this user can no longer chat with. New message text box is hidden">
-          <p>Placeholder for Chatting with Disconnected/Blocked users.</p>
+          {/* <p>Placeholder for Chatting with Disconnected/Blocked users.</p> */}
+          <ChatWindow />
         </Section>
       </div>
     </>

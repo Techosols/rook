@@ -1,10 +1,10 @@
 import React from 'react'
+import Notification from './ui/Notification'
 
 function RookNotifications() {
   return (
     <div>
-      <h2>Rook Notifications</h2>
-      <p>Stay updated with the latest notifications from Rook.</p>
+      <Notification />
     </div>
   )
 }

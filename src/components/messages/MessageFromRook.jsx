@@ -1,10 +1,10 @@
 import React from 'react'
+import Notification from './ui/Notification'
 
 function MessageFromRook() {
   return (
     <div>
-      <h2>Message From Rook</h2>
-      <p>Your personalized message from Rook.</p>
+      <Notification />
     </div>
   )
 }

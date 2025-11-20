@@ -1,10 +1,10 @@
 import React from 'react'
+import Section from './ui/Section'
 
 function ProfileSuggestionsByYou() {
   return (
     <div>
-      <h2>Profile Suggestions By You</h2>
-      <p>Based on profiles you have viewed and interacted with.</p>
+      <Section title={'Suggestions show latest first'} description={"You left a suggestion for another user but they havn't responded yet."}></Section>
     </div>
   )
 }
