@@ -13,7 +13,6 @@ jobs:
     env:
       # Exposed to React code (client)
       VITE_SERVER_BASE_URL: ${{ secrets.VITE_SERVER_BASE_URL }}
-      VITE_SERVER_API_KEY: ${{ secrets.VITE_SERVER_API_KEY }}
       VITE_AUTH0_CLIENT_DOMAIN: ${{ secrets.VITE_AUTH0_CLIENT_DOMAIN }}
       VITE_AUTH0_CLIENT_ID: ${{ secrets.VITE_AUTH0_CLIENT_ID }}
       VITE_SERVER_PRIVATE_API_URL: ${{ secrets.VITE_SERVER_PRIVATE_API_URL }}
