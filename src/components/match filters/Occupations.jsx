@@ -12,8 +12,9 @@ function Occupations() {
 
   const [searchInclude, setSearchInclude] = useState("");
   const [searchExclude, setSearchExclude] = useState("");
-  const { includeOccupations, excludeOccupations, mergedExcludedOccupations, mergedIncludedOccupations, UpdateIncludedOccupation, saveIncludedOccupation, UpdateExcludedOccupation, saveExcludedOccupation, isLoading } = useFilter();
-
+  const { mergedExcludedOccupations, mergedIncludedOccupations, UpdateIncludedOccupation, saveIncludedOccupation, UpdateExcludedOccupation, isSavingIncludedOccupations, isSavingExcludedOccupations, saveExcludedOccupation, isLoading } = useFilter();
+  const isIncludeLoading = isLoading || Object.keys(mergedIncludedOccupations || {}).length === 0;
+  const isExcludeLoading   = isLoading || Object.keys(mergedExcludedOccupations || {}).length === 0;
 
   const filteredIncludeOccupations = Object.values(mergedIncludedOccupations).filter((occupation) => 
     occupation?.name.toLowerCase().includes(searchInclude.toLowerCase()
@@ -26,7 +27,7 @@ function Occupations() {
 
   return (
     <div className='p-1 flex flex-col gap-1 md:gap-4'>
-      <FormSection title="Included Occupations" disabled={isLoading || includeOccupations.length === 0} onSave={() => saveIncludedOccupation()}>
+      <FormSection title="Included Occupations" disabled={isLoading} onSave={() => saveIncludedOccupation()} loading={isSavingIncludedOccupations}>
         <div className="flex flex-col gap-1 md:gap-2 border-l-4 border-yellow-500 pl-2 bg-yellow-50 dark:bg-yellow-100 p-1">
           <div className="flex items-center gap-1 ">
             <TriangleAlert className="text-yellow-500 " />
@@ -39,7 +40,7 @@ function Occupations() {
         <p className="text-gray-500 text-sm"> <LucideBadgeInfo className="inline-block mr-1" /> Check off all options you want to include in your matches.</p>
         <Input type="text" placeholder="Search occupations to include..." value={searchInclude} onChange={(e) => setSearchInclude(e.target.value)} className="w-96" />
         <div className="border border-gray-300 dark:border-gray-600 rounded-lg p-3 max-h-60 overflow-y-auto flex flex-col gap-2">
-            {isLoading && (
+            {isIncludeLoading && (
             <div className="flex flex-col gap-2">
               <div className="w-full h-6 bg-gray-300 animate-pulse"></div>
               <div className="w-full h-6 bg-gray-300 animate-pulse"></div>
@@ -52,7 +53,7 @@ function Occupations() {
           ))}
         </div>
       </FormSection>
-      <FormSection title="Excluded Occupations" disabled={isLoading || excludeOccupations.length === 0} onSave={() => saveExcludedOccupation()}>
+      <FormSection title="Excluded Occupations" disabled={isLoading} onSave={() => saveExcludedOccupation()} loading={isSavingExcludedOccupations}>
         <div className="flex flex-col gap-1 md:gap-2 border-l-4 border-yellow-500 dark:bg-yellow-100 pl-2 bg-yellow-50 p-1">
           <div className="flex items-center gap-1 ">
             <TriangleAlert className="text-yellow-500 " />
@@ -65,7 +66,7 @@ function Occupations() {
         <p className="text-gray-500 text-sm"> <LucideBadgeInfo className="inline-block mr-1" /> Check off all options you want to exclude from your matches.</p>
         <Input type="text" placeholder="Search occupations to exclude..." value={searchExclude} onChange={(e) => setSearchExclude(e.target.value)} className="w-96" />
         <div className="border border-gray-300 dark:border-gray-600 rounded-lg p-3 max-h-60 overflow-y-auto flex flex-col gap-2">
-          {isLoading && (
+          {isExcludeLoading && (
             <div className="flex flex-col gap-2">
               <div className="w-full h-6 bg-gray-300 animate-pulse"></div>
               <div className="w-full h-6 bg-gray-300 animate-pulse"></div>
