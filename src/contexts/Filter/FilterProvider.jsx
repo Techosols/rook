@@ -199,13 +199,16 @@ const FilterProvider = ({ children }) => {
     const saveLocation = async () => {
         if (!api) return;
         setIsSavingLocation(true);
-        await api.patch('/v1/filter/other', {
-            // postalCode: zipCode,
-            postalCodeWithinRadius: distance,
-        }).then(() => {
+        await Promise.all([
+            api.patch('/v1/profile', {
+                postalCode: zipCode,
+            }),
+            api.patch('/v1/filter/other', {
+                postalCodeWithinRadius: distance,
+            })
+        ]).then(() => {
             toast.success("Location filters saved successfully.");
         }).catch((error) => {
-            console.error("🔴 Error saving location filters:", error);
             toast.error("Error saving location filters: " + error.message);
         }).finally(() => {
             setIsSavingLocation(false);
