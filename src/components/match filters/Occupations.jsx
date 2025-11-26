@@ -12,17 +12,17 @@ function Occupations() {
 
   const [searchInclude, setSearchInclude] = useState("");
   const [searchExclude, setSearchExclude] = useState("");
-  const { includeOccupations, excludeOccupations,UpdateIncludedOccupation, saveIncludedOccupation, UpdateExcludedOccupation, saveExcludedOccupation, isLoading } = useFilter();
+  const { includeOccupations, excludeOccupations, mergedExcludedOccupations, mergedIncludedOccupations, UpdateIncludedOccupation, saveIncludedOccupation, UpdateExcludedOccupation, saveExcludedOccupation, isLoading } = useFilter();
 
 
+  const filteredIncludeOccupations = Object.values(mergedIncludedOccupations).filter((occupation) => 
+    occupation?.name.toLowerCase().includes(searchInclude.toLowerCase()
+  ));
 
-  const includeOccupationResults = includeOccupations.filter((occupation) =>
-    occupation.toLowerCase().includes(searchInclude.toLowerCase())
-  );
+  const filteredExcludeOccupations = Object.values(mergedExcludedOccupations).filter((occupation) => 
+    occupation?.name.toLowerCase().includes(searchExclude.toLowerCase()
+  ));
 
-  const excludeOccupationResults = excludeOccupations.filter((occupation) =>
-    occupation.toLowerCase().includes(searchExclude.toLowerCase())
-  );
 
   return (
     <div className='p-1 flex flex-col gap-1 md:gap-4'>
@@ -47,8 +47,8 @@ function Occupations() {
               <div className="w-full h-6 bg-gray-300 animate-pulse"></div>
             </div>
           )}
-          {includeOccupationResults.map((occupation) => (
-            <Checkbox key={occupation} label={occupation} onChange={() => UpdateIncludedOccupation(occupation.id)}  />
+          {filteredIncludeOccupations.map((occupation) => (
+            <Checkbox key={occupation?.id} label={occupation?.name} checked={!occupation?.excluded} onChange={() => UpdateIncludedOccupation(occupation?.id)}  />
           ))}
         </div>
       </FormSection>
@@ -73,8 +73,8 @@ function Occupations() {
               <div className="w-full h-6 bg-gray-300 animate-pulse"></div>
             </div>
           )}
-          {excludeOccupationResults.map((occupation) => (
-            <Checkbox key={occupation} label={occupation} onChange={() => UpdateExcludedOccupation(occupation.id)} />
+          {filteredExcludeOccupations.map((occupation) => (
+            <Checkbox key={occupation?.id} label={occupation?.name} checked={occupation?.excluded} onChange={() => UpdateExcludedOccupation(occupation?.id)} />
           ))}
         </div>
       </FormSection>
@@ -83,3 +83,5 @@ function Occupations() {
 }
 
 export default Occupations
+
+

@@ -34,7 +34,8 @@ const createPrivateApi = (token) => {
       if (error.response?.status === 401) {
         console.warn("Session expired or invalid. Please log in again.");
         if (typeof window !== "undefined" && window.openGlobalModel) {
-          window.openGlobalModel({ for: "invalidToken" });
+          // window.openGlobalModel({ for: "invalidToken" });
+          console.log("401 Error Interceptor Triggered");
         }
       }
       return Promise.reject(error);

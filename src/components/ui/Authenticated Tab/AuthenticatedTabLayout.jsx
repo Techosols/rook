@@ -9,6 +9,7 @@ function AuthenticatedTabLayout({children, tabs, activeTab, setActiveTab}) {
     return (
       <div className="flex items-center justify-center min-h-[200px] w-full">
         <Loader2 className="animate-spin h-8 w-8 text-primary" />
+        loading
       </div>
     );
   }

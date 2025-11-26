@@ -10,6 +10,9 @@ const ChatProvider = ({ children }) => {
     const [ rookNotifications, setRookNotifications ] = useState([]);
     const [ rookMessages, setRookMessages ] = useState([]);
     const [ messageThreads, setMessageThreads ] = useState([]);
+    const [ chatThreads, setChatThreads ] = useState([]);
+
+    // Extra states for Chats - 
     const [ chats, setChats ] = useState(null);
     const [ matchedUserSelectedChat, setMatchedUserSelectedChat ] = useState(null);
     const [ disconnectedUserSelectedChat, setDisconnectedUserSelectedChat ] = useState(null);
@@ -24,7 +27,8 @@ const ChatProvider = ({ children }) => {
     // console.log("Suggestion By You:", suggestionByYou);
     // console.log("Rook Notifications:", rookNotifications);
     // console.log("Rook Messages:", rookMessages);
-    console.log("🔴 Message Threads:", messageThreads);
+    // console.log("Message Threads:", messageThreads);
+    console.log("🔵 Chat Threads:", chatThreads);
 
     useEffect(() => {
         if (!api) return;
@@ -32,12 +36,13 @@ const ChatProvider = ({ children }) => {
         async function fetchInitial() {
             setLoading(true);
             console.log("Fetching initial chat data...");
-            const [suggestionByYouRes, suggestionForYouRes, rookNotificationsRes, rookMessagesRes, messageThreadsRes ] = await Promise.all([
+            const [suggestionByYouRes, suggestionForYouRes, rookNotificationsRes, rookMessagesRes, messageThreadsRes, chatThreadRes ] = await Promise.all([
                 api.get('/v1/suggestions-by-user'),
                 api.get('/v1/profile-suggestions'),
                 api.get('/v1/rook-notifications'),
                 api.get('/v1/rook-messages'),
                 api.get('/v1/message-threads'),
+                api.get('/v1/chat-threads'),
             ]);
 
             setSuggestionByYou(suggestionByYouRes.data);
@@ -45,13 +50,14 @@ const ChatProvider = ({ children }) => {
             setRookNotifications(rookNotificationsRes.data);
             setRookMessages(rookMessagesRes.data);
             setMessageThreads(messageThreadsRes.data);
+            setChatThreads(chatThreadRes.data);
             setLoading(false);
             console.log("Finished fetching initial chat data.");
         }
         fetchInitial();
     }, [api]);
 
-    console.log("Matched User Selected Chat in Provider:", matchedUserSelectedChat);
+    // console.log("Matched User Selected Chat in Provider:", matchedUserSelectedChat);
 
     useEffect(() => {
         setChats(chatsData);
@@ -66,6 +72,10 @@ const ChatProvider = ({ children }) => {
         rookNotifications,
         rookMessages,
         messageThreads,
+        chatThreads,
+
+        
+        // Extra states for Chats
         chats,
         matchedUserSelectedChat,
         setMatchedUserSelectedChat,

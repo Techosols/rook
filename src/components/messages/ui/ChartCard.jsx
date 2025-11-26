@@ -5,7 +5,9 @@ function ChartCard({ chat }) {
     const { setMatchedUserSelectedChat, matchedUserSelectedChat } = useChat();
 
     return (
-        <div className={`flex items-center gap-1 p-2 hover:bg-gray-100 rounded-lg cursor-pointer ${matchedUserSelectedChat === chat.threadId ? "bg-gray-200" : ""}`} onClick={() => setMatchedUserSelectedChat(chat)}>
+        <div className={`flex items-center gap-1 p-2 hover:bg-gray-100 rounded-lg cursor-pointer ${matchedUserSelectedChat === chat.threadId ? "bg-gray-200" : ""}`} 
+        // onClick={() => setMatchedUserSelectedChat(chat)}
+        >
             {/* User Avatar */}
             <div className='w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-semibold'>
                 {chat?.chattingWith?.charAt(0).toUpperCase()}

@@ -1,4 +1,10 @@
 
+/**
+ * Calculate the age difference in years from the given date of birth.
+ * @param {string|Date} dob 
+ * @returns {number} age difference in years
+ */
+
 function getAgeDifference(dob) {
   const today = new Date();
   const birthDate = new Date(dob);
@@ -9,11 +15,22 @@ function getAgeDifference(dob) {
   return age;
 }
 
+
+/**
+ * Format date of birth to 'YYYY-MM-DD' format.
+ * @param {string|Date} dob 
+ * @returns {string} formatted date of birth in 'YYYY-MM-DD' format
+ */
 function formateDob(dob) {
     const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
     return new Date(dob).toLocaleDateString('en-CA', options);
 }
 
+/**
+ * Format time to 'HH:MM AM/PM' format.
+ * @param {string|Date} date 
+ * @returns {string} formatted time in 'HH:MM AM/PM' format
+ */
 function formateTime(date) {
     const options = { hour: '2-digit', minute: '2-digit' };
     const time = new Date(date).toLocaleTimeString('en-GB', options);

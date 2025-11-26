@@ -8,7 +8,7 @@ import useChat from "../../../hooks/useChat"
 
 function ChatArea() {
 
-    const { matchedUserSelectedChat } = useChat();
+    const { matchedUserSelectedChat={} } = useChat();
 
     if (!matchedUserSelectedChat) {
         return <NoChatSelected />
