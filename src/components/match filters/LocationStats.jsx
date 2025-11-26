@@ -85,7 +85,7 @@ function LocationStats() {
           </div>
           <div>
             <label className="block font-bold text-gray-700 dark:text-gray-300 mb-1">Radius <span className="text-gray-500 font-normal">(miles) - (Max 500)</span></label>
-            <Input type="number" placeholder="e.g., 25" value={distance} onChange={(e) => setDistance(e.target.value)} error={(distance > 500 ? 'Invalid radius - (Max 500)' : undefined)} />
+            <Input type="number" placeholder="e.g., 25" value={distance} onChange={(e) => setDistance(e.target.value === "" ? "" : Number(e.target.value))} error={(distance > 500 ? 'Invalid radius - (Max 500)' : undefined)} />
           </div>
           </>
         )}
