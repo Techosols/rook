@@ -65,7 +65,6 @@ function LocationStats() {
   // const [excludeDrugs, setExcludeDrugs] = useState(false);
   // const [maxAlcoholConsumption, setMaxAlcoholConsumption] = useState("");
 
-
   return (
     <div className="p-1 flex flex-col gap-1 md:gap-4">
       <p className="text-gray-500 text-sm"> <LucideBadgeInfo className="inline-block mr-1" /> In this page, you provide info about yourself that can be used by others in filters, to include/exclude you in their matches.</p>

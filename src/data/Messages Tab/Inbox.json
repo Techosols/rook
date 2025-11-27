@@ -1,0 +1,425 @@
+[
+  {
+    "messageId": "a1a2c3d4-1111-4444-8888-000000000001",
+    "sender": "Lena",
+    "senderExternalId": "ext001",
+    "receiver": "You",
+    "receiverExternalId": "you001",
+    "parentMessageId": null,
+    "createdAt": "2025-11-20T12:10:15.000Z",
+    "isRead": false,
+    "isDeleted": false,
+    "messageContent": "Hey! Loved your travel photos!",
+    "unreadCount": 1,
+    "replies": [
+      {
+        "messageId": "reply-002-1",
+        "sender": "You",
+        "senderExternalId": "you001",
+        "receiver": "Maya",
+        "receiverExternalId": "ext002",
+        "parentMessageId": "a1a2c3d4-1111-4444-8888-000000000002",
+        "createdAt": "2025-11-18T10:01:13.000Z",
+        "isRead": true,
+        "isDeleted": false,
+        "messageContent": "Yep! What’s up? This message is deleted",
+        "unreadCount": 0,
+        "replies": [
+          {
+        "messageId": "reply-002-1",
+        "sender": "You",
+        "senderExternalId": "you001",
+        "receiver": "Maya",
+        "receiverExternalId": "ext002",
+        "parentMessageId": "a1a2c3d4-1111-4444-8888-000000000002",
+        "createdAt": "2025-11-18T10:01:13.000Z",
+        "isRead": true,
+        "isDeleted": false,
+        "messageContent": "Deleted",
+        "unreadCount": 0,
+        "replies": [
+          {
+        "messageId": "reply-002-1",
+        "sender": "You",
+        "senderExternalId": "you001",
+        "receiver": "Maya",
+        "receiverExternalId": "ext002",
+        "parentMessageId": "a1a2c3d4-1111-4444-8888-000000000002",
+        "createdAt": "2025-11-18T10:01:13.000Z",
+        "isRead": true,
+        "isDeleted": false,
+        "messageContent": "This is an important messgae for all rook users",
+        "unreadCount": 0,
+        "replies": []
+      }
+        ]
+      },{
+        "messageId": "reply-002-1",
+        "sender": "You",
+        "senderExternalId": "you001",
+        "receiver": "Maya",
+        "receiverExternalId": "ext002",
+        "parentMessageId": "a1a2c3d4-1111-4444-8888-000000000002",
+        "createdAt": "2025-11-18T10:01:13.000Z",
+        "isRead": true,
+        "isDeleted": false,
+        "messageContent": "This is Irrelevant Chat",
+        "unreadCount": 0,
+        "replies": []
+      }
+      
+        ]
+      }
+      ,{
+        "messageId": "reply-002-1",
+        "sender": "You",
+        "senderExternalId": "you001",
+        "receiver": "Maya",
+        "receiverExternalId": "ext002",
+        "parentMessageId": "a1a2c3d4-1111-4444-8888-000000000002",
+        "createdAt": "2025-11-18T10:01:13.000Z",
+        "isRead": true,
+        "isDeleted": false,
+        "messageContent": "This is Irrelevant Chat",
+        "unreadCount": 0,
+        "replies": []
+      }
+    ]
+  },
+  {
+    "messageId": "a1a2c3d4-1111-4444-8888-000000000002",
+    "sender": "Maya",
+    "senderExternalId": "ext002",
+    "receiver": "You",
+    "receiverExternalId": "you001",
+    "parentMessageId": null,
+    "createdAt": "2025-11-18T09:55:22.000Z",
+    "isRead": true,
+    "isDeleted": false,
+    "messageContent": "Are you free this weekend?",
+    "unreadCount": 0,
+        "replies": [
+      {
+        "messageId": "reply-002-1",
+        "sender": "You",
+        "senderExternalId": "you001",
+        "receiver": "Maya",
+        "receiverExternalId": "ext002",
+        "parentMessageId": "a1a2c3d4-1111-4444-8888-000000000002",
+        "createdAt": "2025-11-18T10:01:13.000Z",
+        "isRead": true,
+        "isDeleted": false,
+        "messageContent": "Yep! What’s up? This message is deleted",
+        "unreadCount": 0,
+        "replies": [
+          {
+        "messageId": "reply-002-1",
+        "sender": "You",
+        "senderExternalId": "you001",
+        "receiver": "Maya",
+        "receiverExternalId": "ext002",
+        "parentMessageId": "a1a2c3d4-1111-4444-8888-000000000002",
+        "createdAt": "2025-11-18T10:01:13.000Z",
+        "isRead": true,
+        "isDeleted": false,
+        "messageContent": "Deleted",
+        "unreadCount": 0,
+        "replies": [
+          {
+        "messageId": "reply-002-1",
+        "sender": "You",
+        "senderExternalId": "you001",
+        "receiver": "Maya",
+        "receiverExternalId": "ext002",
+        "parentMessageId": "a1a2c3d4-1111-4444-8888-000000000002",
+        "createdAt": "2025-11-18T10:01:13.000Z",
+        "isRead": true,
+        "isDeleted": false,
+        "messageContent": "This is an important messgae for all rook users",
+        "unreadCount": 0,
+        "replies": []
+      }
+        ]
+      }
+        ]
+      }
+    ]
+  },
+  {
+    "messageId": "a1a2c3d4-1111-4444-8888-000000000003",
+    "sender": "Jonas",
+    "senderExternalId": "ext003",
+    "receiver": "You",
+    "receiverExternalId": "you001",
+    "parentMessageId": null,
+    "createdAt": "2025-11-17T19:33:45.000Z",
+    "isRead": false,
+    "isDeleted": false,
+    "messageContent": "How’s your day going?",
+    "unreadCount": 1,
+        "replies": [
+      {
+        "messageId": "reply-002-1",
+        "sender": "You",
+        "senderExternalId": "you001",
+        "receiver": "Maya",
+        "receiverExternalId": "ext002",
+        "parentMessageId": "a1a2c3d4-1111-4444-8888-000000000002",
+        "createdAt": "2025-11-18T10:01:13.000Z",
+        "isRead": true,
+        "isDeleted": false,
+        "messageContent": "Yep! What’s up? This message is deleted",
+        "unreadCount": 0,
+        "replies": [
+          {
+        "messageId": "reply-002-1",
+        "sender": "You",
+        "senderExternalId": "you001",
+        "receiver": "Maya",
+        "receiverExternalId": "ext002",
+        "parentMessageId": "a1a2c3d4-1111-4444-8888-000000000002",
+        "createdAt": "2025-11-18T10:01:13.000Z",
+        "isRead": true,
+        "isDeleted": false,
+        "messageContent": "Deleted",
+        "unreadCount": 0,
+        "replies": [
+          {
+        "messageId": "reply-002-1",
+        "sender": "You",
+        "senderExternalId": "you001",
+        "receiver": "Maya",
+        "receiverExternalId": "ext002",
+        "parentMessageId": "a1a2c3d4-1111-4444-8888-000000000002",
+        "createdAt": "2025-11-18T10:01:13.000Z",
+        "isRead": true,
+        "isDeleted": false,
+        "messageContent": "This is an important messgae for all rook users",
+        "unreadCount": 0,
+        "replies": []
+      }
+        ]
+      }
+        ]
+      }
+    ]
+  },
+  {
+    "messageId": "a1a2c3d4-1111-4444-8888-000000000004",
+    "sender": "Selena",
+    "senderExternalId": "ext004",
+    "receiver": "You",
+    "receiverExternalId": "you001",
+    "parentMessageId": null,
+    "createdAt": "2025-11-15T14:21:11.000Z",
+    "isRead": true,
+    "isDeleted": false,
+    "messageContent": "You have such a good vibe in your pics!",
+    "unreadCount": 0,
+        "replies": [
+      {
+        "messageId": "reply-002-1",
+        "sender": "You",
+        "senderExternalId": "you001",
+        "receiver": "Maya",
+        "receiverExternalId": "ext002",
+        "parentMessageId": "a1a2c3d4-1111-4444-8888-000000000002",
+        "createdAt": "2025-11-18T10:01:13.000Z",
+        "isRead": true,
+        "isDeleted": false,
+        "messageContent": "Yep! What’s up? This message is deleted",
+        "unreadCount": 0,
+        "replies": [
+          {
+        "messageId": "reply-002-1",
+        "sender": "You",
+        "senderExternalId": "you001",
+        "receiver": "Maya",
+        "receiverExternalId": "ext002",
+        "parentMessageId": "a1a2c3d4-1111-4444-8888-000000000002",
+        "createdAt": "2025-11-18T10:01:13.000Z",
+        "isRead": true,
+        "isDeleted": false,
+        "messageContent": "Deleted",
+        "unreadCount": 0,
+        "replies": [
+          {
+        "messageId": "reply-002-1",
+        "sender": "You",
+        "senderExternalId": "you001",
+        "receiver": "Maya",
+        "receiverExternalId": "ext002",
+        "parentMessageId": "a1a2c3d4-1111-4444-8888-000000000002",
+        "createdAt": "2025-11-18T10:01:13.000Z",
+        "isRead": true,
+        "isDeleted": false,
+        "messageContent": "This is an important messgae for all rook users",
+        "unreadCount": 0,
+        "replies": []
+      }
+        ]
+      }
+        ]
+      }
+    ]
+  },
+  {
+    "messageId": "a1a2c3d4-1111-4444-8888-000000000005",
+    "sender": "Oliver",
+    "senderExternalId": "ext005",
+    "receiver": "You",
+    "receiverExternalId": "you001",
+    "parentMessageId": null,
+    "createdAt": "2025-11-14T07:10:52.000Z",
+    "isRead": false,
+    "isDeleted": false,
+    "messageContent": "Did you end up watching that movie?",
+    "unreadCount": 1,
+    "replies": [
+      {
+        "messageId": "reply-005-1",
+        "sender": "You",
+        "senderExternalId": "you001",
+        "receiver": "Oliver",
+        "receiverExternalId": "ext005",
+        "parentMessageId": "a1a2c3d4-1111-4444-8888-000000000005",
+        "createdAt": "2025-11-14T07:22:10.000Z",
+        "isRead": false,
+        "isDeleted": false,
+        "messageContent": "Not yet! Planning to tonight.",
+        "unreadCount": 0,
+        "replies": []
+      }
+    ]
+  },
+  {
+    "messageId": "a1a2c3d4-1111-4444-8888-000000000006",
+    "sender": "Ava",
+    "senderExternalId": "ext006",
+    "receiver": "You",
+    "receiverExternalId": "you001",
+    "parentMessageId": null,
+    "createdAt": "2025-11-12T22:40:29.000Z",
+    "isRead": true,
+    "isDeleted": false,
+    "messageContent": "Your dog looks adorable!",
+    "unreadCount": 0,
+    "replies": [
+      {
+        "messageId": "reply-002-1",
+        "sender": "You",
+        "senderExternalId": "you001",
+        "receiver": "Maya",
+        "receiverExternalId": "ext002",
+        "parentMessageId": "a1a2c3d4-1111-4444-8888-000000000002",
+        "createdAt": "2025-11-18T10:01:13.000Z",
+        "isRead": true,
+        "isDeleted": false,
+        "messageContent": "Yep! What’s up?",
+        "unreadCount": 0,
+        "replies": []
+      }
+    ]
+  },
+  {
+    "messageId": "a1a2c3d4-1111-4444-8888-000000000007",
+    "sender": "Leo",
+    "senderExternalId": "ext007",
+    "receiver": "You",
+    "receiverExternalId": "you001",
+    "parentMessageId": null,
+    "createdAt": "2025-11-12T16:18:10.000Z",
+    "isRead": false,
+    "isDeleted": false,
+    "messageContent": "Where did you get your jacket?",
+    "unreadCount": 1,
+    "replies": [
+      {
+        "messageId": "reply-002-1",
+        "sender": "You",
+        "senderExternalId": "you001",
+        "receiver": "Maya",
+        "receiverExternalId": "ext002",
+        "parentMessageId": "a1a2c3d4-1111-4444-8888-000000000002",
+        "createdAt": "2025-11-18T10:01:13.000Z",
+        "isRead": true,
+        "isDeleted": false,
+        "messageContent": "Yep! What’s up?",
+        "unreadCount": 0,
+        "replies": []
+      }
+    ]
+  },
+  {
+    "messageId": "a1a2c3d4-1111-4444-8888-000000000008",
+    "sender": "Nina",
+    "senderExternalId": "ext008",
+    "receiver": "You",
+    "receiverExternalId": "you001",
+    "parentMessageId": null,
+    "createdAt": "2025-11-11T08:05:48.000Z",
+    "isRead": true,
+    "isDeleted": false,
+    "messageContent": "Good morning! 😊",
+    "unreadCount": 0,
+    "replies": [
+      {
+        "messageId": "reply-002-1",
+        "sender": "You",
+        "senderExternalId": "you001",
+        "receiver": "Maya",
+        "receiverExternalId": "ext002",
+        "parentMessageId": "a1a2c3d4-1111-4444-8888-000000000002",
+        "createdAt": "2025-11-18T10:01:13.000Z",
+        "isRead": true,
+        "isDeleted": false,
+        "messageContent": "Yep! What’s up?",
+        "unreadCount": 0,
+        "replies": []
+      }
+    ]
+  },
+  {
+    "messageId": "a1a2c3d4-1111-4444-8888-000000000009",
+    "sender": "Felix",
+    "senderExternalId": "ext009",
+    "receiver": "You",
+    "receiverExternalId": "you001",
+    "parentMessageId": null,
+    "createdAt": "2025-11-10T20:59:33.000Z",
+    "isRead": false,
+    "isDeleted": false,
+    "messageContent": "Want to play some games later?",
+    "unreadCount": 1,
+    "replies": [
+      {
+        "messageId": "reply-009-1",
+        "sender": "You",
+        "senderExternalId": "you001",
+        "receiver": "Felix",
+        "receiverExternalId": "ext009",
+        "parentMessageId": "a1a2c3d4-1111-4444-8888-000000000009",
+        "createdAt": "2025-11-10T21:01:20.000Z",
+        "isRead": false,
+        "isDeleted": false,
+        "messageContent": "Sure! I'm free later tonight.",
+        "unreadCount": 0,
+        "replies": []
+      }
+    ]
+  },
+  {
+    "messageId": "a1a2c3d4-1111-4444-8888-000000000010",
+    "sender": "Emily",
+    "senderExternalId": "ext010",
+    "receiver": "You",
+    "receiverExternalId": "you001",
+    "parentMessageId": null,
+    "createdAt": "2025-11-09T11:15:19.000Z",
+    "isRead": false,
+    "isDeleted": false,
+    "messageContent": "Loved your last post!",
+    "unreadCount": 1,
+    "replies": []
+  }
+]
