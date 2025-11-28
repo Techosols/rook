@@ -100,9 +100,6 @@ const FilterProvider = ({ children }) => {
         mergeOccupations();
     }, [occupationProfiles]);
 
-    console.log("Merged Excluded Occupations ", mergedExcludedOccupations);
-    console.log("Merged Included Occupations ", mergedIncludedOccupations);
-
 
 
     // Fetch initial filters when API becomes available
