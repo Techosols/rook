@@ -53,4 +53,13 @@ function formateTime(date) {
     return `${time} AM`;
 }
 
-export { getAgeDifference, formateDob, formateTime };
+function getDateAndMonth(date){
+    const month = new Date(date).getUTCMonth();
+    const day = new Date(date).getUTCDate();
+
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    return `${months[month]} ${day}`
+}
+
+// 11 19
+export { getAgeDifference, formateDob, formateTime, getDateAndMonth };

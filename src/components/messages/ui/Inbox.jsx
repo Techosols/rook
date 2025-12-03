@@ -2,15 +2,16 @@ import React from 'react'
 
 const Inbox = ({
   username,
-  description
+  description,
+  handleToggle
 }) => {
   return (
     <>
-      <div className="p-4">
-        <ul className="flex flex-col gap-2">
+      <div>
+        <ul className="flex flex-col">
           
-          {/* Item 1 */}
-          <li className="border p-5 flex gap-5 justify-between items-center">
+          {/* Items */}
+          <li className="border-b p-2 flex gap-5 justify-between items-center cursor-pointer" onClick={handleToggle}>
             <h1 className="text-xl font-extrabold line-clamp-1 text-primary">{username}</h1>
 
             <p className="flex-1 mx-4 truncate">
