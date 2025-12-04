@@ -62,13 +62,20 @@ function Occupations() {
 
         {/* Search Input */}
         <div className="relative">
-          <Input
-            type="text"
-            placeholder="Search occupations to include..."
-            value={searchInclude}
-            onChange={(e) => setSearchInclude(e.target.value)}
-            className="w-96"
-          />
+         {isIncludeLoading ? (
+            <div className="flex flex-col gap-2">
+              <div className="w-full h-8 bg-gray-300 animate-pulse"></div>
+            </div>
+          ) : (
+            <Input
+              type="text"
+              placeholder="Search occupations to include..."
+              value={searchInclude}
+              onChange={(e) => setSearchInclude(e.target.value)}
+              className="w-96"
+            />
+
+          )}
 
           {/* Dropdown */}
           {searchInclude.length > 0 && filteredIncludeOccupations.length > 0 && (
@@ -143,13 +150,19 @@ function Occupations() {
 
         {/* Search Input */}
         <div className="relative">
-          <Input
-            type="text"
-            placeholder="Search occupations to exclude..."
-            value={searchExclude}
-            onChange={(e) => setSearchExclude(e.target.value)}
-            className="w-96"
-          />
+          {isExcludeLoading ? (
+            <div className="flex flex-col gap-2">
+              <div className="w-full h-8 bg-gray-300 animate-pulse"></div>
+            </div>
+          ) : (
+            <Input
+              type="text"
+              placeholder="Search occupations to exclude..."
+              value={searchExclude}
+              onChange={(e) => setSearchExclude(e.target.value)}
+              className="w-96"
+            />
+          )}
 
           {/* Dropdown for excluded */}
           {searchExclude.length > 0 && filteredExcludeOccupations.length > 0 && (
