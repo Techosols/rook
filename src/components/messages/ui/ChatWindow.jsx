@@ -6,7 +6,7 @@ import useChat from "../../../hooks/useChat";
 
 function ChatWindow() {
 
-    const { matchedUserSelectedChatMessages, matchedUserSelectedChat } = useChat();
+    const { matchedUserSelectedChat } = useChat();
 
   return (
     <div className="flex h-[650px] bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden">

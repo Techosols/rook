@@ -4,7 +4,7 @@ import useChat from "../../../hooks/useChat"
 function ChartCard({ chat }) {
     const { setMatchedUserSelectedChat, matchedUserSelectedChat, fetchMessages } = useChat();
     const isSelected = matchedUserSelectedChat?.threadId === chat?.threadId;
-    const lastMessage = chat?.messages?.[chat?.messages?.length - 1];
+    // const lastMessage = chat?.messages?.[chat?.messages?.length - 1];
     const hasUnread = chat?.unreadCount > 0;
 
 
@@ -46,14 +46,14 @@ function ChartCard({ chat }) {
                     )}
                 </div>
                 {/* Last Message Preview */}
-                <p className={`text-xs truncate ${
+                {/* <p className={`text-xs truncate ${
                     hasUnread
                       ? 'text-gray-700 dark:text-gray-300 font-medium'
                       : 'text-gray-500 dark:text-gray-400'
                 }`}>
                     {lastMessage?.you ? '📤 ' : '📥 '}
                     {lastMessage?.messageContent || 'No messages yet'}
-                </p>
+                </p> */}
             </div>
 
             {/* Unread Badge & Time */}
