@@ -86,7 +86,7 @@ function Message() {
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 overflow-hidden">
             <SingleMessageThread message={selectedMessage} />
           </div>
-        </Section>
+        </Section> 
       )}
     </div>
   );

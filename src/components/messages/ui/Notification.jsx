@@ -1,24 +1,25 @@
 import React from 'react'
-import { Bell, ChevronRight } from 'lucide-react'
+import { Bell, ChevronRight, Trash } from 'lucide-react'
+import { getDateAndMonth } from '../../../utils/functions'
 
-const mockNotifications = [
-  {
-    id: 1,
-    title: 'Rook',
-    date: 'Jun 5',
-    summary:
-      'We released a big update with lot of features!',
-    href: '#',
-    type: 'update'
-  },
+// const mockNotifications = [
+//   {
+//     id: 1,
+//     title: 'Rook',
+//     date: 'Jun 5',
+//     summary:
+//       'We released a big update with lot of features!',
+//     href: '#',
+//     type: 'update'
+//   },
   
-]
+// ]
 
-const Notification = () => {
+const Notification = ({items = [], showDelete = false}) => {
   return (
     <div className="w-full max-w-4xl">
       <div className="space-y-3">
-        { mockNotifications.map((n) => (
+        { items.map((n) => (
           <article
             key={n.id}
             aria-labelledby={`notif-${n.id}-title`}
@@ -50,31 +51,39 @@ const Notification = () => {
                     id={`notif-${n.id}-title`}
                     className="text-sm font-bold text-gray-900 dark:text-white"
                   >
-                    {n.title}
+                    {n.senderName}
                   </h3>
 
                   <p className="mt-1 text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
-                    {n.summary}
+                    {n.message}
                   </p>
                 </div>
 
                 {/* Date Badge */}
-                <div className="flex-shrink-0">
+                <div className="flex-shrink-0 flex flex-col items-center">
                   <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-primary/10 dark:bg-primary/20 text-primary dark:text-primary whitespace-nowrap">
-                    {n.date}
+                    {getDateAndMonth(n.sentAt)}
                   </span>
                 </div>
               </div>
 
               {/* Read More Link */}
-              <div className="mt-3">
+              <div className="mt-3 flex justify-between items-center">
+                {n.detailsLink && (
                 <a
-                  href={n.href}
+                  href={n.detailsLink}
                   className="inline-flex items-center text-sm font-semibold text-primary dark:text-primary hover:text-primary/80 dark:hover:text-primary/80 transition-colors duration-200 group-hover:gap-1"
                 >
                   Read more
                   <ChevronRight size={16} className="ml-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
                 </a>
+                )}
+                { showDelete &&
+                (
+                <span className={`${!n.detailsLink && 'flex w-full justify-end'}`}>
+                    <a href="#"><Trash size={22} className='text-primary hover:text-primary-dark transition-all' /></a>
+                  </span>
+                )}
               </div>
             </div>
           </article>

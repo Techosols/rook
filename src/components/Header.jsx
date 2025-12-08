@@ -5,6 +5,7 @@ import { UserSquare } from "lucide-react";
 import useAuth from "../hooks/useAuth";
 
 import useModel from "../hooks/useModel";
+import { Link } from "react-router-dom";
 
 
 function Navbar() {
@@ -34,11 +35,13 @@ function Navbar() {
     <section className="header bg-background dark:bg-background-dark text-text dark:text-text-dark shadow-md sticky top-0 z-50">
       <nav className="flex items-center justify-between px-4 md:px-12 py-4">
         <div>
+          <Link to={'/'}>
           <img
             src={theme === 'dark' ? DARK_IMAGE : LIGHT_IMAGE}
             alt="Logo"
             className="h-[40px]"
-          />
+            />
+            </Link>
         </div>
         <div>
           {/* Desktop Menu */}
@@ -49,7 +52,7 @@ function Navbar() {
                   <div className="flex items-center gap-4">
                     {loggedNavLinks.map((link) => (
                       <li key={link.id}>
-                        <a href={link.href} className="cursor-pointer text-lg">{link.label}</a>
+                        <Link to={link.href} className="cursor-pointer text-lg">{link.label}</Link>
                       </li>
                     ))}
                     <li onClick={() => openModel({ for: 'profile', heading: 'Your Profile', dissmissible: true })} className="cursor-pointer text-lg">
@@ -61,7 +64,7 @@ function Navbar() {
                   <div className="flex items-center gap-4">
                     {navLinks.map((link) => (
                       <li key={link.id}>
-                        <a href={link.href} className="cursor-pointer text-lg">{link.label}</a>
+                        <Link to={link.href} className="cursor-pointer text-lg">{link.label}</Link>
                       </li>
                     ))}
                   </div>
@@ -107,7 +110,7 @@ function Navbar() {
               <div className="flex flex-col justify-center items-center">
                 {loggedNavLinks.map((link) => (
                   <li key={link.id}>
-                    <a href={link.href} className="cursor-pointer text-lg">{link.label}</a>
+                    <Link to={link.href} className="cursor-pointer text-lg">{link.label}</Link>
                     </li>
                   ))}
                   <li onClick={() => openModel({ for: 'profile', heading: 'Your Profile' })} className="cursor-pointer text-lg text-center">
@@ -118,7 +121,7 @@ function Navbar() {
                 <div>
                   {navLinks.map((link) => (
                     <li key={link.id}>
-                      <a href={link.href} className="cursor-pointer text-lg">{link.label}</a>
+                      <Link to={link.href} className="cursor-pointer text-lg">{link.label}</Link>
                     </li>
                   ))}
                 </div>
