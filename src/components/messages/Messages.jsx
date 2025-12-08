@@ -29,7 +29,7 @@ function Message() {
     <div className="space-y-6">
       {/* Inbox Section */}
       <Section title="Messages" description="Inbox Showing messages Threads">
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 overflow-hidden">
+        <div className="bg-white dark:bg-gray-800  overflow-hidden">
 
           {/* Messages List */}
           <div className="h-[400px] overflow-y-auto divide-y divide-gray-200 dark:divide-gray-700">
