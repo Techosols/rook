@@ -81,7 +81,7 @@ const Notification = ({items = [], showDelete = false}) => {
                 { showDelete &&
                 (
                 <span className={`${!n.detailsLink && 'flex w-full justify-end'}`}>
-                    <a href="#"><Trash size={22} className='text-primary hover:text-primary-dark transition-all' /></a>
+                    <Trash size={22} className='text-primary hover:text-primary-dark transition-all' />
                   </span>
                 )}
               </div>

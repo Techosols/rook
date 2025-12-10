@@ -270,8 +270,13 @@ function ProfileCard({
           <div className="flex items-center space-x-2">
             <button
               onClick={handleProfileSuggestion}
+               className={`p-2.5 rounded-xl transition-all duration-200 hover:scale-105 hover:cursor-pointer disabled:cursor-not-allowed ${
+                iconStates.link
+                  ? "bg-blue-500 text-white shadow-lg shadow-blue-500/25"
+                  : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
+              }`}
             >
-              <MessageCirclePlusIcon size={18} className="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors" title="Suggest Profile Improvements" />
+              <MessageCirclePlusIcon size={18} title="Suggest Profile Improvements" />
             </button>
             <button
               onClick={() =>
