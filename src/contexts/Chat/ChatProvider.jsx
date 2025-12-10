@@ -26,8 +26,8 @@ const ChatProvider = ({ children }) => {
 
     const api = useAuthenticatedApi();
 
-    // console.log("Suggestions For You:", suggestionsForYou);
-    // console.log("Suggestion By You:", suggestionByYou);
+    console.log("Suggestions For You:", suggestionsForYou);
+    console.log("Suggestion By You:", suggestionByYou);
     // console.log("Rook Notifications:", rookNotifications);
     // console.log("Rook Messages:", rookMessages);
     // console.log("Message Threads:", messageThreads);
