@@ -10,6 +10,7 @@ import {
   UserMinus2,
   LucideHourglass,
   BadgeCheck,
+  MessageCirclePlusIcon
 } from "lucide-react";
 import useMatches from "../../hooks/useMatches";
 // Material icons (prefer for badges)
@@ -209,6 +210,15 @@ function ProfileCard({
     }
   }
 
+  function handleProfileSuggestion() {
+    openModel({
+      for: "profileSuggestion",
+      heading: `Suggest Profile Improvements`,
+      dissmissible: true,
+      profileId: profile?.profileId,
+    })
+  }
+
   // If no profile data, show loading state
   if (!profile) {
     return (
@@ -258,6 +268,12 @@ function ProfileCard({
           </div>
 
           <div className="flex items-center space-x-2">
+            <button
+              onClick={handleProfileSuggestion}
+               className={`p-2.5 rounded-xl transition-all duration-200 hover:scale-105 hover:cursor-pointer disabled:cursor-not-allowed bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600`}
+            >
+              <MessageCirclePlusIcon size={18} title="Suggest Profile Improvements" />
+            </button>
             <button
               onClick={() =>
                 iconStates.link

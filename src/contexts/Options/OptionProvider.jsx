@@ -17,7 +17,7 @@ const OptionProvider = ({ children }) => {
 
     const [alcoholConsumptionFrequencies, setAlcoholConsumptionFrequencies] = useState();
     const [complaintCategories, setComplaintCategories] = useState();
-    const [complaintStatuses, setComplaintStatuses] = useState();
+    const [complaintStatuses, setComplaintStatuses] = useState();         
     const [educationLevels, setEducationLevels] = useState();
     const [ethnicities, setEthnicities] = useState();
     const [genders, setGenders] = useState();
