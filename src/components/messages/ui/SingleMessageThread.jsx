@@ -11,8 +11,6 @@ const SingleMessageThread = ({ message }) => {
       </div>
     );
   }
-
-  console.log(message, ' SINGLE MESSAGE CONSOLE')
   
   return (
     <div className="p-6 space-y-6">

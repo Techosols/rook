@@ -8,17 +8,14 @@ import { getDateAndMonth } from '../../utils/functions';
 
 function Message() {
   const [openMessageId, setOpenMessageId] = useState(null);
-  const { messageThreads } = useChat()
+  const { messageThreads, messageReplies = [], fetchReplies } = useChat()
 
   // Toggle the selected message
   const handleToggle = (messageId) => {
     setOpenMessageId(openMessageId === messageId ? null : messageId);
+    fetchReplies(messageId)
   };
 
-  // Find the selected message
-  const selectedMessage = messageThreads?.find(
-    msg => msg.messageId === openMessageId
-  );
 
   return (
     <div className="space-y-6">
@@ -118,13 +115,13 @@ function Message() {
       </Section>
 
       {/* Single Message Thread Section */}
-      {selectedMessage && (
+      {messageReplies && (
         <Section
           title="A Single Message Thread"
           description="You can see replies of the selected message"
         >
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 overflow-hidden">
-            <SingleMessageThread message={selectedMessage} />
+            <SingleMessageThread message={messageReplies} />
           </div>
         </Section> 
       )}

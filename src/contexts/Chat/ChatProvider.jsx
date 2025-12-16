@@ -11,6 +11,7 @@ const ChatProvider = ({ children }) => {
     const [ rookNotifications, setRookNotifications ] = useState([]);
     const [ rookMessages, setRookMessages ] = useState([]);
     const [ messageThreads, setMessageThreads ] = useState([]);
+    const [ messageReplies, setMessageReplies ] = useState(null);
     const [ chatThreads, setChatThreads ] = useState([]);
 
     // Extra states for Chats - 
@@ -26,13 +27,13 @@ const ChatProvider = ({ children }) => {
 
     const api = useAuthenticatedApi();
 
-    console.log("Suggestions For You:", suggestionsForYou);
-    console.log("Suggestion By You:", suggestionByYou);
+    // console.log("Suggestions For You:", suggestionsForYou);
+    // console.log("Suggestion By You:", suggestionByYou);
     // console.log("Rook Notifications:", rookNotifications);
     // console.log("Rook Messages:", rookMessages);
     // console.log("Message Threads:", messageThreads);
-    // console.log("Chat Threads:", chatThreads);
-    console.log("Selected Chat in Provider:", matchedUserSelectedChat);
+    // // console.log("Chat Threads:", chatThreads);
+    // console.log("Selected Chat in Provider:", matchedUserSelectedChat);
 
     useEffect(() => {
         if (!api) return;
@@ -58,8 +59,6 @@ const ChatProvider = ({ children }) => {
         }
         fetchInitial();
     }, [api]);
-
-    // console.log("Matched User Selected Chat in Provider:", matchedUserSelectedChat);
 
     useEffect(() => {
         setChats(chatsData);
@@ -110,6 +109,25 @@ const ChatProvider = ({ children }) => {
         }
     }
 
+    const fetchReplies = async (messageId) => {
+        if (!api) return;
+        try {
+            setMessageReplies(null);
+            await api.get(`/v1/message-thread/${messageId}`)
+            .then((response) => {
+                console.log("Fetched replies for message:", response.data);
+                setMessageReplies(response.data);
+            })
+            .catch((error) => {
+                console.error("Error fetching replies for message:", error);
+                toast.error("Failed to fetch replies for the message. Please try again later.");
+            });
+        } catch (error) {
+            console.error("Error fetching replies:", error);
+            toast.error("Failed to fetch replies. Please try again later.");
+        }
+    }
+
 
     const values = {
         loading,
@@ -119,10 +137,13 @@ const ChatProvider = ({ children }) => {
         rookMessages,
         messageThreads,
         chatThreads,
+        messageReplies,
 
         fetchMessages,
         sendMessage,
+        fetchReplies,
         loadingChatMessages,
+
         // Extra states for Chats
         chats,
         matchedUserSelectedChat,

@@ -1,23 +1,95 @@
-import { ReplyIcon, TrashIcon } from "lucide-react";
+import { ReplyIcon, TrashIcon, Send } from "lucide-react";
+import { useState } from "react";
 
 export const Replies = ({ replies }) => {
+  const [expandedReplyId, setExpandedReplyId] = useState(null);
+  const [replyContent, setReplyContent] = useState("");
+  const [hoveredReplyId, setHoveredReplyId] = useState(null);
+
   if (!replies || replies.length === 0) return null;
 
+  const toggleInput = (messageId) => {
+    setExpandedReplyId(expandedReplyId === messageId ? null : messageId);
+    setReplyContent("");
+  }
+
+  const handleReplySubmit = () => {
+    if (replyContent.trim()) {
+      console.log("Reply submitted:", replyContent);
+      setReplyContent("");
+      setExpandedReplyId(null);
+    }
+  }
+
   return (
-    <div className="ml-8 flex flex-col gap-2 mt-2 border-primary p-2">
+    <div className="ml-8 flex flex-col gap-3 mt-4 space-y-2">
       {replies.map((reply) => (
-        <div key={reply.messageId} className="pl-4 text-gray-700">
-        <div className="flex justify-between items-center border-b-2 py-3">
-            <div className="flex flex-col">
-          <p className="font-semibold text-primary">{reply.sender}</p>
-          <p>{reply.messageContent}</p>
+        <div 
+          key={reply.messageId}
+          onMouseEnter={() => setHoveredReplyId(reply.messageId)}
+          onMouseLeave={() => setHoveredReplyId(null)}
+        >
+          {/* Reply Card */}
+          <div className="bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-primary/30 dark:hover:border-primary/50">
+            
+            {/* Header */}
+            <div className="flex justify-between items-start mb-3">
+              <div className="flex-1">
+                <p className="font-semibold text-gray-900 dark:text-white text-sm">{reply.sender}</p>
+              </div>
+              
+              {/* Action Buttons */}
+              <div className={`flex gap-1 transition-opacity duration-200 flex-shrink-0 ${hoveredReplyId === reply.messageId ? 'opacity-100' : 'opacity-50 hover:opacity-100'}`}>
+                <button 
+                  className="text-primary hover:text-primary/80 dark:hover:text-primary/70 transition-all duration-200 cursor-pointer p-1.5 hover:bg-primary/10 dark:hover:bg-primary/20 rounded-md"
+                  onClick={() => toggleInput(reply.messageId)}
+                  title="Reply to this message"
+                >
+                  <ReplyIcon size={16} />
+                </button>
+                <button 
+                  className="text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300 transition-all duration-200 cursor-pointer p-1.5 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-md"
+                  title="Delete this reply"
+                >
+                  <TrashIcon size={16} />
+                </button>
+              </div>
             </div>
-          <div className="flex gap-4">
-            <button className="text-primary hover:underline transition-all cursor-pointer"><ReplyIcon /></button>
-            <button className="text-primary hover:underline transition-all cursor-pointer"><TrashIcon /></button>
+
+            {/* Message Content */}
+            <p className="text-gray-700 dark:text-gray-200 text-sm leading-relaxed">
+              {reply.messageContent}
+            </p>
           </div>
+          
+          {/* Reply Input */}
+          {expandedReplyId === reply.messageId && (
+            <div className="mt-3 pl-2">
+              <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-600 p-3 shadow-md">
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={replyContent}
+                    onChange={(e) => setReplyContent(e.target.value)}
+                    onKeyPress={(e) => e.key === 'Enter' && handleReplySubmit()}
+                    className="flex-1 border border-gray-300 dark:border-gray-600 rounded-md p-2.5 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:border-primary dark:focus:border-primary focus:ring-1 focus:ring-primary/50 dark:focus:ring-primary/50 text-sm transition-colors duration-200"
+                    placeholder="Type your reply..."
+                    autoFocus
+                  />
+                  <button
+                    onClick={handleReplySubmit}
+                    disabled={!replyContent.trim()}
+                    className="bg-primary dark:bg-primary text-white p-2 rounded-md hover:bg-primary/90 dark:hover:bg-primary/80 disabled:bg-gray-300 dark:disabled:bg-gray-600 transition-all duration-200 flex items-center justify-center font-medium"
+                    title="Send reply"
+                  >
+                    <Send size={16} />
+                  </button>
+                </div>
+              </div>
             </div>
-          {/* Render nested replies recursively */}
+          )}
+          
+          {/* Nested Replies */}
           <Replies replies={reply.replies} />
         </div>
       ))}
