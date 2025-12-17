@@ -97,7 +97,7 @@ const ChatProvider = ({ children }) => {
             }).then(async (response) => {
                 console.log("Message sent successfully:", response);
                 updateMessages(matchedUserSelectedChat?.threadId);
- 
+
             }).catch((error) => {
                 console.error("Error sending message:", error);
                 toast.error("Failed to send message. Please try again later.");
@@ -223,6 +223,26 @@ const ChatProvider = ({ children }) => {
         }
     }
 
+    const suggestFeedback = async (suggestionId, feedbackResult) => {
+        if (!api) return;
+        try {
+            await api.post('/v1/actions/record', {
+                "object": "event",
+                "type": "user.suggestion-result",
+                "data": {
+                    "occurredAt": new Date().toISOString(),
+                    "suggestionId": suggestionId,
+                    "suggestionResultName": feedbackResult
+                }
+            }).then(async (response) => {
+                console.log("Feedback submitted successfully:", response);
+            });
+        } catch (error) {
+            console.error("Error submitting feedback:", error);
+            toast.error("Failed to submit feedback. Please try again later.");
+        }
+    }
+
     const values = {
         loading,
         suggestionsForYou,
@@ -239,6 +259,7 @@ const ChatProvider = ({ children }) => {
         sendReply,
         deleteMessage,
         deleteReply,
+        suggestFeedback,
         loadingChatMessages,
 
         // Extra states for Chats
