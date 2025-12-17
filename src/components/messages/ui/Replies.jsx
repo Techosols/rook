@@ -1,10 +1,12 @@
 import { ReplyIcon, TrashIcon, Send } from "lucide-react";
 import { useState } from "react";
+import useChat from "../../../hooks/useChat";
 
 export const Replies = ({ replies }) => {
   const [expandedReplyId, setExpandedReplyId] = useState(null);
   const [replyContent, setReplyContent] = useState("");
   const [hoveredReplyId, setHoveredReplyId] = useState(null);
+  const { sendReply } = useChat();
 
   if (!replies || replies.length === 0) return null;
 
@@ -17,6 +19,7 @@ export const Replies = ({ replies }) => {
     if (replyContent.trim()) {
       console.log("Reply submitted:", replyContent);
       setReplyContent("");
+      sendReply(expandedReplyId, replyContent);
       setExpandedReplyId(null);
     }
   }
@@ -72,12 +75,12 @@ export const Replies = ({ replies }) => {
                     value={replyContent}
                     onChange={(e) => setReplyContent(e.target.value)}
                     onKeyPress={(e) => e.key === 'Enter' && handleReplySubmit()}
+                    autoFocus
                     className="flex-1 border border-gray-300 dark:border-gray-600 rounded-md p-2.5 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:border-primary dark:focus:border-primary focus:ring-1 focus:ring-primary/50 dark:focus:ring-primary/50 text-sm transition-colors duration-200"
                     placeholder="Type your reply..."
-                    autoFocus
                   />
                   <button
-                    onClick={handleReplySubmit}
+                    onClick={() => handleReplySubmit()}
                     disabled={!replyContent.trim()}
                     className="bg-primary dark:bg-primary text-white p-2 rounded-md hover:bg-primary/90 dark:hover:bg-primary/80 disabled:bg-gray-300 dark:disabled:bg-gray-600 transition-all duration-200 flex items-center justify-center font-medium"
                     title="Send reply"

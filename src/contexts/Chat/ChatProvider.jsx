@@ -6,19 +6,19 @@ import { toast } from "react-toastify";
 
 const ChatProvider = ({ children }) => {
 
-    const [ suggestionsForYou, setSuggestionsForYou ] = useState([]);
-    const [ suggestionByYou, setSuggestionByYou ] = useState([]);
-    const [ rookNotifications, setRookNotifications ] = useState([]);
-    const [ rookMessages, setRookMessages ] = useState([]);
-    const [ messageThreads, setMessageThreads ] = useState([]);
-    const [ messageReplies, setMessageReplies ] = useState(null);
-    const [ chatThreads, setChatThreads ] = useState([]);
+    const [suggestionsForYou, setSuggestionsForYou] = useState([]);
+    const [suggestionByYou, setSuggestionByYou] = useState([]);
+    const [rookNotifications, setRookNotifications] = useState([]);
+    const [rookMessages, setRookMessages] = useState([]);
+    const [messageThreads, setMessageThreads] = useState([]);
+    const [messageReplies, setMessageReplies] = useState(null);
+    const [chatThreads, setChatThreads] = useState([]);
 
     // Extra states for Chats - 
-    const [ chats, setChats ] = useState(null);
-    const [ matchedUserSelectedChat, setMatchedUserSelectedChat ] = useState(null);
-    const [ matchedUserSelectedChatMessages, setMatchedUserSelectedChatMessages ] = useState([]);
-    const [ disconnectedUserSelectedChat, setDisconnectedUserSelectedChat ] = useState(null);
+    const [chats, setChats] = useState(null);
+    const [matchedUserSelectedChat, setMatchedUserSelectedChat] = useState(null);
+    const [matchedUserSelectedChatMessages, setMatchedUserSelectedChatMessages] = useState([]);
+    const [disconnectedUserSelectedChat, setDisconnectedUserSelectedChat] = useState(null);
 
 
     // Loading States
@@ -40,7 +40,7 @@ const ChatProvider = ({ children }) => {
 
         async function fetchInitial() {
             setLoading(true);
-            const [suggestionByYouRes, suggestionForYouRes, rookNotificationsRes, rookMessagesRes, messageThreadsRes, chatThreadRes ] = await Promise.all([
+            const [suggestionByYouRes, suggestionForYouRes, rookNotificationsRes, rookMessagesRes, messageThreadsRes, chatThreadRes] = await Promise.all([
                 api.get('/v1/suggestions-by-user'),
                 api.get('/v1/profile-suggestions'),
                 api.get('/v1/rook-notifications'),
@@ -71,17 +71,17 @@ const ChatProvider = ({ children }) => {
 
         try {
             await api.get(`/v1/chat-thread/${threadId}`)
-            .then((response) => {
-                console.log("Fetched messages for thread:", response.data);
-                setMatchedUserSelectedChatMessages(response.data);
-            })
-            .catch((error) => {
-                console.error("Error fetching messages for thread:", error);
-                toast.error("Failed to fetch messages for the selected chat. Please try again later.");
-            })
-            .finally(() => {
-                setLoadingChatMessages(false);
-            })
+                .then((response) => {
+                    console.log("Fetched messages for thread:", response.data);
+                    setMatchedUserSelectedChatMessages(response.data);
+                })
+                .catch((error) => {
+                    console.error("Error fetching messages for thread:", error);
+                    toast.error("Failed to fetch messages for the selected chat. Please try again later.");
+                })
+                .finally(() => {
+                    setLoadingChatMessages(false);
+                })
         } catch (error) {
             console.error("Error fetching chat threads:", error);
             toast.error("Failed to fetch chat threads. Please try again later.");
@@ -96,13 +96,12 @@ const ChatProvider = ({ children }) => {
                 "messageContent": messageContent
             }).then(async (response) => {
                 console.log("Message sent successfully:", response);
-                fetchMessages(matchedUserSelectedChat?.threadId);
-                // Update the messages list with the new message
-                // setMatchedUserSelectedChatMessages((prevMessages) => [...prevMessages, response.data]);
+                updateMessages(matchedUserSelectedChat?.threadId);
+ 
             }).catch((error) => {
                 console.error("Error sending message:", error);
                 toast.error("Failed to send message. Please try again later.");
-            }); 
+            });
         } catch (error) {
             console.error("Error sending message:", error);
             toast.error("Failed to send message. Please try again later.");
@@ -114,20 +113,115 @@ const ChatProvider = ({ children }) => {
         try {
             setMessageReplies(null);
             await api.get(`/v1/message-thread/${messageId}`)
-            .then((response) => {
-                console.log("Fetched replies for message:", response.data);
-                setMessageReplies(response.data);
-            })
-            .catch((error) => {
-                console.error("Error fetching replies for message:", error);
-                toast.error("Failed to fetch replies for the message. Please try again later.");
-            });
+                .then((response) => {
+                    console.log("Fetched replies for message:", response.data);
+                    setMessageReplies(response.data);
+                })
+                .catch((error) => {
+                    console.error("Error fetching replies for message:", error);
+                    toast.error("Failed to fetch replies for the message. Please try again later.");
+                });
         } catch (error) {
             console.error("Error fetching replies:", error);
             toast.error("Failed to fetch replies. Please try again later.");
         }
     }
 
+    const sendReply = async (parentMessageId, replyContent) => {
+        if (!api) return;
+        try {
+            await api.post('/v1/user-message-reply', {
+                "parentMessageId": parentMessageId,
+                "messageContent": replyContent,
+            }
+            ).then(async (response) => {
+                console.log("Reply sent successfully:", response);
+                updateReplies(parentMessageId);
+            }).catch((error) => {
+                console.error("Error sending reply:", error);
+                toast.error("Failed to send reply. Please try again later.");
+            });
+        } catch (error) {
+            console.error("Error sending reply:", error);
+            toast.error("Failed to send reply. Please try again later.");
+        }
+    }
+
+    const deleteMessage = async (messageId) => {
+        if (!api) return;
+        try {
+            await api.delete(`/v1/chat-message/${messageId}`)
+                .then(async (response) => {
+                    console.log("Message deleted successfully:", response);
+                    // Refresh the replies after deletion
+                    // fetchReplies(messageReplies?.parentMessageId);
+                })
+                .catch((error) => {
+                    console.error("Error deleting message:", error);
+                    toast.error("Failed to delete message. Please try again later.");
+                });
+        } catch (error) {
+            console.error("Error deleting message:", error);
+            toast.error("Failed to delete message. Please try again later.");
+        }
+    }
+
+    const deleteReply = async (replyId) => {
+        if (!api) return;
+        try {
+            await api.delete(`/v1/message-reply/${replyId}`)
+                .then(async (response) => {
+                    console.log("Reply deleted successfully:", response);
+                    // Refresh the replies after deletion
+                    // fetchReplies(messageReplies?.parentMessageId);
+                })
+                .catch((error) => {
+                    console.error("Error deleting reply:", error);
+                    toast.error("Failed to delete reply. Please try again later.");
+                });
+        } catch (error) {
+            console.error("Error deleting reply:", error);
+            toast.error("Failed to delete reply. Please try again later.");
+        }
+    }
+
+    const updateReplies = async (parentMessageId) => {
+        if (!api) return;
+        try {
+            await api.get(`/v1/message-thread/${parentMessageId}`)
+                .then((response) => {
+                    console.log("Updated replies for message:", response.data);
+                    setMessageReplies(response.data);
+                })
+                .catch((error) => {
+                    console.error("Error updating replies for message:", error);
+                    toast.error("Failed to update replies for the message. Please try again later.");
+                });
+        } catch (error) {
+            console.error("Error updating replies:", error);
+            toast.error("Failed to update replies. Please try again later.");
+        }
+
+    }
+
+    const updateMessages = async (threadId) => {
+        if (!api) return;
+
+        try {
+            await api.get(`/v1/chat-thread/${threadId}`)
+                .then((response) => {
+                    console.log("Fetched messages for thread:", response.data);
+                    setMatchedUserSelectedChatMessages(response.data);
+                })
+                .catch((error) => {
+                    console.error("Error fetching messages for thread:", error);
+                    toast.error("Failed to fetch messages for the selected chat. Please try again later.");
+                })
+        } catch (error) {
+            console.error("Error fetching chat threads:", error);
+            toast.error("Failed to fetch chat threads. Please try again later.");
+        }
+    }
 
     const values = {
         loading,
@@ -142,6 +236,9 @@ const ChatProvider = ({ children }) => {
         fetchMessages,
         sendMessage,
         fetchReplies,
+        sendReply,
+        deleteMessage,
+        deleteReply,
         loadingChatMessages,
 
         // Extra states for Chats
