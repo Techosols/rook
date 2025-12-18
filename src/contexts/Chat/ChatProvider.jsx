@@ -20,6 +20,9 @@ const ChatProvider = ({ children }) => {
     const [matchedUserSelectedChatMessages, setMatchedUserSelectedChatMessages] = useState([]);
     const [disconnectedUserSelectedChat, setDisconnectedUserSelectedChat] = useState(null);
 
+    const [openMessageId, setOpenMessageId] = useState(null);
+
+    console.log("Open Message ID in Provider:", openMessageId);
 
     // Loading States
     const [loading, setLoading] = useState(false);
@@ -139,7 +142,7 @@ const ChatProvider = ({ children }) => {
             }
             ).then(async (response) => {
                 console.log("Reply sent successfully:", response);
-                updateReplies(parentMessageId);
+                updateReplies();
             }).catch((error) => {
                 console.error("Error sending reply:", error);
                 toast.error("Failed to send reply. Please try again later.");
@@ -169,14 +172,13 @@ const ChatProvider = ({ children }) => {
         }
     }
 
-    const deleteReply = async (replyId) => {
+    const deleteReply = async (messageId) => {
         if (!api) return;
         try {
-            await api.delete(`/v1/message-reply/${replyId}`)
+            await api.delete(`/v1/user-message/${messageId}`)
                 .then(async (response) => {
                     console.log("Reply deleted successfully:", response);
-                    // Refresh the replies after deletion
-                    // fetchReplies(messageReplies?.parentMessageId);
+                    updateReplies();
                 })
                 .catch((error) => {
                     console.error("Error deleting reply:", error);
@@ -188,10 +190,10 @@ const ChatProvider = ({ children }) => {
         }
     }
 
-    const updateReplies = async (parentMessageId) => {
+    const updateReplies = async () => {
         if (!api) return;
         try {
-            await api.get(`/v1/message-thread/${parentMessageId}`)
+            await api.get(`/v1/message-thread/${openMessageId}`)
                 .then((response) => {
                     console.log("Updated replies for message:", response.data);
                     setMessageReplies(response.data);
@@ -246,6 +248,12 @@ const ChatProvider = ({ children }) => {
         }
     }
 
+    const handleToggle = (messageId) => {
+        console.log("Toggling message ID:", messageId);
+        setOpenMessageId(messageId); // openMessageId === messageId ? null : messageId
+        fetchReplies(messageId);
+    };
+
     const values = {
         loading,
         suggestionsForYou,
@@ -255,6 +263,7 @@ const ChatProvider = ({ children }) => {
         messageThreads,
         chatThreads,
         messageReplies,
+        openMessageId,
 
         fetchMessages,
         sendMessage,
@@ -263,6 +272,7 @@ const ChatProvider = ({ children }) => {
         deleteMessage,
         deleteReply,
         suggestFeedback,
+        handleToggle,
         loadingChatMessages,
 
         // Extra states for Chats

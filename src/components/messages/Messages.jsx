@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import Section from "./ui/Section";
 import SingleMessageThread from "./ui/SingleMessageThread";
 import { MessageCircle, Send, Inbox } from "lucide-react";
@@ -7,20 +6,15 @@ import useChat from "../../hooks/useChat";
 import { getDateAndMonth } from "../../utils/functions";
 
 function Message() {
-  const [openMessageId, setOpenMessageId] = useState(null);
+
   const {
     messageThreads,
     messageReplies = [],
-    fetchReplies,
     loading,
+    handleToggle,
+    openMessageId,
   } = useChat();
-  console.log("Loading state:", loading);
 
-  // Toggle the selected message
-  const handleToggle = (messageId) => {
-    setOpenMessageId(openMessageId === messageId ? null : messageId);
-    fetchReplies(messageId);
-  };
 
   return (
     <div className="space-y-6">

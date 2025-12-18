@@ -1,4 +1,4 @@
-import { ReplyIcon, TrashIcon, Send } from "lucide-react";
+import { ReplyIcon, TrashIcon, Send, BanIcon } from "lucide-react";
 import { useState } from "react";
 import useChat from "../../../hooks/useChat";
 
@@ -6,7 +6,7 @@ export const Replies = ({ replies }) => {
   const [expandedReplyId, setExpandedReplyId] = useState(null);
   const [replyContent, setReplyContent] = useState("");
   const [hoveredReplyId, setHoveredReplyId] = useState(null);
-  const { sendReply } = useChat();
+  const { sendReply, deleteReply } = useChat();
 
   if (!replies || replies.length === 0) return null;
 
@@ -27,44 +27,52 @@ export const Replies = ({ replies }) => {
   return (
     <div className="ml-8 flex flex-col gap-3 mt-4 space-y-2">
       {replies.map((reply) => (
-        <div 
+        <div
           key={reply.messageId}
           onMouseEnter={() => setHoveredReplyId(reply.messageId)}
           onMouseLeave={() => setHoveredReplyId(null)}
         >
           {/* Reply Card */}
           <div className="bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:border-primary/30 dark:hover:border-primary/50">
-            
+
             {/* Header */}
             <div className="flex justify-between items-start mb-3">
               <div className="flex-1">
                 <p className="font-semibold text-gray-900 dark:text-white text-sm">{reply.sender}</p>
               </div>
-              
+
               {/* Action Buttons */}
               <div className={`flex gap-1 transition-opacity duration-200 flex-shrink-0 ${hoveredReplyId === reply.messageId ? 'opacity-100' : 'opacity-50 hover:opacity-100'}`}>
-                <button 
+                <button
                   className="text-primary hover:text-primary/80 dark:hover:text-primary/70 transition-all duration-200 cursor-pointer p-1.5 hover:bg-primary/10 dark:hover:bg-primary/20 rounded-md"
                   onClick={() => toggleInput(reply.messageId)}
                   title="Reply to this message"
                 >
                   <ReplyIcon size={16} />
                 </button>
-                <button 
-                  className="text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300 transition-all duration-200 cursor-pointer p-1.5 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-md"
-                  title="Delete this reply"
-                >
-                  <TrashIcon size={16} />
-                </button>
+                {(reply.sender === 'You' && !reply.isDeleted) && (
+                  <button
+                    className="text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300 transition-all duration-200 cursor-pointer p-1.5 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-md"
+                    title="Delete this reply"
+                    onClick={() => deleteReply(reply.messageId)}
+                  >
+                    <TrashIcon size={16} />
+                  </button>
+                )}
+
               </div>
             </div>
 
             {/* Message Content */}
             <p className="text-gray-700 dark:text-gray-200 text-sm leading-relaxed">
-              {reply.messageContent}
+              {reply.isDeleted ? (
+                <span className="italic text-gray-400 dark:text-gray-500"><BanIcon size={16} className="inline mr-1" />This reply has been deleted.</span>
+              ) : (
+                reply.messageContent
+              )}
             </p>
           </div>
-          
+
           {/* Reply Input */}
           {expandedReplyId === reply.messageId && (
             <div className="mt-3 pl-2">
@@ -91,7 +99,7 @@ export const Replies = ({ replies }) => {
               </div>
             </div>
           )}
-          
+
           {/* Nested Replies */}
           <Replies replies={reply.replies} />
         </div>
