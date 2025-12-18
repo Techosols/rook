@@ -110,6 +110,7 @@ const ChatProvider = ({ children }) => {
 
     const fetchReplies = async (messageId) => {
         if (!api) return;
+        setLoading(true);
         try {
             setMessageReplies(null);
             await api.get(`/v1/message-thread/${messageId}`)
@@ -120,6 +121,8 @@ const ChatProvider = ({ children }) => {
                 .catch((error) => {
                     console.error("Error fetching replies for message:", error);
                     toast.error("Failed to fetch replies for the message. Please try again later.");
+                }).finally(() => {
+                    setLoading(false);
                 });
         } catch (error) {
             console.error("Error fetching replies:", error);
