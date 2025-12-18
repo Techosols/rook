@@ -2,20 +2,8 @@ import React from 'react'
 import { Bell, ChevronRight, Trash } from 'lucide-react'
 import { getDateAndMonth } from '../../../utils/functions'
 
-// const mockNotifications = [
-//   {
-//     id: 1,
-//     title: 'Rook',
-//     date: 'Jun 5',
-//     summary:
-//       'We released a big update with lot of features!',
-//     href: '#',
-//     type: 'update'
-//   },
-  
-// ]
 
-const Notification = ({items = [], showDelete = false}) => {
+const Notification = ({items = []}) => {
   return (
     <div className="w-full max-w-4xl">
       <div className="space-y-3">
@@ -78,12 +66,7 @@ const Notification = ({items = [], showDelete = false}) => {
                   <ChevronRight size={16} className="ml-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
                 </a>
                 )}
-                { showDelete &&
-                (
-                <span className={`${!n.detailsLink && 'flex w-full justify-end'} cursor-pointer`}>
-                    <Trash size={22} className='text-primary hover:text-primary-dark transition-all' />
-                  </span>
-                )}
+                
               </div>
             </div>
           </article>

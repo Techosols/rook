@@ -63,7 +63,7 @@ function MessageFromRook() {
             </div>
           </div>
         ) : (
-          <Notification items={rookMessages} showDelete={true} />
+          <Notification items={rookMessages}/>
         )}
       </Section>
     </>
