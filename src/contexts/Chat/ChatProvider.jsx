@@ -22,8 +22,6 @@ const ChatProvider = ({ children }) => {
 
     const [openMessageId, setOpenMessageId] = useState(null);
 
-    console.log("Open Message ID in Provider:", openMessageId);
-
     // Loading States
     const [loading, setLoading] = useState(false);
     const [loadingChatMessages, setLoadingChatMessages] = useState(false);
@@ -159,8 +157,7 @@ const ChatProvider = ({ children }) => {
             await api.delete(`/v1/chat-message/${messageId}`)
                 .then(async (response) => {
                     console.log("Message deleted successfully:", response);
-                    // Refresh the replies after deletion
-                    // fetchReplies(messageReplies?.parentMessageId);
+                    updateMessages(matchedUserSelectedChat?.threadId);
                 })
                 .catch((error) => {
                     console.error("Error deleting message:", error);

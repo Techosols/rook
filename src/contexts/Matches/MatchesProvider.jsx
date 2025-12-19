@@ -46,7 +46,6 @@ const MatchesProvider = ({ children }) => {
         }
 
         const fetchInitials = async () => {
-            console.log('Fetching initial data...');
             setLoadingMatches(true);
             try {
                 const [blockedUsersData, ignoredUsersData, bookmarkedByMeUsersData, bookmarkedMeUsersData, profilesViewedByMeData, profilesViewedMeData, connectionRequestsSentData, connectionRequestsReceivedData, connectionsData, matchesData, randomMatchesData, bookmarkedByMeAcceptingConnectionsData] = await Promise.all([

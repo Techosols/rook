@@ -10,6 +10,7 @@ import MatchesProvider from "./contexts/Matches/MatchesProvider";
 import OptionProvider from "./contexts/Options/OptionProvider";
 import FilterProvider from "./contexts/Filter/FilterProvider";
 import ProfileProvider from "./contexts/Profile/ProfileProvider";
+import SocketProvider from "./contexts/socket/SocketProvider";
 import ChatProvider from "./contexts/Chat/ChatProvider";
 import ModelProvider from "./contexts/Model/ModelProvider";
 
@@ -33,9 +34,11 @@ const Providers = ({ children }) => (
                 <OptionProvider>
                   <ProfileProvider>
                     <FilterProvider>
-                      <ChatProvider>
-                        {children}
-                      </ChatProvider>
+                      <SocketProvider>
+                        <ChatProvider>
+                          {children}
+                        </ChatProvider>
+                      </SocketProvider>
                     </FilterProvider>
                   </ProfileProvider>
                 </OptionProvider>

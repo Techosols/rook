@@ -1,15 +1,18 @@
 import { formateTime } from "../../../utils/functions"
 import { BanIcon, Trash2 } from "lucide-react";
 import { useState } from "react";
+import useChat from "../../../hooks/useChat";
 
 function MessageCard({ message }) {
   const isYourMessage = message?.you === true;
 
   const [showDeleteOption, setShowDeleteOption] = useState(false);
+  const { deleteMessage } = useChat();
 
   const handleDelete = () => {
     // Add delete logic here
-    console.log("Delete message:", message?.messageId);
+    // console.log("Delete message:", message?.messageId);
+    deleteMessage(message?.messageId);
   };
 
   return (
