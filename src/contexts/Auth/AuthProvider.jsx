@@ -2,10 +2,8 @@ import AuthContext from "./AuthContext";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
 import useTab from "../../hooks/useTab";
-// import api from "../../services/api";
 
 const AuthProvider = ({ children }) => {
-
   const {
     user,
     isAuthenticated,
@@ -14,8 +12,6 @@ const AuthProvider = ({ children }) => {
     error,
     getIdTokenClaims,
   } = useAuth0();
-
-  
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userExternalId, setUserExternalId] = useState(null);
@@ -30,64 +26,66 @@ const AuthProvider = ({ children }) => {
   const login = () => loginWithRedirect();
   const loginPopup = (options) => loginWithPopup(options);
 
-  // console.log("Token: ", token)
-  
+  // Log auth token updates
   useEffect(() => {
-    const savedState = localStorage.getItem("RKU"); // RKU => Rook User
-    const savedToken = localStorage.getItem("RKT"); // RKT => Rook Token
+    if (token) console.log("✔ Auth Token Updated:", token);
+  }, [token]);
 
-    if (savedState) {
-      setIsLoggedIn(true);
-      setActiveTab("matches");
-    }
+  // Log auth state changes
+  useEffect(() => {
+    console.log("✔ Auth State Changed: isAuthenticated =", isAuthenticated, ", user =", user);
+  }, [isAuthenticated, user]);
 
-    if (savedToken) {
-      setToken(savedToken);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
+  // Function to get Auth0 token
   const getToken = async () => {
-    const claim = await getIdTokenClaims();
-    const authToken = claim?.__raw;
-    if (authToken) {
-      setToken(authToken);
-      localStorage.setItem("RKT", authToken); // RKT => Rook Token
-    }
-  };
-
-  const getUserExternalId = async () => {
-
-    if (!user?.email) return;
-
     try {
-      const response = await fetch('/api/fetch-data?endpoint=user/' + encodeURIComponent(user?.email));
-      const data = await response.json();
-      // console.log('User External ID Response: ', data);
-      setUserExternalId(data.externalId);
-    } catch (error) {
-      console.error('Error fetching user external ID:', error);
+      const claim = await getIdTokenClaims();
+      if (!claim) {
+        console.error("getIdTokenClaims returned undefined.");
+        return;
+      }
+      const authToken = claim.__raw;
+      if (authToken) {
+        setToken(authToken);
+        localStorage.setItem("RKT", authToken);
+        console.log("Auth Token generated:", authToken);
+      } else {
+        console.error("No auth token found in claims.");
+      }
+    } catch (err) {
+      console.error("Error getting auth token:", err);
     }
   };
 
+  // Function to fetch external user ID from backend
+  const getUserExternalId = async () => {
+    if (!user?.email) return;
+    try {
+      const response = await fetch(
+        `/api/fetch-data?endpoint=user/${encodeURIComponent(user.email)}`
+      );
+      const data = await response.json();
+      setUserExternalId(data.externalId);
+    } catch (err) {
+      console.error("Error fetching user external ID:", err);
+    }
+  };
 
+  // Unified effect: handle authentication and persistence
   useEffect(() => {
-    if (isLoggedIn) {
-      localStorage.setItem("RKU", true); // RKU => Rook User
+    if (isAuthenticated && user?.email) {
+      setIsLoggedIn(true);
+      localStorage.setItem("RKU", true);
+      setActiveTab("matches");
       getToken();
       getUserExternalId();
+    } else {
+      setIsLoggedIn(false);
+      localStorage.removeItem("RKU");
+      setUserExternalId(null);
+      setToken(null);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLoggedIn, user]);
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      getToken();
-    } 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuthenticated]);
-
-  
+  }, [isAuthenticated, user]);
 
   return (
     <AuthContext.Provider

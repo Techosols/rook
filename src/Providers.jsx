@@ -21,10 +21,11 @@ const Providers = ({ children }) => (
       domain={import.meta.env.VITE_AUTH0_CLIENT_DOMAIN}
       clientId={import.meta.env.VITE_AUTH0_CLIENT_ID}
       authorizationParams={{
-        redirect_uri: window.location.origin
+        redirect_uri: window.location.origin,
+        scope: "openid profile email"
       }}
-      useRefreshTokens={false}
-      cacheLocation="memory"
+      useRefreshTokens={true}
+      cacheLocation="localstorage"
     >
       <ThemeProvider>
         <TabProvider>
