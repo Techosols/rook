@@ -4,6 +4,7 @@ import MatchesContainer from '../ui/MatchesContainer';
 
 // Sample data structure as provided by the user
 const sampleMatchesData = {
+  
   "results": [
     {
       "preferredName": "Neoma",
