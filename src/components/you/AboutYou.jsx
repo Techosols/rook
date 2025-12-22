@@ -174,7 +174,7 @@ function AboutYou() {
                 </div>
 
                 {/* Sentiment Analysis */}
-                <div className="flex items-center space-x-6">
+                <div className="flex items-center flex-col sm:flex-row gap-3 sm:gap-0 space-x-6">
                   <div className="flex items-center space-x-3 bg-gray-50 dark:bg-gray-700/50 rounded-xl px-4 py-2">
                     <SmileIcon 
                       className={`transition-all duration-200 cursor-pointer hover:scale-110 ${

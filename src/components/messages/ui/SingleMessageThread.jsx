@@ -13,7 +13,7 @@ const SingleMessageThread = ({ message }) => {
   }
   
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-3 sm:p-6 space-y-6">
       {/* Original Message Card */}
       <div className="bg-gradient-to-br from-primary/5 to-blue-500/5 dark:from-primary/15 dark:to-blue-500/15 border border-primary/20 dark:border-primary/30 rounded-xl p-6 shadow-md">
         {/* Header */}

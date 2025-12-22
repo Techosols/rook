@@ -34,7 +34,7 @@ export const Replies = ({ replies }) => {
   };
 
   return (
-    <div className="ml-8 flex flex-col gap-3 mt-4 space-y-2">
+    <div className="ml-4 sm:ml-8 flex flex-col gap-3 mt-4 space-y-2">
       {replies.map((reply) => (
         <div
           key={reply.messageId}
