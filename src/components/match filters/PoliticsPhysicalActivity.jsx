@@ -23,7 +23,7 @@ function PoliticsPhysicalActivity() {
             </div>
           )}
           {excludePoliticalAffiliations?.map((affiliation) => (
-            <Checkbox key={affiliation?.key} label={affiliation?.name} checked={affiliation?.excluded} onChange={() => UpdatePoliticalAffiliation(affiliation?.id)} />
+            <Checkbox key={affiliation?.id} label={affiliation?.name} checked={affiliation?.excluded} onChange={() => UpdatePoliticalAffiliation(affiliation?.id)} />
           ))}
         </div>
       </FormSection>
@@ -39,7 +39,7 @@ function PoliticsPhysicalActivity() {
             </div>
           )}
           {excludePhysicalActivityIndexes?.map((level) => (
-            <Checkbox key={level?.key} label={level?.name} checked={level?.excluded} onChange={() => UpdatePhysicalActivityIndex(level?.id)} />
+            <Checkbox key={level?.id} label={level?.name} checked={level?.excluded} onChange={() => UpdatePhysicalActivityIndex(level?.id)} />
           ))}
         </div>
       </FormSection>

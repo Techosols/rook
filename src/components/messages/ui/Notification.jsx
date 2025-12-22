@@ -7,10 +7,10 @@ const Notification = ({items = []}) => {
   return (
     <div className="w-full max-w-4xl">
       <div className="space-y-3">
-        { items.map((n) => (
+        { items.map((n, idx) => (
           <article
-            key={n.id}
-            aria-labelledby={`notif-${n.id}-title`}
+            key={idx}
+            aria-labelledby={`notif-${idx}-title`}
             className="
               flex items-start gap-4 p-4 rounded-lg 
               bg-white dark:bg-gray-800 

@@ -34,7 +34,6 @@ function Occupations() {
   const filteredExcludeOccupations = Object.values(mergedExcludedOccupations).filter((occupation) =>
     occupation?.name.toLowerCase().startsWith(searchExclude.toLowerCase())
   );
-  console.log(searchInclude)
   return (
     <div className='p-1 flex flex-col gap-1 md:gap-4'>
       

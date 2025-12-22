@@ -6,7 +6,6 @@ import useFilter from "../../hooks/useFilter";
 function EthnicitiesReligions() {
   
   const { excludeEthnicities = [], excludeReligions = [], excludeBackgroundCheckStatus, saveEthnicities, UpdateEthnicities, UpdateReligion, saveReligion, UpdateBackgroundCheckStatus, saveBackgroundCheckStatus, isLoading, isSavingEthnicities, isSavingReligions, isSavingBackgroundCheckStatus} = useFilter();
-  console.log('excludeEthnicities', excludeEthnicities);
 
   return (
     <div className='p-1 flex flex-col gap-1 md:gap-4'>
