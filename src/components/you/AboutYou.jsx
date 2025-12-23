@@ -169,7 +169,7 @@ function AboutYou() {
 
                 {/* Sentiment Analysis */}
                 <div className="flex items-center flex-col sm:flex-row gap-3 sm:gap-0 space-x-6">
-                  <div className="flex items-center space-x-3 bg-gray-50 dark:bg-gray-700/50 rounded-xl px-4 py-2">
+                  <div className="flex items-center space-x-3 bg-gray-50 dark:bg-gray-700/50 rounded-xl px-4 py-2 mr-0 sm:mr-5">
                     <SmileIcon 
                       className={`transition-all duration-200 cursor-pointer hover:scale-110 ${
                         sentiment !== null && sentiment === 0 
@@ -219,7 +219,7 @@ function AboutYou() {
           </>
         ) : (
           <>
-            <p className="text-sm flex items-center text-gray-500"><LucideBadgeInfo className="mr-2 text-gray-500 inline" size={16} /> Save some short sentences that others can use, to start conversations with you. </p>
+            <p className="text-sm flex items-center text-gray-500"><LucideBadgeInfo className="text-gray-500 inline w-12 mr-2 sm:mr-0" /> Save some short sentences that others can use, to start conversations with you. </p>
             <div>
               <textarea
                 rows={3}

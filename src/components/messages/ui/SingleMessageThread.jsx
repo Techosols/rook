@@ -65,5 +65,4 @@ const SingleMessageThread = ({ message }) => {
     </div>
   );
 };
-
 export default SingleMessageThread;

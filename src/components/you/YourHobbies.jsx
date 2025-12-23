@@ -12,6 +12,7 @@ import userService from "../../services/user";
 
 function YourHobbies() {
   const {
+    miscHobbies,
     miscMusicalInstruments,
     miscMusicGenres,
     petTypes,
@@ -143,7 +144,7 @@ function YourHobbies() {
       </p>
       <FormSection title={"Your Hobbies"} onSave={saveHobbies} loading={saveHobbyLoading}>
         <div className="">
-          {isProfileLoading || !userHobbies ? (
+          {isProfileLoading || !miscHobbies ? (
             <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-3"></div>
           ) : (
             <Input
@@ -155,7 +156,7 @@ function YourHobbies() {
             />
           )}
           <div className="border border-gray-300 p-3 rounded-lg mt-3 flex flex-col gap-3 max-h-96 overflow-y-auto">
-            {isProfileLoading || !userHobbies ? (
+            {isProfileLoading || !miscHobbies ? (
               Array.from({ length: 6 }).map((_, idx) => (
                 <div key={idx} className="h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
               ))
