@@ -65,7 +65,7 @@ function ProfileSuggestionsByYou() {
           <div className="space-y-4">
             {suggestionByYou.map((item) => (
               <Suggestions 
-                key={item.suggestionId}
+                key={item.profileId}
                 username={item.preferredName}
                 description={item.notes}  
                 timeStamp={item.suggestedAt}

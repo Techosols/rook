@@ -246,7 +246,7 @@ function YourInfo() {
     <div className="p-1 flex flex-col gap-1 md:gap-4">
       <p className="text-sm text-gray-600">
         <span>
-          <LucideBadgeInfo className="inline mb-1 mr-1" size={16} />
+          <LucideBadgeInfo className="inline mb-1 mr-2" size={26} />
         </span>
         In this page, you provide info about yourself that can be used by others
         in filters, to include/exclude you in their matches.
