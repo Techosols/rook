@@ -28,7 +28,7 @@ const AuthProvider = ({ children }) => {
 
   // Log auth token updates
   useEffect(() => {
-    if (token) console.log("✔ Auth Token Updated:", token);
+    if (token) console.log("✔ Auth Token Updated:");
   }, [token]);
 
   // Log auth state changes
@@ -47,7 +47,7 @@ const AuthProvider = ({ children }) => {
       const authToken = claim.__raw;
       if (authToken) {
         setToken(authToken);
-        localStorage.setItem("RKT", authToken);
+        // localStorage.setItem("RKT", authToken);
         console.log("Auth Token generated:", authToken);
       } else {
         console.error("No auth token found in claims.");
@@ -70,6 +70,17 @@ const AuthProvider = ({ children }) => {
       console.error("Error fetching user external ID:", err);
     }
   };
+
+  useEffect(() => {
+    if (!isAuthenticated) return;
+
+    const initAuth = async () => {
+      await getToken(); // ALWAYS request token
+    };
+
+    initAuth();
+  }, [isAuthenticated]);
+
 
   // Unified effect: handle authentication and persistence
   useEffect(() => {

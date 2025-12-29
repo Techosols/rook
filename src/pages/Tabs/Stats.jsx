@@ -24,7 +24,7 @@ function Stats() {
         fetch(`/api/fetch-data?endpoint=stats/zip/${zipCode}/scope/withinradius`)
       ]);
 
-      const data = await Promise.all([exactRes.json(), nearbyRes.json()]);
+      const data = await Promise.all([exactRes.status===200 ? exactRes.json() : null, nearbyRes.status===200 ? nearbyRes.json() : null]);
       const [exactResData, nearbyResData] = data;
 
       setStatData(exactResData);

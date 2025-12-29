@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import ThemeContext from './ThemeContext'
 
-
 function getPreferredTheme() {
   const stored = localStorage.getItem('theme');
   if (stored === 'dark' || stored === 'light') return stored;

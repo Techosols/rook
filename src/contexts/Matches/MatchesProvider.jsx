@@ -233,8 +233,6 @@ const MatchesProvider = ({ children }) => {
         ]);
     }
 
-    // Events
-    // --- 🔥 OPTIMISTIC USER ACTIONS --- //
 
     // Connect User
     async function connectUser(externalId) {

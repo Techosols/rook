@@ -28,14 +28,6 @@ const ChatProvider = ({ children }) => {
 
     const api = useAuthenticatedApi();
 
-    // console.log("Suggestions For You:", suggestionsForYou);
-    // console.log("Suggestion By You:", suggestionByYou);
-    // console.log("Rook Notifications:", rookNotifications);
-    // console.log("Rook Messages:", rookMessages);
-    // console.log("Message Threads:", messageThreads);
-    // // console.log("Chat Threads:", chatThreads);
-    // console.log("Selected Chat in Provider:", matchedUserSelectedChat);
-
     useEffect(() => {
         if (!api) return;
 
@@ -73,7 +65,6 @@ const ChatProvider = ({ children }) => {
         try {
             await api.get(`/v1/chat-thread/${threadId}`)
                 .then((response) => {
-                    console.log("Fetched messages for thread:", response.data);
                     setMatchedUserSelectedChatMessages(response.data);
                 })
                 .catch((error) => {
@@ -95,8 +86,7 @@ const ChatProvider = ({ children }) => {
             await api.post('/v1/chat-message', {
                 "receiverExternalId": receiverExternalId,
                 "messageContent": messageContent
-            }).then(async (response) => {
-                console.log("Message sent successfully:", response);
+            }).then(() => {
                 updateMessages(matchedUserSelectedChat?.threadId);
 
             }).catch((error) => {
@@ -116,7 +106,6 @@ const ChatProvider = ({ children }) => {
             setMessageReplies(null);
             await api.get(`/v1/message-thread/${messageId}`)
                 .then((response) => {
-                    console.log("Fetched replies for message:", response.data);
                     setMessageReplies(response.data);
                 })
                 .catch((error) => {
@@ -138,8 +127,7 @@ const ChatProvider = ({ children }) => {
                 "parentMessageId": parentMessageId,
                 "messageContent": replyContent,
             }
-            ).then(async (response) => {
-                console.log("Reply sent successfully:", response);
+            ).then(() => {
                 updateReplies();
             }).catch((error) => {
                 console.error("Error sending reply:", error);
@@ -155,8 +143,7 @@ const ChatProvider = ({ children }) => {
         if (!api) return;
         try {
             await api.delete(`/v1/chat-message/${messageId}`)
-                .then(async (response) => {
-                    console.log("Message deleted successfully:", response);
+                .then(() => {
                     updateMessages(matchedUserSelectedChat?.threadId);
                 })
                 .catch((error) => {
@@ -173,8 +160,7 @@ const ChatProvider = ({ children }) => {
         if (!api) return;
         try {
             await api.delete(`/v1/user-message/${messageId}`)
-                .then(async (response) => {
-                    console.log("Reply deleted successfully:", response);
+                .then(() => {
                     updateReplies();
                 })
                 .catch((error) => {
@@ -192,7 +178,6 @@ const ChatProvider = ({ children }) => {
         try {
             await api.get(`/v1/message-thread/${openMessageId}`)
                 .then((response) => {
-                    console.log("Updated replies for message:", response.data);
                     setMessageReplies(response.data);
                 })
                 .catch((error) => {
@@ -212,7 +197,6 @@ const ChatProvider = ({ children }) => {
         try {
             await api.get(`/v1/chat-thread/${threadId}`)
                 .then((response) => {
-                    console.log("Fetched messages for thread:", response.data);
                     setMatchedUserSelectedChatMessages(response.data);
                 })
                 .catch((error) => {
@@ -236,9 +220,7 @@ const ChatProvider = ({ children }) => {
                     "suggestionId": suggestionId,
                     "suggestionResultName": feedbackResult
                 }
-            }).then(async (response) => {
-                console.log("Feedback submitted successfully:", response);
-            });
+            })
         } catch (error) {
             console.error("Error submitting feedback:", error);
             toast.error("Failed to submit feedback. Please try again later.");
@@ -246,7 +228,6 @@ const ChatProvider = ({ children }) => {
     }
 
     const handleToggle = (messageId) => {
-        console.log("Toggling message ID:", messageId);
         setOpenMessageId(messageId); // openMessageId === messageId ? null : messageId
         fetchReplies(messageId);
     };

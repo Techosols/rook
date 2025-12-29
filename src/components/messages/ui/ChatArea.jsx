@@ -56,7 +56,7 @@ function ChatArea() {
             </div> 
 
             {/* Chat Messages */}
-            <div className="flex-1 overflow-y-auto px-6 py-4 space-y-3">
+            <div className="flex-1 overflow-y-auto px-6 py-4 space-y-3" id="chat_messages">
                 {matchedUserSelectedChatMessages?.length === 0 ? (
                     <div className="flex flex-col items-center justify-center h-full text-center">
                         <Clock size={48} className="text-gray-300 dark:text-gray-600 mb-3" />

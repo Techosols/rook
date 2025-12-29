@@ -17,7 +17,7 @@ const createPrivateApi = (token) => {
     },
   });
 
-  // ✅ Always inject latest token dynamically
+  // Always inject latest token dynamically
   instance.interceptors.request.use(
     async (config) => {
       config.headers.Authorization = `Bearer ${token}`;
