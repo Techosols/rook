@@ -69,13 +69,9 @@ function ProfileProvider({ children }) {
   }
 
   async function validateZipCode(zipCode) {
-    await api.get(`/v1/zipcode/${zipCode}`)
-      .then(() => {
-        return true;
-      })
-      .catch(() => {
-        return false;
-      });
+    const response = await api.get(`/v1/zipcode/${zipCode}`);
+    console.log("Zip code validation response:", response);
+    return response.status === 200;
   }
 
   useEffect(() => {
