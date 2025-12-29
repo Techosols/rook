@@ -16,7 +16,7 @@ import useAuthenticatedApi from "../../hooks/useAuthenticatedApi";
 import { toast } from "react-toastify";
 
 function YourInfo() {
-  const { profile, isProfileLoading, physicalActivity } = useProfile();
+  const { profile, isProfileLoading, physicalActivity, validateZipCode } = useProfile();
   const {
     educationLevels,
     genders,
@@ -90,6 +90,11 @@ function YourInfo() {
   async function updateYouSection() {
     const selectedRelationShip = relationshipType.filter(rt => rt.selected).map(rt => rt.id);
     try {
+      const isValidZip = await validateZipCode(zipCode);
+      if (!isValidZip) {
+        toast.error("Invalid zip code");
+        return;
+      }
       setYouSectionLoading(true);
       await userService.updateUserProfile(api, {
         preferredName: preferredName,

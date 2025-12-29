@@ -68,6 +68,16 @@ function ProfileProvider({ children }) {
     }));
   }
 
+  async function validateZipCode(zipCode) {
+    await api.get(`/v1/zipcode/${zipCode}`)
+      .then(() => {
+        return true;
+      })
+      .catch(() => {
+        return false;
+      });
+  }
+
   useEffect(() => {
     if (!token) return;
 
@@ -219,6 +229,7 @@ function ProfileProvider({ children }) {
     setIncludeInRandomMatches,
     aboutMe,
     setAboutMe,
+    validateZipCode,
   };
 
   return (

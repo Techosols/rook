@@ -39,6 +39,7 @@ const AuthProvider = ({ children }) => {
   // Function to get Auth0 token
   const getToken = async () => {
     try {
+      console.log("Requesting auth token...");
       const claim = await getIdTokenClaims();
       if (!claim) {
         console.error("getIdTokenClaims returned undefined.");
@@ -48,7 +49,7 @@ const AuthProvider = ({ children }) => {
       if (authToken) {
         setToken(authToken);
         // localStorage.setItem("RKT", authToken);
-        console.log("Auth Token generated:", authToken);
+        console.log("✔ Auth Token generated:", authToken);
       } else {
         console.error("No auth token found in claims.");
       }
@@ -88,7 +89,7 @@ const AuthProvider = ({ children }) => {
       setIsLoggedIn(true);
       localStorage.setItem("RKU", true);
       setActiveTab("matches");
-      getToken();
+      // getToken();
       getUserExternalId();
     } else {
       setIsLoggedIn(false);
