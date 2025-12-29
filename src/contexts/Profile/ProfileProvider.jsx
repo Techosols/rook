@@ -69,10 +69,18 @@ function ProfileProvider({ children }) {
   }
 
   async function validateZipCode(zipCode) {
-    const response = await api.get(`/v1/zipcode/${zipCode}`);
-    console.log("Zip code validation response:", response);
-    return response.status === 200;
+    try {
+      const response = await api.get(`/v1/zipcode/${zipCode}`);
+      console.log("Zip code validation response:", response.status);
+      return response.status === 200;
+    // eslint-disable-next-line no-unused-vars
+    } catch (err) {
+      // Only log a simple warning, no stack trace
+      // console.warn(`ZIP validation failed for ${zipCode}: ${err.response?.status || err.message}`);
+      return false;
+    }
   }
+
 
   useEffect(() => {
     if (!token) return;

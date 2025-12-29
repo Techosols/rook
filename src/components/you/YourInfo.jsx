@@ -38,10 +38,10 @@ function YourInfo() {
     miscPhysicalActivityTypes
   } = useOption();
 
-  const { 
+  const {
     preferredName, setPreferredName,
     age,
-    zipCode, setZipCode, 
+    zipCode, setZipCode,
     heightFeet, setHeightFeet,
     heightInches, setHeightInches,
     weight, setWeight,
@@ -74,7 +74,7 @@ function YourInfo() {
     loveLanguage, setLoveLanguage,
     starSign, setStarSign,
     includeInRandomMatches, setIncludeInRandomMatches
-   } = useProfile();
+  } = useProfile();
 
 
   const api = useAuthenticatedApi();
@@ -89,12 +89,12 @@ function YourInfo() {
 
   async function updateYouSection() {
     const selectedRelationShip = relationshipType.filter(rt => rt.selected).map(rt => rt.id);
+    const isValidZip = await validateZipCode(zipCode);
+    if (!isValidZip) {
+      toast.error("Invalid zip code");
+      return;
+    }
     try {
-      const isValidZip = await validateZipCode(zipCode);
-      if (!isValidZip) {
-        toast.error("Invalid zip code");
-        return;
-      }
       setYouSectionLoading(true);
       await userService.updateUserProfile(api, {
         preferredName: preferredName,
@@ -103,8 +103,8 @@ function YourInfo() {
         weight: weight,
         postalCode: zipCode,
       });
-      if(selectedRelationShip.length > 0){
-          await userService.updateUserMiscData(api, 'relationshiptypes', selectedRelationShip);
+      if (selectedRelationShip.length > 0) {
+        await userService.updateUserMiscData(api, 'relationshiptypes', selectedRelationShip);
       }
 
     } catch (error) {
@@ -633,7 +633,7 @@ function YourInfo() {
             <label className="font-medium dark:text-white" htmlFor="Pets">
               Do you have pets now?
             </label>
-            {isProfileLoading  ? (
+            {isProfileLoading ? (
               <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
             ) : (
               <div className="flex items-center gap-2">
