@@ -17,6 +17,7 @@ function YourHobbies() {
     petTypes,
     sportsInterests,
     // User selection states from OptionProvider
+    miscHobbies,
     musicGener, setMusicGener,
     musicalInstrument, setMusicalInstrument,
     userPets, setUserPets,
@@ -141,9 +142,9 @@ function YourHobbies() {
         In this page, you provide info that is shown to other people in your
         profile. This info cannot be filtered on.
       </p>
-      <FormSection title={"Your Hobbies"} onSave={saveHobbies} loading={saveHobbyLoading}>
+      <FormSection title={"Your Hobbies"} onSave={saveHobbies} loading={saveHobbyLoading} disabled={isProfileLoading}>
         <div className="">
-          {isProfileLoading || !userHobbies ? (
+          {isProfileLoading || !miscHobbies ? (
             <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-3"></div>
           ) : (
             <Input
@@ -155,7 +156,7 @@ function YourHobbies() {
             />
           )}
           <div className="border border-gray-300 p-3 rounded-lg mt-3 flex flex-col gap-3 max-h-96 overflow-y-auto">
-            {isProfileLoading || !userHobbies ? (
+            {isProfileLoading || !miscHobbies ? (
               Array.from({ length: 6 }).map((_, idx) => (
                 <div key={idx} className="h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
               ))
@@ -184,7 +185,7 @@ function YourHobbies() {
         </div>
       </FormSection>
 
-      <FormSection title={"Music genres you like"} onSave={saveMusicGener} loading={saveMusicGenerLoading}>
+      <FormSection title={"Music genres you like"} onSave={saveMusicGener} loading={saveMusicGenerLoading} disabled={isProfileLoading}>
         <div className="">
           {isProfileLoading || !miscMusicGenres ? (
             <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-3"></div>
@@ -229,7 +230,7 @@ function YourHobbies() {
         </div>
       </FormSection>
 
-      <FormSection title={"Musical instruments you play"} onSave={saveMusicalInstrument} loading={saveMusicalInstrumentLoading}>
+      <FormSection title={"Musical instruments you play"} onSave={saveMusicalInstrument} loading={saveMusicalInstrumentLoading} disabled={isProfileLoading}>
         <div className="">
           {isProfileLoading || !miscMusicalInstruments ? (
             <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-3"></div>
@@ -274,7 +275,7 @@ function YourHobbies() {
         </div>
       </FormSection>
 
-      <FormSection title={"Pets you own"} onSave={savePets} loading={savePetsLoading}>
+      <FormSection title={"Pets you own"} onSave={savePets} loading={savePetsLoading} disabled={isProfileLoading}>
         <div className="">
           {isProfileLoading || !petTypes ? (
             <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-3"></div>
@@ -317,7 +318,7 @@ function YourHobbies() {
         </div>
       </FormSection>
 
-      <FormSection title={"Sports Interests"} onSave={saveSports} loading={saveSportsLoading}>
+      <FormSection title={"Sports Interests"} onSave={saveSports} loading={saveSportsLoading} disabled={isProfileLoading}>
         <div className="">
           {isProfileLoading || !sportsInterests ? (
             <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-3"></div>

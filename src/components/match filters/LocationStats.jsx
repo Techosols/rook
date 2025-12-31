@@ -216,7 +216,7 @@ function LocationStats() {
         </div>
       </FormSection>
 
-      <FormSection title="Kids/Pets" onSave={() => saveKidsPets()} loading={isSavingKidsPets}>
+      <FormSection title="Kids/Pets" onSave={() => saveKidsPets()} loading={isSavingKidsPets} disabled={isLoading}>
         <div className="flex flex-col gap-2">
           <div className="grid grid-cols-1 md:grid-cols-[2fr_4fr] gap-1 md:gap-2 items-center">
             <label className="font-medium dark:text-white" htmlFor="exclude_kids">Exclude persons with kids?</label>

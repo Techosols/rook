@@ -256,7 +256,7 @@ function YourInfo() {
         In this page, you provide info about yourself that can be used by others
         in filters, to include/exclude you in their matches.
       </p>
-      <FormSection title="You" onSave={() => updateYouSection()} loading={youSectionLoading}>
+      <FormSection title="You" onSave={() => updateYouSection()} loading={youSectionLoading} disabled={isProfileLoading}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex flex-col gap-2">
             <label className="font-medium dark:text-white" htmlFor="firstName">
@@ -411,7 +411,7 @@ function YourInfo() {
           </div>
         </div>
       </FormSection>
-      <FormSection title="About You" onSave={() => updateAboutYouSection()} loading={aboutYouSectionLoading}>
+      <FormSection title="About You" onSave={() => updateAboutYouSection()} loading={aboutYouSectionLoading} disabled={isProfileLoading}>
         <div className="flex flex-col gap-2 md:gap-4">
           <div className="grid grid-cols-1 md:grid-cols-[1fr_4fr] gap-1 md:gap-2 items-center">
             <label className="font-medium dark:text-white" htmlFor="Gender">
@@ -575,7 +575,7 @@ function YourInfo() {
           </div>
         </div>
       </FormSection>
-      <FormSection title="Kids/Pets" onSave={() => updateKidsPetsSection()} loading={kidsPetsSectionLoading}>
+      <FormSection title="Kids/Pets" onSave={() => updateKidsPetsSection()} loading={kidsPetsSectionLoading} disabled={isProfileLoading}>
         <div className="flex flex-col gap-2 md:gap-4">
           <div className="grid grid-cols-1 md:grid-cols-[1fr_3fr] gap-1 md:gap-2 items-center">
             <label className="font-medium dark:text-white" htmlFor="Kids">
@@ -680,7 +680,7 @@ function YourInfo() {
           </div>
         </div>
       </FormSection>
-      <FormSection title="Physical Activity" onSave={() => updatePhysicalActivitySection()} loading={physicalActivitySectionLoading}>
+      <FormSection title="Physical Activity" onSave={() => updatePhysicalActivitySection()} loading={physicalActivitySectionLoading} disabled={isProfileLoading}>
         <p className="text-gray-400 text-sm flex gap-2 items-center">
           <span>
             <BadgeInfo />
@@ -796,7 +796,7 @@ function YourInfo() {
           </div>
         </div>
       </FormSection>
-      <FormSection title="Health/Habits" onSave={() => updateHealthHabitsSection()} loading={healthHabitsSectionLoading}>
+      <FormSection title="Health/Habits" onSave={() => updateHealthHabitsSection()} loading={healthHabitsSectionLoading} disabled={isProfileLoading}>
         <div className="flex flex-col gap-2 md:gap-4">
           <div className="grid grid-cols-1 md:grid-cols-[1fr_3fr] gap-1 md:gap-2 items-center">
             <label className="font-medium dark:text-white" htmlFor="smoke">
@@ -921,7 +921,7 @@ function YourInfo() {
           </div>
         </div>
       </FormSection>
-      <FormSection title="Misc" onSave={() => updateMiscSection()} loading={miscSectionLoading}>
+      <FormSection title="Misc" onSave={() => updateMiscSection()} loading={miscSectionLoading} disabled={isProfileLoading}>
         <div className="flex flex-col gap-2 md:gap-4">
           <div className="grid grid-cols-1 md:grid-cols-[1fr_3fr] gap-1 md:gap-2 items-center">
             <label className="font-medium dark:text-white" htmlFor="loveLang">
