@@ -95,7 +95,7 @@ const userService = {
           }
           break;
         case 401:
-          toast.error('You are not authorized to access this resource');
+          toast.error('You are not authorized to perform this action');
           break;
       }
       return response;
@@ -140,9 +140,9 @@ const userService = {
         'Content-Type': 'application/json',
       },
     }).then(response => {
-        toast.success('User status updated successfully');
-        return response;
-      })
+      toast.success('User status updated successfully');
+      return response;
+    })
       .catch(error => {
         toast.error('Failed to update user status');
         return error;
@@ -229,6 +229,18 @@ const userService = {
       console.error('Error fetching user profile images:', error);
       throw error;
     }
+  },
+
+  async getClientIP(req) {
+    const xff = req.headers['x-forwarded-for'];
+
+    if (xff) {
+      // Take the first IP (original client)
+      return xff.split(',')[0].trim();
+    }
+
+    // Fallback to direct connection IP
+    return req.connection.remoteAddress;
   }
 }
 

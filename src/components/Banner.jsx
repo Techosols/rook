@@ -11,7 +11,7 @@ import api from "../services/api";
 function Banner() {
   const { setActiveTab } = useTab();
   const { loginWithPopup, user, isAuthenticated, error } = useAuth0();
-  const { setIsLoggedIn, authFlow, setAuthFlow } = useAuth();
+  const { setIsLoggedIn, authFlow, setAuthFlow, setUserPreferredName } = useAuth();
   const [allowLogin, setAllowLogin] = useState(null);
   const [allowLoginMessage, setAllowLoginMessage] = useState(null);
 
@@ -62,6 +62,8 @@ function Banner() {
       setLoading(false);
       setIsLoggedIn(true);
       setActiveTab('matches')
+      setUserPreferredName((await response.json()).preferredName);
+      console.log("Logged in successfully", await response.json().preferredName);
     }
   }
 

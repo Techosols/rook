@@ -20,6 +20,7 @@ const AuthProvider = ({ children }) => {
   const [profileEmail, setProfileEmail] = useState(null);
   const [authFlow, setAuthFlow] = useState(null);
   const [token, setToken] = useState(null);
+  const [userPreferredName, setUserPreferredName] = useState(null);
 
   const { setActiveTab } = useTab();
 
@@ -72,6 +73,21 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  // Function to get preferred name
+  const fetchUserPreferredName = async () => {
+    if (!user ) return;
+
+    try {
+      const response = await fetch(
+        `/api/fetch-data?endpoint=user/${encodeURIComponent(user.email)}`
+      );
+      const data = await response.json();
+      setUserPreferredName(data.preferredName || null);
+    } catch (err) {
+      console.error("Error fetching user preferred name:", err);
+    }
+  }
+
   useEffect(() => {
     if (!isAuthenticated) return;
 
@@ -91,6 +107,7 @@ const AuthProvider = ({ children }) => {
       setActiveTab("matches");
       // getToken();
       getUserExternalId();
+      fetchUserPreferredName();
     } else {
       setIsLoggedIn(false);
       localStorage.removeItem("RKU");
@@ -120,6 +137,8 @@ const AuthProvider = ({ children }) => {
         authFlow,
         setAuthFlow,
         token,
+        userPreferredName,
+        setUserPreferredName,
       }}
     >
       {children}
