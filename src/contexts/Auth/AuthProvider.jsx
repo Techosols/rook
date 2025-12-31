@@ -20,7 +20,7 @@ const AuthProvider = ({ children }) => {
   const [profileEmail, setProfileEmail] = useState(null);
   const [authFlow, setAuthFlow] = useState(null);
   const [token, setToken] = useState(null);
-  const [userPreferredName, setUserPreferredName] = useState(null);
+
 
   const { setActiveTab } = useTab();
 
@@ -137,8 +137,6 @@ const AuthProvider = ({ children }) => {
         authFlow,
         setAuthFlow,
         token,
-        userPreferredName,
-        setUserPreferredName,
       }}
     >
       {children}

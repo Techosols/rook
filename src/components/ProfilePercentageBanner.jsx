@@ -3,15 +3,17 @@ import { useEffect, useState } from "react";
 import PrivateApi from "../services/privateApi";
 import useAuth from "../hooks/useAuth";
 import useAuthenticatedApi from "../hooks/useAuthenticatedApi";
+import useProfile from "../hooks/useProfile";
 
 
 function ProfilePercentageBanner() {
     const { openModel } = useModel();
-    const { token, userPreferredName } = useAuth();
+    const { token } = useAuth();
     const [profileCompletion, setProfileCompletion] = useState(0);
     const [statData, setStatData] = useState(null);
     const [loading, setLoading] = useState(false);
     const api = useAuthenticatedApi();
+    const { preferredName } = useProfile();
 
     useEffect(() => {
         if (!api || !token) {
@@ -50,7 +52,7 @@ function ProfilePercentageBanner() {
             <div className="flex justify-between items-center max-w-7xl mx-auto">
                 <div className="flex-1">
                     <p className="text-gray-500 dark:text-gray-300 text-sm">{getGreeting()}!</p>
-                    {userPreferredName ? <h2 className="text-4xl font-bold">Hi, {userPreferredName}!</h2> : <div className="w-70 h-10 animate-pulse bg-gray-300"></div>}
+                    {preferredName ? <h2 className="text-4xl font-bold">Hi, {preferredName}!</h2> : <div className="w-70 h-10 animate-pulse bg-gray-300"></div>}
 
                 </div>
                 <div className="relative z-10">
