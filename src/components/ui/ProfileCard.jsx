@@ -356,7 +356,7 @@ function ProfileCard({ profile }) {
         </div>
 
         {/* External ID [Debug] */}
-         <p className='text-sm text-gray-500 dark:text-gray-400 selection-text'>{profile.externalId}</p>
+         {/* <p className='text-sm text-gray-500 dark:text-gray-400 selection-text'>{profile.externalId}</p> */}
 
         {/* Image Section */}
         <div className="mb-4">
