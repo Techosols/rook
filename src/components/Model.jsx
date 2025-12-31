@@ -15,13 +15,13 @@ function Model() {
   return (
   <div className="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center z-50">
       <div
-        className="bg-white dark:bg-background-dark rounded-2xl shadow-2xl p-4 sm:p-6 w-full max-w-md mx-auto my-8 relative animate-fade-in max-h-[calc(100vh-2rem)] overflow-y-auto"
+        className="bg-white dark:bg-background-dark rounded-2xl shadow-2xl p-4 sm:p-6 w-full max-w-sm sm:max-w-lg mx-auto my-8 relative animate-fade-in max-h-[calc(100vh-2rem)] overflow-y-auto"
         style={{ maxHeight: 'calc(100vh - 2rem)' }}
       >
         <div className="flex">
-          <div className="flex items-center gap-2 w-full">
+          <div className="flex items-center gap-2 w-full mt-2">
             <div className="mb-2">
-              <span className="inline-flex items-center justify-center bg-primary/10 text-primary rounded-full p-2">
+              <span className="inline-flex items-center justify-center bg-primary/10 text-primary rounded-full p-2 mt-1">
                 <InfoIcon className="h-7 w-7" />
               </span>
             </div>
@@ -30,8 +30,8 @@ function Model() {
               <p className="text-gray-600 dark:text-gray-300 text-center mb-2">{model.description}</p>
             )}
           </div>
-
-          {model?.dissmissible && <button
+          
+          {model && <button
             onClick={closeModel}
             className="absolute top-3 right-3 text-gray-400 hover:text-primary transition-colors p-1 rounded-full focus:outline-none focus:ring-2 focus:ring-primary"
             aria-label="Close modal"

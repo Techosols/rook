@@ -103,7 +103,7 @@ function ProfileModel() {
                             <img 
                                 src={user.picture} 
                                 alt="User Avatar" 
-                                className={`w-16 h-16 rounded-full border-2 border-primary object-cover transition-opacity duration-300 ${imageLoading ? 'opacity-0' : 'opacity-100'}`}
+                                className={`mt-2 rounded-full border-2 border-primary object-cover transition-opacity duration-300 ${imageLoading ? 'opacity-0' : 'opacity-100'}`}
                                 onLoad={() => setImageLoading(false)}
                                 onError={() => {
                                     setImageLoading(false);
@@ -117,8 +117,8 @@ function ProfileModel() {
                         <User className="w-8 h-8 text-gray-400" />
                     </div>
                 )}
-                <div className="flex-1">
-                    <h4 className="text-lg font-bold text-gray-900 dark:text-white">{user?.name}</h4>
+                <div className="flex-1 mt-2">
+                    <h4 className="text-sm sm:text-lg font-bold text-gray-900 dark:text-white">{user?.name}</h4>
                     <p className="text-sm text-gray-600 dark:text-gray-300">{user?.email}</p>
                 </div>
                 <button className="text-sm text-gray-600 dark:text-gray-300 hover:text-red-600 " onClick={handleLogout} title="Logout">

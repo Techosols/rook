@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   BookmarkPlus,
   BookmarkMinus,
@@ -10,7 +10,8 @@ import {
   UserMinus2,
   LucideHourglass,
   BadgeCheck,
-  MessageCirclePlusIcon
+  MessageCirclePlusIcon,
+  History,
 } from "lucide-react";
 import useMatches from "../../hooks/useMatches";
 // Material icons (prefer for badges)
@@ -23,10 +24,9 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 // import useAuthenticatedApi from '../../hooks/useAuthenticatedApi';
 import useModel from "../../hooks/useModel";
 import useOptimistic from "../../hooks/useOptimistic";
+import Popup from "./Popup";
 
-function ProfileCard({
-  profile,
-}) {
+function ProfileCard({ profile }) {
   // State for toggleable icons - initialize with profile data
   const [iconStates, applyIconStates, commitIconStates, rollbackIconStates] =
     useOptimistic({
@@ -38,6 +38,11 @@ function ProfileCard({
       bell: profile?.ignoredByYou || false,
       block: profile?.blockedByYou || false,
     });
+
+  const [toggleHistory, setToggleHistory] = useState(false);
+  const toggleHistoryDisplay = () => {
+    setToggleHistory(!toggleHistory);
+  };
 
   // const api = useAuthenticatedApi();
   const {
@@ -216,7 +221,7 @@ function ProfileCard({
       heading: `Suggest Profile Improvements`,
       dissmissible: true,
       profileId: profile?.profileId,
-    })
+    });
   }
 
   // If no profile data, show loading state
@@ -270,9 +275,12 @@ function ProfileCard({
           <div className="flex items-center space-x-2">
             <button
               onClick={handleProfileSuggestion}
-               className={`p-2.5 rounded-xl transition-all duration-200 hover:scale-105 hover:cursor-pointer disabled:cursor-not-allowed bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600`}
+              className={`p-2.5 rounded-xl transition-all duration-200 hover:scale-105 hover:cursor-pointer disabled:cursor-not-allowed bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600`}
             >
-              <MessageCirclePlusIcon size={18} title="Suggest Profile Improvements" />
+              <MessageCirclePlusIcon
+                size={18}
+                title="Suggest Profile Improvements"
+              />
             </button>
             <button
               onClick={() =>
@@ -345,11 +353,10 @@ function ProfileCard({
               <UserRoundX size={18} />
             </button>
           </div>
-
         </div>
 
         {/* External ID [Debug] */}
-        {/* <p className='text-sm text-gray-500 dark:text-gray-400 selection-text'>{profile.externalId}</p> */}
+         <p className='text-sm text-gray-500 dark:text-gray-400 selection-text'>{profile.externalId}</p>
 
         {/* Image Section */}
         <div className="mb-4">
@@ -457,6 +464,16 @@ function ProfileCard({
                 {profile.distanceInMiles !== 1 ? "s" : ""} away
               </span>
             </div>
+            <div className="relative">
+            <button
+              className="flex gap-1 items-center cursor-pointer relative"
+              onClick={toggleHistoryDisplay}
+              >
+              <History size={16} className="text-gray-700 dark:text-gray-400" />
+              <h5 className="text-sm underline text-gray-700 dark:text-gray-400">Location History</h5>
+            </button>
+            {toggleHistory && <Popup />}
+              </div>
           </div>
           <div className="px-4 py-2 bg-gray-50 dark:bg-gray-700 rounded-lg w-full sm:w-auto">
             <p className="text-gray-700 dark:text-gray-300 font-semibold">
