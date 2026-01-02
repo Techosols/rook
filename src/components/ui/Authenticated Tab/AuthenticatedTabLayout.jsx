@@ -23,7 +23,7 @@ function AuthenticatedTabLayout({children, tabs, activeTab, setActiveTab}) {
         <div className="">
             <AuthenticatedTabSidebar tabs={tabs} onTabClick={handleTabClick} active={activeTab} />
         </div>
-        <div  >
+        <div className="h-svh overflow-y-scroll no-scrollbar" >
             {children}
         </div>
     </div>

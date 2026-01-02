@@ -233,6 +233,71 @@ const MatchesProvider = ({ children }) => {
         ]);
     }
 
+    useEffect(() => {
+        if(matches) {
+            console.log("🔴 Matches updated:", matches);
+        }
+    }, [matches])
+
+
+    // Search Data
+    async function search(query) {
+        if (!api) {
+            return;
+        }
+
+        try {
+            const response = await api.get(`/v1/query/${query.queryType}/search/${query.searchTerms}`);
+            console.log("Search Endpoint:", `/v1/query/${query.queryType}/search/${query.searchTerms}`);
+            console.log("Search response:", response.data);
+            switch (query.queryType) {
+                case 'GetYourMatches':
+                    setMatches(response.data);
+                    break;
+                case 'GetYourRandomMatches':
+                    setRandomMatches(response.data);
+                    break;
+                case 'GetUsersBookmarkedByYou':
+                    setBookmarkedByMeUsers(response.data);
+                    break;
+                case 'GetUsersWhoBookmarkedYou':
+                    setBookmarkedMeUsers(response.data);
+                    break;
+                case 'GetProfilesViewedByYou':
+                    setProfilesViewedByMe(response.data);
+                    break;
+                case 'GetUsersWhoViewedProfile':
+                    setProfilesViewedMe(response.data);
+                    break;
+                case 'GetConnectionRequestsByYou':
+                    setConnectionRequestsSent(response.data);
+                    break;
+                case 'GetConnectionRequestsToYou':
+                    setConnectionRequestsReceived(response.data);
+                    break;
+                case 'GetYourConnections':
+                    setConnections(response.data);
+                    break;
+                case 'GetUsersBookmarkedByYouAcceptingConnections':
+                    setBookmarkedByMeAcceptingConnections(response.data);
+                    break;
+                case 'GetUsersBlockedByYou':
+                    setBlockedUsers(response.data);
+                    break;
+                case 'GetUsersIgnoredByYou':
+                    setIgnoredUsers(response.data);
+                    break;
+                default:
+                    console.warn("Unknown search query type:", query.queryType);
+                
+            }
+            // return response.data;
+        } catch (error) {
+            console.error("Error searching matches:", error);
+        }
+        
+    }
+
 
     // Connect User
     async function connectUser(externalId) {
@@ -450,6 +515,7 @@ const MatchesProvider = ({ children }) => {
 
 
 
+
     const values = {
         loadingMatches,
         blockedUsers, setBlockedUsers,
@@ -485,6 +551,7 @@ const MatchesProvider = ({ children }) => {
         removeIgnoreUser,
         blockUser,
         unblockUser,
+        search,
     };
 
     return (

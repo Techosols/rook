@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import useAuthenticatedApi from "../../hooks/useAuthenticatedApi";
 import ProfileCard from "./ProfileCard";
+import useMatches from "../../hooks/useMatches";
 
 function MatchesContainer({
   title = "Matches",
@@ -46,6 +47,16 @@ function MatchesContainer({
     "Pets",
     "Sport Interests",
   ];
+
+  const { search: globalSearch } = useMatches();
+
+  function handleSearchChange(e) {
+    setSearch(e.target.value);
+
+    if (e.target.value === "") {
+      fetchPage(1);
+    }
+  }
 
   // Update uiData when data prop changes
   useEffect(() => {
@@ -74,17 +85,17 @@ function MatchesContainer({
   };
 
   // Normalize results and perform a safe, case-insensitive filter.
-  const results = uiData?.results || [];
-  const normalizedSearch = (search || "").trim().toLowerCase();
+  // const results = uiData?.results || [];
+  // const normalizedSearch = (search || "").trim().toLowerCase();
 
-  const filteredData = normalizedSearch
-    ? results.filter((val) => {
-        const name = (val?.preferredName || val?.prefferedName || "")
-          .toString()
-          .toLowerCase();
-        return name.includes(normalizedSearch);
-      })
-    : results;
+  // const filteredData = normalizedSearch
+  //   ? results.filter((val) => {
+  //     const name = (val?.preferredName || val?.prefferedName || "")
+  //       .toString()
+  //       .toLowerCase();
+  //     return name.includes(normalizedSearch);
+  //   })
+  //   : results;
 
   // console.log('🔴 Current UI Data:', {
   //     page: currentPage,
@@ -94,8 +105,11 @@ function MatchesContainer({
   // });
 
   // determine whether we have any results to show
-  const hasResults =
-    Array.isArray(uiData?.results) && uiData.results.length > 0;
+  const hasResults = Array.isArray(uiData)
+    ? uiData.length > 0
+    : Array.isArray(uiData?.results) && uiData.results.length > 0;
+  
+  const results = Array.isArray(uiData) ? uiData : uiData?.results || [];
 
   // title-specific no-data content mapping
   const noDataMap = (() => {
@@ -218,13 +232,23 @@ function MatchesContainer({
               </div>
             </div>
             <div className="relative flex items-center space-x-2">
-              <input
-                type="text"
-                placeholder={`Search ${title}`}
-                className="bg-white dark:bg-gray-800 p-3 rounded-xl w-72 focus:outline-none"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
+              <div className="flex bg-white dark:bg-gray-800 px-2 rounded-3xl">
+                <input
+                  type="text"
+                  placeholder={`Search ${title}`}
+                  className="bg-white dark:bg-gray-800 p-3 rounded-xl w-72 focus:outline-none"
+                  value={search}
+                  onChange={(e) => handleSearchChange(e)}
+                />
+                <button
+                  onClick={() => globalSearch({
+                    queryType: endPoint,
+                    searchTerms: search
+                  })}
+                >
+                  <Search className="mr-3 w-5 h-5 disabled:text-gray-500 text-primary hover:text-primary-dark dark:text-primary-dark dark:hover:text-primary cursor-pointer" />
+                </button>
+              </div>
 
               {/* Info Button */}
               <button
@@ -293,7 +317,7 @@ function MatchesContainer({
         ) : hasResults ? (
           <>
             <div className="space-y-4">
-              {filteredData.map((match) => (
+              {results.map((match) => (
                 <ProfileCard key={match.profileId} profile={match} />
               ))}
             </div>
